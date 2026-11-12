@@ -263,4 +263,11 @@ final class Redirection implements Source, Writable, Purgeable {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		return false !== $wpdb->query( $wpdb->prepare( 'DELETE FROM %i', $wpdb->prefix . 'redirection_items' ) );
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function plugin_active(): bool {
+		return defined( 'REDIRECTION_VERSION' );
+	}
 }

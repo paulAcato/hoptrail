@@ -57,6 +57,11 @@ const PLUGIN_SLOTS: Record<string, string> = {
 	'rank-math': 'hsl(159deg 73% 30%)',
 	'safe-redirect-manager': 'hsl(36deg 100% 32%)',
 	'simple-301': 'hsl(330deg 60% 45%)',
+	'301-redirects': 'hsl(248deg 55% 52%)',
+	seopress: 'hsl(186deg 80% 27%)',
+	'slim-seo': 'hsl(95deg 55% 30%)',
+	smartcrawl: 'hsl(280deg 45% 46%)',
+	'the-seo-framework': 'hsl(205deg 18% 40%)',
 };
 const FALLBACK_SLOTS = ['hsl(120deg 100% 26%)', 'hsl(248deg 62% 58%)', 'hsl(0deg 73% 59%)'];
 

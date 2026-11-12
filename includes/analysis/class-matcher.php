@@ -34,7 +34,7 @@ final class Matcher {
 	private array $patterns = [];
 
 	/**
-	 * Compiled regex per rule key; false when the pattern is invalid.
+	 * Compiled regex per pattern (with flags); false when the pattern is invalid.
 	 *
 	 * @var array<string, string|false>
 	 */
@@ -299,12 +299,14 @@ final class Matcher {
 	 * @return string|false
 	 */
 	private function compile( Rule $rule ) {
-		$key = $rule->key();
+		$regex = '@' . str_replace( '@', '\\@', $rule->from ) . '@' . ( $rule->case_sensitive ? '' : 'i' );
+
+		// Keyed on the compiled pattern itself (flags included): rule IDs are only unique per plugin.
+		$key = $regex;
 		if ( isset( $this->compiled[ $key ] ) ) {
 			return $this->compiled[ $key ];
 		}
 
-		$regex  = '@' . str_replace( '@', '\\@', $rule->from ) . '@' . ( $rule->case_sensitive ? '' : 'i' );
 		$result = $this->guarded( static fn() => preg_match( $regex, '' ) );
 
 		$this->compiled[ $key ] = false === $result ? false : $regex;

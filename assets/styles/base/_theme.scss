@@ -188,6 +188,11 @@ html:has(body.rdi-page) {
 	scroll-padding-block-start: calc(var(--wp-admin--admin-bar--height, 32px) + 8px);
 }
 
+// Help text under fields follows the scheme in every variant (core's grey is borderline).
+.rdi-page .components-base-control__help {
+	color: var(--rdi-ink-muted);
+}
+
 // Our screens only: the page behind the app follows the scheme too. wp-admin paints html and body,
 // so no ID selectors (#wpwrap, #wpbody-content) are needed.
 html:has(body.rdi-page),
@@ -195,10 +200,46 @@ body.rdi-page {
 	background: var(--rdi-page);
 }
 
-// Admin notices printed above the app.
-.rdi-page .wrap > .notice {
+// Admin notices of WordPress and other plugins on our screens: wp-admin gives their text and links
+// fixed dark colours, unreadable in the dark schemes. Our own inline notices are scoped by `.inline`.
+.rdi-page :is(.notice, .error, .updated, .update-nag):not(.inline) {
+	border-color: var(--rdi-hairline);
 	background: var(--rdi-surface);
 	color: var(--rdi-ink);
+
+	:is(p, li, strong, span, h2, h3) {
+		color: inherit;
+	}
+
+	a:not(.button) {
+		color: var(--rdi-accent);
+	}
+
+	code {
+		background: var(--rdi-plane);
+		color: var(--rdi-ink);
+	}
+
+	.notice-dismiss::before {
+		color: var(--rdi-ink-muted);
+	}
+}
+
+// The coloured edge keeps saying what kind of notice it is.
+.rdi-page .notice-error:not(.inline) {
+	border-inline-start-color: var(--rdi-critical);
+}
+
+.rdi-page .notice-warning:not(.inline) {
+	border-inline-start-color: var(--rdi-warning);
+}
+
+.rdi-page .notice-success:not(.inline) {
+	border-inline-start-color: var(--rdi-good);
+}
+
+.rdi-page .notice-info:not(.inline) {
+	border-inline-start-color: var(--rdi-accent);
 }
 
 // @wordpress/components inputs in the dark schemes (they hard-code white backgrounds).
@@ -234,6 +275,25 @@ body.rdi-page {
 			.components-notice {
 				background: var(--rdi-plane);
 				color: var(--rdi-ink);
+			}
+
+			// Core's help text grey is ~3.5:1 on the dark surface.
+			.components-base-control__help {
+				color: var(--rdi-ink-muted);
+			}
+
+			// Core draws the close button in a fixed dark grey.
+			.components-notice__dismiss {
+				color: var(--rdi-ink-secondary);
+
+				svg {
+					fill: currentcolor;
+				}
+
+				&:hover,
+				&:focus-visible {
+					color: var(--rdi-ink);
+				}
 			}
 
 			// Core's destructive red (#cc1818) is ~3:1 on the dark surface.

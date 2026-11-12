@@ -191,6 +191,13 @@ final class Rest_Controller extends Singleton {
 				'methods'             => WP_REST_Server::DELETABLE,
 				'permission_callback' => $manage,
 				'callback'            => [ $this, 'delete_leftover_rule' ],
+				'args'                => [
+					'from' => [
+						'type'      => 'string',
+						'required'  => true,
+						'maxLength' => 2048,
+					],
+				],
 			]
 		);
 
@@ -259,17 +266,35 @@ final class Rest_Controller extends Singleton {
 					'permission_callback' => $manage,
 					'callback'            => [ $this, 'save_settings' ],
 					'args'                => [
-						'retention_days' => [
+						'retention_days'  => [
 							'type'    => 'integer',
 							'minimum' => Settings::MIN_RETENTION_DAYS,
 							'maximum' => Settings::MAX_RETENTION_DAYS,
 						],
-						'schedule'       => [
+						'retention_mode'  => [
+							'type' => 'string',
+							'enum' => Settings::RETENTION_MODES,
+						],
+						'retention_count' => [
+							'type'    => 'integer',
+							'minimum' => Settings::MIN_RETENTION_COUNT,
+							'maximum' => Settings::MAX_RETENTION_COUNT,
+						],
+						'schedule'        => [
 							'type'                 => 'object',
 							'additionalProperties' => false,
 							'properties'           => [
-								'enabled' => [ 'type' => 'boolean' ],
-								'days'    => [
+								'enabled'   => [ 'type' => 'boolean' ],
+								'frequency' => [
+									'type' => 'string',
+									'enum' => Settings::FREQUENCIES,
+								],
+								'month_day' => [
+									'type'    => 'integer',
+									'minimum' => 0,
+									'maximum' => 28,
+								],
+								'days'      => [
 									'type'        => 'array',
 									'maxItems'    => 7,
 									'uniqueItems' => true,
@@ -279,7 +304,7 @@ final class Rest_Controller extends Singleton {
 										'maximum' => 6,
 									],
 								],
-								'hours'   => [
+								'hours'     => [
 									'type'        => 'array',
 									'maxItems'    => 24,
 									'uniqueItems' => true,
@@ -537,7 +562,7 @@ final class Rest_Controller extends Singleton {
 		try {
 			return new WP_REST_Response( [ 'deleted' => Migrator::purge( sanitize_key( (string) $request['slug'] ), (bool) $request['drop_tables'] ) ] );
 		} catch ( \RuntimeException $error ) {
-			return new WP_Error( 'redirect_inspector_leftovers', $error->getMessage(), [ 'status' => 400 === $error->getCode() ? 400 : 500 ] );
+			return new WP_Error( 'redirect_inspector_leftovers', $error->getMessage(), [ 'status' => in_array( $error->getCode(), [ 400, 409 ], true ) ? $error->getCode() : 500 ] );
 		}
 	}
 
@@ -550,9 +575,9 @@ final class Rest_Controller extends Singleton {
 	 */
 	public function delete_leftover_rule( WP_REST_Request $request ) {
 		try {
-			return new WP_REST_Response( [ 'deleted' => Migrator::delete_rule( sanitize_key( (string) $request['slug'] ), (string) $request['id'] ) ] );
+			return new WP_REST_Response( [ 'deleted' => Migrator::delete_rule( sanitize_key( (string) $request['slug'] ), (string) $request['id'], (string) $request['from'] ) ] );
 		} catch ( \RuntimeException $error ) {
-			return new WP_Error( 'redirect_inspector_leftovers', $error->getMessage(), [ 'status' => 404 === $error->getCode() ? 404 : 400 ] );
+			return new WP_Error( 'redirect_inspector_leftovers', $error->getMessage(), [ 'status' => in_array( $error->getCode(), [ 404, 409 ], true ) ? $error->getCode() : 400 ] );
 		}
 	}
 
@@ -567,7 +592,7 @@ final class Rest_Controller extends Singleton {
 		try {
 			return new WP_REST_Response( Migrator::run( (string) $request['from'], (string) $request['to'], (bool) $request['dry_run'] ) );
 		} catch ( \RuntimeException $error ) {
-			return new WP_Error( 'redirect_inspector_migrate_failed', $error->getMessage(), [ 'status' => 400 ] );
+			return new WP_Error( 'redirect_inspector_migrate_failed', $error->getMessage(), [ 'status' => 409 === $error->getCode() ? 409 : 400 ] );
 		}
 	}
 
@@ -624,13 +649,20 @@ final class Rest_Controller extends Singleton {
 	 */
 	public function save_settings( WP_REST_Request $request ) {
 		$schedule = $request['schedule'];
-		if ( is_array( $schedule ) && ! empty( $schedule['enabled'] ) && ( empty( $schedule['days'] ) || empty( $schedule['hours'] ) ) ) {
+		$weekly   = 'weekly' === ( $schedule['frequency'] ?? 'weekly' );
+		if ( is_array( $schedule ) && ! empty( $schedule['enabled'] ) && ( empty( $schedule['hours'] ) || ( $weekly && empty( $schedule['days'] ) ) ) ) {
 			return new WP_Error( 'redirect_inspector_schedule', __( 'Pick at least one day and one hour for scheduled scans.', 'redirect-inspector' ), [ 'status' => 400 ] );
 		}
 
 		$values = [];
 		if ( null !== $request['retention_days'] ) {
 			$values['retention_days'] = (int) $request['retention_days'];
+		}
+		if ( null !== $request['retention_mode'] ) {
+			$values['retention_mode'] = (string) $request['retention_mode'];
+		}
+		if ( null !== $request['retention_count'] ) {
+			$values['retention_count'] = (int) $request['retention_count'];
 		}
 		if ( is_array( $schedule ) ) {
 			$values['schedule'] = $schedule;

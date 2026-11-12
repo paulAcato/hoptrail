@@ -33,7 +33,7 @@ final class Migrator {
 	public static function leftovers(): array {
 		$leftovers = [];
 		foreach ( Registry::all() as $slug => $source ) {
-			if ( ! $source->is_available() && $source->has_storage() ) {
+			if ( ! $source->plugin_active() && $source->has_storage() ) {
 				$leftovers[] = [
 					'slug'   => $slug,
 					'label'  => $source->label(),
@@ -82,7 +82,7 @@ final class Migrator {
 		$target  = $sources[ $to ] ?? null;
 
 		// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Shown as text (JSON/React/CLI).
-		if ( ! $source instanceof Source || $source->is_available() || ! $source->has_storage() ) {
+		if ( ! $source instanceof Source || $source->plugin_active() || ! $source->has_storage() ) {
 			throw new \RuntimeException( __( 'There are no leftover rules to migrate from that plugin.', 'redirect-inspector' ), 400 );
 		}
 		if ( ! $target instanceof Writable || ! $target instanceof Source || ! $target->is_available() || $from === $to ) {
@@ -90,6 +90,46 @@ final class Migrator {
 		}
 		// phpcs:enable
 
+		if ( ! $dry_run ) {
+			return self::locked( static fn() => self::copy( $source, $target, $from, $to, false ) );
+		}
+
+		return self::copy( $source, $target, $from, $to, true );
+	}
+
+	/**
+	 * Run a write while holding the shared write lock, never during a scan.
+	 *
+	 * @param callable $write Write.
+	 *
+	 * @return mixed
+	 *
+	 * @throws \RuntimeException When another write or a scan is running.
+	 */
+	private static function locked( callable $write ) {
+		if ( Scanner::is_running() || ! Lock::acquire( Fixer::LOCK, 2 * MINUTE_IN_SECONDS ) ) {
+			throw new \RuntimeException( __( 'Another change or a scan is running. Try again in a moment.', 'redirect-inspector' ), 409 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+		}
+
+		try {
+			return $write();
+		} finally {
+			Lock::release( Fixer::LOCK );
+		}
+	}
+
+	/**
+	 * Copy (or count) leftover rules.
+	 *
+	 * @param Source           $source  Source.
+	 * @param Source &Writable $target  Target.
+	 * @param string           $from    Source slug.
+	 * @param string           $to      Target slug.
+	 * @param bool             $dry_run Only count.
+	 *
+	 * @return array{created:int, existing:int, unsupported:int, failed:int, dry_run:bool}
+	 */
+	private static function copy( Source $source, $target, string $from, string $to, bool $dry_run ): array {
 		$normalizer = new Url_Normalizer();
 		$existing   = self::existing_sources( $target, $normalizer );
 		$result     = [
@@ -109,7 +149,7 @@ final class Migrator {
 					++$result['existing'];
 					continue;
 				}
-				if ( ! $target->supports( $rule ) ) {
+				if ( ! $target->supports( $rule ) || ! Url_Normalizer::is_safe_target( $rule->to ) ) {
 					++$result['unsupported'];
 					continue;
 				}
@@ -160,7 +200,7 @@ final class Migrator {
 				$key    = $rule->is_exact() ? Url_Normalizer::fold( $normalizer->key( $rule->from ) ) : 're:' . $rule->regex( true );
 				$status = 'none';
 				if ( $target ) {
-					$status = isset( $existing[ $key ] ) ? 'exists' : ( $target->supports( $rule ) ? 'copy' : 'unsupported' );
+					$status = isset( $existing[ $key ] ) ? 'exists' : ( $target->supports( $rule ) && Url_Normalizer::is_safe_target( $rule->to ) ? 'copy' : 'unsupported' );
 				}
 				$rules[] = [
 					'id'     => $rule->id,
@@ -182,14 +222,30 @@ final class Migrator {
 	/**
 	 * Delete one leftover rule (logged with its old value).
 	 *
-	 * @param string $from Source slug.
-	 * @param string $id   Rule ID.
+	 * @param string $from     Source slug.
+	 * @param string $id       Rule ID.
+	 * @param string $expected The rule's source as the user saw it; must still match (IDs can shift).
 	 *
 	 * @return bool
 	 *
-	 * @throws \RuntimeException When the source isn't a leftover or the rule is gone.
+	 * @throws \RuntimeException When the source isn't a leftover or the rule is gone or changed.
 	 */
-	public static function delete_rule( string $from, string $id ): bool {
+	public static function delete_rule( string $from, string $id, string $expected ): bool {
+		return (bool) self::locked( static fn() => self::delete_rule_locked( $from, $id, $expected ) );
+	}
+
+	/**
+	 * Delete one leftover rule while holding the write lock.
+	 *
+	 * @param string $from     Source slug.
+	 * @param string $id       Rule ID.
+	 * @param string $expected Expected source.
+	 *
+	 * @return bool
+	 *
+	 * @throws \RuntimeException See delete_rule().
+	 */
+	private static function delete_rule_locked( string $from, string $id, string $expected ): bool {
 		$source = self::leftover( $from );
 		$rule   = null;
 
@@ -204,7 +260,7 @@ final class Migrator {
 		}
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Shown as text.
-		if ( ! $rule || ! $source instanceof Purgeable || ! $source->delete_stored( $id ) ) {
+		if ( ! $rule || $rule->from !== $expected || ! $source instanceof Purgeable || ! $source->delete_stored( $id ) ) {
 			throw new \RuntimeException( __( 'The rule could not be deleted. It may already be gone.', 'redirect-inspector' ), 404 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 
@@ -224,6 +280,20 @@ final class Migrator {
 	 * @throws \RuntimeException When the source isn't a leftover.
 	 */
 	public static function purge( string $from, bool $drop_tables ): int {
+		return (int) self::locked( static fn() => self::purge_locked( $from, $drop_tables ) );
+	}
+
+	/**
+	 * Purge while holding the write lock.
+	 *
+	 * @param string $from        Source slug.
+	 * @param bool   $drop_tables Drop the plugin's tables too.
+	 *
+	 * @return int
+	 *
+	 * @throws \RuntimeException See purge().
+	 */
+	private static function purge_locked( string $from, bool $drop_tables ): int {
 		$source = self::leftover( $from );
 		$count  = $source->count();
 
@@ -247,7 +317,9 @@ final class Migrator {
 	 */
 	private static function leftover( string $from ): Source {
 		$source = Registry::all()[ $from ] ?? null;
-		if ( ! $source instanceof Source || $source->is_available() || ! $source->has_storage() ) {
+		// The plugin itself must be inactive: a plugin with only its redirect feature switched off
+		// still owns its data, and must never have it deleted from here.
+		if ( ! $source instanceof Source || $source->plugin_active() || ! $source->has_storage() ) {
 			throw new \RuntimeException( __( 'There are no leftover rules for that plugin.', 'redirect-inspector' ), 400 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 

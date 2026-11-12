@@ -156,7 +156,7 @@ final class Cli {
 	 * @return string
 	 */
 	private static function plain( string $text ): string {
-		return (string) preg_replace( '/[\x00-\x1F\x7F]/u', '', $text );
+		return (string) preg_replace( '/\p{Cc}/u', '', $text );
 	}
 
 	/**

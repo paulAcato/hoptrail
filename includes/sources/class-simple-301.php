@@ -236,4 +236,11 @@ final class Simple_301 implements Source, Writable, Purgeable {
 
 		return true;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function plugin_active(): bool {
+		return defined( 'SIMPLE301REDIRECTS_VERSION' ) || class_exists( 'Simple301redirects' );
+	}
 }

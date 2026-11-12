@@ -126,6 +126,22 @@ final class Url_Normalizer {
 	}
 
 	/**
+	 * Whether a redirect target may be written into another plugin's storage: an http(s) URL or a
+	 * path, without whitespace, control characters or markup characters.
+	 *
+	 * @param string $target Target.
+	 *
+	 * @return bool
+	 */
+	public static function is_safe_target( string $target ): bool {
+		if ( '' === $target || strlen( $target ) > 2048 || preg_match( '/[\s<>"\'`\\\\]|\p{Cc}/u', $target ) ) {
+			return false;
+		}
+
+		return (bool) preg_match( '~^(https?://[^/?#]+(?:[/?#].*)?|/(?!/).*)$~i', $target );
+	}
+
+	/**
 	 * Case-insensitive form of a key.
 	 *
 	 * @param string $key Key.

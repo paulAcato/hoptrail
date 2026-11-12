@@ -19,6 +19,11 @@ defined( 'ABSPATH' ) || exit;
 final class Fixer {
 
 	/**
+	 * One write at a time: fixes, migrations and deletions share this lock (also used by Migrator).
+	 */
+	const LOCK = 'redirect_inspector_write_lock';
+
+	/**
 	 * Apply the fix of an issue.
 	 *
 	 * @param int $issue_id Issue ID.
@@ -28,6 +33,27 @@ final class Fixer {
 	 * @throws \RuntimeException When there is nothing to fix, the rules changed, or a write failed.
 	 */
 	public static function apply( int $issue_id ): array {
+		if ( Scanner::is_running() || ! Lock::acquire( self::LOCK, 2 * MINUTE_IN_SECONDS ) ) {
+			throw new \RuntimeException( __( 'Another change or a scan is running. Try again in a moment.', 'redirect-inspector' ), 409 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+		}
+
+		try {
+			return self::apply_locked( $issue_id );
+		} finally {
+			Lock::release( self::LOCK );
+		}
+	}
+
+	/**
+	 * Apply the fix while holding the write lock (the "already applied" check included).
+	 *
+	 * @param int $issue_id Issue ID.
+	 *
+	 * @return array{action:string, changes:array[]}
+	 *
+	 * @throws \RuntimeException See apply().
+	 */
+	private static function apply_locked( int $issue_id ): array {
 		$issue = Log_Repository::issue( $issue_id );
 		$fix   = $issue['fix'] ?? null;
 
@@ -64,7 +90,7 @@ final class Fixer {
 
 			if ( 'retarget' === $fix['action'] ) {
 				$to = (string) $fix['to'];
-				if ( '' === $to || ! $source->retarget( $rule->id, $to ) ) {
+				if ( ! Url_Normalizer::is_safe_target( $to ) || ! $source->retarget( $rule->id, $to ) ) {
 					throw new \RuntimeException( __( 'The rule could not be updated.', 'redirect-inspector' ), 500 );
 				}
 				$result = 'retargeted';

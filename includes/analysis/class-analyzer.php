@@ -215,9 +215,11 @@ final class Analyzer {
 			return null;
 		}
 
-		$path    = [ $start ];
-		$hops    = [ self::hop( $rule, $start, $first_target ) ];
-		$current = $first_target;
+		$path     = [ $start ];
+		$hops     = [ self::hop( $rule, $start, $first_target ) ];
+		$current  = $first_target;
+		$last     = $rule;
+		$last_raw = $raw_target;
 
 		for ( $steps = 1; $steps < self::MAX_HOPS; $steps = count( $hops ) ) {
 			$index = array_search( $current, $path, true );
@@ -232,8 +234,10 @@ final class Analyzer {
 				break;
 			}
 
-			$hops[]  = self::hop( $next['rule'], $current, $next['target'] );
-			$current = $next['target'];
+			$hops[]   = self::hop( $next['rule'], $current, $next['target'] );
+			$current  = $next['target'];
+			$last     = $next['rule'];
+			$last_raw = $next['rule']->is_exact() ? $next['rule']->to : '';
 		}
 
 		if ( count( $hops ) > 1 ) {
@@ -251,7 +255,9 @@ final class Analyzer {
 					$this->display( $current ),
 					count( $hops )
 				),
-				$rule->is_exact() && count( $hops ) < self::MAX_HOPS ? self::fix( 'retarget', [ $rule ], $this->display( $current ) ) : []
+				// The fix writes the final rule's own target as stored (not the normalised key), and only
+				// when it is a plain, safe URL or path.
+				$rule->is_exact() && $last->is_exact() && count( $hops ) < self::MAX_HOPS && Url_Normalizer::is_safe_target( $last_raw ) ? self::fix( 'retarget', [ $rule ], $last_raw ) : []
 			);
 		}
 
@@ -367,6 +373,11 @@ final class Analyzer {
 	private function find_shadowed_content(): void {
 		foreach ( $this->matcher->exact_index() as $key => $rules ) {
 			if ( '/' === $key || Url_Normalizer::is_external_key( $key ) || ! $this->lookup_allowed() ) {
+				continue;
+			}
+
+			// A redirect set on the post itself is meant to replace it.
+			if ( $rules[0]->per_object ) {
 				continue;
 			}
 

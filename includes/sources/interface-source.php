@@ -38,6 +38,14 @@ interface Source {
 	public function is_available(): bool;
 
 	/**
+	 * Whether the plugin itself is active (even when its redirect feature is switched off).
+	 * Only data of plugins that are not active may be treated as leftovers.
+	 *
+	 * @return bool
+	 */
+	public function plugin_active(): bool;
+
+	/**
 	 * Whether the plugin's storage holds rules, whether or not the plugin is active.
 	 * Inactive + stored = leftovers that redirect nothing.
 	 *

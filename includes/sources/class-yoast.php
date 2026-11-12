@@ -305,4 +305,11 @@ final class Yoast implements Source, Writable, Purgeable {
 
 		return true;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function plugin_active(): bool {
+		return defined( 'WPSEO_VERSION' ) || defined( 'WPSEO_PREMIUM_VERSION' );
+	}
 }

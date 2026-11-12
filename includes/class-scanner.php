@@ -137,6 +137,12 @@ final class Scanner {
 				]
 			);
 
+			// "Keep the newest N scans": trim right away, so the history never grows past N.
+			$settings = Settings::all();
+			if ( 'count' === $settings['retention_mode'] ) {
+				Retention::delete_beyond_newest( $settings['retention_count'] );
+			}
+
 			return (array) Log_Repository::scan( $scan_id );
 		} catch ( \Throwable $error ) {
 			if ( $scan_id ) {

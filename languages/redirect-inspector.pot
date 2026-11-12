@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-12T19:55:46+00:00\n"
+"POT-Creation-Date: 2026-11-12T20:13:44+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: redirect-inspector\n"
@@ -21,9 +21,9 @@ msgstr ""
 #: admin/class-admin-page.php:73
 #: admin/class-admin-page.php:74
 #: admin/class-admin-page.php:95
-#: includes/class-abilities.php:112
-#: dist/redirect-inspector.Jl3nTynM.js:593
-#: dist/redirect-inspector.Jl3nTynM.js:2677
+#: includes/class-abilities.php:117
+#: dist/redirect-inspector.cgRftMat.js:620
+#: dist/redirect-inspector.cgRftMat.js:2795
 msgid "Redirect Inspector"
 msgstr ""
 
@@ -34,7 +34,7 @@ msgstr ""
 
 #. Description of the plugin
 #: redirect-inspector.php
-msgid "Finds redirect loops, chains and redirects you don't need across Redirection, Yoast SEO Premium, Rank Math, Safe Redirect Manager and Simple 301 Redirects, and fixes the clear-cut ones."
+msgid "Finds redirect loops, chains and redirects you don't need across ten SEO and redirect plugins at once, and fixes the clear-cut ones."
 msgstr ""
 
 #. Author of the plugin
@@ -84,249 +84,420 @@ msgid "Source and target differ only in case, trailing slash or encoding. Depend
 msgstr ""
 
 #. translators: 1: source URL, 2: final URL, 3: number of hops.
-#: includes/analysis/class-analyzer.php:249
+#: includes/analysis/class-analyzer.php:253
 #, php-format
 msgid "Visitors and crawlers take %3$d hops. Point %1$s straight to %2$s."
 msgstr ""
 
 #. translators: %s: list of plugins.
-#: includes/analysis/class-analyzer.php:290
+#: includes/analysis/class-analyzer.php:296
 #, php-format
 msgid "Endless loop across %s. Visitors get \"too many redirects\". Break the loop by changing or removing one of these rules."
 msgstr ""
 
-#: includes/analysis/class-analyzer.php:293
+#: includes/analysis/class-analyzer.php:299
 msgid "Endless loop. Visitors get \"too many redirects\". Break the loop by changing or removing one of these rules."
 msgstr ""
 
 #. translators: %s: source URL.
-#: includes/analysis/class-analyzer.php:306
+#: includes/analysis/class-analyzer.php:312
 #, php-format
 msgid "%s ends up in a redirect loop. Point it to a page that loads."
 msgstr ""
 
-#: includes/analysis/class-analyzer.php:354
+#: includes/analysis/class-analyzer.php:360
 msgid "WordPress already redirects this old slug to the post's current URL. This rule can be removed."
 msgstr ""
 
 #. translators: %s: post title.
-#: includes/analysis/class-analyzer.php:388
+#: includes/analysis/class-analyzer.php:399
 #, php-format
 msgid "This URL belongs to the published \"%s\", which visitors can no longer reach. Remove the redirect, or unpublish the content."
 msgstr ""
 
-#: includes/analysis/class-analyzer.php:421
+#: includes/analysis/class-analyzer.php:432
 msgid "The final target doesn't match a post, page or term, so it probably shows a 404. Run a live check to confirm."
 msgstr ""
 
-#: includes/class-abilities.php:113
+#: includes/class-abilities.php:118
 msgid "Find redirect loops, chains and redirects you don't need across the redirect plugins of this site."
 msgstr ""
 
-#: includes/class-abilities.php:139
+#: includes/class-abilities.php:146
 msgid "Run a redirect scan"
 msgstr ""
 
-#: includes/class-abilities.php:140
+#: includes/class-abilities.php:147
 msgid "Reads every redirect rule of the active redirect plugins, follows each one to where it ends, and stores the result. Returns the health score (0–100), counts per issue type and severity, and the most severe issues with their redirect path and a suggested fix. Never returns who ran a scan or any other user data, and never changes a redirect rule."
 msgstr ""
 
-#: includes/class-abilities.php:179
+#: includes/class-abilities.php:186
 msgid "Get redirect scan results"
 msgstr ""
 
-#: includes/class-abilities.php:180
+#: includes/class-abilities.php:187
 msgid "Returns the results of the latest redirect scan without running a new one: when it ran, the health score (0–100), counts per issue type and severity, and the most severe issues (optionally of the given types) with their redirect path and a suggested fix. Never returns who ran a scan or any other user data."
 msgstr ""
 
-#: includes/class-abilities.php:185
+#: includes/class-abilities.php:192
 msgid "Issue Type"
 msgstr ""
 
-#: includes/class-abilities.php:185
-#: includes/class-abilities.php:298
+#: includes/class-abilities.php:192
+#: includes/class-abilities.php:468
 msgid "Issue type."
 msgstr ""
 
-#: includes/class-abilities.php:187
+#: includes/class-abilities.php:194
 msgid "Issue Types"
 msgstr ""
 
-#: includes/class-abilities.php:188
+#: includes/class-abilities.php:195
 msgid "Only issues of these types; all types when empty."
 msgstr ""
 
-#: includes/class-abilities.php:213
+#: includes/class-abilities.php:220
 msgid "There is no scan yet. Run a scan first."
 msgstr ""
 
-#: includes/class-abilities.php:286
+#: includes/class-abilities.php:233
+msgid "Get the next scheduled redirect scan"
+msgstr ""
+
+#: includes/class-abilities.php:234
+msgid "Returns when the next scheduled redirect scan runs (UTC and in the site's own date format and timezone), the schedule itself (daily, weekly or monthly; days; hours), and when old scan history is cleaned up next. Changes nothing. Never returns user data."
+msgstr ""
+
+#: includes/class-abilities.php:240
+msgid "Enabled"
+msgstr ""
+
+#: includes/class-abilities.php:241
+msgid "Whether scans run on a schedule at all."
+msgstr ""
+
+#: includes/class-abilities.php:243
+#: dist/redirect-inspector.cgRftMat.js:2195
+msgid "Frequency"
+msgstr ""
+
+#: includes/class-abilities.php:243
+msgid "daily, weekly or monthly."
+msgstr ""
+
+#: includes/class-abilities.php:244
+msgid "Day"
+msgstr ""
+
+#: includes/class-abilities.php:244
+msgid "Weekday (weekly schedules)."
+msgstr ""
+
+#: includes/class-abilities.php:245
+msgid "Day Of The Month"
+msgstr ""
+
+#: includes/class-abilities.php:245
+msgid "Day of the month, or \"last\" (monthly schedules)."
+msgstr ""
+
+#: includes/class-abilities.php:246
+msgid "Hour"
+msgstr ""
+
+#: includes/class-abilities.php:246
+msgid "Time of day, site time."
+msgstr ""
+
+#: includes/class-abilities.php:247
+msgid "Timezone"
+msgstr ""
+
+#: includes/class-abilities.php:247
+msgid "The site timezone the schedule runs in."
+msgstr ""
+
+#: includes/class-abilities.php:248
+msgid "Next Scan At"
+msgstr ""
+
+#: includes/class-abilities.php:248
+msgid "Next scheduled scan (ISO 8601, UTC); empty when none is scheduled."
+msgstr ""
+
+#: includes/class-abilities.php:249
+msgid "Next Scan"
+msgstr ""
+
+#: includes/class-abilities.php:249
+msgid "Next scheduled scan in the site's date and time format and timezone."
+msgstr ""
+
+#: includes/class-abilities.php:250
+msgid "Next Cleanup At"
+msgstr ""
+
+#: includes/class-abilities.php:250
+msgid "Next cleanup of old scan history (ISO 8601, UTC)."
+msgstr ""
+
+#: includes/class-abilities.php:251
+msgid "Retention"
+msgstr ""
+
+#: includes/class-abilities.php:251
+msgid "How long scan history and the change log are kept."
+msgstr ""
+
+#: includes/class-abilities.php:295
+msgid "Flush Redirect Inspector logs"
+msgstr ""
+
+#: includes/class-abilities.php:296
+msgid "Permanently deletes stored logs: the scan history (all scans and their issues), the change log of Apply fix and Migrate, or both. Without confirm: true it deletes nothing and only reports what would be deleted; ask the user for approval before confirming. Never deletes or changes a redirect rule."
+msgstr ""
+
+#: includes/class-abilities.php:300
+#: includes/class-abilities.php:316
+msgid "Scope"
+msgstr ""
+
+#: includes/class-abilities.php:300
+msgid "history: scans and issues; changes: the change log; all: both."
+msgstr ""
+
+#: includes/class-abilities.php:303
+msgid "Confirm"
+msgstr ""
+
+#: includes/class-abilities.php:304
+msgid "true deletes; false (default) only reports what would be deleted. Only set true after the user approved."
+msgstr ""
+
+#: includes/class-abilities.php:313
+msgid "Dry Run"
+msgstr ""
+
+#: includes/class-abilities.php:314
+msgid "true when nothing was deleted (no confirm)."
+msgstr ""
+
+#: includes/class-abilities.php:316
+msgid "What was (or would be) deleted."
+msgstr ""
+
+#: includes/class-abilities.php:317
+msgid "Scans"
+msgstr ""
+
+#: includes/class-abilities.php:317
+msgid "Scans deleted, or that would be deleted."
+msgstr ""
+
+#: includes/class-abilities.php:318
+msgid "Changes"
+msgstr ""
+
+#: includes/class-abilities.php:318
+msgid "Change-log entries deleted, or that would be deleted."
+msgstr ""
+
+#: includes/class-abilities.php:319
+msgid "Message"
+msgstr ""
+
+#: includes/class-abilities.php:319
+msgid "What happened, in plain text."
+msgstr ""
+
+#: includes/class-abilities.php:341
+msgid "The Redirect Inspector tables are missing."
+msgstr ""
+
+#. translators: 1: number of scans, 2: number of change-log entries.
+#: includes/class-abilities.php:357
+#, php-format
+msgid "Nothing deleted yet. Confirming would delete %1$d scans and %2$d change-log entries. Ask the user for approval, then call again with confirm: true."
+msgstr ""
+
+#. translators: 1: number of scans, 2: number of change-log entries.
+#: includes/class-abilities.php:359
+#, php-format
+msgid "Deleted %1$d scans and %2$d change-log entries."
+msgstr ""
+
+#: includes/class-abilities.php:456
 msgid "Scanned At"
 msgstr ""
 
-#: includes/class-abilities.php:286
+#: includes/class-abilities.php:456
 msgid "When the scan finished (ISO 8601, UTC)."
 msgstr ""
 
-#: includes/class-abilities.php:287
-#: dist/redirect-inspector.Jl3nTynM.js:1946
+#: includes/class-abilities.php:457
+#: dist/redirect-inspector.cgRftMat.js:1973
 msgid "Status"
 msgstr ""
 
-#: includes/class-abilities.php:287
+#: includes/class-abilities.php:457
 msgid "done, or partial when a time budget was reached."
 msgstr ""
 
-#: includes/class-abilities.php:288
+#: includes/class-abilities.php:458
 msgid "Health Score"
 msgstr ""
 
-#: includes/class-abilities.php:288
+#: includes/class-abilities.php:458
 msgid "0–100; below 50 is critical, 80 and up is healthy."
 msgstr ""
 
-#: includes/class-abilities.php:289
+#: includes/class-abilities.php:459
 msgid "Rule Count"
 msgstr ""
 
-#: includes/class-abilities.php:289
+#: includes/class-abilities.php:459
 msgid "Redirect rules read from all active plugins."
 msgstr ""
 
-#: includes/class-abilities.php:290
+#: includes/class-abilities.php:460
 msgid "Issue Count"
 msgstr ""
 
-#: includes/class-abilities.php:290
+#: includes/class-abilities.php:460
 msgid "Issues found."
 msgstr ""
 
-#: includes/class-abilities.php:291
+#: includes/class-abilities.php:461
 msgid "Issues Per Type"
 msgstr ""
 
-#: includes/class-abilities.php:291
+#: includes/class-abilities.php:461
 msgid "loop, chain, conflict, noop, duplicate, redundant, shadow, broken."
 msgstr ""
 
-#: includes/class-abilities.php:292
+#: includes/class-abilities.php:462
 msgid "Issues Per Severity"
 msgstr ""
 
-#: includes/class-abilities.php:292
+#: includes/class-abilities.php:462
 msgid "critical, high, medium, low."
 msgstr ""
 
-#: includes/class-abilities.php:293
+#: includes/class-abilities.php:463
 msgid "Issues Shown"
 msgstr ""
 
-#: includes/class-abilities.php:293
+#: includes/class-abilities.php:463
 msgid "Issues in this response, most severe first."
 msgstr ""
 
-#: includes/class-abilities.php:294
+#: includes/class-abilities.php:464
 msgid "Issues Total"
 msgstr ""
 
-#: includes/class-abilities.php:294
+#: includes/class-abilities.php:464
 msgid "Issues matching the filter."
 msgstr ""
 
-#: includes/class-abilities.php:298
+#: includes/class-abilities.php:468
 msgid "Type"
 msgstr ""
 
-#: includes/class-abilities.php:299
+#: includes/class-abilities.php:469
 msgid "Severity"
 msgstr ""
 
-#: includes/class-abilities.php:299
+#: includes/class-abilities.php:469
 msgid "critical, high, medium or low."
 msgstr ""
 
-#: includes/class-abilities.php:300
+#: includes/class-abilities.php:470
 msgid "Source"
 msgstr ""
 
-#: includes/class-abilities.php:300
+#: includes/class-abilities.php:470
 msgid "URL or pattern the issue starts at."
 msgstr ""
 
-#: includes/class-abilities.php:301
+#: includes/class-abilities.php:471
 msgid "Target"
 msgstr ""
 
-#: includes/class-abilities.php:301
+#: includes/class-abilities.php:471
 msgid "Where the path ends."
 msgstr ""
 
-#: includes/class-abilities.php:302
+#: includes/class-abilities.php:472
 msgid "Path"
 msgstr ""
 
-#: includes/class-abilities.php:302
+#: includes/class-abilities.php:472
 msgid "Every hop: URL → (status code, plugin) URL → …"
 msgstr ""
 
-#: includes/class-abilities.php:303
-#: dist/redirect-inspector.Jl3nTynM.js:1753
+#: includes/class-abilities.php:473
+#: dist/redirect-inspector.cgRftMat.js:1780
 msgid "Plugin"
 msgstr ""
 
-#: includes/class-abilities.php:303
+#: includes/class-abilities.php:473
 msgid "Redirect plugin involved."
 msgstr ""
 
-#: includes/class-abilities.php:304
+#: includes/class-abilities.php:474
 msgid "Suggestion"
 msgstr ""
 
-#: includes/class-abilities.php:304
+#: includes/class-abilities.php:474
 msgid "What to change, in plain text."
 msgstr ""
 
-#: includes/class-abilities.php:307
+#: includes/class-abilities.php:477
 msgid "Fixable"
 msgstr ""
 
-#: includes/class-abilities.php:308
+#: includes/class-abilities.php:478
 msgid "Whether Apply fix is available on the dashboard (Tools → Redirect Inspector)."
 msgstr ""
 
-#: includes/class-abilities.php:323
+#: includes/class-abilities.php:493
 msgid "Issue Limit"
 msgstr ""
 
-#: includes/class-abilities.php:323
+#: includes/class-abilities.php:493
 msgid "Most issues to return, most severe first (0 for counts only). Default 10."
 msgstr ""
 
-#: includes/class-abilities.php:503
+#: includes/class-abilities.php:673
 msgid "This request involves personal data, such as names or e-mail addresses. Sending personal data to an AI service can breach the GDPR, so it is not shared. Please do not ask for personal data through AI; look it up in the WordPress admin instead."
 msgstr ""
 
-#: includes/class-fixer.php:36
+#: includes/class-fixer.php:37
+#: includes/class-migrator.php:111
+msgid "Another change or a scan is running. Try again in a moment."
+msgstr ""
+
+#: includes/class-fixer.php:62
 msgid "This issue has no automatic fix."
 msgstr ""
 
-#: includes/class-fixer.php:40
+#: includes/class-fixer.php:66
 msgid "This fix was already applied."
 msgstr ""
 
-#: includes/class-fixer.php:50
+#: includes/class-fixer.php:76
 msgid "The plugin that owns this rule is not active."
 msgstr ""
 
-#: includes/class-fixer.php:55
+#: includes/class-fixer.php:81
 msgid "The rule changed since the last scan. Run a new scan first."
 msgstr ""
 
-#: includes/class-fixer.php:68
+#: includes/class-fixer.php:94
 msgid "The rule could not be updated."
 msgstr ""
 
-#: includes/class-fixer.php:75
+#: includes/class-fixer.php:101
 msgid "The rule could not be switched off."
 msgstr ""
 
@@ -350,41 +521,51 @@ msgstr ""
 msgid "Rules can only be migrated into an active redirect plugin."
 msgstr ""
 
-#: includes/class-migrator.php:208
+#: includes/class-migrator.php:264
 msgid "The rule could not be deleted. It may already be gone."
 msgstr ""
 
-#: includes/class-migrator.php:231
+#: includes/class-migrator.php:301
 msgid "The data could not be deleted."
 msgstr ""
 
-#: includes/class-migrator.php:251
+#: includes/class-migrator.php:323
 msgid "There are no leftover rules for that plugin."
 msgstr ""
 
-#: includes/class-rest-controller.php:345
+#: includes/class-rest-controller.php:370
 #: includes/class-scanner.php:68
 msgid "The Redirect Inspector tables are missing and could not be created."
 msgstr ""
 
-#: includes/class-rest-controller.php:586
+#: includes/class-rest-controller.php:611
 msgid "Issue not found."
 msgstr ""
 
-#: includes/class-rest-controller.php:593
+#: includes/class-rest-controller.php:618
 msgid "Nothing to check."
 msgstr ""
 
-#: includes/class-rest-controller.php:628
+#: includes/class-rest-controller.php:654
 msgid "Pick at least one day and one hour for scheduled scans."
 msgstr ""
 
-#: includes/class-rest-controller.php:674
+#: includes/class-rest-controller.php:706
 msgid "A scan is running. Try again in a moment."
 msgstr ""
 
+#: includes/class-retention.php:193
+msgid "A scan or cleanup is running. Try again in a moment."
+msgstr ""
+
+#. translators: 1: number of scans, 2: number of days.
+#: includes/class-retention.php:276
+#, php-format
+msgid "The newest %1$d scans are kept; older ones are removed after every scan. Changes made through Apply fix or Migrate are logged for %2$d days."
+msgstr ""
+
 #. translators: %d: number of days.
-#: includes/class-retention.php:166
+#: includes/class-retention.php:284
 #, php-format
 msgid "Scan history is kept for %d day; older scans are removed every Sunday around 03:00."
 msgid_plural "Scan history is kept for %d days; older scans are removed every Sunday around 03:00."
@@ -407,863 +588,931 @@ msgstr ""
 msgid "Time or evaluation budget reached; results may be incomplete."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:34
+#: dist/redirect-inspector.cgRftMat.js:34
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:245
+#: dist/redirect-inspector.cgRftMat.js:253
+#, js-format
+msgid "%1$s (%2$s your time)"
+msgstr ""
+
+#: dist/redirect-inspector.cgRftMat.js:267
 msgid "never"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:252
+#: dist/redirect-inspector.cgRftMat.js:274
 msgid "just now"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:254
+#: dist/redirect-inspector.cgRftMat.js:276
 #, js-format
 msgid "%d ms"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:254
+#: dist/redirect-inspector.cgRftMat.js:276
 #, js-format
 msgid "%s s"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:286
+#: dist/redirect-inspector.cgRftMat.js:308
 msgid "Loop"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:287
-#: dist/redirect-inspector.Jl3nTynM.js:340
-#: dist/redirect-inspector.Jl3nTynM.js:2733
+#: dist/redirect-inspector.cgRftMat.js:309
+#: dist/redirect-inspector.cgRftMat.js:362
+#: dist/redirect-inspector.cgRftMat.js:2851
 msgid "Loops"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:288
+#: dist/redirect-inspector.cgRftMat.js:310
 msgid "Redirects that never end"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:291
+#: dist/redirect-inspector.cgRftMat.js:313
 msgid "Chain"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:292
-#: dist/redirect-inspector.Jl3nTynM.js:341
-#: dist/redirect-inspector.Jl3nTynM.js:2738
+#: dist/redirect-inspector.cgRftMat.js:314
+#: dist/redirect-inspector.cgRftMat.js:363
+#: dist/redirect-inspector.cgRftMat.js:2856
 msgid "Chains"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:293
+#: dist/redirect-inspector.cgRftMat.js:315
 msgid "Two or more hops before the page loads"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:296
+#: dist/redirect-inspector.cgRftMat.js:318
 msgid "Conflict"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:297
-#: dist/redirect-inspector.Jl3nTynM.js:342
+#: dist/redirect-inspector.cgRftMat.js:319
+#: dist/redirect-inspector.cgRftMat.js:364
 msgid "Conflicts"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:298
+#: dist/redirect-inspector.cgRftMat.js:320
 msgid "One URL, several different targets"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:301
+#: dist/redirect-inspector.cgRftMat.js:323
 msgid "Self-redirect"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:302
+#: dist/redirect-inspector.cgRftMat.js:324
 msgid "Self-redirects"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:303
+#: dist/redirect-inspector.cgRftMat.js:325
 msgid "Source and target are the same URL"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:306
+#: dist/redirect-inspector.cgRftMat.js:328
 msgid "Duplicate"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:307
+#: dist/redirect-inspector.cgRftMat.js:329
 msgid "Duplicates"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:308
+#: dist/redirect-inspector.cgRftMat.js:330
 msgid "The same redirect defined twice"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:311
-#: dist/redirect-inspector.Jl3nTynM.js:312
+#: dist/redirect-inspector.cgRftMat.js:333
+#: dist/redirect-inspector.cgRftMat.js:334
 msgid "Redundant"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:313
+#: dist/redirect-inspector.cgRftMat.js:335
 msgid "WordPress already handles it"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:316
-#: dist/redirect-inspector.Jl3nTynM.js:317
+#: dist/redirect-inspector.cgRftMat.js:338
+#: dist/redirect-inspector.cgRftMat.js:339
 msgid "Hides content"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:318
+#: dist/redirect-inspector.cgRftMat.js:340
 msgid "Redirects away from a published page"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:321
+#: dist/redirect-inspector.cgRftMat.js:343
 msgid "Broken target"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:322
+#: dist/redirect-inspector.cgRftMat.js:344
 msgid "Broken targets"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:323
+#: dist/redirect-inspector.cgRftMat.js:345
 msgid "Ends on a page that probably 404s"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:339
+#: dist/redirect-inspector.cgRftMat.js:361
 msgid "All issues"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:343
+#: dist/redirect-inspector.cgRftMat.js:365
 msgid "Unnecessary"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:344
+#: dist/redirect-inspector.cgRftMat.js:366
 msgid "Broken"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:348
-#: dist/redirect-inspector.Jl3nTynM.js:374
+#: dist/redirect-inspector.cgRftMat.js:370
+#: dist/redirect-inspector.cgRftMat.js:401
 msgid "Critical"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:349
+#: dist/redirect-inspector.cgRftMat.js:371
 msgid "High"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:350
+#: dist/redirect-inspector.cgRftMat.js:372
 msgid "Medium"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:351
+#: dist/redirect-inspector.cgRftMat.js:373
 msgid "Low"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:372
+#: dist/redirect-inspector.cgRftMat.js:399
 msgid "Healthy"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:373
+#: dist/redirect-inspector.cgRftMat.js:400
 msgid "Needs attention"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:544
+#: dist/redirect-inspector.cgRftMat.js:571
 msgid "No loops"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:545
+#: dist/redirect-inspector.cgRftMat.js:572
 msgid "No chains"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:546
+#: dist/redirect-inspector.cgRftMat.js:573
 msgid "No conflicts"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:547
+#: dist/redirect-inspector.cgRftMat.js:574
 msgid "No self-redirects"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:548
+#: dist/redirect-inspector.cgRftMat.js:575
 msgid "No duplicates"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:549
+#: dist/redirect-inspector.cgRftMat.js:576
 msgid "No redundant rules"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:550
+#: dist/redirect-inspector.cgRftMat.js:577
 msgid "No hidden content"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:551
+#: dist/redirect-inspector.cgRftMat.js:578
 msgid "No broken targets"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:568
+#: dist/redirect-inspector.cgRftMat.js:595
 msgid "No issues found so far"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:568
+#: dist/redirect-inspector.cgRftMat.js:595
 #, js-format
 msgid "All clear: no issues in %d redirect rule"
 msgid_plural "All clear: no issues in %d redirect rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:569
+#: dist/redirect-inspector.cgRftMat.js:596
 msgid "Every redirect goes straight to its destination. These are the checks it passed:"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:597
-msgid "Follows every rule from Redirection, Yoast SEO Premium, Rank Math, Safe Redirect Manager and Simple 301 Redirects to where it really ends."
+#: dist/redirect-inspector.cgRftMat.js:624
+msgid "Follows every redirect rule of your SEO and redirect plugins to where it really ends."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:602
+#: dist/redirect-inspector.cgRftMat.js:629
 #, js-format
 msgid "Last scan %1$s · %2$d rules · %3$s"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:602
-#: dist/redirect-inspector.Jl3nTynM.js:630
+#: dist/redirect-inspector.cgRftMat.js:629
+#: dist/redirect-inspector.cgRftMat.js:657
 msgid "No scan yet"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:624
+#: dist/redirect-inspector.cgRftMat.js:651
 msgid "Scanning…"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:624
+#: dist/redirect-inspector.cgRftMat.js:651
 msgid "Run scan"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:630
-#: dist/redirect-inspector.Jl3nTynM.js:2589
+#: dist/redirect-inspector.cgRftMat.js:657
+#: dist/redirect-inspector.cgRftMat.js:2707
 msgid "Health score"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:653
+#: dist/redirect-inspector.cgRftMat.js:680
 msgid "no score"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:663
+#: dist/redirect-inspector.cgRftMat.js:690
 #, js-format
 msgid "Will be copied to %s"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:664
+#: dist/redirect-inspector.cgRftMat.js:691
 #, js-format
 msgid "Already in %s"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:665
+#: dist/redirect-inspector.cgRftMat.js:692
 #, js-format
 msgid "%s can’t hold this rule"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:685
+#: dist/redirect-inspector.cgRftMat.js:712
 #, js-format
 msgid "Deleted the rule for %s."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:719
-#: dist/redirect-inspector.Jl3nTynM.js:737
+#: dist/redirect-inspector.cgRftMat.js:746
+#: dist/redirect-inspector.cgRftMat.js:764
 msgid "Delete"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:729
-#: dist/redirect-inspector.Jl3nTynM.js:917
-#: dist/redirect-inspector.Jl3nTynM.js:1626
-#: dist/redirect-inspector.Jl3nTynM.js:2259
+#: dist/redirect-inspector.cgRftMat.js:756
+#: dist/redirect-inspector.cgRftMat.js:944
+#: dist/redirect-inspector.cgRftMat.js:1653
+#: dist/redirect-inspector.cgRftMat.js:2377
 msgid "Cancel"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:735
+#: dist/redirect-inspector.cgRftMat.js:762
 #, js-format
 msgid "Delete the rule for %s"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:785
+#: dist/redirect-inspector.cgRftMat.js:812
 #, js-format
 msgid "%1$d rule copied to %2$s. Run a scan to include it."
 msgid_plural "%1$d rules copied to %2$s. Run a scan to include them."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:798
+#: dist/redirect-inspector.cgRftMat.js:825
 #, js-format
 msgid "Deleted %1$d stored rule of %2$s."
 msgid_plural "Deleted %1$d stored rules of %2$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:811
+#: dist/redirect-inspector.cgRftMat.js:838
 #, js-format
 msgid "Leftover rules of %s"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:818
+#: dist/redirect-inspector.cgRftMat.js:845
 msgid "This plugin is not active, so these rules redirect nothing. Copy them into an active redirect plugin, or delete them."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:825
+#: dist/redirect-inspector.cgRftMat.js:852
 msgid "Migrate to"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:836
+#: dist/redirect-inspector.cgRftMat.js:863
 #, js-format
 msgid "%d will be copied"
 msgid_plural "%d will be copied"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:837
+#: dist/redirect-inspector.cgRftMat.js:864
 #, js-format
 msgid "%d already there"
 msgid_plural "%d already there"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:838
+#: dist/redirect-inspector.cgRftMat.js:865
 #, js-format
 msgid "%d not supported"
 msgid_plural "%d not supported"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:851
+#: dist/redirect-inspector.cgRftMat.js:878
 msgid "Stored rules"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:858
+#: dist/redirect-inspector.cgRftMat.js:885
 msgid "From"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:862
+#: dist/redirect-inspector.cgRftMat.js:889
 msgid "To"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:867
+#: dist/redirect-inspector.cgRftMat.js:894
 msgid "Code"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:871
+#: dist/redirect-inspector.cgRftMat.js:898
 msgid "Migration"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:877
+#: dist/redirect-inspector.cgRftMat.js:904
 msgid "Actions"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:901
+#: dist/redirect-inspector.cgRftMat.js:928
 #, js-format
 msgid "Permanently delete %1$d stored rule of %2$s? This cannot be undone."
 msgid_plural "Permanently delete %1$d stored rules of %2$s? This cannot be undone."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:904
+#: dist/redirect-inspector.cgRftMat.js:931
 #, js-format
 msgid "Also drop the redirect tables of %s"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:905
+#: dist/redirect-inspector.cgRftMat.js:932
 msgid "Only when you don’t plan to activate it again; it would have to set up its tables anew."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:927
+#: dist/redirect-inspector.cgRftMat.js:954
 msgid "Delete rules and tables"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:927
+#: dist/redirect-inspector.cgRftMat.js:954
 msgid "Delete rules"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:938
+#: dist/redirect-inspector.cgRftMat.js:965
 msgid "Delete all data"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:946
+#: dist/redirect-inspector.cgRftMat.js:973
 msgid "Delete data"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:954
+#: dist/redirect-inspector.cgRftMat.js:981
 #, js-format
 msgid "Migrate %d rule"
 msgid_plural "Migrate %d rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:981
+#: dist/redirect-inspector.cgRftMat.js:1008
 msgid "Leftover redirects"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:984
+#: dist/redirect-inspector.cgRftMat.js:1011
 msgid "These plugins are not active, so their rules redirect nothing."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:995
+#: dist/redirect-inspector.cgRftMat.js:1022
 #, js-format
 msgid "Not active · %d stored rule"
 msgid_plural "Not active · %d stored rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1004
+#: dist/redirect-inspector.cgRftMat.js:1031
 msgid "Review rules"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1205
+#: dist/redirect-inspector.cgRftMat.js:1232
 msgid "Health score per scan"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1208
-#: dist/redirect-inspector.Jl3nTynM.js:1369
+#: dist/redirect-inspector.cgRftMat.js:1235
+#: dist/redirect-inspector.cgRftMat.js:1396
 msgid "Scan"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1211
-#: dist/redirect-inspector.Jl3nTynM.js:1942
-#: dist/redirect-inspector.Jl3nTynM.js:2723
+#: dist/redirect-inspector.cgRftMat.js:1238
+#: dist/redirect-inspector.cgRftMat.js:1969
+#: dist/redirect-inspector.cgRftMat.js:2841
 msgid "Score"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1366
+#: dist/redirect-inspector.cgRftMat.js:1393
 msgid "Issues per scan by severity"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1400
+#: dist/redirect-inspector.cgRftMat.js:1427
 msgid "Redirect path"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1423
-#: dist/redirect-inspector.Jl3nTynM.js:1429
+#: dist/redirect-inspector.cgRftMat.js:1450
+#: dist/redirect-inspector.cgRftMat.js:1456
 #, js-format
 msgid "%1$s – edit the rule to %2$s"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1440
+#: dist/redirect-inspector.cgRftMat.js:1467
 msgid "back to start"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1449
+#: dist/redirect-inspector.cgRftMat.js:1476
 msgid "Loads after one redirect"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1450
+#: dist/redirect-inspector.cgRftMat.js:1477
 msgid "Confirmed chain"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1451
+#: dist/redirect-inspector.cgRftMat.js:1478
 msgid "Confirmed loop"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1452
+#: dist/redirect-inspector.cgRftMat.js:1479
 msgid "Ends in an error page"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1453
+#: dist/redirect-inspector.cgRftMat.js:1480
 msgid "Leaves this site (not followed)"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1454
+#: dist/redirect-inspector.cgRftMat.js:1481
 msgid "Request failed"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1461
+#: dist/redirect-inspector.cgRftMat.js:1488
 msgid "Live check"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1473
+#: dist/redirect-inspector.cgRftMat.js:1500
 msgid "external, not requested"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1497
+#: dist/redirect-inspector.cgRftMat.js:1524
 #, js-format
 msgid "Point %1$s straight to %2$s in %3$s?"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1498
+#: dist/redirect-inspector.cgRftMat.js:1525
 #, js-format
 msgid "Switch off %d duplicate rule?"
 msgid_plural "Switch off %d duplicate rules?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1499
+#: dist/redirect-inspector.cgRftMat.js:1526
 #, js-format
 msgid "Remove the rule for %1$s from %2$s? It has no off switch; the old rule is kept in the fix log."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1499
+#: dist/redirect-inspector.cgRftMat.js:1526
 #, js-format
 msgid "Switch off the rule for %1$s in %2$s? You can switch it back on there."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1501
+#: dist/redirect-inspector.cgRftMat.js:1528
 msgid "Shorten chain"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1501
+#: dist/redirect-inspector.cgRftMat.js:1528
 msgid "Switch off rule"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1536
+#: dist/redirect-inspector.cgRftMat.js:1563
 msgid "Live check finished."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1548
+#: dist/redirect-inspector.cgRftMat.js:1575
 msgid "Fix applied. Run a new scan to update the numbers."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1575
+#: dist/redirect-inspector.cgRftMat.js:1602
 msgid "New"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1579
+#: dist/redirect-inspector.cgRftMat.js:1606
 msgid "Fixed"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1586
+#: dist/redirect-inspector.cgRftMat.js:1613
 msgid "hop"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1586
+#: dist/redirect-inspector.cgRftMat.js:1613
 msgid "hops"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1603
+#: dist/redirect-inspector.cgRftMat.js:1630
 #, js-format
 msgid "Fixed by %1$s %2$s. Run a new scan to update the numbers."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1607
+#: dist/redirect-inspector.cgRftMat.js:1634
 msgid "Confirm fix"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1618
+#: dist/redirect-inspector.cgRftMat.js:1645
 msgid "Applying…"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1618
+#: dist/redirect-inspector.cgRftMat.js:1645
 msgid "Apply"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1641
+#: dist/redirect-inspector.cgRftMat.js:1668
 msgid "Checking…"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1641
+#: dist/redirect-inspector.cgRftMat.js:1668
 msgid "Verify live"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1651
+#: dist/redirect-inspector.cgRftMat.js:1678
 msgid "Apply fix"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1708
+#: dist/redirect-inspector.cgRftMat.js:1735
 #, js-format
 msgid "%d issue found"
 msgid_plural "%d issues found"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1725
-#: dist/redirect-inspector.Jl3nTynM.js:1941
+#: dist/redirect-inspector.cgRftMat.js:1752
+#: dist/redirect-inspector.cgRftMat.js:1968
 msgid "Issues"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1731
+#: dist/redirect-inspector.cgRftMat.js:1758
 msgid "Filter by issue type"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1747
+#: dist/redirect-inspector.cgRftMat.js:1774
 msgid "Search URLs"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1757
+#: dist/redirect-inspector.cgRftMat.js:1784
 msgid "All plugins"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1775
+#: dist/redirect-inspector.cgRftMat.js:1802
 msgid "Nothing matches these filters"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1775
+#: dist/redirect-inspector.cgRftMat.js:1802
 msgid "No issues found"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1776
+#: dist/redirect-inspector.cgRftMat.js:1803
 msgid "Try another type, plugin or search term."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1776
+#: dist/redirect-inspector.cgRftMat.js:1803
 msgid "Every redirect goes straight to its destination."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1781
+#: dist/redirect-inspector.cgRftMat.js:1808
 msgid "Issue pages"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1789
-#: dist/redirect-inspector.Jl3nTynM.js:1998
-#: dist/redirect-inspector.Jl3nTynM.js:2804
+#: dist/redirect-inspector.cgRftMat.js:1816
+#: dist/redirect-inspector.cgRftMat.js:2025
+#: dist/redirect-inspector.cgRftMat.js:2922
 msgid "Previous"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1791
+#: dist/redirect-inspector.cgRftMat.js:1818
 #, js-format
 msgid "Page %1$d of %2$d · %3$d issue"
 msgid_plural "Page %1$d of %2$d · %3$d issues"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1798
-#: dist/redirect-inspector.Jl3nTynM.js:2011
-#: dist/redirect-inspector.Jl3nTynM.js:2817
+#: dist/redirect-inspector.cgRftMat.js:1825
+#: dist/redirect-inspector.cgRftMat.js:2038
+#: dist/redirect-inspector.cgRftMat.js:2935
 msgid "Next"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1808
+#: dist/redirect-inspector.cgRftMat.js:1835
 msgid "Running"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1809
+#: dist/redirect-inspector.cgRftMat.js:1836
 msgid "Complete"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1810
+#: dist/redirect-inspector.cgRftMat.js:1837
 msgid "Partial"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1811
+#: dist/redirect-inspector.cgRftMat.js:1838
 msgid "Failed"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1876
+#: dist/redirect-inspector.cgRftMat.js:1903
 msgid "Scan history"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1890
+#: dist/redirect-inspector.cgRftMat.js:1917
 msgid "Pick a date"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1905
+#: dist/redirect-inspector.cgRftMat.js:1932
 msgid "Days with a scan are marked."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1913
+#: dist/redirect-inspector.cgRftMat.js:1940
 msgid "Show all dates"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1935
+#: dist/redirect-inspector.cgRftMat.js:1962
 msgid "Scanned"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1938
+#: dist/redirect-inspector.cgRftMat.js:1965
 msgid "By"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1940
-#: dist/redirect-inspector.Jl3nTynM.js:2728
+#: dist/redirect-inspector.cgRftMat.js:1967
+#: dist/redirect-inspector.cgRftMat.js:2846
 msgid "Rules"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1943
+#: dist/redirect-inspector.cgRftMat.js:1970
 msgid "Took"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1950
+#: dist/redirect-inspector.cgRftMat.js:1977
 #, js-format
 msgid "No scans on %s."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1950
+#: dist/redirect-inspector.cgRftMat.js:1977
 msgid "No scans yet."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:1990
+#: dist/redirect-inspector.cgRftMat.js:2017
 msgid "Scan history pages"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2064
+#: dist/redirect-inspector.cgRftMat.js:2069
+msgid "Daily"
+msgstr ""
+
+#: dist/redirect-inspector.cgRftMat.js:2073
+msgid "Weekly"
+msgstr ""
+
+#: dist/redirect-inspector.cgRftMat.js:2077
+msgid "Monthly"
+msgstr ""
+
+#: dist/redirect-inspector.cgRftMat.js:2081
+msgid "the last day"
+msgstr ""
+
+#: dist/redirect-inspector.cgRftMat.js:2081
+#, js-format
+msgid "day %d"
+msgstr ""
+
+#: dist/redirect-inspector.cgRftMat.js:2106
 msgid "Off. Scans only run when you start them."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2065
+#: dist/redirect-inspector.cgRftMat.js:2107
 msgid "Pick at least one day and one hour."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2066
+#: dist/redirect-inspector.cgRftMat.js:2109
+#, js-format
+msgid "Runs every day at %1$s, site time (%2$s)."
+msgstr ""
+
+#: dist/redirect-inspector.cgRftMat.js:2110
+#, js-format
+msgid "Runs on %1$s of every month at %2$s, site time (%3$s)."
+msgstr ""
+
+#: dist/redirect-inspector.cgRftMat.js:2111
 msgid "every day"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2067
+#: dist/redirect-inspector.cgRftMat.js:2112
 #, js-format
-msgid "Runs %1$s at %2$s (%3$s)."
+msgid "Runs %1$s at %2$s, site time (%3$s)."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2083
+#: dist/redirect-inspector.cgRftMat.js:2130
 msgid "Settings saved."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2093
+#: dist/redirect-inspector.cgRftMat.js:2140
 #, js-format
 msgid "Deleted %d scans."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2108
+#: dist/redirect-inspector.cgRftMat.js:2155
 msgid "Schedule & retention"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2117
-#: dist/redirect-inspector.Jl3nTynM.js:2127
+#: dist/redirect-inspector.cgRftMat.js:2164
+#: dist/redirect-inspector.cgRftMat.js:2174
 msgid "Scheduled scans"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2148
+#: dist/redirect-inspector.cgRftMat.js:2216
+msgid "Day of the month"
+msgstr ""
+
+#: dist/redirect-inspector.cgRftMat.js:2222
+msgid "Last day of the month"
+msgstr ""
+
+#: dist/redirect-inspector.cgRftMat.js:2234
 msgid "Days"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2170
+#: dist/redirect-inspector.cgRftMat.js:2255
 msgid "Hours"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2196
+#: dist/redirect-inspector.cgRftMat.js:2281
 #, js-format
 msgid "Next scan: %s"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2205
+#: dist/redirect-inspector.cgRftMat.js:2290
 msgid "History"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2211
+#: dist/redirect-inspector.cgRftMat.js:2295
+msgid "Keep"
+msgstr ""
+
+#: dist/redirect-inspector.cgRftMat.js:2305
+msgid "Scans of the last days"
+msgstr ""
+
+#: dist/redirect-inspector.cgRftMat.js:2310
+msgid "The newest scans"
+msgstr ""
+
+#: dist/redirect-inspector.cgRftMat.js:2317
 msgid "Keep scans for"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2215
+#: dist/redirect-inspector.cgRftMat.js:2321
 msgid "7 to 365 days."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2218
+#: dist/redirect-inspector.cgRftMat.js:2324
 msgid "days"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2225
+#: dist/redirect-inspector.cgRftMat.js:2329
+msgid "Keep the newest"
+msgstr ""
+
+#: dist/redirect-inspector.cgRftMat.js:2333
+msgid "5 to 1,000 scans."
+msgstr ""
+
+#: dist/redirect-inspector.cgRftMat.js:2336
+msgid "scans"
+msgstr ""
+
+#: dist/redirect-inspector.cgRftMat.js:2343
 #, js-format
 msgid "Next cleanup: %s."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2241
+#: dist/redirect-inspector.cgRftMat.js:2359
 msgid "Delete all scan history? This cannot be undone."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2251
+#: dist/redirect-inspector.cgRftMat.js:2369
 msgid "Deleting…"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2251
+#: dist/redirect-inspector.cgRftMat.js:2369
 msgid "Delete all"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2269
+#: dist/redirect-inspector.cgRftMat.js:2387
 msgid "Delete history"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2278
+#: dist/redirect-inspector.cgRftMat.js:2396
 msgid "Saving…"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2278
+#: dist/redirect-inspector.cgRftMat.js:2396
 msgid "Save settings"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2298
+#: dist/redirect-inspector.cgRftMat.js:2416
 msgid "Rules by plugin"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2301
+#: dist/redirect-inspector.cgRftMat.js:2419
 #, js-format
 msgid "%s rule"
 msgid_plural "%s rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2333
+#: dist/redirect-inspector.cgRftMat.js:2451
 #, js-format
 msgid "%d issue"
 msgid_plural "%d issues"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2333
+#: dist/redirect-inspector.cgRftMat.js:2451
 msgid "No issues"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2333
-#: dist/redirect-inspector.Jl3nTynM.js:2789
+#: dist/redirect-inspector.cgRftMat.js:2451
+#: dist/redirect-inspector.cgRftMat.js:2907
 msgid "Not active"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2438
+#: dist/redirect-inspector.cgRftMat.js:2556
 msgid "No change"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2438
+#: dist/redirect-inspector.cgRftMat.js:2556
 #, js-format
 msgid "%s since last scan"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2514
+#: dist/redirect-inspector.cgRftMat.js:2632
 #, js-format
 msgid "Scanned %1$d rules and found %2$d issue in %3$s."
 msgid_plural "Scanned %1$d rules and found %2$d issues in %3$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2571
+#: dist/redirect-inspector.cgRftMat.js:2689
 msgid "Nothing scanned yet"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2572
+#: dist/redirect-inspector.cgRftMat.js:2690
 msgid "Use “Run scan” (top right) to check every redirect rule on this site."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2592
+#: dist/redirect-inspector.cgRftMat.js:2710
 msgid "below 50 critical · 80 and up healthy"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2602
+#: dist/redirect-inspector.cgRftMat.js:2720
 msgid "Issues by severity"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2619
-#: dist/redirect-inspector.Jl3nTynM.js:2625
+#: dist/redirect-inspector.cgRftMat.js:2737
+#: dist/redirect-inspector.cgRftMat.js:2743
 msgid "Issues by type"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2680
+#: dist/redirect-inspector.cgRftMat.js:2798
 msgid "Latest scan per site. Scans run per site, from each site’s Tools menu."
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2691
+#: dist/redirect-inspector.cgRftMat.js:2809
 msgid "Sites"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2698
+#: dist/redirect-inspector.cgRftMat.js:2816
 msgid "Search sites"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2718
+#: dist/redirect-inspector.cgRftMat.js:2836
 msgid "Site"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2743
+#: dist/redirect-inspector.cgRftMat.js:2861
 msgid "Other"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2747
+#: dist/redirect-inspector.cgRftMat.js:2865
 msgid "Last scan"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2789
+#: dist/redirect-inspector.cgRftMat.js:2907
 msgid "Never"
 msgstr ""
 
-#: dist/redirect-inspector.Jl3nTynM.js:2796
+#: dist/redirect-inspector.cgRftMat.js:2914
 msgid "Site pages"
 msgstr ""

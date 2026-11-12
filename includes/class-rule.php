@@ -32,6 +32,8 @@ final class Rule {
 	 * @param bool   $leading_slash   Whether the plugin matches against the path *with* a leading slash.
 	 * @param bool   $case_sensitive  Whether matching is case-sensitive.
 	 * @param string $edit_url        Admin URL where the rule can be edited ('' if none).
+	 * @param bool   $per_object      A redirect set on a post itself (SEOPress, The SEO Framework):
+	 *                                its source is that post's URL on purpose.
 	 */
 	public function __construct(
 		public readonly string $source,
@@ -42,7 +44,8 @@ final class Rule {
 		public readonly string $match = self::MATCH_EXACT, // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.matchFound -- Used as a named argument by the adapters.
 		public readonly bool $leading_slash = true,
 		public readonly bool $case_sensitive = false,
-		public readonly string $edit_url = ''
+		public readonly string $edit_url = '',
+		public readonly bool $per_object = false
 	) {}
 
 	/**

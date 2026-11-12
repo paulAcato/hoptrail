@@ -49,6 +49,9 @@ export interface SourceSummary {
 
 export interface Schedule {
 	enabled: boolean;
+	frequency: 'daily' | 'weekly' | 'monthly';
+	/** Day of the month 1–28, or 0 for the last day (monthly). */
+	month_day: number;
 	/** 0 = Sunday … 6 = Saturday. */
 	days: number[];
 	/** 0–23, site time. */
@@ -56,6 +59,8 @@ export interface Schedule {
 }
 
 export interface Settings {
+	retention_mode: 'days' | 'count';
+	retention_count: number;
 	retention_days: number;
 	schedule: Schedule;
 }

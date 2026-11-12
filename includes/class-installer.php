@@ -248,6 +248,11 @@ final class Installer extends Singleton {
 		delete_option( self::VERSION_OPTION );
 		delete_option( Settings::OPTION );
 		delete_option( Scanner::LOCK_OPTION );
+		delete_option( Retention::LOCK_OPTION );
+		delete_option( Fixer::LOCK );
+		// Per-user live-check locks.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE option_name LIKE %s', $wpdb->options, $wpdb->esc_like( Live_Checker::LOCK_PREFIX ) . '%' ) );
 		wp_clear_scheduled_hook( Retention::HOOK );
 		wp_clear_scheduled_hook( Scheduler::HOOK );
 	}

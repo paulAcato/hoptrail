@@ -84,29 +84,52 @@ final class Scheduler extends Singleton {
 	}
 
 	/**
-	 * Next timestamp, strictly after $after, whose site-time weekday and hour are selected.
+	 * Next timestamp, strictly after $after, that matches the schedule in site time:
+	 * daily (any day), weekly (selected weekdays) or monthly (day of month; 0 = last day).
 	 *
-	 * @param array{enabled:bool, days:int[], hours:int[]} $schedule Schedule.
-	 * @param int|null                                     $after    Unix time (default: now).
+	 * @param array<string, mixed> $schedule Schedule (Settings::sanitize_schedule()).
+	 * @param int|null             $after    Unix time (default: now).
 	 *
 	 * @return int|null
 	 */
 	public static function next_run( array $schedule, ?int $after = null ): ?int {
-		if ( empty( $schedule['enabled'] ) || ! $schedule['days'] || ! $schedule['hours'] ) {
+		$frequency = (string) ( $schedule['frequency'] ?? 'weekly' );
+		$hours     = (array) ( $schedule['hours'] ?? [] );
+		$days      = (array) ( $schedule['days'] ?? [] );
+
+		if ( empty( $schedule['enabled'] ) || ! $hours || ( 'weekly' === $frequency && ! $days ) ) {
 			return null;
 		}
 
 		$slot = ( new \DateTimeImmutable( '@' . ( $after ?? time() ) ) )->setTimezone( wp_timezone() );
 		$slot = $slot->setTime( (int) $slot->format( 'G' ), 0 )->modify( '+1 hour' );
 
-		// At most 8 days × 24 hours to try.
-		for ( $i = 0; $i < 192; $i++ ) {
-			if ( in_array( (int) $slot->format( 'w' ), $schedule['days'], true ) && in_array( (int) $slot->format( 'G' ), $schedule['hours'], true ) ) {
+		// Up to two months of hours to try (a monthly schedule's next slot is at most ~31 days away).
+		for ( $i = 0; $i < 62 * 24; $i++ ) {
+			if ( in_array( (int) $slot->format( 'G' ), $hours, true ) && self::day_matches( $slot, $frequency, $days, (int) ( $schedule['month_day'] ?? 1 ) ) ) {
 				return $slot->getTimestamp();
 			}
 			$slot = $slot->modify( '+1 hour' );
 		}
 
 		return null;
+	}
+
+	/**
+	 * Whether a site-time moment falls on a scheduled day.
+	 *
+	 * @param \DateTimeImmutable $moment    Moment in site time.
+	 * @param string             $frequency daily|weekly|monthly.
+	 * @param int[]              $days      Weekdays (weekly).
+	 * @param int                $month_day Day of the month, 0 = last (monthly).
+	 *
+	 * @return bool
+	 */
+	private static function day_matches( \DateTimeImmutable $moment, string $frequency, array $days, int $month_day ): bool {
+		return match ( $frequency ) {
+			'daily'   => true,
+			'monthly' => (int) $moment->format( 'j' ) === ( 0 === $month_day ? (int) $moment->format( 't' ) : $month_day ),
+			default   => in_array( (int) $moment->format( 'w' ), $days, true ),
+		};
 	}
 }

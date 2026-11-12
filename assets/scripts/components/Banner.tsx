@@ -24,7 +24,7 @@ export const Banner = ({ latest, running, onScan }: Props) => {
 			<div className="rdi-banner__intro">
 				<h1 className="rdi-banner__title">{__('Redirect Inspector', 'redirect-inspector')}</h1>
 				<p className="rdi-banner__lead">
-					{__('Follows every rule from Redirection, Yoast SEO Premium, Rank Math, Safe Redirect Manager and Simple 301 Redirects to where it really ends.', 'redirect-inspector')}
+					{__('Follows every redirect rule of your SEO and redirect plugins to where it really ends.', 'redirect-inspector')}
 				</p>
 				<p className="rdi-banner__meta" title={latest ? dateTime(latest.finished_at) : undefined}>
 					{latest

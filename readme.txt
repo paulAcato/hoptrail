@@ -37,6 +37,11 @@ Regex and wildcard rules are followed too.
 * Rank Math SEO (redirections module)
 * Safe Redirect Manager
 * Simple 301 Redirects
+* 301 Redirects – Redirect Manager
+* SEOPress (the redirect set on a post)
+* Slim SEO (redirection module)
+* SmartCrawl (URL redirection)
+* The SEO Framework (the 301 redirect set on a post)
 
 Redirect Inspector is not affiliated with or endorsed by any of these plugins or their authors. Other plugins can be added through the `redirect_inspector_sources` filter.
 
@@ -45,14 +50,16 @@ Redirect Inspector is not affiliated with or endorsed by any of these plugins or
 Under Tools → Redirect Inspector:
 
 * A health score, issues per type and their trend.
-* A chart of the health score and of issues by severity over time.
-* A searchable, filterable list of issues, each showing the full redirect path and which plugin owns every hop.
+* Charts of the health score and of issues by severity over time.
+* A searchable, filterable list of issues, each showing the full redirect path and which plugin owns every hop. When a scan finds nothing, an "All clear" overview shows the checks it passed.
 * **Verify live**: follows the real redirects of an issue over HTTP, on your own site only, to confirm what visitors get.
 * **Apply fix**: only where the fix is clear-cut. A chain is shortened by pointing its first rule at the final URL; a duplicate, self-redirect, redundant rule or rule hiding content is switched off. You confirm each change first.
-* **Leftover redirects**: a redirect plugin that is no longer active but still holds rules is detected, and its rules can be copied (migrated) into an active redirect plugin.
-* Scan history with a date picker and sorting, and scheduled scans on the weekdays and hours you choose.
+* **Leftover redirects**: a redirect plugin that is no longer active but still holds rules is detected. Review its rules in a dialog, then migrate them into an active redirect plugin, delete single rules, or delete all of its data (and, for plugins with their own tables, the tables).
+* **Scan history** with a date picker (limited to the days that have scans) and sortable columns.
+* **Scheduled scans**: daily, weekly (on the weekdays you pick) or monthly (on a day of the month or the last day), at the hours you pick, in the site's timezone.
+* **Retention**: keep scans for a number of days, or keep only the newest number of scans. Old scans are removed every Sunday around 03:00 (and right after every scan when you keep a number of scans).
 
-The dashboard follows your system's light or dark mode and its contrast preference.
+Dates and times follow the site's date and time formats, timezone and language. When your computer runs on another timezone than the site, scheduled times also show your own clock. The dashboard follows your system's light or dark mode and its contrast preference, and was checked against WCAG 2.2 AA in all of them.
 
 = From WP-CLI =
 
@@ -62,21 +69,25 @@ The dashboard follows your system's light or dark mode and its contrast preferen
 
 = Abilities (WordPress 7.1+) =
 
-Two abilities for the WordPress Abilities API, so AI clients connected through the MCP adapter can run a scan and read the results for administrators (`manage_options`):
+Four abilities for the WordPress Abilities API, so AI clients connected through the MCP adapter can work with Redirect Inspector for administrators (`manage_options`):
 
 * `redirect-inspector/run-scan`: runs a scan and returns the health score, counts per type and severity, and the most severe issues with their redirect path and a suggested fix.
 * `redirect-inspector/get-scan-results`: the same for the latest scan, without running a new one; optionally filtered by issue type.
+* `redirect-inspector/get-next-scan`: when the next scheduled scan runs, the schedule, and the retention policy.
+* `redirect-inspector/flush-logs`: deletes the scan history, the change log or both. It is marked destructive, so AI clients ask before running it, and without `confirm: true` it only reports what it would delete.
 
-They never return user data and never change a redirect rule. They are not exposed on the abilities REST API.
+They never return user data (e-mail addresses in rule strings are masked) and never change a redirect rule. They are not exposed on the abilities REST API.
 
 = Changing other plugins' rules =
 
-Redirect Inspector only reads other plugins' rules, except when you choose **Apply fix** or **Migrate**:
+Redirect Inspector only reads other plugins' rules, except when you choose **Apply fix**, **Migrate** or **Delete** for leftover rules:
 
 * Before a fix is applied, the rule is read again; if it changed since the scan, nothing is changed.
-* Rules are switched off where the plugin supports that (Redirection, Rank Math, Safe Redirect Manager), so they can be switched back on there. Yoast SEO Premium and Simple 301 Redirects have no "off" state; there the rule is removed.
-* Migrating copies rules; the inactive plugin's data is left as it is.
-* Every change is written to a log with the rule before and after.
+* Rules are switched off where the plugin supports that (Redirection, Rank Math, Safe Redirect Manager, 301 Redirects, SEOPress, Slim SEO), so they can be switched back on there. Yoast SEO Premium, Simple 301 Redirects, SmartCrawl and The SEO Framework have no "off" state; there the rule is removed.
+* Only plain URLs and paths are ever written into another plugin's storage.
+* Migrating copies rules; the inactive plugin's data is left as it is until you delete it.
+* Leftover data can only be deleted while its plugin is not active.
+* Every change is written to a log with the rule before and after. One change runs at a time, never during a scan.
 
 = Privacy =
 
@@ -113,6 +124,14 @@ Switched-off rules can be switched back on in the plugin that owns them. For rem
 
 It requests at most 20 URLs per check, one at a time, with a 5-second timeout, only when you click it. Your redirect plugin may count these requests as hits.
 
+= My scheduled scan did not run at the time I expected. =
+
+Scheduled scans run in the site's timezone (Settings → General), not your computer's: the dashboard shows both when they differ. WordPress also only runs scheduled tasks when the site gets a visit; on a quiet site, set up a real cron job that calls wp-cron.php.
+
+= Why are SmartCrawl's rules listed as leftovers while SmartCrawl is active? =
+
+They are not: rules of an active plugin are never leftovers. When SmartCrawl's URL Redirection module (or Rank Math's or Slim SEO's redirect feature) is switched off, its rules redirect nothing and are left out of the scan.
+
 = My site has thousands of redirects. =
 
 Rules are read in batches and analysed within a time budget. If a scan reaches the budget, it is marked as partial.
@@ -128,4 +147,6 @@ Rules are read in batches and analysed within a time budget. If a scan reaches t
 == Changelog ==
 
 = 1.0.0 =
-* First release.
+* First release: reads redirects from ten SEO and redirect plugins and finds loops, chains, conflicts, duplicates, self-redirects, redundant and hidden-content rules, broken targets and invalid patterns.
+* Verify live, Apply fix, leftover detection with migration and deletion, scheduled scans, retention by days or by number of scans.
+* WP-CLI commands and four abilities for the WordPress Abilities API.

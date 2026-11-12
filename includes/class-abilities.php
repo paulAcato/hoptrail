@@ -41,6 +41,11 @@ final class Abilities extends Singleton {
 	private const MAX_ISSUES = 50;
 
 	/**
+	 * An e-mail address anywhere in a string.
+	 */
+	private const EMAIL_PATTERN = '/[^\s@<>]+@[^\s@<>]+\.[a-z]{2,}/i';
+
+	/**
 	 * Keys that hold personal data (GDPR / AVG). Input or output of a guarded ability containing one
 	 * of these keys — or an e-mail address anywhere — is refused before it reaches an AI client.
 	 */
@@ -121,6 +126,8 @@ final class Abilities extends Singleton {
 	public function register_abilities(): void {
 		$this->register_run_scan();
 		$this->register_get_scan_results();
+		$this->register_get_next_scan();
+		$this->register_flush_logs();
 	}
 
 	/*
@@ -216,6 +223,143 @@ final class Abilities extends Singleton {
 		return $this->results( $scan, array_map( 'strval', (array) ( $input['types'] ?? [] ) ), (int) ( $input['issue_limit'] ?? 10 ) );
 	}
 
+	/**
+	 * Ability: redirect-inspector/get-next-scan.
+	 */
+	private function register_get_next_scan(): void {
+		$this->register(
+			'get-next-scan',
+			[
+				'label'            => __( 'Get the next scheduled redirect scan', 'redirect-inspector' ),
+				'description'      => __( 'Returns when the next scheduled redirect scan runs (UTC and in the site\'s own date format and timezone), the schedule itself (daily, weekly or monthly; days; hours), and when old scan history is cleaned up next. Changes nothing. Never returns user data.', 'redirect-inspector' ),
+				'capabilities'     => [ self::CAPABILITY ],
+				'output_schema'    => $this->object_schema(
+					[
+						'enabled'         => [
+							'type'        => 'boolean',
+							'title'       => __( 'Enabled', 'redirect-inspector' ),
+							'description' => __( 'Whether scans run on a schedule at all.', 'redirect-inspector' ),
+						],
+						'frequency'       => $this->string_schema( __( 'Frequency', 'redirect-inspector' ), __( 'daily, weekly or monthly.', 'redirect-inspector' ), [ 'enum' => Settings::FREQUENCIES ] ),
+						'days'            => $this->list_schema( $this->string_schema( __( 'Day', 'redirect-inspector' ), __( 'Weekday (weekly schedules).', 'redirect-inspector' ) ) ),
+						'month_day'       => $this->string_schema( __( 'Day Of The Month', 'redirect-inspector' ), __( 'Day of the month, or "last" (monthly schedules).', 'redirect-inspector' ) ),
+						'hours'           => $this->list_schema( $this->string_schema( __( 'Hour', 'redirect-inspector' ), __( 'Time of day, site time.', 'redirect-inspector' ) ) ),
+						'timezone'        => $this->string_schema( __( 'Timezone', 'redirect-inspector' ), __( 'The site timezone the schedule runs in.', 'redirect-inspector' ) ),
+						'next_scan_at'    => $this->string_schema( __( 'Next Scan At', 'redirect-inspector' ), __( 'Next scheduled scan (ISO 8601, UTC); empty when none is scheduled.', 'redirect-inspector' ) ),
+						'next_scan'       => $this->string_schema( __( 'Next Scan', 'redirect-inspector' ), __( 'Next scheduled scan in the site\'s date and time format and timezone.', 'redirect-inspector' ) ),
+						'next_cleanup_at' => $this->string_schema( __( 'Next Cleanup At', 'redirect-inspector' ), __( 'Next cleanup of old scan history (ISO 8601, UTC).', 'redirect-inspector' ) ),
+						'retention'       => $this->string_schema( __( 'Retention', 'redirect-inspector' ), __( 'How long scan history and the change log are kept.', 'redirect-inspector' ) ),
+					]
+				),
+				'execute_callback' => [ $this, 'get_next_scan' ],
+				'annotations'      => $this->read_only(),
+				'public'           => true,
+			]
+		);
+	}
+
+	/**
+	 * The schedule and its next run.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function get_next_scan(): array {
+		global $wp_locale;
+
+		$schedule = Settings::schedule();
+		$next     = wp_next_scheduled( Scheduler::HOOK );
+		$cleanup  = wp_next_scheduled( Retention::HOOK );
+		$format   = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+
+		return [
+			'enabled'         => (bool) $schedule['enabled'],
+			'frequency'       => (string) $schedule['frequency'],
+			'days'            => 'weekly' === $schedule['frequency'] ? array_map( static fn( int $day ): string => (string) $wp_locale->get_weekday( $day ), $schedule['days'] ) : [],
+			'month_day'       => 'monthly' === $schedule['frequency'] ? ( 0 === $schedule['month_day'] ? 'last' : (string) $schedule['month_day'] ) : '',
+			'hours'           => array_map( static fn( int $hour ): string => sprintf( '%02d:00', $hour ), $schedule['hours'] ),
+			'timezone'        => wp_timezone_string(),
+			'next_scan_at'    => $next ? gmdate( 'c', $next ) : '',
+			'next_scan'       => $next ? (string) wp_date( $format, $next ) : '',
+			'next_cleanup_at' => $cleanup ? gmdate( 'c', $cleanup ) : '',
+			'retention'       => Retention::describe(),
+		];
+	}
+
+	/**
+	 * Ability: redirect-inspector/flush-logs.
+	 */
+	private function register_flush_logs(): void {
+		$this->register(
+			'flush-logs',
+			[
+				'label'            => __( 'Flush Redirect Inspector logs', 'redirect-inspector' ),
+				'description'      => __( 'Permanently deletes stored logs: the scan history (all scans and their issues), the change log of Apply fix and Migrate, or both. Without confirm: true it deletes nothing and only reports what would be deleted; ask the user for approval before confirming. Never deletes or changes a redirect rule.', 'redirect-inspector' ),
+				'capabilities'     => [ self::CAPABILITY ],
+				'input_schema'     => $this->input_schema(
+					[
+						'scope'   => $this->string_schema( __( 'Scope', 'redirect-inspector' ), __( 'history: scans and issues; changes: the change log; all: both.', 'redirect-inspector' ), [ 'enum' => [ 'history', 'changes', 'all' ] ] ),
+						'confirm' => [
+							'type'        => 'boolean',
+							'title'       => __( 'Confirm', 'redirect-inspector' ),
+							'description' => __( 'true deletes; false (default) only reports what would be deleted. Only set true after the user approved.', 'redirect-inspector' ),
+						],
+					],
+					[ 'scope' ]
+				),
+				'output_schema'    => $this->object_schema(
+					[
+						'dry_run' => [
+							'type'        => 'boolean',
+							'title'       => __( 'Dry Run', 'redirect-inspector' ),
+							'description' => __( 'true when nothing was deleted (no confirm).', 'redirect-inspector' ),
+						],
+						'scope'   => $this->string_schema( __( 'Scope', 'redirect-inspector' ), __( 'What was (or would be) deleted.', 'redirect-inspector' ) ),
+						'scans'   => $this->integer_schema( __( 'Scans', 'redirect-inspector' ), __( 'Scans deleted, or that would be deleted.', 'redirect-inspector' ), 0 ),
+						'changes' => $this->integer_schema( __( 'Changes', 'redirect-inspector' ), __( 'Change-log entries deleted, or that would be deleted.', 'redirect-inspector' ), 0 ),
+						'message' => $this->string_schema( __( 'Message', 'redirect-inspector' ), __( 'What happened, in plain text.', 'redirect-inspector' ) ),
+					]
+				),
+				'execute_callback' => [ $this, 'flush_logs' ],
+				// Destructive: MCP and other AI clients ask the user before running it.
+				'annotations'      => $this->writes( true, true ),
+				'public'           => true,
+			]
+		);
+	}
+
+	/**
+	 * Flushes logs, or (without confirm) reports what would be flushed.
+	 *
+	 * @param array{scope: string, confirm?: bool} $input Validated input.
+	 * @return array<string, mixed>|WP_Error
+	 */
+	public function flush_logs( array $input ): array|WP_Error {
+		$scope   = (string) $input['scope'];
+		$dry_run = true !== ( $input['confirm'] ?? false );
+
+		if ( ! Installer::is_installed() ) {
+			return new WP_Error( 'redirect_inspector_not_installed', __( 'The Redirect Inspector tables are missing.', 'redirect-inspector' ), [ 'status' => 500 ] );
+		}
+
+		try {
+			$counts = Retention::flush( $scope, $dry_run );
+		} catch ( \RuntimeException $error ) {
+			return new WP_Error( 'redirect_inspector_busy', $error->getMessage(), [ 'status' => 409 ] );
+		}
+
+		return [
+			'dry_run' => $dry_run,
+			'scope'   => $scope,
+			'scans'   => $counts['scans'],
+			'changes' => $counts['changes'],
+			'message' => $dry_run
+				/* translators: 1: number of scans, 2: number of change-log entries. */
+				? sprintf( __( 'Nothing deleted yet. Confirming would delete %1$d scans and %2$d change-log entries. Ask the user for approval, then call again with confirm: true.', 'redirect-inspector' ), $counts['scans'], $counts['changes'] )
+				/* translators: 1: number of scans, 2: number of change-log entries. */
+				: sprintf( __( 'Deleted %1$d scans and %2$d change-log entries.', 'redirect-inspector' ), $counts['scans'], $counts['changes'] ),
+		];
+	}
+
 	/*
 	 * ------------------------------------------------------------------
 	 * Shared steps. Extend these instead of repeating them per ability.
@@ -232,6 +376,7 @@ final class Abilities extends Singleton {
 	 */
 	private function results( array $scan, array $types, int $limit ): array {
 		$labels = array_map( static fn( $source ): string => $source->label(), Registry::all() );
+		$clean  = fn( string $text ): string => $this->rule_text( $text );
 		$issues = Log_Repository::issues( (int) $scan['id'], $types, '', '', 1, max( 0, min( self::MAX_ISSUES, $limit ) ) ?: 1 );
 		$totals = (array) $scan['totals'];
 
@@ -249,22 +394,47 @@ final class Abilities extends Singleton {
 				static fn( array $issue ): array => [
 					'type'       => $issue['type'],
 					'severity'   => $issue['severity'],
-					'source'     => wp_strip_all_tags( $issue['source_url'] ),
-					'target'     => wp_strip_all_tags( $issue['target_url'] ),
-					'path'       => implode(
-						' → ',
-						array_merge(
-							[ wp_strip_all_tags( (string) ( $issue['hops'][0]['from'] ?? $issue['source_url'] ) ) ],
-							array_map( static fn( array $hop ): string => sprintf( '(%d, %s) %s', (int) $hop['code'], $labels[ $hop['rule']['source'] ] ?? $hop['rule']['source'], wp_strip_all_tags( (string) $hop['to'] ) ), $issue['hops'] )
+					'source'     => $clean( $issue['source_url'] ),
+					'target'     => $clean( $issue['target_url'] ),
+					'path'       => $clean(
+						implode(
+							' → ',
+							array_merge(
+								[ wp_strip_all_tags( (string) ( $issue['hops'][0]['from'] ?? $issue['source_url'] ) ) ],
+								array_map( static fn( array $hop ): string => sprintf( '(%d, %s) %s', (int) $hop['code'], $labels[ $hop['rule']['source'] ] ?? $hop['rule']['source'], (string) $hop['to'] ), $issue['hops'] )
+							)
 						)
 					),
 					'plugins'    => array_values( array_map( static fn( string $slug ): string => $labels[ $slug ] ?? $slug, $issue['plugins'] ) ),
-					'suggestion' => wp_strip_all_tags( $issue['suggestion'] ),
+					'suggestion' => $clean( $issue['suggestion'] ),
 					'fixable'    => ! empty( $issue['fix'] ) && empty( $issue['fixed'] ),
 				],
 				$issues['items']
 			),
 		];
+	}
+
+	/**
+	 * A rule string as ability output. Rule strings come from other plugins' users: tags are
+	 * stripped, e-mail addresses masked (so a `mailto:` rule doesn't block the ability, and no
+	 * address reaches an AI client) and length capped.
+	 *
+	 * @param string $text Rule string.
+	 */
+	private function rule_text( string $text ): string {
+		$text = wp_strip_all_tags( $this->decoded( $text ) );
+		$text = (string) preg_replace( self::EMAIL_PATTERN, '[e-mail removed]', $text );
+
+		return mb_substr( $text, 0, 500 );
+	}
+
+	/**
+	 * Percent- and entity-decoded text, so encoded addresses are seen too.
+	 *
+	 * @param string $text Text.
+	 */
+	private function decoded( string $text ): string {
+		return html_entity_decode( rawurldecode( $text ), ENT_QUOTES | ENT_HTML5, 'UTF-8' );
 	}
 
 	/**
@@ -527,7 +697,7 @@ final class Abilities extends Singleton {
 	 */
 	private function contains_personal_data( mixed $value ): bool {
 		if ( is_string( $value ) ) {
-			return (bool) preg_match( '/[^\s@<>]+@[^\s@<>]+\.[a-z]{2,}/i', $value );
+			return (bool) preg_match( self::EMAIL_PATTERN, $this->decoded( $value ) );
 		}
 
 		if ( ! is_array( $value ) && ! is_object( $value ) ) {

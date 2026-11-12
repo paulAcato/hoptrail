@@ -47,7 +47,7 @@ const RuleRow = ({ rule, slug, target }: { rule: LeftoverRule; slug: string; tar
 	const onDelete = async () => {
 		setError(null);
 		try {
-			await remove.run(route(`/leftovers/${slug}/rules/${encodeURIComponent(rule.id)}`), 'DELETE');
+			await remove.run(route(`/leftovers/${slug}/rules/${encodeURIComponent(rule.id)}`, { from: rule.from }), 'DELETE');
 			/* translators: %s: source URL. */
 			speak(sprintf(__('Deleted the rule for %s.', 'redirect-inspector'), rule.from), 'polite');
 			invalidate('/leftovers');

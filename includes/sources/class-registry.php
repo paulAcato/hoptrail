@@ -26,6 +26,11 @@ final class Registry {
 			new Rank_Math(),
 			new Safe_Redirect_Manager(),
 			new Simple_301(),
+			new Eps_301(),
+			new Seopress(),
+			new Slim_Seo(),
+			new Smartcrawl(),
+			new Seo_Framework(),
 		];
 
 		/**

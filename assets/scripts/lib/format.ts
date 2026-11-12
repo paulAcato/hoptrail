@@ -18,6 +18,39 @@ export const compact = (value: number): string => (value < 1000 ? String(value) 
 /** Date and time of a moment (ISO 8601), in the site's formats and timezone. */
 export const dateTime = (iso: string | null): string => (iso ? dateI18n(`${dateFormat} ${timeFormat}`, iso) : '—');
 
+/** Site UTC offset in minutes, and whether this browser runs on another offset right now. */
+const siteOffsetMinutes = Math.round(Number(settings.timezone?.offset ?? 0) * 60);
+const browserDiffers = (iso: string): boolean => -new Date(iso).getTimezoneOffset() !== siteOffsetMinutes;
+
+/**
+ * Like dateTime(), plus the viewer's own clock when the site runs on another timezone:
+ * "12 November 2026 21:00 (22:00 your time)".
+ */
+export const dateTimeWithLocal = (iso: string | null): string => {
+	if (!iso) {
+		return '—';
+	}
+	const site = dateTime(iso);
+	if (!browserDiffers(iso)) {
+		return site;
+	}
+	// The viewer's clock, in the site's own formats (date only when it falls on another day).
+	const viewer = -new Date(iso).getTimezoneOffset() / 60;
+	const sameDay = dateI18n('Y-m-d', iso) === dateI18n('Y-m-d', iso, viewer);
+	/* translators: 1: date and time in site time, 2: the same moment on the viewer's clock. */
+	return sprintf(__('%1$s (%2$s your time)', 'redirect-inspector'), site, dateI18n(sameDay ? timeFormat : `${dateFormat} ${timeFormat}`, iso, viewer));
+};
+
+/** The site timezone as WordPress names it: "Europe/Amsterdam", or "UTC+1" for a plain offset. */
+export const siteTimezone = (): string => {
+	const zone = settings.timezone?.string;
+	if (zone) {
+		return zone;
+	}
+	const hours = Number(settings.timezone?.offset ?? 0);
+	return `UTC${hours >= 0 ? '+' : '−'}${Math.abs(hours)}`;
+};
+
 /** A calendar day (Y-m-d, already in site time), in the site's date format. */
 export const day = (ymd: string): string => dateI18n(dateFormat, `${ymd}T12:00:00Z`, 'UTC');
 

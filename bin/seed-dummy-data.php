@@ -59,6 +59,16 @@ foreach ( $manifest['post_ids'] ?? [] as $seed_post_id ) {
 	wp_delete_post( (int) $seed_post_id, true );
 }
 
+if ( ! empty( $manifest['eps_ids'] ) ) {
+	$wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE id IN (' . implode( ',', array_map( 'absint', $manifest['eps_ids'] ) ) . ')', $wpdb->prefix . 'redirects' ) ); // phpcs:ignore
+}
+if ( ! empty( $manifest['smartcrawl_ids'] ) ) {
+	$wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE id IN (' . implode( ',', array_map( 'absint', $manifest['smartcrawl_ids'] ) ) . ')', $wpdb->prefix . 'smartcrawl_redirects' ) ); // phpcs:ignore
+}
+$slim = get_option( 'ss_redirects', [] );
+$slim = is_array( $slim ) ? array_diff_key( $slim, array_flip( $manifest['slim_ids'] ?? [] ) ) : [];
+update_option( 'ss_redirects', $slim );
+
 update_option( 'wpseo-premium-redirects-base', $yoast, false );
 update_option( '301_redirects', $simple );
 delete_option( RDI_SEED_OPTION );
@@ -270,6 +280,72 @@ foreach ( $simple_seed as $seed_from => $seed_to ) {
 }
 update_option( '301_redirects', $simple );
 update_option( '301_redirects_wildcard', 'true' );
+
+/*
+ * 8. 301 Redirects: a chain that continues in Slim SEO, and a third copy of /dup-source.
+ */
+global $wpdb;
+if ( defined( 'EPS_REDIRECT_VERSION' ) ) {
+	foreach ( [ [ 'eps-old', '/eps-mid' ], [ 'dup-source', '/contact' ] ] as [ $seed_from, $seed_to ] ) {
+		$wpdb->insert( $wpdb->prefix . 'redirects', [ 'url_from' => $seed_from, 'url_to' => $seed_to, 'status' => '301', 'type' => 'url' ] ); // phpcs:ignore
+		$manifest['eps_ids'][] = (int) $wpdb->insert_id;
+	}
+} else {
+	WP_CLI::warning( '301 Redirects is not active; skipped.' );
+}
+
+/*
+ * 9. Slim SEO: the second leg of the 301 Redirects chain.
+ */
+$seed_slim_id                 = 'rdiseed' . substr( md5( 'eps-mid' ), 0, 6 );
+$slim[ $seed_slim_id ]        = [
+	'type'             => 301,
+	'condition'        => 'exact-match',
+	'from'             => 'eps-mid',
+	'to'               => 'contact',
+	'note'             => 'Redirect Inspector seed',
+	'enable'           => 1,
+	'ignoreParameters' => 0,
+];
+$manifest['slim_ids'][]       = $seed_slim_id;
+update_option( 'ss_redirects', $slim );
+
+/*
+ * 10. SEOPress and The SEO Framework redirect from a page itself; SmartCrawl links into both:
+ *     /old-seopress → (SEOPress page) → /about-us is a chain,
+ *     (SEO Framework page) → /sc-target → back to that page is a loop.
+ */
+$seed_page = static function ( string $slug, string $title ) use ( &$manifest ): int {
+	$id                     = wp_insert_post( [ 'post_type' => 'page', 'post_status' => 'publish', 'post_name' => $slug, 'post_title' => $title ] );
+	$manifest['post_ids'][] = $id;
+	return (int) $id;
+};
+$seopress_page = $seed_page( 'seopress-page', 'SEOPress demo page' );
+update_post_meta( $seopress_page, '_seopress_redirections_enabled', 'yes' );
+update_post_meta( $seopress_page, '_seopress_redirections_value', home_url( '/about-us' ) );
+update_post_meta( $seopress_page, '_seopress_redirections_type', '301' );
+update_post_meta( $seopress_page, '_seopress_redirections_logged_status', 'both' );
+
+$tsf_page = $seed_page( 'tsf-page', 'SEO Framework demo page' );
+update_post_meta( $tsf_page, 'redirect', home_url( '/sc-target' ) );
+
+if ( defined( 'SMARTCRAWL_PLUGIN_DIR' ) ) {
+	// SmartCrawl only redirects with its URL Redirection module on.
+	if ( class_exists( '\\SmartCrawl\\Modules\\Advanced\\Redirects\\Controller' ) ) {
+		$sc = \SmartCrawl\Modules\Advanced\Redirects\Controller::get();
+		if ( ! $sc->parent->should_run() ) {
+			$sc->parent->update_option( 'active', true );
+		}
+		$sc->parent->update_option( $sc->module_name, array_merge( (array) $sc->options, [ 'active' => true ] ) );
+	}
+
+	foreach ( [ [ '/old-seopress', home_url( '/seopress-page' ) ], [ '/sc-target', home_url( '/tsf-page' ) ] ] as [ $seed_from, $seed_to ] ) {
+		$wpdb->insert( $wpdb->prefix . 'smartcrawl_redirects', [ 'title' => 'Redirect Inspector seed', 'source' => $seed_from, 'path' => $seed_from, 'destination' => wp_json_encode( $seed_to ), 'type' => 301, 'options' => '', 'rules' => '[]' ] ); // phpcs:ignore
+		$manifest['smartcrawl_ids'][] = (int) $wpdb->insert_id;
+	}
+} else {
+	WP_CLI::warning( 'SmartCrawl is not active; skipped.' );
+}
 
 update_option( RDI_SEED_OPTION, $manifest, false );
 

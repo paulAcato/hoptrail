@@ -115,10 +115,74 @@ check( 'invalid regex never matches', $matcher->apply( new Rule( 'redirection', 
 check( 'external target key', Url_Normalizer::is_external_key( $normalizer->key( 'https://other.example/x' ) ), true );
 check( 'own absolute URL is internal', $normalizer->key( 'https://example.test/About/' ), '/About' );
 
+// --- Regex rules ---------------------------------------------------------------------------------
+$m   = new Matcher( $normalizer, microtime( true ) + 10 );
+$re  = static fn( string $from, string $to, bool $slash = true, bool $case = false, string $src = 'redirection' ) => new Rule( $src, md5( $from . $to ), $from, $to, 301, Rule::MATCH_REGEX, $slash, $case );
+
+check( 'regex: $1 back-reference', $m->apply( $re( '^/old/(.*)$', '/new/$1' ), '/old/page' ), '/new/page' );
+check( 'regex: \1 back-reference', $m->apply( $re( '^/old/(.*)$', '/new/\\1' ), '/old/page' ), '/new/page' );
+check( 'regex: ${1} back-reference', $m->apply( $re( '^/old/(.*)$', '/new/${1}x' ), '/old/page' ), '/new/pagex' );
+check( 'regex: two groups swapped', $m->apply( $re( '^/(\\d+)/(\\w+)$', '/$2/$1' ), '/2024/news' ), '/news/2024' );
+check( 'regex: no match leaves nothing', $m->apply( $re( '^/old/(.*)$', '/new/$1' ), '/other/page' ), null );
+check( 'regex: case-insensitive by default', $m->apply( $re( '^/old/(.*)$', '/new/$1' ), '/OLD/Page' ), '/new/Page' );
+check( 'regex: case-sensitive rule', $m->apply( $re( '^/old/(.*)$', '/new/$1', true, true ), '/OLD/Page' ), null );
+check( 'regex: slash-less pattern (Yoast, Rank Math, Slim SEO)', $m->apply( $re( '^blog/(.*)', 'news/$1', false ), '/blog/post' ), 'news/post' );
+check( 'regex: @ in the pattern is escaped', $m->apply( $re( '^/a@b/(.*)$', '/c/$1' ), '/a@b/x' ), '/c/x' );
+check( 'regex: # and / in the pattern', $m->apply( $re( '^/x/#?(.*)$', '/y/$1' ), '/x/z' ), '/y/z' );
+
+$t0 = microtime( true );
+$evil = $m->apply( $re( '^/(a+)+$', '/x' ), '/' . str_repeat( 'a', 32 ) . '!' );
+check( 'regex: catastrophic backtracking returns quickly', [ $evil, microtime( true ) - $t0 < 2 ], [ null, true ] );
+
+[ $i, $c ] = analyse( [ $re( '^/(unclosed', '/x' ) ] );
+check( 'regex: invalid pattern reported as broken', [ $c['broken'] ?? 0, str_contains( $i[0]['suggestion'] ?? '', 'invalid' ) ], [ 1, true ] );
+
+check( 'regex sample: digits', $m->sample_key( $re( '^/archive/(\\d+)/(.*)$', '/a/$1' ) ), '/archive/1/sample' );
+check( 'regex sample: keeps case for case-sensitive rules', $m->sample_key( $re( '^/Blog/(.*)$', '/b/$1', true, true ) ), '/Blog/sample' );
+check( 'regex sample: unanchored trailing slash', null !== $m->sample_key( $re( '/old-cat/', '/new-cat/' ) ), true );
+
+[ $i, $c ] = analyse( [ $re( '^/promo/(.*)$', '/offer/$1' ), new Rule( 'safe-redirect-manager', 'p', '/offer/', '/shop', 301, Rule::MATCH_PREFIX ) ] );
+check( 'regex into a prefix rule is a chain', [ $c['chain'] ?? 0, count( $i[0]['hops'] ?? [] ) ], [ 1, 2 ] );
+
+[ , $c ] = analyse( [ $re( '^/a/(.*)$', '/b/$1' ), $re( '^b/(.*)$', 'c/$1', false, false, 'yoast' ), $re( '^/c/(.*)$', '/a/$1', true, false, 'slim-seo' ) ] );
+check( 'regex loop across three plugins', $c['loop'] ?? 0, 1 );
+
+[ , $c ] = analyse( [ $re( '^/same/(.*)$', '/same/$1' ) ] );
+check( 'regex that maps onto itself is a loop', $c['loop'] ?? 0, 1 );
+
+// Migration converts patterns between slash styles and match types.
+check( 'to regex: prefix', ( new Rule( 'x', '1', '/legacy/', '/n', 301, Rule::MATCH_PREFIX ) )->regex( true ), '^/legacy/(.*)' );
+check( 'to regex: suffix', ( new Rule( 'x', '1', '.html', '/n', 301, Rule::MATCH_SUFFIX ) )->regex( true ), '\\.html$' );
+check( 'to regex: slash-less → slash', ( new Rule( 'yoast', '1', '^blog/(.*)', 'n', 301, Rule::MATCH_REGEX, false ) )->regex( true ), '^/blog/(.*)' );
+check( 'to regex: slash → slash-less', ( new Rule( 'redirection', '1', '^/blog/(.*)', '/n', 301, Rule::MATCH_REGEX, true ) )->regex( false ), '^blog/(.*)' );
+check( 'to regex: exact path is quoted', ( new Rule( 'x', '1', '/a.b?c', '/n' ) )->regex( true ), '^/a\\.b\\?c$' );
+
+// --- Security: what Apply fix and migration may write ---------------------------------------------
+check( 'safe target: path', Url_Normalizer::is_safe_target( '/new-page/?a=1#top' ), true );
+check( 'safe target: https URL', Url_Normalizer::is_safe_target( 'https://example.test/blog/new' ), true );
+check( 'unsafe target: markup', Url_Normalizer::is_safe_target( '/x"><img src=x onerror=alert(1)>' ), false );
+check( 'unsafe target: javascript:', Url_Normalizer::is_safe_target( 'javascript:alert(1)' ), false );
+check( 'unsafe target: protocol-relative', Url_Normalizer::is_safe_target( '//evil.example/x' ), false );
+check( 'unsafe target: newline', Url_Normalizer::is_safe_target( "/a\nLocation: /b" ), false );
+check( 'unsafe target: relative without slash', Url_Normalizer::is_safe_target( 'contact' ), false );
+
+[ $i ] = analyse( [ new Rule( 'redirection', '1', '/old', '/mid' ), new Rule( 'redirection', '2', '/mid', '/x%22%3E%3Cimg%20src=x%3E' ) ] );
+check( 'chain fix writes the raw target, not the decoded key', $i[0]['fix']['to'] ?? null, '/x%22%3E%3Cimg%20src=x%3E' );
+[ $i ] = analyse( [ new Rule( 'redirection', '1', '/old', '/mid' ), new Rule( 'redirection', '2', '/mid', 'https://example.test/sub/new/' ) ] );
+check( 'chain fix keeps the absolute target as stored', $i[0]['fix']['to'] ?? null, 'https://example.test/sub/new/' );
+[ $i ] = analyse( [ new Rule( 'redirection', '1', '/old', '/mid' ), new Rule( 'redirection', '2', '/mid', '/a"b' ) ] );
+check( 'chain to an unsafe target gets no automatic fix', $i[0]['fix'] ?? [], [] );
+
 // Schedule: Monday 10:15 Amsterdam, scans on Mondays and Wednesdays at 03:00 and 14:00 → Monday 14:00.
 $after = ( new DateTimeImmutable( '2026-11-16 10:15', wp_timezone() ) )->getTimestamp();
 $next  = Scheduler::next_run( [ 'enabled' => true, 'days' => [ 1, 3 ], 'hours' => [ 3, 14 ] ], $after );
 check( 'next scheduled slot', ( new DateTimeImmutable( '@' . $next ) )->setTimezone( wp_timezone() )->format( 'D H:i' ), 'Mon 14:00' );
+$fmt = static fn( ?int $ts ): string => null === $ts ? 'none' : ( new DateTimeImmutable( '@' . $ts ) )->setTimezone( wp_timezone() )->format( 'D j M H:i' );
+check( 'daily: next hour today', $fmt( Scheduler::next_run( [ 'enabled' => true, 'frequency' => 'daily', 'hours' => [ 11, 21 ] ], $after ) ), 'Mon 16 Nov 11:00' );
+check( 'daily: rolls to tomorrow', $fmt( Scheduler::next_run( [ 'enabled' => true, 'frequency' => 'daily', 'hours' => [ 3 ] ], $after ) ), 'Tue 17 Nov 03:00' );
+check( 'monthly: day 1 of next month', $fmt( Scheduler::next_run( [ 'enabled' => true, 'frequency' => 'monthly', 'month_day' => 1, 'hours' => [ 3 ] ], $after ) ), 'Tue 1 Dec 03:00' );
+check( 'monthly: last day of the month', $fmt( Scheduler::next_run( [ 'enabled' => true, 'frequency' => 'monthly', 'month_day' => 0, 'hours' => [ 23 ] ], $after ) ), 'Mon 30 Nov 23:00' );
+check( 'monthly: needs no weekdays', null !== Scheduler::next_run( [ 'enabled' => true, 'frequency' => 'monthly', 'days' => [], 'month_day' => 20, 'hours' => [ 3 ] ], $after ), true );
 check( 'disabled schedule has no slot', Scheduler::next_run( [ 'enabled' => false, 'days' => [ 1 ], 'hours' => [ 3 ] ], $after ), null );
 
 echo $failures ? "\n{$failures} failed\n" : "\nAll passed\n";

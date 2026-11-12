@@ -159,9 +159,10 @@ final class Rank_Math implements Source, Writable, Purgeable {
 			return null;
 		}
 
-		$match = self::MATCHES[ $source['comparison'] ?? 'exact' ] ?? Rule::MATCH_EXACT;
+		$match   = self::MATCHES[ $source['comparison'] ?? 'exact' ] ?? Rule::MATCH_EXACT;
+		$pattern = Rule::MATCH_REGEX === $match ? stripslashes( (string) $source['pattern'] ) : (string) $source['pattern'];
 
-		return new Rule( $this->slug(), $id, Rule::MATCH_EXACT === $match ? '/' . ltrim( (string) $source['pattern'], '/' ) : (string) $source['pattern'], (string) $row->url_to, (int) $row->header_code, $match );
+		return new Rule( $this->slug(), $id, Rule::MATCH_EXACT === $match ? '/' . ltrim( $pattern, '/' ) : $pattern, (string) $row->url_to, (int) $row->header_code, $match );
 	}
 
 	/**
@@ -352,5 +353,12 @@ final class Rank_Math implements Source, Writable, Purgeable {
 		}
 
 		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function plugin_active(): bool {
+		return defined( 'RANK_MATH_VERSION' );
 	}
 }
