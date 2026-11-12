@@ -1,0 +1,308 @@
+<?php
+/**
+ * Database tables, per site.
+ *
+ * @package Acato\RedirectInspector
+ */
+
+namespace Acato\RedirectInspector\Includes;
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Creates and drops the per-site tables. The version option is only written after the tables
+ * provably exist, so a failed dbDelta is retried instead of marked done.
+ */
+final class Installer extends Singleton {
+
+	/**
+	 * Schema version.
+	 */
+	const DB_VERSION = '1.1.0';
+
+	/**
+	 * Option holding the installed schema version.
+	 */
+	const VERSION_OPTION = 'redirect_inspector_db_version';
+
+	/**
+	 * Register hooks.
+	 *
+	 * @return void
+	 */
+	protected function init(): void {
+		add_action( 'admin_init', [ self::class, 'maybe_install' ] );
+		add_action( 'wp_initialize_site', [ self::class, 'on_initialize_site' ], 200 );
+		add_filter( 'wpmu_drop_tables', [ self::class, 'drop_site_tables' ], 10, 2 );
+	}
+
+	/**
+	 * Table name of the scans log.
+	 *
+	 * @return string
+	 */
+	public static function scans_table(): string {
+		global $wpdb;
+
+		return $wpdb->prefix . 'rdi_scans';
+	}
+
+	/**
+	 * Table name of the issues found per scan.
+	 *
+	 * @return string
+	 */
+	public static function issues_table(): string {
+		global $wpdb;
+
+		return $wpdb->prefix . 'rdi_issues';
+	}
+
+	/**
+	 * Table name of the fix log (who changed which rule, before and after).
+	 *
+	 * @return string
+	 */
+	public static function fixes_table(): string {
+		global $wpdb;
+
+		return $wpdb->prefix . 'rdi_fixes';
+	}
+
+	/**
+	 * Activation: install on this site, or on every site when network-activated.
+	 *
+	 * @param bool $network_wide Network activation.
+	 *
+	 * @return void
+	 */
+	public static function activate( $network_wide = false ): void {
+		if ( is_multisite() && $network_wide ) {
+			foreach ( get_sites(
+				[
+					'fields' => 'ids',
+					'number' => 0,
+				]
+			) as $site_id ) {
+				switch_to_blog( (int) $site_id );
+				self::install();
+				restore_current_blog();
+			}
+			return;
+		}
+
+		self::install();
+	}
+
+	/**
+	 * Deactivation: stop the cleanup. Data stays until uninstall.
+	 *
+	 * @param bool $network_wide Network deactivation.
+	 *
+	 * @return void
+	 */
+	public static function deactivate( $network_wide = false ): void {
+		if ( is_multisite() && $network_wide ) {
+			foreach ( get_sites(
+				[
+					'fields' => 'ids',
+					'number' => 0,
+				]
+			) as $site_id ) {
+				switch_to_blog( (int) $site_id );
+				self::deactivate_site();
+				restore_current_blog();
+			}
+			return;
+		}
+
+		self::deactivate_site();
+	}
+
+	/**
+	 * Stop the cleanup and release locks on the current site.
+	 *
+	 * @return void
+	 */
+	private static function deactivate_site(): void {
+		wp_clear_scheduled_hook( Retention::HOOK );
+		wp_clear_scheduled_hook( Scheduler::HOOK );
+		Lock::release( Scanner::LOCK_OPTION );
+		Lock::release( Retention::LOCK_OPTION );
+	}
+
+	/**
+	 * Install when the stored schema version is missing or outdated.
+	 *
+	 * @return void
+	 */
+	public static function maybe_install(): void {
+		if ( self::DB_VERSION !== get_option( self::VERSION_OPTION ) ) {
+			self::install();
+		}
+	}
+
+	/**
+	 * Whether this site's tables are installed at the current version.
+	 *
+	 * @return bool
+	 */
+	public static function is_installed(): bool {
+		return self::DB_VERSION === get_option( self::VERSION_OPTION );
+	}
+
+	/**
+	 * Create or upgrade the tables on the current site.
+	 *
+	 * @return bool Whether both tables exist afterwards.
+	 */
+	public static function install(): bool {
+		global $wpdb;
+
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+		$charset = $wpdb->get_charset_collate();
+		$scans   = self::scans_table();
+		$issues  = self::issues_table();
+
+		dbDelta(
+			"CREATE TABLE {$scans} (
+				id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+				status VARCHAR(20) NOT NULL DEFAULT 'running',
+				trigger_type VARCHAR(20) NOT NULL DEFAULT 'manual',
+				user_id BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
+				user_login VARCHAR(60) NOT NULL DEFAULT '',
+				started_at DATETIME NOT NULL,
+				finished_at DATETIME NULL,
+				duration_ms INT(10) UNSIGNED NOT NULL DEFAULT 0,
+				rule_count INT(10) UNSIGNED NOT NULL DEFAULT 0,
+				issue_count INT(10) UNSIGNED NOT NULL DEFAULT 0,
+				score TINYINT(3) UNSIGNED NOT NULL DEFAULT 0,
+				totals LONGTEXT NULL,
+				message VARCHAR(255) NOT NULL DEFAULT '',
+				PRIMARY KEY  (id),
+				KEY started_at (started_at),
+				KEY status (status)
+			) {$charset};"
+		);
+
+		dbDelta(
+			"CREATE TABLE {$issues} (
+				id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+				scan_id BIGINT(20) UNSIGNED NOT NULL,
+				type VARCHAR(20) NOT NULL,
+				severity VARCHAR(10) NOT NULL,
+				fingerprint CHAR(40) NOT NULL,
+				source_url VARCHAR(2048) NOT NULL DEFAULT '',
+				target_url VARCHAR(2048) NOT NULL DEFAULT '',
+				plugins VARCHAR(255) NOT NULL DEFAULT '',
+				hops LONGTEXT NULL,
+				suggestion TEXT NULL,
+				fix LONGTEXT NULL,
+				fixed LONGTEXT NULL,
+				live_result LONGTEXT NULL,
+				PRIMARY KEY  (id),
+				KEY scan_type (scan_id, type),
+				KEY fingerprint (fingerprint)
+			) {$charset};"
+		);
+
+		$fixes = self::fixes_table();
+		dbDelta(
+			"CREATE TABLE {$fixes} (
+				id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+				created_at DATETIME NOT NULL,
+				user_id BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
+				user_login VARCHAR(60) NOT NULL DEFAULT '',
+				issue_id BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
+				action VARCHAR(20) NOT NULL,
+				source VARCHAR(40) NOT NULL,
+				rule_id VARCHAR(40) NOT NULL,
+				before_value LONGTEXT NULL,
+				after_value LONGTEXT NULL,
+				PRIMARY KEY  (id),
+				KEY created_at (created_at)
+			) {$charset};"
+		);
+
+		$ok = self::table_exists( $scans ) && self::table_exists( $issues ) && self::table_exists( $fixes );
+
+		if ( $ok ) {
+			update_option( self::VERSION_OPTION, self::DB_VERSION, true );
+		}
+
+		return $ok;
+	}
+
+	/**
+	 * Drop the tables and options of the current site.
+	 *
+	 * @return void
+	 */
+	public static function uninstall_site(): void {
+		global $wpdb;
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.NotPrepared -- Own tables, names from $wpdb->prefix.
+		$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i, %i, %i', self::issues_table(), self::scans_table(), self::fixes_table() ) );
+
+		delete_option( self::VERSION_OPTION );
+		delete_option( Settings::OPTION );
+		delete_option( Scanner::LOCK_OPTION );
+		wp_clear_scheduled_hook( Retention::HOOK );
+		wp_clear_scheduled_hook( Scheduler::HOOK );
+	}
+
+	/**
+	 * New site on a network where the plugin is network-active.
+	 *
+	 * @param \WP_Site $site New site.
+	 *
+	 * @return void
+	 */
+	public static function on_initialize_site( $site ): void {
+		if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		if ( ! is_plugin_active_for_network( plugin_basename( REDIRECT_INSPECTOR_FILE ) ) ) {
+			return;
+		}
+
+		switch_to_blog( (int) $site->blog_id );
+		self::install();
+		restore_current_blog();
+	}
+
+	/**
+	 * Site deleted: core drops its options with its tables; add ours to the list.
+	 *
+	 * @param string[] $tables  Tables core will drop.
+	 * @param int      $site_id Site being deleted.
+	 *
+	 * @return string[]
+	 */
+	public static function drop_site_tables( $tables, $site_id ): array {
+		global $wpdb;
+
+		$prefix   = $wpdb->get_blog_prefix( (int) $site_id );
+		$tables[] = $prefix . 'rdi_scans';
+		$tables[] = $prefix . 'rdi_issues';
+		$tables[] = $prefix . 'rdi_fixes';
+
+		return (array) $tables;
+	}
+
+	/**
+	 * Whether a table exists.
+	 *
+	 * @param string $table Full table name.
+	 *
+	 * @return bool
+	 */
+	public static function table_exists( string $table ): bool {
+		global $wpdb;
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		return $table === $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table ) ) );
+	}
+}

@@ -1,0 +1,19 @@
+# The WordPress extension is wired in by phpstan/extension-installer, so it is
+# deliberately not included again here.
+parameters:
+	level: 5
+	paths:
+		- redirect-inspector.php
+		- admin
+		- includes
+		- uninstall.php
+	bootstrapFiles:
+		- .phpstan/constants.php
+	scanFiles:
+		- .phpstan/wp-cli-stubs.php
+	# WordPress and the redirect plugins hand back whatever is stored, so the
+	# guards against a wrong type are real rather than redundant.
+	treatPhpDocTypesAsCertain: false
+	ignoreErrors:
+		# Third-party classes are only used behind class_exists() guards.
+		- '#(RankMath\\Redirections\\Cache|WPSEO_Redirect_Option|Red_Item|Red_Group)#'

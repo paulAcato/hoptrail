@@ -1,0 +1,11 @@
+{
+	"extends": ["stylelint-config-standard-scss"],
+	"plugins": ["stylelint-use-logical"],
+	"rules": {
+		"csstools/use-logical": ["always", { "except": [] }],
+		"selector-class-pattern": null,
+		"custom-property-pattern": null,
+		"scss/dollar-variable-pattern": null,
+		"no-descending-specificity": null
+	}
+}

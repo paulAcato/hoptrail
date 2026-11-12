@@ -1,0 +1,11 @@
+node_modules/
+# Built by Vite from assets/; the deploy builds it fresh.
+dist/
+vendor/
+.idea/
+.DS_Store
+*.log
+.prd/
+/scope/
+composer.lock
+phpcs-report.xml

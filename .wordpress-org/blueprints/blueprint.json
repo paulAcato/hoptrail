@@ -1,0 +1,49 @@
+{
+    "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+    "landingPage": "/wp-admin/tools.php?page=redirect-inspector",
+    "preferredVersions": {
+        "php": "8.2",
+        "wp": "latest"
+    },
+    "steps": [
+        {
+            "step": "login",
+            "username": "admin",
+            "password": "password"
+        },
+        {
+            "step": "installPlugin",
+            "pluginData": {
+                "resource": "wordpress.org/plugins",
+                "slug": "redirection"
+            },
+            "options": {
+                "activate": true
+            }
+        },
+        {
+            "step": "installPlugin",
+            "pluginData": {
+                "resource": "wordpress.org/plugins",
+                "slug": "simple-301-redirects"
+            },
+            "options": {
+                "activate": true
+            }
+        },
+        {
+            "step": "installPlugin",
+            "pluginData": {
+                "resource": "wordpress.org/plugins",
+                "slug": "redirect-inspector"
+            },
+            "options": {
+                "activate": true
+            }
+        },
+        {
+            "step": "runPHP",
+            "code": "<?php\nrequire_once '/wordpress/wp-load.php';\nwp_set_current_user( 1 );\n\n// Redirection keeps its rules in its own tables; create them, then a group.\n// Redirection installs its tables on first use of its admin; install them now.\nforeach ( array( 'Redirection\\\\Database\\\\Database', 'Database' ) as $db ) {\n\tif ( class_exists( $db ) && method_exists( $db, 'get_latest_database' ) ) {\n\t\t$db::get_latest_database()->install();\n\t\tbreak;\n\t}\n}\n$group = class_exists( 'Red_Group' ) ? Red_Group::create( 'Demo', 1 ) : null;\n\n// A chain, a loop and a self-redirect in Redirection.\nforeach ( array( array( '/old-about', '/about-old' ), array( '/about-old', '/about-2020' ), array( '/about-2020', '/sample-page' ), array( '/loop-a', '/loop-b' ), array( '/loop-b', '/loop-a' ), array( '/self', '/self' ) ) as $rule ) {\n\tif ( $group ) {\n\t\tRed_Item::create( array( 'url' => $rule[0], 'action_data' => array( 'url' => $rule[1] ), 'group_id' => $group->get_id(), 'match_type' => 'url', 'action_type' => 'url', 'action_code' => 301 ) );\n\t}\n}\n\n// A loop across plugins and a duplicate, in Simple 301 Redirects.\nupdate_option( '301_redirects', array( '/loop-c' => '/loop-a', '/self' => '/self', '/old-promo' => '/sample-page' ) );\n\n// A first scan, so the dashboard has something to show.\nif ( class_exists( '\\\\Acato\\\\RedirectInspector\\\\Includes\\\\Scanner' ) ) {\n\t\\Acato\\RedirectInspector\\Includes\\Scanner::run( 'manual' );\n}\n"
+        }
+    ]
+}

@@ -1,0 +1,52 @@
+// Design tokens. Colours are CSS custom properties because they change at runtime: per colour
+// scheme (light/dark), per contrast preference and under forced colours. Values: base/_theme.scss.
+
+$ink: var(--rdi-ink);
+$ink-secondary: var(--rdi-ink-secondary);
+$ink-muted: var(--rdi-ink-muted);
+$hairline: var(--rdi-hairline);
+$border-strong: var(--rdi-border-strong);
+$surface: var(--rdi-surface);
+$plane: var(--rdi-plane);
+$accent: var(--rdi-accent);
+$on-accent: var(--rdi-on-accent);
+$chip-bg: var(--rdi-chip-bg);
+
+// Status colours (marks) and their text/wash/border tones. Always paired with an icon or a label.
+$good: var(--rdi-good);
+$warning: var(--rdi-warning);
+$serious: var(--rdi-serious);
+$critical: var(--rdi-critical);
+$low: var(--rdi-low);
+$good-text: var(--rdi-good-text);
+$critical-text: var(--rdi-critical-text);
+$serious-text: var(--rdi-serious-text);
+$warning-text: var(--rdi-warning-text);
+$info-text: var(--rdi-info-text);
+$good-bg: var(--rdi-good-bg);
+$critical-bg: var(--rdi-critical-bg);
+$serious-bg: var(--rdi-serious-bg);
+$warning-bg: var(--rdi-warning-bg);
+$info-bg: var(--rdi-info-bg);
+$good-wash: var(--rdi-good-wash);
+$critical-wash: var(--rdi-critical-wash);
+$warning-wash: var(--rdi-warning-wash);
+$good-border: var(--rdi-good-border);
+$critical-border: var(--rdi-critical-border);
+$warning-border: var(--rdi-warning-border);
+
+// Charts.
+$series-1: var(--rdi-series-1);
+$grid: var(--rdi-grid);
+$grid-strong: var(--rdi-grid-strong);
+$spark: var(--rdi-spark);
+$tooltip-bg: var(--rdi-tooltip-bg);
+$tooltip-ink: var(--rdi-tooltip-ink);
+$tooltip-muted: var(--rdi-tooltip-muted);
+
+// Not colours: build-time values.
+$radius: 12px;
+$radius-small: 8px;
+$gap: 1lh;
+$shadow: 0 1px 2px hsl(220deg 43% 11% / 5%);
+$mono: ui-monospace, sfmono-regular, menlo, consolas, monospace;

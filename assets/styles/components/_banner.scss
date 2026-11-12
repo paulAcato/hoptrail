@@ -1,0 +1,187 @@
+@use "../base/tokens" as *;
+
+$banner-start: hsl(225deg 52% 12%);
+$banner-end: hsl(225deg 52% 28%);
+
+.rdi-banner {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1.375lh;
+	align-items: stretch;
+	justify-content: space-between;
+	margin-block: 0.875lh 0;
+	padding-block: 1.5lh;
+	padding-inline: 1.75lh;
+	overflow: hidden;
+	border-radius: $radius + 2px;
+	background: linear-gradient(135deg, $banner-start, $banner-end);
+	color: hsl(0deg 0% 100%);
+	isolation: isolate;
+
+	// Faint redirect arrows.
+	&::after {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' fill='none' stroke='white' stroke-opacity='.05' stroke-width='2'%3E%3Cpath d='M12 32h36m-10-10 10 10-10 10'/%3E%3C/svg%3E");
+		content: "";
+	}
+
+	&__intro {
+		display: flex;
+		flex: 1 1 360px;
+		flex-direction: column;
+		min-inline-size: 0;
+	}
+
+	&__title {
+		margin: 0;
+		padding: 0;
+		color: hsl(0deg 0% 100%);
+		font-size: clamp(22px, 2.6vw, 28px);
+		font-weight: 600;
+		line-height: 1.2;
+	}
+
+	&__lead {
+		max-inline-size: 60ch;
+		margin-block: 0.5lh 0;
+		margin-inline: 0;
+		color: hsl(0deg 0% 100% / 80%);
+		font-size: 14px;
+		line-height: 1.5;
+	}
+
+	&__meta {
+		margin-block: auto 0;
+		margin-inline: 0;
+		padding-block-start: 0.875lh;
+		color: hsl(0deg 0% 100% / 70%);
+		font-size: 13px;
+	}
+
+	// Wapuu with the magnifier, sitting on the bottom edge next to the score.
+	&__wapuu {
+		align-self: flex-end;
+		inline-size: 128px;
+		block-size: auto;
+		margin-block-end: calc(-1.5lh - 6px);
+		pointer-events: none;
+
+		@media (width <= 960px) {
+			display: none;
+		}
+	}
+
+	// End side: Run scan in the top corner, the score under it.
+	&__side {
+		display: flex;
+		flex-direction: column;
+		gap: 0.875lh;
+		align-items: flex-end;
+		margin-inline-start: auto;
+	}
+
+	.components-button.rdi-banner__scan {
+		block-size: 36px;
+		padding-inline: 0.75lh;
+		border-radius: 4px;
+		background: hsl(0deg 0% 100%);
+		color: $banner-start;
+		font-weight: 600;
+
+		&:hover:not([aria-disabled="true"]) {
+			background: hsl(240deg 3% 94%);
+			color: $banner-start;
+		}
+
+		&:focus-visible {
+			outline: 2px solid hsl(0deg 0% 100%);
+			outline-offset: 2px;
+			box-shadow: none;
+		}
+
+		&.is-busy,
+		&[aria-disabled="true"] {
+			color: $banner-start;
+			opacity: 0.85;
+		}
+	}
+}
+
+.rdi-gauge {
+	position: relative;
+	inline-size: 112px;
+	block-size: 112px;
+
+	svg {
+		display: block;
+		inline-size: 100%;
+		block-size: 100%;
+	}
+
+	&__track,
+	&__fill {
+		fill: none;
+		stroke-width: 7;
+	}
+
+	&__track {
+		stroke: hsl(0deg 0% 100% / 15%);
+	}
+
+	&__fill {
+		stroke: hsl(0deg 0% 100% / 40%);
+		stroke-linecap: round;
+		transition: stroke-dashoffset 0.6s ease-out;
+	}
+
+	&.is-good &__fill {
+		stroke: hsl(120deg 86% 34%);
+	}
+
+	&.is-warning &__fill {
+		stroke: $warning;
+	}
+
+	&.is-critical &__fill {
+		stroke: $critical;
+	}
+
+	&__text {
+		position: absolute;
+		inset: 0;
+		display: grid;
+		place-content: center;
+		text-align: center;
+	}
+
+	&__value {
+		font-size: 30px;
+		font-weight: 600;
+		line-height: 1;
+		font-variant-numeric: tabular-nums;
+	}
+
+	&__label {
+		margin-block-start: 0.25lh;
+		color: hsl(0deg 0% 100% / 75%);
+		font-size: 11px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.rdi-gauge__fill {
+		transition: none;
+	}
+}
+
+@media (width <= 600px) {
+	.rdi-banner__side {
+		flex-flow: row-reverse wrap;
+		align-items: center;
+		justify-content: space-between;
+		inline-size: 100%;
+	}
+}

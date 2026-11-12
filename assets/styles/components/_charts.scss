@@ -1,0 +1,296 @@
+@use "../base/tokens" as *;
+
+// Sparkline in the tiles.
+.rdi-spark {
+	position: relative;
+	display: block;
+	inline-size: 96px;
+	block-size: 32px;
+
+	svg {
+		display: block;
+		inline-size: 100%;
+		block-size: 100%;
+		overflow: visible;
+	}
+
+	&__line {
+		fill: none;
+		stroke: $spark;
+		stroke-width: 2;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		vector-effect: non-scaling-stroke;
+	}
+
+	&__dot {
+		fill: $accent;
+		stroke: $surface;
+		stroke-width: 2;
+	}
+
+	&__tip {
+		position: absolute;
+		inset-block-start: 0;
+		inset-inline-end: 0;
+		z-index: 2;
+		padding-block: 0.25lh;
+		padding-inline: 0.5lh;
+		border-radius: 6px;
+		background: $tooltip-bg;
+		color: $tooltip-ink;
+		font-size: 11.5px;
+		white-space: nowrap;
+		pointer-events: none;
+	}
+}
+
+// Score and severity charts.
+.rdi-chart {
+	position: relative;
+
+	svg {
+		display: block;
+		overflow: visible;
+	}
+
+	&__grid {
+		stroke: $grid;
+		stroke-width: 1;
+
+		&.is-threshold {
+			stroke: $border-strong;
+			stroke-dasharray: 3 3;
+		}
+
+		&.is-base {
+			stroke: $grid-strong;
+		}
+	}
+
+	&__tick {
+		fill: $ink-muted;
+		font-size: 11px;
+		font-variant-numeric: tabular-nums;
+	}
+
+	&__line {
+		fill: none;
+		stroke: $series-1;
+		stroke-width: 2;
+		stroke-linejoin: round;
+		stroke-linecap: round;
+	}
+
+	&__point {
+		fill: $series-1;
+		stroke: $surface;
+		stroke-width: 2;
+	}
+
+	&__hit {
+		fill: transparent;
+	}
+
+	.is-dimmed rect:not(.rdi-chart__hit) {
+		opacity: 0.35;
+	}
+
+	&__tip {
+		position: absolute;
+		z-index: 2;
+		display: grid;
+		gap: 0.125lh;
+		padding-block: 0.375lh;
+		padding-inline: 0.5lh;
+		border-radius: $radius-small;
+		background: $tooltip-bg;
+		color: $tooltip-ink;
+		font-size: 12px;
+		line-height: 1.45;
+		white-space: nowrap;
+		pointer-events: none;
+
+		span {
+			color: $tooltip-muted;
+		}
+	}
+
+	&__tip-row {
+		display: flex;
+		gap: 0.375lh;
+		align-items: center;
+
+		i {
+			inline-size: 8px;
+			block-size: 8px;
+			border-radius: 2px;
+		}
+
+		strong {
+			margin-inline-start: auto;
+			padding-inline-start: 0.625lh;
+			color: $tooltip-ink;
+		}
+	}
+}
+
+.rdi-chart-legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25lh 0.875lh;
+	margin-block: 0 0.5lh;
+	padding: 0;
+	font-size: 12.5px;
+	list-style: none;
+
+	li {
+		display: inline-flex;
+		gap: 0.375lh;
+		align-items: center;
+		margin: 0;
+	}
+
+	i {
+		inline-size: 10px;
+		block-size: 10px;
+		border-radius: 3px;
+	}
+
+	strong {
+		font-variant-numeric: tabular-nums;
+	}
+}
+
+// Issues by type.
+.rdi-bars {
+	inline-size: 100%;
+	border-collapse: collapse;
+	font-size: 13px;
+
+	th,
+	td {
+		padding-block: 0.375lh;
+	}
+
+	th {
+		inline-size: 42%;
+		padding-inline-end: 0.75lh;
+		font-weight: 400;
+		text-align: start;
+
+		small {
+			display: block;
+			color: $ink-muted;
+			font-size: 11.5px;
+		}
+	}
+
+	&__label {
+		padding: 0;
+		border: 0;
+		background: none;
+		color: $ink;
+		font: inherit;
+		font-weight: 500;
+		text-align: start;
+	}
+
+	button.rdi-bars__label {
+		cursor: pointer;
+
+		&:hover {
+			color: $accent;
+		}
+	}
+
+	&__track span {
+		display: block;
+		block-size: 8px;
+		border-radius: 999px;
+		background: $series-1;
+	}
+
+	&__track {
+		background: linear-gradient($info-bg, $info-bg) center / 100% 8px no-repeat;
+	}
+
+	&__value {
+		inline-size: 40px;
+		font-weight: 600;
+		font-variant-numeric: tabular-nums;
+		text-align: end;
+	}
+
+	.is-zero {
+		color: $ink-muted;
+	}
+}
+
+// Rules per plugin.
+.rdi-segments {
+	display: flex;
+	gap: 0.125lh;
+	block-size: 10px;
+	margin-block-end: 0.75lh;
+	overflow: hidden;
+	border-radius: 999px;
+	background: $plane;
+
+	&__part {
+		flex-basis: 0;
+		min-inline-size: 4px;
+	}
+}
+
+.rdi-legend {
+	display: grid;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	li {
+		display: grid;
+		gap: 0.5lh;
+		grid-template-columns: 10px 1fr auto auto;
+		align-items: center;
+		margin: 0;
+		padding-block: 0.5lh;
+		border-block-end: 1px solid $plane;
+		font-size: 13px;
+
+		&:last-child {
+			border-block-end: 0;
+		}
+
+		&.is-unavailable {
+			color: $ink-muted;
+		}
+	}
+
+	&__swatch {
+		inline-size: 10px;
+		block-size: 10px;
+		border-radius: 3px;
+	}
+
+	.is-unavailable &__swatch {
+		opacity: 0.3;
+	}
+
+	&__name {
+		font-weight: 500;
+	}
+
+	&__status {
+		color: $ink-muted;
+		font-size: 12px;
+	}
+
+	&__value {
+		min-inline-size: 36px;
+		font-weight: 600;
+		font-variant-numeric: tabular-nums;
+		text-align: end;
+	}
+}

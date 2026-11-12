@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 1010">
+  <!-- Wapuu hugging a magnifying glass. Original drawing for Redirect Inspector, in the style of the
+       original Wapuu by Kazuko Kaneuchi (GPLv2 or later). -->
+  <defs>
+    <radialGradient id="lens" cx="38%" cy="32%" r="75%">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".55" stop-color="#dff0fb"/>
+      <stop offset="1" stop-color="#b4d8f0"/>
+    </radialGradient>
+  </defs>
+  <g stroke="#000" stroke-linejoin="round" stroke-linecap="round">
+    <!-- tail -->
+    <path d="M640 720 C610 880 470 975 300 950 C190 935 130 870 170 830" fill="none" stroke-width="86"/>
+    <path d="M640 720 C610 880 470 975 300 950 C190 935 130 870 170 830" fill="none" stroke="#ff8600" stroke-width="50"/>
+
+    <!-- body -->
+    <path d="M250 150 C360 40 620 20 720 120 C830 230 820 520 730 650 C670 740 560 780 450 770 C330 760 200 700 170 560 C140 420 150 250 250 150 Z" fill="#ffd200" stroke-width="24"/>
+
+    <!-- big ear (right) -->
+    <path d="M610 95 C700 55 820 45 885 70 C905 110 860 165 780 170 C720 172 650 150 610 95 Z" fill="#ff8600" stroke-width="24"/>
+    <!-- small ear (left) -->
+    <path d="M230 175 C190 185 145 200 130 225 C170 235 215 225 245 210 Z" fill="#ff8600" stroke-width="20"/>
+
+    <!-- magnifier handle, held at the top left -->
+    <path d="M240 290 L90 120" stroke-width="84"/>
+    <path d="M240 290 L90 120" stroke="#4a3426" stroke-width="48"/>
+
+    <!-- lens (instead of the globe) -->
+    <circle cx="405" cy="470" r="270" fill="#0e5a8a" stroke-width="24"/>
+    <circle cx="405" cy="470" r="222" fill="url(#lens)" stroke="none"/>
+    <circle cx="405" cy="470" r="222" fill="none" stroke="#fff" stroke-width="12" stroke-opacity=".6"/>
+    <!-- redirect arrow seen through the lens -->
+    <path d="M300 560 C300 420 380 360 500 375" fill="none" stroke="#0e5a8a" stroke-width="46"/>
+    <path d="M470 305 L540 378 L470 450" fill="none" stroke="#0e5a8a" stroke-width="46"/>
+    <path d="M250 390 C270 320 320 290 370 275" fill="none" stroke="#fff" stroke-width="22" stroke-opacity=".85"/>
+
+    <!-- face (in front of the lens) -->
+    <path d="M205 205 C205 120 300 70 420 65 C520 62 600 85 640 130 L650 228 C560 210 470 200 380 205 C320 208 260 225 230 230 C215 232 205 222 205 205 Z" fill="#ffd200" stroke-width="24"/>
+    <circle cx="272" cy="152" r="17" fill="#000" stroke="none"/>
+    <circle cx="458" cy="105" r="17" fill="#000" stroke="none"/>
+    <ellipse cx="340" cy="152" rx="26" ry="16" fill="#000" stroke="none"/>
+
+    <!-- right arm hugging the lens -->
+    <path d="M365 300 C330 282 340 236 392 236 L585 226 C640 224 655 290 600 302 C530 310 430 308 365 300 Z" fill="#ffd200" stroke-width="22"/>
+    <path d="M590 245 C600 262 600 280 590 292" fill="none" stroke-width="12"/>
+
+    <!-- left paw on the handle -->
+    <ellipse cx="190" cy="270" rx="48" ry="40" fill="#ffd200" stroke-width="22" transform="rotate(-35 190 270)"/>
+
+    <!-- feet -->
+    <path d="M60 560 C100 520 170 540 200 600 C235 670 230 740 175 750 C120 760 70 700 45 640 C35 610 40 580 60 560 Z" fill="#ffd200" stroke-width="22"/>
+    <path d="M385 560 C430 545 470 575 480 640 C490 720 470 790 420 790 C375 790 360 720 360 650 C360 600 365 570 385 560 Z" fill="#ffd200" stroke-width="22"/>
+  </g>
+</svg>

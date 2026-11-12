@@ -1,0 +1,520 @@
+@use "../base/tokens" as *;
+
+.rdi-explorer {
+	scroll-margin-block-start: 2.625lh; // Clear the admin bar.
+}
+
+.rdi-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25lh;
+	margin-block-end: 0.75lh;
+	padding: 0.25lh;
+	border-radius: 10px;
+	background: $plane;
+
+	&__tab {
+		display: inline-flex;
+		gap: 0.5lh;
+		align-items: center;
+		padding-block: 0.375lh;
+		padding-inline: 0.625lh;
+		border: 0;
+		border-radius: 7px;
+		background: none;
+		color: $ink-secondary;
+		font: inherit;
+		font-size: 13px;
+		font-weight: 500;
+		cursor: pointer;
+
+		&:hover {
+			color: $ink;
+		}
+
+		&:focus-visible {
+			outline: var(--rdi-focus-width, 2px) solid $accent;
+			outline-offset: 1px;
+		}
+
+		&.is-active {
+			background: $surface;
+			color: $ink;
+			box-shadow: 0 1px 2px hsl(220deg 43% 11% / 10%);
+		}
+	}
+
+	&__count {
+		min-inline-size: 20px;
+		padding-block: 0.125lh;
+		padding-inline: 0.375lh;
+		border-radius: 999px;
+		background: $chip-bg;
+		font-size: 11.5px;
+		font-weight: 600;
+		font-variant-numeric: tabular-nums;
+		text-align: center;
+	}
+
+	&__tab.is-active &__count {
+		background: $accent;
+		color: $on-accent;
+	}
+}
+
+.rdi-filters {
+	display: grid;
+	gap: 0.625lh;
+	grid-template-columns: minmax(0, 1fr) minmax(160px, 220px);
+	align-items: center;
+	margin-block-end: 0.875lh;
+
+	&.is-single {
+		grid-template-columns: 1fr;
+	}
+
+	@media (width <= 600px) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.rdi-issues {
+	display: grid;
+	gap: 0.5lh;
+
+	&[aria-busy="true"] {
+		opacity: 0.6;
+	}
+}
+
+.rdi-pagination {
+	display: flex;
+	gap: 0.625lh;
+	align-items: center;
+	justify-content: center;
+	margin-block-start: 0.875lh;
+	color: $ink-secondary;
+	font-size: 13px;
+	font-variant-numeric: tabular-nums;
+}
+
+.rdi-chip--new {
+	padding-block: 0.125lh;
+	padding-inline: 0.5lh;
+	border-radius: 999px;
+	background: $info-bg;
+	color: $info-text;
+	font-size: 11px;
+	font-weight: 600;
+}
+
+.rdi-severity {
+	display: inline-flex;
+	gap: 0.25lh;
+	align-items: center;
+	padding-block: 0.125lh;
+	padding-inline: 0.25lh 0.5lh;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 600;
+	white-space: nowrap;
+
+	svg {
+		fill: currentcolor;
+	}
+
+	&--critical {
+		background: $critical-bg;
+		color: $critical-text;
+	}
+
+	&--high {
+		background: $serious-bg;
+		color: $serious-text;
+	}
+
+	&--medium {
+		background: $warning-bg;
+		color: $warning-text;
+	}
+
+	&--low {
+		background: $plane;
+		color: $ink-secondary;
+	}
+}
+
+.rdi-issue {
+	position: relative;
+	display: grid;
+	gap: 0.625lh;
+	padding-block: 0.75lh;
+	padding-inline: 1lh;
+	border: 1px solid $hairline;
+	border-radius: 10px;
+	background: $surface;
+
+	&::before {
+		position: absolute;
+		inset-block: 0.625lh;
+		inset-inline-start: -1px;
+		inline-size: 3px;
+		border-start-end-radius: 3px;
+		border-end-end-radius: 3px;
+		background: $low;
+		content: "";
+	}
+
+	&--critical::before {
+		background: $critical;
+	}
+
+	&--high::before {
+		background: $serious;
+	}
+
+	&--medium::before {
+		background: $warning;
+	}
+
+	&__header {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5lh;
+		align-items: center;
+	}
+
+	&__title {
+		display: flex;
+		flex: 1 1 260px;
+		gap: 0.5lh;
+		align-items: baseline;
+		min-inline-size: 0;
+		margin: 0;
+		font-size: 14px;
+		font-weight: 600;
+	}
+
+	&__source {
+		overflow: hidden;
+		color: $ink-secondary;
+		font-weight: 500;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
+	&__hops-count {
+		color: $ink-muted;
+		font-size: 12px;
+	}
+
+	&__suggestion {
+		margin: 0;
+		color: $ink-secondary;
+		font-size: 13px;
+		line-height: 1.55;
+	}
+
+	&__footer {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.625lh;
+		align-items: center;
+	}
+
+	&__error {
+		color: $critical-text;
+		font-size: 12.5px;
+	}
+}
+
+.rdi-hops {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.375lh;
+	align-items: center;
+	margin: 0;
+	padding: 0.5lh;
+	border-radius: $radius-small;
+	background: $plane;
+	list-style: none;
+
+	li {
+		margin: 0;
+	}
+
+	&__step {
+		display: contents;
+	}
+
+	&__node {
+		display: inline-flex;
+		gap: 0.375lh;
+		align-items: center;
+		max-inline-size: 100%;
+		padding-block: 0.25lh;
+		padding-inline: 0.5lh;
+		border: 1px solid $hairline;
+		border-radius: 6px;
+		background: $surface;
+
+		code {
+			overflow-wrap: anywhere;
+		}
+
+		&.is-start {
+			border-style: dashed;
+			border-color: $critical;
+		}
+	}
+
+	&__note {
+		color: $critical-text;
+		font-size: 11px;
+		font-weight: 600;
+	}
+
+	&__edge {
+		display: inline-flex;
+		gap: 0.25lh;
+		align-items: center;
+		color: $ink-muted;
+		font-size: 11.5px;
+
+		svg {
+			fill: currentcolor;
+		}
+	}
+
+	a.rdi-hops__code {
+		color: inherit;
+	}
+
+	&__code {
+		font-weight: 600;
+		font-variant-numeric: tabular-nums;
+	}
+
+	&__plugin {
+		display: inline-flex;
+		gap: 0.25lh;
+		align-items: center;
+		color: $ink-secondary;
+		text-decoration: none;
+
+		&::before {
+			inline-size: 7px;
+			block-size: 7px;
+			border-radius: 50%;
+			background: var(--rdi-plugin, #{$low});
+			content: "";
+		}
+	}
+
+	&__code,
+	&__plugin {
+		min-block-size: 24px;
+	}
+
+	a.rdi-hops__plugin:hover {
+		color: $accent;
+		text-decoration: underline;
+	}
+}
+
+[dir="rtl"] .rdi-hops__edge svg {
+	transform: scaleX(-1); // Arrows follow the reading direction.
+}
+
+.rdi-live {
+	padding-block: 0.5lh;
+	padding-inline: 0.625lh;
+	border: 1px solid $hairline;
+	border-radius: $radius-small;
+
+	&--ok {
+		border-color: $good-border;
+		background: $good-wash;
+	}
+
+	&--loop,
+	&--broken,
+	&--error {
+		border-color: $critical-border;
+		background: $critical-wash;
+	}
+
+	&--chain {
+		border-color: $warning-border;
+		background: $warning-wash;
+	}
+
+	&__verdict {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5lh;
+		align-items: baseline;
+		margin-block: 0 0.375lh;
+		margin-inline: 0;
+		font-size: 13px;
+
+		span {
+			color: $ink-muted;
+			font-size: 12px;
+		}
+	}
+
+	&__hops {
+		display: grid;
+		gap: 0.25lh;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		li {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5lh;
+			align-items: center;
+			margin: 0;
+			font-size: 12.5px;
+		}
+
+		small {
+			color: $ink-muted;
+		}
+	}
+
+	&__status {
+		min-inline-size: 34px;
+		padding-inline: 0.375lh;
+		border-radius: 4px;
+		background: $plane;
+		font-size: 11.5px;
+		font-weight: 600;
+		font-variant-numeric: tabular-nums;
+		text-align: center;
+
+		&.is-2xx {
+			background: $good-bg;
+			color: $good-text;
+		}
+
+		&.is-3xx {
+			background: $info-bg;
+			color: $info-text;
+		}
+
+		&.is-4xx,
+		&.is-5xx {
+			background: $critical-bg;
+			color: $critical-text;
+		}
+	}
+}
+
+.rdi-chip--fixed {
+	padding-block: 0.125lh;
+	padding-inline: 0.5lh;
+	border-radius: 999px;
+	background: $good-bg;
+	color: $good-text;
+	font-size: 11px;
+	font-weight: 600;
+}
+
+.rdi-issue {
+	&.is-fixed {
+		background: $plane;
+
+		&::before {
+			background: $good;
+		}
+	}
+
+	&__confirm {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5lh;
+		align-items: center;
+		padding-block: 0.5lh;
+		padding-inline: 0.75lh;
+		border: 1px solid $warning-border;
+		border-radius: $radius-small;
+		background: $warning-wash;
+		font-size: 13px;
+
+		> span {
+			flex: 1 1 260px;
+		}
+	}
+
+	&__fixed {
+		margin: 0;
+		color: $good-text;
+		font-size: 13px;
+	}
+}
+
+.rdi-leftovers {
+	&__list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5lh 1lh;
+		align-items: center;
+		justify-content: space-between;
+		margin: 0;
+		padding-block: 0.75lh;
+		border-block-start: 1px solid $hairline;
+
+		&:first-child {
+			padding-block-start: 0;
+			border-block-start: 0;
+		}
+
+		> p {
+			flex: 1 1 100%;
+			margin: 0;
+			font-size: 13px;
+		}
+	}
+
+	&__what {
+		display: grid;
+		gap: 0.125lh;
+		font-size: 13px;
+	}
+
+	&__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5lh;
+		align-items: center;
+
+		.components-base-control {
+			min-inline-size: min(100%, 220px);
+		}
+	}
+
+	&__preview {
+		color: $ink-secondary;
+	}
+
+	&__done {
+		color: $good-text;
+	}
+
+	&__error {
+		color: $critical-text;
+	}
+
+	> .rdi-card__meta {
+		margin-block-start: 0.75lh;
+	}
+}

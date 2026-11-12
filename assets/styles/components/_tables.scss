@@ -1,0 +1,301 @@
+@use "../base/tokens" as *;
+
+.rdi-table-wrap {
+	overflow-x: auto; // overflow-inline is not widely available yet.
+}
+
+.rdi-table {
+	inline-size: 100%;
+	border-collapse: collapse;
+	font-size: 13px;
+
+	th,
+	td {
+		padding-block: 0.5lh;
+		padding-inline: 0.5lh;
+		border-block-end: 1px solid $plane;
+		text-align: start;
+		white-space: nowrap;
+	}
+
+	th {
+		color: $ink-muted;
+		font-size: 12px;
+		font-weight: 500;
+	}
+
+	.is-num {
+		font-variant-numeric: tabular-nums;
+		text-align: end;
+	}
+
+	tbody tr:last-child td {
+		border-block-end: 0;
+	}
+}
+
+.rdi-score {
+	display: inline-block;
+	min-inline-size: 32px;
+	padding-inline: 0.5lh;
+	border-radius: 999px;
+	font-weight: 600;
+	text-align: center;
+
+	&.is-good {
+		background: $good-bg;
+		color: $good-text;
+	}
+
+	&.is-warning {
+		background: $warning-bg;
+		color: $warning-text;
+	}
+
+	&.is-critical {
+		background: $critical-bg;
+		color: $critical-text;
+	}
+}
+
+.rdi-status {
+	font-size: 12px;
+
+	&--done {
+		color: $good-text;
+	}
+
+	&--partial {
+		color: $warning-text;
+	}
+
+	&--failed {
+		color: $critical-text;
+	}
+}
+
+.rdi-settings {
+	scroll-margin-block-start: 3lh; // Clear the admin bar.
+
+	&:focus {
+		outline: none;
+	}
+
+	&:focus-visible {
+		outline: var(--rdi-focus-width, 2px) solid $accent;
+		outline-offset: 2px;
+	}
+
+	&__section {
+		padding-block: 0.75lh;
+		border-block-start: 1px solid $hairline;
+
+		&:first-of-type {
+			padding-block-start: 0;
+			border-block-start: 0;
+		}
+	}
+
+	&__row {
+		display: flex;
+		gap: 1lh;
+		align-items: flex-start;
+		justify-content: space-between;
+	}
+
+	&__title {
+		margin: 0;
+		font-size: 13px;
+		font-weight: 600;
+	}
+
+	&__hint {
+		margin-block: 0.25lh 0;
+		margin-inline: 0;
+		color: $ink-muted;
+		font-size: 12.5px;
+		line-height: 1.5;
+
+		&.is-error {
+			color: $critical-text;
+		}
+	}
+
+	&__toggle {
+		flex: none;
+		margin-block-start: 0.125lh;
+	}
+
+	&__label {
+		margin-block: 0.75lh 0.375lh;
+		color: $ink-secondary;
+		font-size: 12px;
+		font-weight: 500;
+	}
+
+	&__next {
+		margin-block-start: 0.5lh;
+	}
+
+	&__days {
+		max-inline-size: 220px;
+		margin-block: 0.5lh;
+	}
+
+	&__suffix {
+		padding-inline-end: 0.75lh;
+		color: $ink-muted;
+		font-size: 13px;
+	}
+
+	&__footer {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5lh;
+		align-items: center;
+		justify-content: space-between;
+		padding-block-start: 0.75lh;
+		border-block-start: 1px solid $hairline;
+	}
+
+	&__confirm {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5lh;
+		align-items: center;
+		inline-size: 100%;
+		font-size: 13px;
+
+		> span {
+			flex: 1 1 100%;
+		}
+	}
+
+	.components-notice {
+		margin-block: 0 0.75lh;
+		margin-inline: 0;
+	}
+}
+
+// Shared look of the day and hour toggles.
+%rdi-toggle-button {
+	block-size: 32px;
+	padding-inline: 0;
+	border: 1px solid $border-strong;
+	background: $surface;
+	color: $ink-secondary;
+	font: inherit;
+	font-size: 12.5px;
+	font-variant-numeric: tabular-nums;
+	cursor: pointer;
+
+	&:hover {
+		background: $plane;
+		color: $ink;
+	}
+
+	&:focus-visible {
+		position: relative;
+		z-index: 1;
+		outline: var(--rdi-focus-width, 2px) solid $accent;
+		outline-offset: 2px;
+	}
+
+	&[aria-pressed="true"] {
+		border-color: $accent;
+		background: $accent;
+		color: $on-accent;
+		font-weight: 600;
+	}
+}
+
+// Days: one joined control.
+.rdi-segmented {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+
+	button {
+		@extend %rdi-toggle-button;
+
+		margin-inline-start: -1px;
+
+		&:first-child {
+			margin-inline-start: 0;
+			border-start-start-radius: $radius-small;
+			border-end-start-radius: $radius-small;
+		}
+
+		&:last-child {
+			border-start-end-radius: $radius-small;
+			border-end-end-radius: $radius-small;
+		}
+	}
+}
+
+// Hours: an even grid.
+.rdi-hours {
+	display: grid;
+	gap: 0.25lh;
+	grid-template-columns: repeat(auto-fill, minmax(3.25em, 1fr));
+
+	button {
+		@extend %rdi-toggle-button;
+
+		border-radius: 6px;
+	}
+}
+
+.rdi-history {
+	&__tools {
+		display: flex;
+		gap: 0.25lh;
+		align-items: center;
+
+		.components-spinner {
+			margin: 0;
+		}
+	}
+
+	&__picker {
+		padding: 0.5lh;
+
+		.rdi-card__meta {
+			margin-block-start: 0.5lh;
+		}
+	}
+}
+
+.rdi-sort {
+	display: inline-flex;
+	min-block-size: 24px;
+	gap: 0.25lh;
+	align-items: center;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+
+	&:hover,
+	&.is-active {
+		color: $ink;
+	}
+
+	&:focus-visible {
+		outline: var(--rdi-focus-width, 2px) solid $accent;
+		outline-offset: 2px;
+	}
+
+	&__arrow {
+		opacity: 0.45;
+	}
+
+	&.is-active &__arrow {
+		opacity: 1;
+	}
+}
+
+.rdi-table th.is-num .rdi-sort {
+	flex-direction: row-reverse;
+}

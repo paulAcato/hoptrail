@@ -1,0 +1,21 @@
+{
+	"loop": 4,
+	"chain": 5,
+	"conflict": 1,
+	"noop": 1,
+	"duplicate": 1,
+	"redundant": 1,
+	"shadow": 1,
+	"broken": 1,
+	"_notes": {
+		"loop": "/loop-a<->/loop-b; /self; regex ^/blog/ <-> ^/news/; /cross-a (Redirection) -> /cross-b (Rank Math) -> /cross-c (Yoast) -> /cross-a",
+		"chain": "/old-about (3 hops); /about-old (2); /promo -> Yoast promo-2024 (2); SRM /careers-old (2); SRM /legacy/* runs into the regex loop",
+		"conflict": "/conflict-source: Redirection -> /contact, SRM -> /team",
+		"noop": "Yoast help/ -> help",
+		"duplicate": "/dup-source in Redirection and Simple 301, same target",
+		"redundant": "Simple 301 /old-launch, already handled by _wp_old_slug",
+		"shadow": "Rank Math redirects the published /services page",
+		"broken": "Redirection /old-pricing -> /pricing-2019 (no such content)",
+		"ignored": "Redirection /disabled-rule is disabled and must not be reported"
+	}
+}

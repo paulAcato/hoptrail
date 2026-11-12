@@ -1,0 +1,27 @@
+# Files and folders that should not end up in the plugin published on
+# WordPress.org. The sources in assets/ ship, so the built files can be read
+# and rebuilt.
+/.distignore
+/.editorconfig
+/.git
+/.github
+/.gitattributes
+/.gitignore
+/.idea
+/.prd
+/.stylelintrc.json
+/.wordpress-org
+/composer.json
+/composer.lock
+/node_modules
+/package.json
+/package-lock.json
+/tsconfig.json
+/vite.config.ts
+/.nvmrc
+/phpcs.xml.dist
+/phpstan.neon
+/vendor
+/.phpstan
+/tests
+/bin

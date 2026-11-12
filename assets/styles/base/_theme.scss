@@ -1,0 +1,306 @@
+// Colour schemes. Defined on body.rdi-page (our screens only), so popovers rendered into <body>
+// (date picker, select menus) get them too. Contrast ratios are measured, not eyeballed
+// (all text ≥ 4.5:1, control borders ≥ 3:1 in every scheme).
+
+@mixin light {
+	color-scheme: light;
+
+	--rdi-page: hsl(240deg 5% 95%);
+	--rdi-surface: hsl(0deg 0% 100%);
+	--rdi-plane: hsl(180deg 6% 97%);
+	--rdi-ink: hsl(0deg 0% 12%);            // 16.6:1
+	--rdi-ink-secondary: hsl(210deg 8% 34%); // 7.4:1
+	--rdi-ink-muted: hsl(0deg 0% 40%);       // 5.7:1
+	--rdi-hairline: hsl(216deg 9% 90%);
+	--rdi-border-strong: hsl(214deg 9% 55%); // 3.4:1 (control boundaries)
+	--rdi-accent: hsl(229deg 80% 52%); // Fixed: some admin colour schemes fail contrast on white.
+	--rdi-on-accent: hsl(0deg 0% 100%);
+	--rdi-chip-bg: hsl(0deg 0% 12% / 7%);
+	--rdi-good: hsl(120deg 86% 34%);
+	--rdi-warning: hsl(41deg 96% 54%);
+	--rdi-serious: hsl(17deg 79% 64%);
+	--rdi-critical: hsl(0deg 61% 52%);
+	--rdi-low: hsl(219deg 6% 57%);
+	--rdi-good-text: hsl(120deg 100% 19%);
+	--rdi-critical-text: hsl(4deg 76% 40%);
+	--rdi-serious-text: hsl(17deg 69% 36%);
+	--rdi-warning-text: hsl(39deg 100% 27%);
+	--rdi-info-text: hsl(214deg 72% 34%);
+	--rdi-good-bg: hsl(120deg 47% 93%);
+	--rdi-critical-bg: hsl(0deg 81% 96%);
+	--rdi-serious-bg: hsl(19deg 83% 95%);
+	--rdi-warning-bg: hsl(43deg 93% 94%);
+	--rdi-info-bg: hsl(213deg 77% 95%);
+	--rdi-good-wash: hsl(120deg 43% 97%);
+	--rdi-critical-wash: hsl(0deg 64% 98%);
+	--rdi-warning-wash: hsl(40deg 100% 97%);
+	--rdi-good-border: hsl(120deg 42% 80%);
+	--rdi-critical-border: hsl(0deg 66% 86%);
+	--rdi-warning-border: hsl(41deg 82% 80%);
+	--rdi-series-1: hsl(213deg 68% 50%);
+	--rdi-grid: hsl(210deg 13% 94%);
+	--rdi-grid-strong: hsl(215deg 11% 79%);
+	--rdi-spark: hsl(217deg 10% 55%); // 3.5:1
+	--rdi-tooltip-bg: hsl(0deg 0% 12%);
+	--rdi-tooltip-ink: hsl(0deg 0% 100%);
+	--rdi-tooltip-muted: hsl(0deg 0% 100% / 75%);
+
+	// Severity ramp (charts): darkest = most severe; validated as an ordinal ramp on white.
+	--rdi-sev-critical: hsl(226deg 62% 18%);
+	--rdi-sev-high: hsl(222deg 55% 30%);
+	--rdi-sev-medium: hsl(216deg 58% 40%);
+	--rdi-sev-low: hsl(210deg 60% 50%); // ≥ 3:1 on white
+}
+
+@mixin dark {
+	color-scheme: dark;
+
+	--rdi-page: hsl(222deg 18% 9%);
+	--rdi-surface: hsl(222deg 16% 14%);
+	--rdi-plane: hsl(222deg 14% 18%);
+	--rdi-ink: hsl(220deg 20% 94%);          // 13.9:1
+	--rdi-ink-secondary: hsl(220deg 12% 80%); // 9.8:1
+	--rdi-ink-muted: hsl(220deg 10% 70%);     // 7.4:1
+	--rdi-hairline: hsl(220deg 12% 26%);
+	--rdi-border-strong: hsl(220deg 10% 46%); // 3.3:1
+	--rdi-accent: hsl(226deg 90% 74%);        // 6.2:1
+	--rdi-on-accent: hsl(226deg 50% 12%);
+	--rdi-chip-bg: hsl(0deg 0% 100% / 10%);
+	--rdi-good: hsl(130deg 55% 50%);
+	--rdi-warning: hsl(42deg 95% 60%);
+	--rdi-serious: hsl(18deg 85% 65%);
+	--rdi-critical: hsl(0deg 80% 64%);
+	--rdi-low: hsl(220deg 10% 55%);
+	--rdi-good-text: hsl(130deg 55% 66%);
+	--rdi-critical-text: hsl(0deg 90% 76%);
+	--rdi-serious-text: hsl(18deg 90% 74%);
+	--rdi-warning-text: hsl(42deg 95% 68%);
+	--rdi-info-text: hsl(212deg 90% 78%);
+	--rdi-good-bg: hsl(130deg 35% 17%);
+	--rdi-critical-bg: hsl(0deg 40% 22%);
+	--rdi-serious-bg: hsl(18deg 40% 20%);
+	--rdi-warning-bg: hsl(40deg 45% 18%);
+	--rdi-info-bg: hsl(214deg 45% 22%);
+	--rdi-good-wash: hsl(130deg 30% 13%);
+	--rdi-critical-wash: hsl(0deg 35% 15%);
+	--rdi-warning-wash: hsl(40deg 35% 13%);
+	--rdi-good-border: hsl(130deg 35% 32%);
+	--rdi-critical-border: hsl(0deg 45% 38%);
+	--rdi-warning-border: hsl(40deg 50% 36%);
+	--rdi-series-1: hsl(213deg 85% 66%);
+	--rdi-grid: hsl(220deg 12% 22%);
+	--rdi-grid-strong: hsl(220deg 10% 36%);
+	--rdi-spark: hsl(220deg 10% 50%);
+	--rdi-tooltip-bg: hsl(220deg 20% 94%);
+	--rdi-tooltip-ink: hsl(222deg 18% 12%);
+	--rdi-tooltip-muted: hsl(222deg 18% 12% / 75%);
+
+	// On a dark surface the ramp runs the other way: brightest = most severe.
+	--rdi-sev-critical: hsl(214deg 95% 88%);
+	--rdi-sev-high: hsl(216deg 85% 78%);
+	--rdi-sev-medium: hsl(220deg 75% 67%);
+	--rdi-sev-low: hsl(224deg 60% 58%); // ≥ 3:1 on the dark surface
+
+	// @wordpress/components read these.
+	--wp-components-color-background: var(--rdi-surface);
+	--wp-components-color-foreground: var(--rdi-ink);
+	--wp-components-color-accent: var(--rdi-accent);
+	--wp-components-color-accent-darker-10: hsl(226deg 90% 80%);
+	--wp-components-color-accent-darker-20: hsl(226deg 90% 86%);
+	--wp-components-color-accent-inverted: var(--rdi-on-accent);
+	--wp-components-color-gray-100: var(--rdi-plane);
+	--wp-components-color-gray-200: var(--rdi-hairline);
+	--wp-components-color-gray-300: var(--rdi-hairline);
+	--wp-components-color-gray-400: var(--rdi-border-strong);
+	--wp-components-color-gray-600: var(--rdi-border-strong);
+	--wp-components-color-gray-700: var(--rdi-ink-muted);
+	--wp-components-color-gray-800: var(--rdi-ink-secondary);
+}
+
+// More contrast: darker text and borders (light) / brighter (dark), stronger focus.
+@mixin light-more {
+	--rdi-plane: hsl(0deg 0% 96%);
+	--rdi-ink: hsl(0deg 0% 0%);
+	--rdi-ink-secondary: hsl(0deg 0% 18%);
+	--rdi-ink-muted: hsl(0deg 0% 25%);
+	--rdi-hairline: hsl(0deg 0% 45%);
+	--rdi-border-strong: hsl(0deg 0% 30%);
+	--rdi-accent: hsl(229deg 80% 40%);
+	--rdi-critical-text: hsl(0deg 90% 30%);
+	--rdi-serious-text: hsl(17deg 80% 27%);
+	--rdi-warning-text: hsl(35deg 100% 20%);
+	--rdi-good-text: hsl(120deg 100% 15%);
+	--rdi-info-text: hsl(214deg 80% 25%);
+	--rdi-grid: hsl(0deg 0% 80%);
+	--rdi-grid-strong: hsl(0deg 0% 45%);
+	--rdi-spark: hsl(0deg 0% 35%);
+	--rdi-focus-width: 3px;
+}
+
+@mixin dark-more {
+	--rdi-surface: hsl(0deg 0% 4%);
+	--rdi-plane: hsl(0deg 0% 9%);
+	--rdi-page: hsl(0deg 0% 0%);
+	--rdi-ink: hsl(0deg 0% 100%);
+	--rdi-ink-secondary: hsl(0deg 0% 92%);
+	--rdi-ink-muted: hsl(0deg 0% 86%);
+	--rdi-hairline: hsl(0deg 0% 60%);
+	--rdi-border-strong: hsl(0deg 0% 75%);
+	--rdi-accent: hsl(226deg 100% 82%);
+	--rdi-on-accent: hsl(0deg 0% 0%);
+	--rdi-critical-text: hsl(0deg 100% 84%);
+	--rdi-serious-text: hsl(18deg 100% 82%);
+	--rdi-warning-text: hsl(45deg 100% 75%);
+	--rdi-good-text: hsl(130deg 70% 75%);
+	--rdi-info-text: hsl(212deg 100% 86%);
+	--rdi-grid: hsl(0deg 0% 30%);
+	--rdi-grid-strong: hsl(0deg 0% 60%);
+	--rdi-spark: hsl(0deg 0% 70%);
+	--rdi-focus-width: 3px;
+}
+
+.rdi-page {
+	@include light;
+
+	--rdi-focus-width: 2px;
+}
+
+@media (prefers-color-scheme: dark) {
+	.rdi-page {
+		@include dark;
+	}
+}
+
+@media (prefers-contrast: more) {
+	.rdi-page {
+		@include light-more;
+	}
+}
+
+@media (prefers-color-scheme: dark) and (prefers-contrast: more) {
+	.rdi-page {
+		@include dark-more;
+	}
+}
+
+// Keep focused controls clear of the fixed admin bar (2.4.11).
+html:has(body.rdi-page) {
+	scroll-padding-block-start: calc(var(--wp-admin--admin-bar--height, 32px) + 8px);
+}
+
+// Our screens only: the page behind the app follows the scheme too.
+body.rdi-page {
+	background: var(--rdi-page);
+
+	#wpwrap,
+	#wpcontent,
+	#wpbody-content {
+		background: var(--rdi-page);
+	}
+
+	.wrap > .notice,
+	#wpbody-content > .notice {
+		background: var(--rdi-surface);
+		color: var(--rdi-ink);
+	}
+}
+
+// @wordpress/components inputs in the dark schemes (they hard-code white backgrounds).
+@media (prefers-color-scheme: dark) {
+	.rdi-page {
+		.rdi-app,
+		.components-popover {
+			.components-input-control__container,
+			.components-search-control input,
+			.components-select-control__input,
+			.components-input-control__input,
+			select {
+				background: var(--rdi-surface);
+				color: var(--rdi-ink);
+			}
+
+			.components-input-control__backdrop {
+				border-color: var(--rdi-border-strong) !important; // Core sets it inline-specific.
+			}
+
+			.components-popover__content {
+				border-color: var(--rdi-hairline);
+				background: var(--rdi-surface);
+				color: var(--rdi-ink);
+			}
+
+			.components-button.is-tertiary,
+			.components-button.is-secondary {
+				color: var(--rdi-accent);
+			}
+
+			.components-notice {
+				background: var(--rdi-plane);
+				color: var(--rdi-ink);
+			}
+		}
+	}
+}
+
+// Windows High Contrast and other forced-colour modes: system colours, shapes keep meaning.
+@media (forced-colors: active) {
+	.rdi-page {
+		.rdi-bars__track span,
+		.rdi-segments__part,
+		.rdi-legend__swatch,
+		.rdi-chart-legend i,
+		.rdi-tile::before,
+		.rdi-issue::before {
+			forced-color-adjust: none;
+			background: CanvasText;
+		}
+
+		.rdi-chart rect:not(.rdi-chart__hit),
+		.rdi-chart__point,
+		.rdi-spark__dot {
+			fill: CanvasText !important; // Beats the inline series colour.
+		}
+
+		.rdi-segments__part,
+		.rdi-legend__swatch,
+		.rdi-chart-legend i {
+			background: CanvasText !important; // Beats the inline series colour.
+		}
+
+		.rdi-chart__grid,
+		.rdi-gauge__track {
+			stroke: GrayText;
+		}
+
+		.rdi-chart__tip,
+		.rdi-spark__tip {
+			border: 1px solid CanvasText;
+		}
+
+		[aria-pressed="true"]:focus-visible {
+			outline-width: 4px;
+		}
+
+		.rdi-chart__line,
+		.rdi-spark__line,
+		.rdi-gauge__fill {
+			stroke: Highlight;
+		}
+
+		.rdi-severity,
+		.rdi-score,
+		.rdi-chip--new,
+		.rdi-chip--fixed,
+		.rdi-live__status,
+		.rdi-tabs__count {
+			border: 1px solid CanvasText;
+		}
+
+		[aria-pressed="true"],
+		.rdi-tabs__tab.is-active,
+		.rdi-tile.is-active {
+			outline: 2px solid Highlight;
+			outline-offset: -2px;
+		}
+	}
+}
