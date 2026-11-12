@@ -14,14 +14,14 @@
 /composer.json
 /composer.lock
 /node_modules
-/package.json
-/package-lock.json
-/tsconfig.json
-/vite.config.ts
-/.nvmrc
 /phpcs.xml.dist
 /phpstan.neon
 /vendor
 /.phpstan
 /tests
+/README.md
+/.nvmrc
 /bin
+
+# Shipped on purpose (guideline 4): assets/ sources plus package.json, package-lock.json,
+# vite.config.ts and tsconfig.json (no .nvmrc: hidden files are not allowed), so the dashboard can be rebuilt from the plugin itself.

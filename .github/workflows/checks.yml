@@ -85,4 +85,4 @@ jobs:
         with:
           build-dir: "./"
           exclude-directories: ".github,.idea,.phpstan,.prd,.wordpress-org,bin,node_modules,tests,vendor"
-          exclude-files: ".distignore,.editorconfig,.gitattributes,.gitignore,.nvmrc,.stylelintrc.json,composer.json,composer.lock,package.json,package-lock.json,phpcs.xml.dist,phpstan.neon,tsconfig.json,vite.config.ts"
+          exclude-files: ".distignore,.editorconfig,.gitattributes,.gitignore,.stylelintrc.json,composer.json,composer.lock,phpcs.xml.dist,phpstan.neon"

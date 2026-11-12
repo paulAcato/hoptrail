@@ -20,7 +20,16 @@ final class Installer extends Singleton {
 	/**
 	 * Schema version.
 	 */
-	const DB_VERSION = '1.1.0';
+	const DB_VERSION = '1.2.0';
+
+	/**
+	 * Table name suffixes before 1.2.0 (the prefix was too short for WordPress.org); renamed on upgrade.
+	 */
+	const LEGACY_TABLES = [
+		'rdi_scans'  => 'redirect_inspector_scans',
+		'rdi_issues' => 'redirect_inspector_issues',
+		'rdi_fixes'  => 'redirect_inspector_fixes',
+	];
 
 	/**
 	 * Option holding the installed schema version.
@@ -46,7 +55,7 @@ final class Installer extends Singleton {
 	public static function scans_table(): string {
 		global $wpdb;
 
-		return $wpdb->prefix . 'rdi_scans';
+		return $wpdb->prefix . 'redirect_inspector_scans';
 	}
 
 	/**
@@ -57,7 +66,7 @@ final class Installer extends Singleton {
 	public static function issues_table(): string {
 		global $wpdb;
 
-		return $wpdb->prefix . 'rdi_issues';
+		return $wpdb->prefix . 'redirect_inspector_issues';
 	}
 
 	/**
@@ -68,7 +77,7 @@ final class Installer extends Singleton {
 	public static function fixes_table(): string {
 		global $wpdb;
 
-		return $wpdb->prefix . 'rdi_fixes';
+		return $wpdb->prefix . 'redirect_inspector_fixes';
 	}
 
 	/**
@@ -154,6 +163,22 @@ final class Installer extends Singleton {
 	}
 
 	/**
+	 * Rename tables from before 1.2.0 (rdi_*) to their current names, keeping the history.
+	 *
+	 * @return void
+	 */
+	private static function rename_legacy_tables(): void {
+		global $wpdb;
+
+		foreach ( self::LEGACY_TABLES as $old => $new ) {
+			if ( self::table_exists( $wpdb->prefix . $old ) && ! self::table_exists( $wpdb->prefix . $new ) ) {
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Own table, one-off rename on upgrade.
+				$wpdb->query( $wpdb->prepare( 'RENAME TABLE %i TO %i', $wpdb->prefix . $old, $wpdb->prefix . $new ) );
+			}
+		}
+	}
+
+	/**
 	 * Create or upgrade the tables on the current site.
 	 *
 	 * @return bool Whether both tables exist afterwards.
@@ -162,6 +187,8 @@ final class Installer extends Singleton {
 		global $wpdb;
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+		self::rename_legacy_tables();
 
 		$charset = $wpdb->get_charset_collate();
 		$scans   = self::scans_table();
@@ -272,6 +299,11 @@ final class Installer extends Singleton {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.NotPrepared -- Own tables, names from $wpdb->prefix.
 		$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i, %i, %i', self::issues_table(), self::scans_table(), self::fixes_table() ) );
+		// Tables from before 1.2.0, should an upgrade never have run.
+		foreach ( array_keys( self::LEGACY_TABLES ) as $old ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Own table.
+			$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $wpdb->prefix . $old ) );
+		}
 
 		delete_option( self::VERSION_OPTION );
 		delete_option( Settings::OPTION );
@@ -322,10 +354,11 @@ final class Installer extends Singleton {
 	public static function drop_site_tables( $tables, $site_id ): array {
 		global $wpdb;
 
-		$prefix   = $wpdb->get_blog_prefix( (int) $site_id );
-		$tables[] = $prefix . 'rdi_scans';
-		$tables[] = $prefix . 'rdi_issues';
-		$tables[] = $prefix . 'rdi_fixes';
+		$prefix = $wpdb->get_blog_prefix( (int) $site_id );
+		foreach ( self::LEGACY_TABLES as $old => $new ) {
+			$tables[] = $prefix . $new;
+			$tables[] = $prefix . $old; // From before 1.2.0, if never upgraded.
+		}
 
 		return (array) $tables;
 	}

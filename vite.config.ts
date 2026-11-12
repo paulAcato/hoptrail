@@ -25,7 +25,8 @@ export default defineConfig({
 	build: {
 		outDir: 'dist',
 		emptyOutDir: true,
-		manifest: true,
+		// dist/manifest.json, not dist/.vite/: hidden files are not allowed in a WordPress.org plugin.
+		manifest: 'manifest.json',
 		target: 'es2022',
 		cssCodeSplit: false,
 		// Not minified: translate.wordpress.org and `wp i18n make-pot` extract strings from the

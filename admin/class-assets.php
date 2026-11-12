@@ -10,7 +10,7 @@ namespace Acato\RedirectInspector\Admin;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Reads dist/.vite/manifest.json and enqueues the hashed files. React and @wordpress/* come from
+ * Reads dist/manifest.json and enqueues the hashed files. React and @wordpress/* come from
  * WordPress itself (externals), so the dependencies below must match vite.config.ts.
  */
 final class Assets {
@@ -66,7 +66,7 @@ final class Assets {
 	 * @return array
 	 */
 	private static function manifest(): array {
-		$path = REDIRECT_INSPECTOR_PATH . 'dist/.vite/manifest.json';
+		$path = REDIRECT_INSPECTOR_PATH . 'dist/manifest.json';
 		if ( ! is_readable( $path ) ) {
 			return [];
 		}
