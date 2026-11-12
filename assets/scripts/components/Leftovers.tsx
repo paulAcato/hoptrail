@@ -2,6 +2,7 @@ import { Button, CheckboxControl, Modal, SelectControl, Spinner } from '@wordpre
 import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
 import { speak } from '@wordpress/a11y';
 import { __, _n, sprintf } from '@wordpress/i18n';
+import { chevronDown, chevronUp } from '@wordpress/icons';
 import { errorMessage, invalidate, isAbort, route } from '../api/client';
 import { useMutation, useResource } from '../api/hooks';
 import type { Leftover, LeftoverRule, MigrationResult } from '../api/types';
@@ -334,6 +335,9 @@ export const Leftovers = ({ leftovers, targets }: Props) => {
 				<Button
 					className="rdi-leftovers__toggle"
 					variant="link"
+					icon={expanded ? chevronUp : chevronDown}
+					iconPosition="right"
+					iconSize={20}
 					aria-expanded={expanded}
 					aria-controls="rdi-leftovers-list"
 					onClick={() => setExpanded((value) => !value)}
