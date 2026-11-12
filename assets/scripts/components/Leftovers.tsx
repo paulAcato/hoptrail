@@ -283,8 +283,12 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 };
 
 /** Inactive redirect plugins that still hold rules: those redirect nothing until migrated. */
+/** Rows shown before the list folds. */
+const FOLD = 3;
+
 export const Leftovers = ({ leftovers, targets }: Props) => {
 	const [open, setOpen] = useState<string | null>(null);
+	const [expanded, setExpanded] = useState(false);
 	const triggers = useRef<Record<string, HTMLButtonElement | null>>({});
 	const current = leftovers.find((leftover) => leftover.slug === open);
 
@@ -305,8 +309,8 @@ export const Leftovers = ({ leftovers, targets }: Props) => {
 				<h2 id="rdi-leftovers-title" tabIndex={-1}>{__('Leftover redirects', 'redirect-inspector')}</h2>
 				<span className="rdi-card__meta">{__('These plugins are not active, so their rules redirect nothing.', 'redirect-inspector')}</span>
 			</header>
-			<ul className="rdi-leftovers__list">
-				{leftovers.map((leftover) => (
+			<ul className="rdi-leftovers__list" id="rdi-leftovers-list">
+				{(expanded ? leftovers : leftovers.slice(0, FOLD)).map((leftover) => (
 					<li key={leftover.slug} className="rdi-leftovers__row">
 						<div className="rdi-leftovers__what">
 							<strong>{leftover.label}</strong>
@@ -326,6 +330,20 @@ export const Leftovers = ({ leftovers, targets }: Props) => {
 					</li>
 				))}
 			</ul>
+			{leftovers.length > FOLD && (
+				<Button
+					className="rdi-leftovers__toggle"
+					variant="link"
+					aria-expanded={expanded}
+					aria-controls="rdi-leftovers-list"
+					onClick={() => setExpanded((value) => !value)}
+				>
+					{expanded
+						? __('Show fewer', 'redirect-inspector')
+						/* translators: %d: number of plugins with leftover rules. */
+						: sprintf(__('Show all %d', 'redirect-inspector'), leftovers.length)}
+				</Button>
+			)}
 			{current && <LeftoverModal leftover={current} targets={targets} onClose={close} />}
 		</section>
 	);
