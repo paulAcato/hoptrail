@@ -15,6 +15,23 @@
 	line-height: 1.5;
 }
 
+/*
+ * Tied to the Tools menu item with CSS anchor positioning, so it moves with the admin menu whether
+ * that scrolls with the page or stays put. The arrow's middle (39px down) lines up with the item's
+ * middle; anchor(end) is the item's end edge in either writing direction. Without anchor
+ * positioning, assets/menu-pointer.js keeps a fixed pointer in place while scrolling.
+ */
+@supports (anchor-name: --rdi) {
+	/* Fixed, like the sticky admin menu; when the menu scrolls instead, the browser moves the pointer along with its anchor. */
+	.rdi-menu-pointer.is-anchored {
+		position: fixed;
+		inset-block-start: calc(anchor(center) - 39px);
+		inset-inline-start: calc(anchor(end) + 12px);
+		position-anchor: --rdi-menu-tools;
+		position-visibility: anchors-visible;
+	}
+}
+
 /* The banner's faint arrow pattern. */
 .rdi-menu-pointer::before {
 	position: absolute;

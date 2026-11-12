@@ -51,14 +51,29 @@
 	body.append( head, text, actions );
 	box.append( body );
 
+	// CSS anchor positioning ties the pointer to the Tools item (assets/menu-pointer.css). Without
+	// it, a fixed pointer is moved along on every scroll and resize.
+	var anchored = window.CSS && CSS.supports && CSS.supports( 'anchor-name: --rdi' );
+	if ( anchored ) {
+		target.style.setProperty( 'anchor-name', '--rdi-menu-tools' );
+		box.classList.add( 'is-anchored' );
+	}
+
+	var frame = 0;
 	var place = function () {
-		var rect = target.getBoundingClientRect();
-		box.style.top = Math.max( 40, rect.top + rect.height / 2 - 39 ) + 'px';
-		if ( rtl ) {
-			box.style.right = window.innerWidth - rect.left + 12 + 'px';
-		} else {
-			box.style.left = rect.right + 12 + 'px';
+		if ( anchored || frame ) {
+			return;
 		}
+		frame = window.requestAnimationFrame( function () {
+			var rect = target.getBoundingClientRect();
+			frame = 0;
+			box.style.top = rect.top + rect.height / 2 - 39 + 'px';
+			if ( rtl ) {
+				box.style.right = window.innerWidth - rect.left + 12 + 'px';
+			} else {
+				box.style.left = rect.right + 12 + 'px';
+			}
+		} );
 	};
 
 	var onKey = function ( event ) {
@@ -69,7 +84,9 @@
 
 	var close = function () {
 		box.remove();
+		target.style.removeProperty( 'anchor-name' );
 		window.removeEventListener( 'resize', place );
+		window.removeEventListener( 'scroll', place );
 		document.removeEventListener( 'keydown', onKey );
 		var form = new FormData();
 		form.append( 'action', 'dismiss-wp-pointer' );
@@ -90,7 +107,8 @@
 		}
 		document.body.append( box );
 		place();
-		window.addEventListener( 'resize', place );
+		window.addEventListener( 'resize', place, { passive: true } );
+		window.addEventListener( 'scroll', place, { passive: true } );
 		document.addEventListener( 'keydown', onKey );
 	};
 
