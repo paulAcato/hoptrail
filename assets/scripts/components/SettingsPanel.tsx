@@ -6,7 +6,7 @@ import { trash } from '@wordpress/icons';
 import { errorMessage, invalidate, isAbort, route } from '../api/client';
 import { useMutation } from '../api/hooks';
 import type { Retention, Schedule, Settings } from '../api/types';
-import { dateTime } from '../lib/format';
+import { dateTime, hour, weekdayNames } from '../lib/format';
 
 interface Props {
 	settings: Settings;
@@ -17,19 +17,15 @@ interface Props {
 type Feedback = { status: 'success' | 'error'; text: string } | null;
 
 const boot = window.redirectInspector;
-const locale = document.documentElement.lang || undefined;
 const HOURS = Array.from({ length: 24 }, (_, hour) => hour);
 
-/** Weekday numbers (0 = Sunday) in the site's week order, with localised short and long names. */
+/** Weekday numbers (0 = Sunday) in the site's week order, with WordPress's own short and long names. */
 const weekdays = (() => {
 	const start = boot?.startOfWeek ?? 1;
-	const short = new Intl.DateTimeFormat(locale, { weekday: 'short' });
-	const long = new Intl.DateTimeFormat(locale, { weekday: 'long' });
-	// 2023-01-01 was a Sunday.
+	const names = weekdayNames();
 	return Array.from({ length: 7 }, (_, index) => {
 		const day = (start + index) % 7;
-		const date = new Date(2023, 0, 1 + day);
-		return { day, short: short.format(date), long: long.format(date) };
+		return { day, short: names.short[day], long: names.long[day] };
 	});
 })();
 
@@ -39,7 +35,7 @@ const timezone = (() => {
 	return /^[+-]/.test(zone) ? `UTC${zone}` : zone || 'UTC';
 })();
 
-const hourLabel = (hour: number): string => `${String(hour).padStart(2, '0')}:00`;
+const hourLabel = (value: number): string => hour(value);
 
 const toggle = (list: number[], value: number): number[] =>
 	(list.includes(value) ? list.filter((item) => item !== value) : [...list, value]).sort((a, b) => a - b);

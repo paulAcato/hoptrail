@@ -28,7 +28,7 @@ final class Assets {
 	/**
 	 * WordPress script dependencies (externals in vite.config.ts).
 	 */
-	const DEPENDENCIES = [ 'react', 'react-dom', 'react-jsx-runtime', 'wp-element', 'wp-components', 'wp-api-fetch', 'wp-i18n', 'wp-a11y', 'wp-primitives' ];
+	const DEPENDENCIES = [ 'react', 'react-dom', 'react-jsx-runtime', 'wp-element', 'wp-components', 'wp-api-fetch', 'wp-i18n', 'wp-a11y', 'wp-primitives', 'wp-date' ];
 
 	/**
 	 * Enqueue the app.

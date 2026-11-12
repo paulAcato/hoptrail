@@ -15,6 +15,7 @@ const globals: Record<string, string> = {
 	'@wordpress/i18n': 'wp.i18n',
 	'@wordpress/a11y': 'wp.a11y',
 	'@wordpress/primitives': 'wp.primitives',
+	'@wordpress/date': 'wp.date',
 };
 
 export default defineConfig({

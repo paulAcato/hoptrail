@@ -5,12 +5,10 @@ import { calendar, closeSmall } from '@wordpress/icons';
 import { route } from '../api/client';
 import { useResource } from '../api/hooks';
 import type { Paged, Scan } from '../api/types';
-import { dateTime, duration } from '../lib/format';
+import { dateTime, day, duration } from '../lib/format';
 import { healthBand, healthLabel } from '../lib/meta';
 
 const PER_PAGE = 8;
-const locale = document.documentElement.lang || undefined;
-const dayFormat = new Intl.DateTimeFormat(locale, { dateStyle: 'medium' });
 
 type SortKey = 'date' | 'rules' | 'issues' | 'score' | 'duration';
 type Order = 'asc' | 'desc';
@@ -86,7 +84,7 @@ export const ScanHistory = () => {
 						popoverProps={{ placement: 'bottom-end' }}
 						renderToggle={({ isOpen, onToggle }) => (
 							<Button ref={pickerRef} variant="secondary" size="compact" icon={calendar} aria-expanded={isOpen} onClick={onToggle}>
-								{date ? dayFormat.format(fromYmd(date)) : __('Pick a date', 'redirect-inspector')}
+								{date ? day(date) : __('Pick a date', 'redirect-inspector')}
 							</Button>
 						)}
 						renderContent={({ onClose }) => (
@@ -131,7 +129,7 @@ export const ScanHistory = () => {
 									<td colSpan={7}>
 										{date
 											/* translators: %s: date. */
-											? sprintf(__('No scans on %s.', 'redirect-inspector'), dayFormat.format(fromYmd(date)))
+											? sprintf(__('No scans on %s.', 'redirect-inspector'), day(date))
 											: __('No scans yet.', 'redirect-inspector')}
 									</td>
 								</tr>

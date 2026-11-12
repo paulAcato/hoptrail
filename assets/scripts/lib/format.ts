@@ -1,13 +1,28 @@
+import { dateI18n, getSettings } from '@wordpress/date';
 import { __, sprintf } from '@wordpress/i18n';
 
-const locale = document.documentElement.lang || undefined;
+/**
+ * Dates follow WordPress: the site's date and time formats (Settings → General), the site
+ * timezone, and the admin language — all from the settings WordPress passes to wp.date.
+ */
+const settings = getSettings();
+const dateFormat = settings.formats.date;
+const timeFormat = settings.formats.time;
+const locale = (settings.l10n.locale || document.documentElement.lang || 'en').replace('_', '-');
+
 const numberFormat = new Intl.NumberFormat(locale, { notation: 'compact', maximumFractionDigits: 1 });
-const dateFormat = new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeStyle: 'short' });
 const relativeFormat = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
 
 export const compact = (value: number): string => (value < 1000 ? String(value) : numberFormat.format(value));
 
-export const dateTime = (iso: string | null): string => (iso ? dateFormat.format(new Date(iso)) : '—');
+/** Date and time of a moment (ISO 8601), in the site's formats and timezone. */
+export const dateTime = (iso: string | null): string => (iso ? dateI18n(`${dateFormat} ${timeFormat}`, iso) : '—');
+
+/** A calendar day (Y-m-d, already in site time), in the site's date format. */
+export const day = (ymd: string): string => dateI18n(dateFormat, `${ymd}T12:00:00Z`, 'UTC');
+
+/** A whole hour (0–23) in the site's time format, e.g. "03:00" or "3:00 am". */
+export const hour = (value: number): string => dateI18n(timeFormat, Date.UTC(2000, 0, 1, value), 'UTC');
 
 export const relative = (iso: string | null): string => {
 	if (!iso) {
@@ -38,4 +53,14 @@ export const safeHref = (url: string, base: string): string | undefined => {
 	} catch {
 		return undefined;
 	}
+};
+
+/** Weekday names in the admin language, from WordPress's own locale data (0 = Sunday). */
+export const weekdayNames = (): { short: string[]; long: string[] } => {
+	const fallback = (style: 'short' | 'long') => Array.from({ length: 7 }, (_, index) => new Intl.DateTimeFormat(locale, { weekday: style }).format(new Date(2023, 0, 1 + index)));
+	const { weekdaysShort, weekdays } = settings.l10n;
+	return {
+		short: Array.isArray(weekdaysShort) ? weekdaysShort : fallback('short'),
+		long: Array.isArray(weekdays) ? weekdays : fallback('long'),
+	};
 };
