@@ -112,6 +112,8 @@ Rules are read in batches and analysed within a time budget. If a scan reaches t
 1. The dashboard: health score, issues per type and their trend.
 2. An issue with its full redirect path and the plugin behind every hop.
 3. Scan history and the schedule and retention settings.
+4. The dashboard in every colour scheme: light, dark, and both with more contrast.
+5. The charts in every colour scheme.
 
 == Changelog ==
 
