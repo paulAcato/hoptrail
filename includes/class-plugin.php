@@ -8,6 +8,7 @@
 namespace Acato\RedirectInspector\Includes;
 
 use Acato\RedirectInspector\Admin\Admin_Page;
+use Acato\RedirectInspector\Admin\Tour;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -29,6 +30,7 @@ final class Plugin extends Singleton {
 		Retention::instance();
 		Scheduler::instance();
 		Presence::instance();
+		Tour::instance();
 
 		// WordPress 7.1+ Abilities API (the class checks the version itself).
 		if ( class_exists( Abilities::class ) ) {

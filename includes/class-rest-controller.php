@@ -78,6 +78,10 @@ final class Rest_Controller extends Singleton {
 						'maxLength'         => 200,
 						'sanitize_callback' => 'sanitize_text_field',
 					],
+					'regex'    => [
+						'type'    => 'boolean',
+						'default' => false,
+					],
 					'page'     => [
 						'type'    => 'integer',
 						'minimum' => 1,
@@ -466,14 +470,19 @@ final class Rest_Controller extends Singleton {
 			);
 		}
 
-		$result = Log_Repository::issues(
-			$scan_id,
-			array_map( 'strval', (array) $request['types'] ),
-			(string) $request['plugin'],
-			(string) $request['search'],
-			(int) $request['page'],
-			(int) $request['per_page']
-		);
+		try {
+			$result = Log_Repository::issues(
+				$scan_id,
+				array_map( 'strval', (array) $request['types'] ),
+				(string) $request['plugin'],
+				(string) $request['search'],
+				(int) $request['page'],
+				(int) $request['per_page'],
+				(bool) $request['regex']
+			);
+		} catch ( \InvalidArgumentException $e ) {
+			return new WP_Error( 'redirect_inspector_invalid_regex', $e->getMessage(), [ 'status' => 400 ] );
+		}
 
 		$response = new WP_REST_Response( $result );
 		$response->header( 'X-WP-Total', (string) $result['total'] );

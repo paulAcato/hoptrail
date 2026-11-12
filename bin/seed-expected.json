@@ -1,6 +1,6 @@
 {
-	"loop": 5,
-	"chain": 7,
+	"loop": 6,
+	"chain": 9,
 	"conflict": 1,
 	"noop": 1,
 	"duplicate": 1,
@@ -8,14 +8,16 @@
 	"shadow": 1,
 	"broken": 1,
 	"_notes": {
-		"loop": "/loop-a<->/loop-b; /self; regex ^/blog/ <-> ^/news/; /cross-a (Redirection) -> /cross-b (Rank Math) -> /cross-c (Yoast) -> /cross-a; SmartCrawl /sc-target <-> The SEO Framework (tsf-page)",
-		"chain": "/old-about (3 hops); /about-old (2); /promo -> Yoast promo-2024 (2); SRM /careers-old (2); SRM /legacy/* runs into the regex loop; 301 Redirects /eps-old -> Slim SEO eps-mid (2); SmartCrawl /old-seopress -> SEOPress page (2)",
+		"loop": "/loop-a<->/loop-b; /self; regex ^/blog/ <-> ^/news/; /cross-a (Redirection) -> /cross-b (Rank Math) -> /cross-c (Yoast) -> /cross-a; SmartCrawl /sc-target <-> The SEO Framework (tsf-page); SmartCrawl regex ^/kb/(.+)$ -> /kb/$1 (redirects into itself)",
+		"chain": "/old-about (3 hops); /about-old (2); /promo -> Yoast promo-2024 (2); SRM /careers-old (2); SRM /legacy/* runs into the regex loop; 301 Redirects /eps-old -> Slim SEO eps-mid (2); SmartCrawl /old-seopress -> SEOPress page (2); Rank Math regex ^docs/v1/ -> Slim SEO regex ^docs/v2/ (2); SRM regex /products/([a-z]+) -> Yoast regex ^shop/ (2)",
 		"conflict": "/conflict-source: Redirection -> /contact, SRM -> /team",
 		"noop": "Yoast help/ -> help",
 		"duplicate": "/dup-source in Redirection, Simple 301 and 301 Redirects, same target",
 		"redundant": "Simple 301 /old-launch, already handled by _wp_old_slug",
 		"shadow": "Rank Math redirects the published /services page",
 		"broken": "Redirection /old-pricing -> /pricing-2019 (no such content)",
-		"ignored": "Redirection /disabled-rule is disabled and must not be reported"
+		"ignored": "Redirection /disabled-rule is disabled and must not be reported",
+		"regex": "Pattern rules in every plugin that has them: Redirection, Yoast, Rank Math, SRM (wildcard and regex), Simple 301 (wildcard), Slim SEO and SmartCrawl. 301 Redirects, SEOPress and The SEO Framework only hold exact rules.",
+		"404_log": "Seven old URLs in Redirection's 404 log (/docs/v1/install, /products/shoes, ...): migrating a pattern into Simple 301 or 301 Redirects copies it as exact rules for these."
 	}
 }

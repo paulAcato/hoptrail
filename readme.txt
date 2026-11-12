@@ -51,13 +51,14 @@ Under Tools → Redirect Inspector:
 
 * A health score, issues per type and their trend.
 * Charts of the health score and of issues by severity over time.
-* A searchable, filterable list of issues, each showing the full redirect path and which plugin owns every hop. When a scan finds nothing, an "All clear" overview shows the checks it passed.
+* A searchable, filterable list of issues, each showing the full redirect path and which plugin owns every hop. Search with plain text or, with the .* switch, a regular expression (such as `^/blog/`). When a scan finds nothing, an "All clear" overview shows the checks it passed.
 * **Verify live**: follows the real redirects of an issue over HTTP, on your own site only, to confirm what visitors get.
 * **Apply fix**: only where the fix is clear-cut. A chain is shortened by pointing its first rule at the final URL; a duplicate, self-redirect, redundant rule or rule hiding content is switched off. You confirm each change first.
-* **Leftover redirects**: a redirect plugin that is no longer active but still holds rules is detected. Review its rules in a dialog, then migrate them into an active redirect plugin, delete single rules, or delete all of its data (and, for plugins with their own tables, the tables).
+* **Leftover redirects**: a redirect plugin that is no longer active but still holds rules is detected. Review its rules in a dialog, then migrate them into an active redirect plugin, delete single rules, or delete all of its data (and, for plugins with their own tables, the tables). Regex, wildcard and prefix rules are migrated as they are where the other plugin supports them; into a plugin that only holds exact rules (Simple 301 Redirects, 301 Redirects), they are copied as exact rules for the URLs your site is known to have: published content, URLs from Redirection's 404 log, and the sources and targets of other rules. The dialog lists them first.
 * **Scan history** with a date picker (limited to the days that have scans) and sortable columns.
 * **Scheduled scans**: daily, weekly (on the weekdays you pick) or monthly (on a day of the month or the last day), at the hours you pick, in the site's timezone.
 * **Retention**: keep scans for a number of days, or keep only the newest number of scans. Old scans are removed every Sunday around 03:00 (and right after every scan when you keep a number of scans).
+* **Quick walkthrough**: a short tour of the dashboard on your first visit, started from a pointer on the Tools menu. After an update that adds features, each administrator gets a walkthrough of only what is new. Show it again any time from the bottom of the dashboard.
 * **Working together**: when other administrators have the dashboard open, you see who; when one of them (or a scheduled scan, WP-CLI or an AI client) changes something, your dashboard updates within about 15 seconds and says what happened. Settings you are editing are never overwritten.
 
 Dates and times follow the site's date and time formats, timezone and language. When your computer runs on another timezone than the site, scheduled times also show your own clock. The dashboard follows your system's light or dark mode and its contrast preference, and was checked against WCAG 2.2 AA in all of them.
@@ -86,7 +87,7 @@ Redirect Inspector only reads other plugins' rules, except when you choose **App
 * Before a fix is applied, the rule is read again; if it changed since the scan, nothing is changed.
 * Rules are switched off where the plugin supports that (Redirection, Rank Math, Safe Redirect Manager, 301 Redirects, SEOPress, Slim SEO), so they can be switched back on there. Yoast SEO Premium, Simple 301 Redirects, SmartCrawl and The SEO Framework have no "off" state; there the rule is removed.
 * Only plain URLs and paths are ever written into another plugin's storage.
-* Migrating copies rules; the inactive plugin's data is left as it is until you delete it.
+* Migrating copies rules; the inactive plugin's data is left as it is until you delete it. A pattern copied as exact rules covers the URLs listed in the dialog, not URLs your site has never seen.
 * Leftover data can only be deleted while its plugin is not active.
 * Every change is written to a log with the rule before and after. One change runs at a time, never during a scan.
 
@@ -150,5 +151,6 @@ Rules are read in batches and analysed within a time budget. If a scan reaches t
 
 = 1.0.0 =
 * First release: reads redirects from ten SEO and redirect plugins and finds loops, chains, conflicts, duplicates, self-redirects, redundant and hidden-content rules, broken targets and invalid patterns.
-* Verify live, Apply fix, leftover detection with migration and deletion, scheduled scans, retention by days or by number of scans.
+* Verify live, Apply fix, leftover detection with migration (patterns as exact rules where needed) and deletion, scheduled scans, retention by days or by number of scans.
+* Regex search in the issue list, a versioned walkthrough, and live updates when other administrators change something.
 * WP-CLI commands and four abilities for the WordPress Abilities API.

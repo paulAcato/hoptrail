@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-12T20:26:33+00:00\n"
+"POT-Creation-Date: 2026-11-12T20:53:07+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: redirect-inspector\n"
@@ -21,9 +21,10 @@ msgstr ""
 #: admin/class-admin-page.php:74
 #: admin/class-admin-page.php:75
 #: admin/class-admin-page.php:96
+#: admin/class-tour.php:110
 #: includes/class-abilities.php:117
-#: dist/redirect-inspector.CfaD97bu.js:699
-#: dist/redirect-inspector.CfaD97bu.js:2918
+#: dist/redirect-inspector.CUQ5PWuy.js:882
+#: dist/redirect-inspector.CUQ5PWuy.js:3188
 msgid "Redirect Inspector"
 msgstr ""
 
@@ -55,8 +56,24 @@ msgstr ""
 msgid "Redirect Inspector: the dashboard assets are missing. Run npm run build in the plugin folder."
 msgstr ""
 
-#: admin/class-admin-page.php:177
+#: admin/class-admin-page.php:178
 msgid "Settings"
+msgstr ""
+
+#: admin/class-tour.php:105
+msgid "Find redirect loops, chains and redirects you don’t need, across all your SEO and redirect plugins. A quick walkthrough shows you around."
+msgstr ""
+
+#: admin/class-tour.php:106
+msgid "Redirect Inspector has new features. A quick walkthrough shows what changed."
+msgstr ""
+
+#: admin/class-tour.php:113
+msgid "Take the walkthrough"
+msgstr ""
+
+#: admin/class-tour.php:114
+msgid "Not now"
 msgstr ""
 
 #: includes/analysis/class-analyzer.php:118
@@ -177,7 +194,7 @@ msgid "Whether scans run on a schedule at all."
 msgstr ""
 
 #: includes/class-abilities.php:243
-#: dist/redirect-inspector.CfaD97bu.js:2302
+#: dist/redirect-inspector.CUQ5PWuy.js:2545
 msgid "Frequency"
 msgstr ""
 
@@ -335,7 +352,7 @@ msgid "When the scan finished (ISO 8601, UTC)."
 msgstr ""
 
 #: includes/class-abilities.php:457
-#: dist/redirect-inspector.CfaD97bu.js:2065
+#: dist/redirect-inspector.CUQ5PWuy.js:2308
 msgid "Status"
 msgstr ""
 
@@ -436,7 +453,7 @@ msgid "Every hop: URL → (status code, plugin) URL → …"
 msgstr ""
 
 #: includes/class-abilities.php:473
-#: dist/redirect-inspector.CfaD97bu.js:1872
+#: dist/redirect-inspector.CUQ5PWuy.js:2115
 msgid "Plugin"
 msgstr ""
 
@@ -473,7 +490,7 @@ msgid "This request involves personal data, such as names or e-mail addresses. S
 msgstr ""
 
 #: includes/class-fixer.php:37
-#: includes/class-migrator.php:113
+#: includes/class-migrator.php:114
 msgid "Another change or a scan is running. Try again in a moment."
 msgstr ""
 
@@ -505,52 +522,56 @@ msgstr ""
 msgid "A live check is already running."
 msgstr ""
 
-#: includes/class-log-repository.php:462
+#: includes/class-log-repository.php:344
+msgid "This is not a valid regular expression."
+msgstr ""
+
+#: includes/class-log-repository.php:560
 msgid "Scheduled"
 msgstr ""
 
-#: includes/class-log-repository.php:463
+#: includes/class-log-repository.php:561
 msgid "Ability"
 msgstr ""
 
-#: includes/class-migrator.php:86
+#: includes/class-migrator.php:87
 msgid "There are no leftover rules to migrate from that plugin."
 msgstr ""
 
-#: includes/class-migrator.php:89
+#: includes/class-migrator.php:90
 msgid "Rules can only be migrated into an active redirect plugin."
 msgstr ""
 
-#: includes/class-migrator.php:269
+#: includes/class-migrator.php:316
 msgid "The rule could not be deleted. It may already be gone."
 msgstr ""
 
-#: includes/class-migrator.php:309
+#: includes/class-migrator.php:356
 msgid "The data could not be deleted."
 msgstr ""
 
-#: includes/class-migrator.php:331
+#: includes/class-migrator.php:378
 msgid "There are no leftover rules for that plugin."
 msgstr ""
 
-#: includes/class-rest-controller.php:370
+#: includes/class-rest-controller.php:374
 #: includes/class-scanner.php:68
 msgid "The Redirect Inspector tables are missing and could not be created."
 msgstr ""
 
-#: includes/class-rest-controller.php:611
+#: includes/class-rest-controller.php:620
 msgid "Issue not found."
 msgstr ""
 
-#: includes/class-rest-controller.php:618
+#: includes/class-rest-controller.php:627
 msgid "Nothing to check."
 msgstr ""
 
-#: includes/class-rest-controller.php:654
+#: includes/class-rest-controller.php:663
 msgid "Pick at least one day and one hour for scheduled scans."
 msgstr ""
 
-#: includes/class-rest-controller.php:706
+#: includes/class-rest-controller.php:715
 msgid "A scan is running. Try again in a moment."
 msgstr ""
 
@@ -588,1007 +609,1108 @@ msgstr ""
 msgid "Time or evaluation budget reached; results may be incomplete."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:34
+#: dist/redirect-inspector.CUQ5PWuy.js:34
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:253
+#: dist/redirect-inspector.CUQ5PWuy.js:253
 #, js-format
 msgid "%1$s (%2$s your time)"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:267
+#: dist/redirect-inspector.CUQ5PWuy.js:267
 msgid "never"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:274
+#: dist/redirect-inspector.CUQ5PWuy.js:274
 msgid "just now"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:276
+#: dist/redirect-inspector.CUQ5PWuy.js:276
 #, js-format
 msgid "%d ms"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:276
+#: dist/redirect-inspector.CUQ5PWuy.js:276
 #, js-format
 msgid "%s s"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:308
+#: dist/redirect-inspector.CUQ5PWuy.js:308
 msgid "Loop"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:309
-#: dist/redirect-inspector.CfaD97bu.js:362
-#: dist/redirect-inspector.CfaD97bu.js:2974
+#: dist/redirect-inspector.CUQ5PWuy.js:309
+#: dist/redirect-inspector.CUQ5PWuy.js:362
+#: dist/redirect-inspector.CUQ5PWuy.js:3244
 msgid "Loops"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:310
+#: dist/redirect-inspector.CUQ5PWuy.js:310
 msgid "Redirects that never end"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:313
+#: dist/redirect-inspector.CUQ5PWuy.js:313
 msgid "Chain"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:314
-#: dist/redirect-inspector.CfaD97bu.js:363
-#: dist/redirect-inspector.CfaD97bu.js:2979
+#: dist/redirect-inspector.CUQ5PWuy.js:314
+#: dist/redirect-inspector.CUQ5PWuy.js:363
+#: dist/redirect-inspector.CUQ5PWuy.js:3249
 msgid "Chains"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:315
+#: dist/redirect-inspector.CUQ5PWuy.js:315
 msgid "Two or more hops before the page loads"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:318
+#: dist/redirect-inspector.CUQ5PWuy.js:318
 msgid "Conflict"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:319
-#: dist/redirect-inspector.CfaD97bu.js:364
+#: dist/redirect-inspector.CUQ5PWuy.js:319
+#: dist/redirect-inspector.CUQ5PWuy.js:364
 msgid "Conflicts"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:320
+#: dist/redirect-inspector.CUQ5PWuy.js:320
 msgid "One URL, several different targets"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:323
+#: dist/redirect-inspector.CUQ5PWuy.js:323
 msgid "Self-redirect"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:324
+#: dist/redirect-inspector.CUQ5PWuy.js:324
 msgid "Self-redirects"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:325
+#: dist/redirect-inspector.CUQ5PWuy.js:325
 msgid "Source and target are the same URL"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:328
+#: dist/redirect-inspector.CUQ5PWuy.js:328
 msgid "Duplicate"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:329
+#: dist/redirect-inspector.CUQ5PWuy.js:329
 msgid "Duplicates"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:330
+#: dist/redirect-inspector.CUQ5PWuy.js:330
 msgid "The same redirect defined twice"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:333
-#: dist/redirect-inspector.CfaD97bu.js:334
+#: dist/redirect-inspector.CUQ5PWuy.js:333
+#: dist/redirect-inspector.CUQ5PWuy.js:334
 msgid "Redundant"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:335
+#: dist/redirect-inspector.CUQ5PWuy.js:335
 msgid "WordPress already handles it"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:338
-#: dist/redirect-inspector.CfaD97bu.js:339
+#: dist/redirect-inspector.CUQ5PWuy.js:338
+#: dist/redirect-inspector.CUQ5PWuy.js:339
 msgid "Hides content"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:340
+#: dist/redirect-inspector.CUQ5PWuy.js:340
 msgid "Redirects away from a published page"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:343
+#: dist/redirect-inspector.CUQ5PWuy.js:343
 msgid "Broken target"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:344
+#: dist/redirect-inspector.CUQ5PWuy.js:344
 msgid "Broken targets"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:345
+#: dist/redirect-inspector.CUQ5PWuy.js:345
 msgid "Ends on a page that probably 404s"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:361
+#: dist/redirect-inspector.CUQ5PWuy.js:361
 msgid "All issues"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:365
+#: dist/redirect-inspector.CUQ5PWuy.js:365
 msgid "Unnecessary"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:366
+#: dist/redirect-inspector.CUQ5PWuy.js:366
 msgid "Broken"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:370
-#: dist/redirect-inspector.CfaD97bu.js:401
+#: dist/redirect-inspector.CUQ5PWuy.js:370
+#: dist/redirect-inspector.CUQ5PWuy.js:401
 msgid "Critical"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:371
+#: dist/redirect-inspector.CUQ5PWuy.js:371
 msgid "High"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:372
+#: dist/redirect-inspector.CUQ5PWuy.js:372
 msgid "Medium"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:373
+#: dist/redirect-inspector.CUQ5PWuy.js:373
 msgid "Low"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:399
+#: dist/redirect-inspector.CUQ5PWuy.js:399
 msgid "Healthy"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:400
+#: dist/redirect-inspector.CUQ5PWuy.js:400
 msgid "Needs attention"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:409
+#: dist/redirect-inspector.CUQ5PWuy.js:409
 msgid "Someone"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:411
+#: dist/redirect-inspector.CUQ5PWuy.js:411
 msgid "A scheduled scan finished. The dashboard is up to date."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:412
+#: dist/redirect-inspector.CUQ5PWuy.js:412
 #, js-format
 msgid "%s ran a scan. The dashboard is up to date."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:412
+#: dist/redirect-inspector.CUQ5PWuy.js:412
 msgid "A scan ran (WP-CLI or an AI client). The dashboard is up to date."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:413
+#: dist/redirect-inspector.CUQ5PWuy.js:413
 #, js-format
 msgid "%s applied a fix."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:414
+#: dist/redirect-inspector.CUQ5PWuy.js:414
 #, js-format
 msgid "%s migrated leftover rules."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:415
+#: dist/redirect-inspector.CUQ5PWuy.js:415
 #, js-format
 msgid "%s deleted a leftover rule."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:416
+#: dist/redirect-inspector.CUQ5PWuy.js:416
 #, js-format
 msgid "%s deleted leftover data."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:417
+#: dist/redirect-inspector.CUQ5PWuy.js:417
 #, js-format
 msgid "%s changed the schedule or retention settings."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:418
+#: dist/redirect-inspector.CUQ5PWuy.js:418
 #, js-format
 msgid "%s deleted logs."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:419
+#: dist/redirect-inspector.CUQ5PWuy.js:419
 msgid "Redirect Inspector was updated by someone else."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:630
+#: dist/redirect-inspector.CUQ5PWuy.js:469
+msgid "Run a scan"
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:470
+msgid "Reads the redirect rules of all supported SEO and redirect plugins and follows every one to where it really ends. Scheduled scans do the same on their own."
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:476
+#: dist/redirect-inspector.CUQ5PWuy.js:920
+#: dist/redirect-inspector.CUQ5PWuy.js:3088
+msgid "Health score"
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:477
+msgid "100 means every redirect goes straight to its destination. Loops cost the most, then chains and conflicts."
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:483
+#: dist/redirect-inspector.CUQ5PWuy.js:1299
+msgid "Leftover redirects"
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:484
+msgid "Rules of plugins that are no longer active. Review them, copy them into an active plugin, or delete them. A pattern is copied as exact rules when the other plugin only holds exact ones."
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:489
+msgid "Issues per type"
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:490
+msgid "Loops, chains, conflicts, redirects you don’t need, and broken targets, with their trend. Select one to filter the list."
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:495
+#: dist/redirect-inspector.CUQ5PWuy.js:2099
+msgid "Search"
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:496
+msgid "Search the URLs of every hop. Switch on .* to search with a regular expression, such as ^/blog/."
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:501
+msgid "Verify and fix"
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:502
+msgid "Verify live requests the URL on this site to confirm what visitors get. Apply fix appears when the fix is clear-cut, and changes the rule in the plugin it belongs to."
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:507
+msgid "Schedule and retention"
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:508
+msgid "Scan daily, weekly or monthly at the hours you choose, and decide how much scan history to keep."
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:604
+#, js-format
+msgid "%1$d of %2$d"
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:610
+msgid "Skip walkthrough"
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:616
+msgid "Back"
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:623
+msgid "Done"
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:623
+#: dist/redirect-inspector.CUQ5PWuy.js:2160
+#: dist/redirect-inspector.CUQ5PWuy.js:2373
+#: dist/redirect-inspector.CUQ5PWuy.js:3328
+msgid "Next"
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:813
 msgid "No loops"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:631
+#: dist/redirect-inspector.CUQ5PWuy.js:814
 msgid "No chains"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:632
+#: dist/redirect-inspector.CUQ5PWuy.js:815
 msgid "No conflicts"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:633
+#: dist/redirect-inspector.CUQ5PWuy.js:816
 msgid "No self-redirects"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:634
+#: dist/redirect-inspector.CUQ5PWuy.js:817
 msgid "No duplicates"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:635
+#: dist/redirect-inspector.CUQ5PWuy.js:818
 msgid "No redundant rules"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:636
+#: dist/redirect-inspector.CUQ5PWuy.js:819
 msgid "No hidden content"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:637
+#: dist/redirect-inspector.CUQ5PWuy.js:820
 msgid "No broken targets"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:654
+#: dist/redirect-inspector.CUQ5PWuy.js:837
 msgid "No issues found so far"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:654
+#: dist/redirect-inspector.CUQ5PWuy.js:837
 #, js-format
 msgid "All clear: no issues in %d redirect rule"
 msgid_plural "All clear: no issues in %d redirect rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CfaD97bu.js:655
+#: dist/redirect-inspector.CUQ5PWuy.js:838
 msgid "Every redirect goes straight to its destination. These are the checks it passed:"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:669
+#: dist/redirect-inspector.CUQ5PWuy.js:852
 #, js-format
 msgid "%s is also here"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:669
+#: dist/redirect-inspector.CUQ5PWuy.js:852
 #, js-format
 msgid "%1$s are also here"
 msgid_plural "%1$s are also here"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CfaD97bu.js:703
+#: dist/redirect-inspector.CUQ5PWuy.js:886
 msgid "Follows every redirect rule of your SEO and redirect plugins to where it really ends."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:708
+#: dist/redirect-inspector.CUQ5PWuy.js:891
 #, js-format
 msgid "Last scan %1$s · %2$d rules · %3$s"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:708
-#: dist/redirect-inspector.CfaD97bu.js:737
+#: dist/redirect-inspector.CUQ5PWuy.js:891
+#: dist/redirect-inspector.CUQ5PWuy.js:920
 msgid "No scan yet"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:731
+#: dist/redirect-inspector.CUQ5PWuy.js:914
 msgid "Scanning…"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:731
+#: dist/redirect-inspector.CUQ5PWuy.js:914
 msgid "Run scan"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:737
-#: dist/redirect-inspector.CfaD97bu.js:2830
-msgid "Health score"
-msgstr ""
-
-#: dist/redirect-inspector.CfaD97bu.js:760
+#: dist/redirect-inspector.CUQ5PWuy.js:943
 msgid "no score"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:770
+#: dist/redirect-inspector.CUQ5PWuy.js:953
 #, js-format
 msgid "Will be copied to %s"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:771
+#: dist/redirect-inspector.CUQ5PWuy.js:954
+#, js-format
+msgid "Becomes %1$d exact rule in %2$s"
+msgid_plural "Becomes %1$d exact rules in %2$s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:955
 #, js-format
 msgid "Already in %s"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:772
+#: dist/redirect-inspector.CUQ5PWuy.js:956
 #, js-format
 msgid "%s can’t hold this rule"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:792
+#: dist/redirect-inspector.CUQ5PWuy.js:977
 #, js-format
 msgid "Deleted the rule for %s."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:826
-#: dist/redirect-inspector.CfaD97bu.js:844
+#: dist/redirect-inspector.CUQ5PWuy.js:1005
+msgid "Hide the exact rules"
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:1005
+msgid "Show the exact rules"
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:1018
+#: dist/redirect-inspector.CUQ5PWuy.js:1036
 msgid "Delete"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:836
-#: dist/redirect-inspector.CfaD97bu.js:1024
-#: dist/redirect-inspector.CfaD97bu.js:1745
-#: dist/redirect-inspector.CfaD97bu.js:2491
+#: dist/redirect-inspector.CUQ5PWuy.js:1028
+#: dist/redirect-inspector.CUQ5PWuy.js:1232
+#: dist/redirect-inspector.CUQ5PWuy.js:1971
+#: dist/redirect-inspector.CUQ5PWuy.js:2734
 msgid "Cancel"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:842
+#: dist/redirect-inspector.CUQ5PWuy.js:1034
 #, js-format
 msgid "Delete the rule for %s"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:892
+#: dist/redirect-inspector.CUQ5PWuy.js:1051
+#, js-format
+msgid "%s only holds exact rules, so this pattern is copied for the URLs this site is known to have: published content, URLs from the 404 log, and the sources and targets of other rules."
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:1100
 #, js-format
 msgid "%1$d rule copied to %2$s. Run a scan to include it."
 msgid_plural "%1$d rules copied to %2$s. Run a scan to include them."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CfaD97bu.js:905
+#: dist/redirect-inspector.CUQ5PWuy.js:1113
 #, js-format
 msgid "Deleted %1$d stored rule of %2$s."
 msgid_plural "Deleted %1$d stored rules of %2$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CfaD97bu.js:918
+#: dist/redirect-inspector.CUQ5PWuy.js:1126
 #, js-format
 msgid "Leftover rules of %s"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:925
+#: dist/redirect-inspector.CUQ5PWuy.js:1133
 msgid "This plugin is not active, so these rules redirect nothing. Copy them into an active redirect plugin, or delete them."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:932
+#: dist/redirect-inspector.CUQ5PWuy.js:1140
 msgid "Migrate to"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:943
+#: dist/redirect-inspector.CUQ5PWuy.js:1151
 #, js-format
 msgid "%d will be copied"
 msgid_plural "%d will be copied"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CfaD97bu.js:944
+#: dist/redirect-inspector.CUQ5PWuy.js:1152
 #, js-format
 msgid "%d already there"
 msgid_plural "%d already there"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CfaD97bu.js:945
+#: dist/redirect-inspector.CUQ5PWuy.js:1153
 #, js-format
 msgid "%d not supported"
 msgid_plural "%d not supported"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CfaD97bu.js:958
+#: dist/redirect-inspector.CUQ5PWuy.js:1166
 msgid "Stored rules"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:965
+#: dist/redirect-inspector.CUQ5PWuy.js:1173
 msgid "From"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:969
+#: dist/redirect-inspector.CUQ5PWuy.js:1177
 msgid "To"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:974
+#: dist/redirect-inspector.CUQ5PWuy.js:1182
 msgid "Code"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:978
+#: dist/redirect-inspector.CUQ5PWuy.js:1186
 msgid "Migration"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:984
+#: dist/redirect-inspector.CUQ5PWuy.js:1192
 msgid "Actions"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1008
+#: dist/redirect-inspector.CUQ5PWuy.js:1216
 #, js-format
 msgid "Permanently delete %1$d stored rule of %2$s? This cannot be undone."
 msgid_plural "Permanently delete %1$d stored rules of %2$s? This cannot be undone."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1011
+#: dist/redirect-inspector.CUQ5PWuy.js:1219
 #, js-format
 msgid "Also drop the redirect tables of %s"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1012
+#: dist/redirect-inspector.CUQ5PWuy.js:1220
 msgid "Only when you don’t plan to activate it again; it would have to set up its tables anew."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1034
+#: dist/redirect-inspector.CUQ5PWuy.js:1242
 msgid "Delete rules and tables"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1034
+#: dist/redirect-inspector.CUQ5PWuy.js:1242
 msgid "Delete rules"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1045
+#: dist/redirect-inspector.CUQ5PWuy.js:1253
 msgid "Delete all data"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1053
+#: dist/redirect-inspector.CUQ5PWuy.js:1261
 msgid "Delete data"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1061
+#: dist/redirect-inspector.CUQ5PWuy.js:1269
 #, js-format
 msgid "Migrate %d rule"
 msgid_plural "Migrate %d rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1091
-msgid "Leftover redirects"
-msgstr ""
-
-#: dist/redirect-inspector.CfaD97bu.js:1094
+#: dist/redirect-inspector.CUQ5PWuy.js:1302
 msgid "These plugins are not active, so their rules redirect nothing."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1106
+#: dist/redirect-inspector.CUQ5PWuy.js:1314
 #, js-format
 msgid "Not active · %d stored rule"
 msgid_plural "Not active · %d stored rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1115
+#: dist/redirect-inspector.CUQ5PWuy.js:1323
 msgid "Review rules"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1125
+#: dist/redirect-inspector.CUQ5PWuy.js:1336
 msgid "Show fewer"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1125
+#: dist/redirect-inspector.CUQ5PWuy.js:1336
 #, js-format
 msgid "Show all %d"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1324
+#: dist/redirect-inspector.CUQ5PWuy.js:1535
 msgid "Health score per scan"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1327
-#: dist/redirect-inspector.CfaD97bu.js:1488
+#: dist/redirect-inspector.CUQ5PWuy.js:1538
+#: dist/redirect-inspector.CUQ5PWuy.js:1699
 msgid "Scan"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1330
-#: dist/redirect-inspector.CfaD97bu.js:2061
-#: dist/redirect-inspector.CfaD97bu.js:2964
+#: dist/redirect-inspector.CUQ5PWuy.js:1541
+#: dist/redirect-inspector.CUQ5PWuy.js:2304
+#: dist/redirect-inspector.CUQ5PWuy.js:3234
 msgid "Score"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1485
+#: dist/redirect-inspector.CUQ5PWuy.js:1696
 msgid "Issues per scan by severity"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1519
+#: dist/redirect-inspector.CUQ5PWuy.js:1745
 msgid "Redirect path"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1542
-#: dist/redirect-inspector.CfaD97bu.js:1548
+#: dist/redirect-inspector.CUQ5PWuy.js:1768
+#: dist/redirect-inspector.CUQ5PWuy.js:1774
 #, js-format
 msgid "%1$s – edit the rule to %2$s"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1559
+#: dist/redirect-inspector.CUQ5PWuy.js:1785
 msgid "back to start"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1568
+#: dist/redirect-inspector.CUQ5PWuy.js:1794
 msgid "Loads after one redirect"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1569
+#: dist/redirect-inspector.CUQ5PWuy.js:1795
 msgid "Confirmed chain"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1570
+#: dist/redirect-inspector.CUQ5PWuy.js:1796
 msgid "Confirmed loop"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1571
+#: dist/redirect-inspector.CUQ5PWuy.js:1797
 msgid "Ends in an error page"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1572
+#: dist/redirect-inspector.CUQ5PWuy.js:1798
 msgid "Leaves this site (not followed)"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1573
+#: dist/redirect-inspector.CUQ5PWuy.js:1799
 msgid "Request failed"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1580
+#: dist/redirect-inspector.CUQ5PWuy.js:1806
 msgid "Live check"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1592
+#: dist/redirect-inspector.CUQ5PWuy.js:1818
 msgid "external, not requested"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1616
+#: dist/redirect-inspector.CUQ5PWuy.js:1842
 #, js-format
 msgid "Point %1$s straight to %2$s in %3$s?"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1617
+#: dist/redirect-inspector.CUQ5PWuy.js:1843
 #, js-format
 msgid "Switch off %d duplicate rule?"
 msgid_plural "Switch off %d duplicate rules?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1618
+#: dist/redirect-inspector.CUQ5PWuy.js:1844
 #, js-format
 msgid "Remove the rule for %1$s from %2$s? It has no off switch; the old rule is kept in the fix log."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1618
+#: dist/redirect-inspector.CUQ5PWuy.js:1844
 #, js-format
 msgid "Switch off the rule for %1$s in %2$s? You can switch it back on there."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1620
+#: dist/redirect-inspector.CUQ5PWuy.js:1846
 msgid "Shorten chain"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1620
+#: dist/redirect-inspector.CUQ5PWuy.js:1846
 msgid "Switch off rule"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1655
+#: dist/redirect-inspector.CUQ5PWuy.js:1881
 msgid "Live check finished."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1667
+#: dist/redirect-inspector.CUQ5PWuy.js:1893
 msgid "Fix applied. Run a new scan to update the numbers."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1694
+#: dist/redirect-inspector.CUQ5PWuy.js:1920
 msgid "New"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1698
+#: dist/redirect-inspector.CUQ5PWuy.js:1924
 msgid "Fixed"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1705
+#: dist/redirect-inspector.CUQ5PWuy.js:1931
 msgid "hop"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1705
+#: dist/redirect-inspector.CUQ5PWuy.js:1931
 msgid "hops"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1722
+#: dist/redirect-inspector.CUQ5PWuy.js:1948
 #, js-format
 msgid "Fixed by %1$s %2$s. Run a new scan to update the numbers."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1726
+#: dist/redirect-inspector.CUQ5PWuy.js:1952
 msgid "Confirm fix"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1737
+#: dist/redirect-inspector.CUQ5PWuy.js:1963
 msgid "Applying…"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1737
+#: dist/redirect-inspector.CUQ5PWuy.js:1963
 msgid "Apply"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1760
+#: dist/redirect-inspector.CUQ5PWuy.js:1986
 msgid "Checking…"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1760
+#: dist/redirect-inspector.CUQ5PWuy.js:1986
 msgid "Verify live"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1770
+#: dist/redirect-inspector.CUQ5PWuy.js:1996
 msgid "Apply fix"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1827
+#: dist/redirect-inspector.CUQ5PWuy.js:2057
 #, js-format
 msgid "%d issue found"
 msgid_plural "%d issues found"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1844
-#: dist/redirect-inspector.CfaD97bu.js:2060
+#: dist/redirect-inspector.CUQ5PWuy.js:2074
+#: dist/redirect-inspector.CUQ5PWuy.js:2303
 msgid "Issues"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1850
+#: dist/redirect-inspector.CUQ5PWuy.js:2080
 msgid "Filter by issue type"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1866
+#: dist/redirect-inspector.CUQ5PWuy.js:2098
+msgid "Search URLs with a regular expression"
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:2098
 msgid "Search URLs"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1876
+#: dist/redirect-inspector.CUQ5PWuy.js:2108
+msgid "Use regular expression"
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:2119
 msgid "All plugins"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1894
+#: dist/redirect-inspector.CUQ5PWuy.js:2137
 msgid "Nothing matches these filters"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1894
+#: dist/redirect-inspector.CUQ5PWuy.js:2137
 msgid "No issues found"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1895
+#: dist/redirect-inspector.CUQ5PWuy.js:2138
 msgid "Try another type, plugin or search term."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1895
+#: dist/redirect-inspector.CUQ5PWuy.js:2138
 msgid "Every redirect goes straight to its destination."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1900
+#: dist/redirect-inspector.CUQ5PWuy.js:2143
 msgid "Issue pages"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1908
-#: dist/redirect-inspector.CfaD97bu.js:2117
-#: dist/redirect-inspector.CfaD97bu.js:3045
+#: dist/redirect-inspector.CUQ5PWuy.js:2151
+#: dist/redirect-inspector.CUQ5PWuy.js:2360
+#: dist/redirect-inspector.CUQ5PWuy.js:3315
 msgid "Previous"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1910
+#: dist/redirect-inspector.CUQ5PWuy.js:2153
 #, js-format
 msgid "Page %1$d of %2$d · %3$d issue"
 msgid_plural "Page %1$d of %2$d · %3$d issues"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1917
-#: dist/redirect-inspector.CfaD97bu.js:2130
-#: dist/redirect-inspector.CfaD97bu.js:3058
-msgid "Next"
-msgstr ""
-
-#: dist/redirect-inspector.CfaD97bu.js:1927
+#: dist/redirect-inspector.CUQ5PWuy.js:2170
 msgid "Running"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1928
+#: dist/redirect-inspector.CUQ5PWuy.js:2171
 msgid "Complete"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1929
+#: dist/redirect-inspector.CUQ5PWuy.js:2172
 msgid "Partial"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1930
+#: dist/redirect-inspector.CUQ5PWuy.js:2173
 msgid "Failed"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:1995
+#: dist/redirect-inspector.CUQ5PWuy.js:2238
 msgid "Scan history"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2009
+#: dist/redirect-inspector.CUQ5PWuy.js:2252
 msgid "Pick a date"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2024
+#: dist/redirect-inspector.CUQ5PWuy.js:2267
 msgid "Days with a scan are marked."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2032
+#: dist/redirect-inspector.CUQ5PWuy.js:2275
 msgid "Show all dates"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2054
+#: dist/redirect-inspector.CUQ5PWuy.js:2297
 msgid "Scanned"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2057
+#: dist/redirect-inspector.CUQ5PWuy.js:2300
 msgid "By"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2059
-#: dist/redirect-inspector.CfaD97bu.js:2969
+#: dist/redirect-inspector.CUQ5PWuy.js:2302
+#: dist/redirect-inspector.CUQ5PWuy.js:3239
 msgid "Rules"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2062
+#: dist/redirect-inspector.CUQ5PWuy.js:2305
 msgid "Took"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2069
+#: dist/redirect-inspector.CUQ5PWuy.js:2312
 #, js-format
 msgid "No scans on %s."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2069
+#: dist/redirect-inspector.CUQ5PWuy.js:2312
 msgid "No scans yet."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2109
+#: dist/redirect-inspector.CUQ5PWuy.js:2352
 msgid "Scan history pages"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2161
+#: dist/redirect-inspector.CUQ5PWuy.js:2404
 msgid "Daily"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2165
+#: dist/redirect-inspector.CUQ5PWuy.js:2408
 msgid "Weekly"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2169
+#: dist/redirect-inspector.CUQ5PWuy.js:2412
 msgid "Monthly"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2173
+#: dist/redirect-inspector.CUQ5PWuy.js:2416
 msgid "the last day"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2173
+#: dist/redirect-inspector.CUQ5PWuy.js:2416
 #, js-format
 msgid "day %d"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2213
+#: dist/redirect-inspector.CUQ5PWuy.js:2456
 msgid "Off. Scans only run when you start them."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2214
+#: dist/redirect-inspector.CUQ5PWuy.js:2457
 msgid "Pick at least one day and one hour."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2216
+#: dist/redirect-inspector.CUQ5PWuy.js:2459
 #, js-format
 msgid "Runs every day at %1$s, site time (%2$s)."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2217
+#: dist/redirect-inspector.CUQ5PWuy.js:2460
 #, js-format
 msgid "Runs on %1$s of every month at %2$s, site time (%3$s)."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2218
+#: dist/redirect-inspector.CUQ5PWuy.js:2461
 msgid "every day"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2219
+#: dist/redirect-inspector.CUQ5PWuy.js:2462
 #, js-format
 msgid "Runs %1$s at %2$s, site time (%3$s)."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2237
+#: dist/redirect-inspector.CUQ5PWuy.js:2480
 msgid "Settings saved."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2247
+#: dist/redirect-inspector.CUQ5PWuy.js:2490
 #, js-format
 msgid "Deleted %d scans."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2262
+#: dist/redirect-inspector.CUQ5PWuy.js:2505
 msgid "Schedule & retention"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2271
-#: dist/redirect-inspector.CfaD97bu.js:2281
+#: dist/redirect-inspector.CUQ5PWuy.js:2514
+#: dist/redirect-inspector.CUQ5PWuy.js:2524
 msgid "Scheduled scans"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2323
+#: dist/redirect-inspector.CUQ5PWuy.js:2566
 msgid "Day of the month"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2329
+#: dist/redirect-inspector.CUQ5PWuy.js:2572
 msgid "Last day of the month"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2341
+#: dist/redirect-inspector.CUQ5PWuy.js:2584
 msgid "Days"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2362
+#: dist/redirect-inspector.CUQ5PWuy.js:2605
 msgid "Hours"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2388
+#: dist/redirect-inspector.CUQ5PWuy.js:2631
 #, js-format
 msgid "Next scan: %s"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2397
+#: dist/redirect-inspector.CUQ5PWuy.js:2640
 msgid "History"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2402
+#: dist/redirect-inspector.CUQ5PWuy.js:2645
 msgid "Keep"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2412
+#: dist/redirect-inspector.CUQ5PWuy.js:2655
 msgid "Scans of the last days"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2417
+#: dist/redirect-inspector.CUQ5PWuy.js:2660
 msgid "The newest scans"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2424
+#: dist/redirect-inspector.CUQ5PWuy.js:2667
 msgid "Keep scans for"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2428
+#: dist/redirect-inspector.CUQ5PWuy.js:2671
 msgid "7 to 365 days."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2431
+#: dist/redirect-inspector.CUQ5PWuy.js:2674
 msgid "days"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2436
+#: dist/redirect-inspector.CUQ5PWuy.js:2679
 msgid "Keep the newest"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2440
+#: dist/redirect-inspector.CUQ5PWuy.js:2683
 msgid "5 to 1,000 scans."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2443
+#: dist/redirect-inspector.CUQ5PWuy.js:2686
 msgid "scans"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2450
+#: dist/redirect-inspector.CUQ5PWuy.js:2693
 #, js-format
 msgid "Next cleanup: %s."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2459
+#: dist/redirect-inspector.CUQ5PWuy.js:2702
 msgid "Someone else saved these settings while you were editing. Saving now replaces their changes with yours."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2473
+#: dist/redirect-inspector.CUQ5PWuy.js:2716
 msgid "Delete all scan history? This cannot be undone."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2483
+#: dist/redirect-inspector.CUQ5PWuy.js:2726
 msgid "Deleting…"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2483
+#: dist/redirect-inspector.CUQ5PWuy.js:2726
 msgid "Delete all"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2501
+#: dist/redirect-inspector.CUQ5PWuy.js:2744
 msgid "Delete history"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2510
+#: dist/redirect-inspector.CUQ5PWuy.js:2753
 msgid "Saving…"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2510
+#: dist/redirect-inspector.CUQ5PWuy.js:2753
 msgid "Save settings"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2530
+#: dist/redirect-inspector.CUQ5PWuy.js:2773
 msgid "Rules by plugin"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2533
+#: dist/redirect-inspector.CUQ5PWuy.js:2776
 #, js-format
 msgid "%s rule"
 msgid_plural "%s rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2565
+#: dist/redirect-inspector.CUQ5PWuy.js:2808
 #, js-format
 msgid "%d issue"
 msgid_plural "%d issues"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2565
+#: dist/redirect-inspector.CUQ5PWuy.js:2808
 msgid "No issues"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2565
-#: dist/redirect-inspector.CfaD97bu.js:3030
+#: dist/redirect-inspector.CUQ5PWuy.js:2808
+#: dist/redirect-inspector.CUQ5PWuy.js:3300
 msgid "Not active"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2670
+#: dist/redirect-inspector.CUQ5PWuy.js:2913
 msgid "No change"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2670
+#: dist/redirect-inspector.CUQ5PWuy.js:2913
 #, js-format
 msgid "%s since last scan"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2747
+#: dist/redirect-inspector.CUQ5PWuy.js:3005
 #, js-format
 msgid "Scanned %1$d rules and found %2$d issue in %3$s."
 msgid_plural "Scanned %1$d rules and found %2$d issues in %3$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2812
+#: dist/redirect-inspector.CUQ5PWuy.js:3070
 msgid "Nothing scanned yet"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2813
+#: dist/redirect-inspector.CUQ5PWuy.js:3071
 msgid "Use “Run scan” (top right) to check every redirect rule on this site."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2833
+#: dist/redirect-inspector.CUQ5PWuy.js:3091
 msgid "below 50 critical · 80 and up healthy"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2843
+#: dist/redirect-inspector.CUQ5PWuy.js:3101
 msgid "Issues by severity"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2860
-#: dist/redirect-inspector.CfaD97bu.js:2866
+#: dist/redirect-inspector.CUQ5PWuy.js:3118
+#: dist/redirect-inspector.CUQ5PWuy.js:3124
 msgid "Issues by type"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2921
+#: dist/redirect-inspector.CUQ5PWuy.js:3155
+msgid "Show the walkthrough"
+msgstr ""
+
+#: dist/redirect-inspector.CUQ5PWuy.js:3191
 msgid "Latest scan per site. Scans run per site, from each site’s Tools menu."
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2932
+#: dist/redirect-inspector.CUQ5PWuy.js:3202
 msgid "Sites"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2939
+#: dist/redirect-inspector.CUQ5PWuy.js:3209
 msgid "Search sites"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2959
+#: dist/redirect-inspector.CUQ5PWuy.js:3229
 msgid "Site"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2984
+#: dist/redirect-inspector.CUQ5PWuy.js:3254
 msgid "Other"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:2988
+#: dist/redirect-inspector.CUQ5PWuy.js:3258
 msgid "Last scan"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:3030
+#: dist/redirect-inspector.CUQ5PWuy.js:3300
 msgid "Never"
 msgstr ""
 
-#: dist/redirect-inspector.CfaD97bu.js:3037
+#: dist/redirect-inspector.CUQ5PWuy.js:3307
 msgid "Site pages"
 msgstr ""

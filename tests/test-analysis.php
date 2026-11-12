@@ -54,6 +54,8 @@ spl_autoload_register(
 );
 
 use Acato\RedirectInspector\Includes\Analysis\Analyzer;
+use Acato\RedirectInspector\Includes\Analysis\Expander;
+use Acato\RedirectInspector\Includes\Log_Repository;
 use Acato\RedirectInspector\Includes\Analysis\Matcher;
 use Acato\RedirectInspector\Includes\Rule;
 use Acato\RedirectInspector\Includes\Scheduler;
@@ -184,6 +186,30 @@ check( 'monthly: day 1 of next month', $fmt( Scheduler::next_run( [ 'enabled' =>
 check( 'monthly: last day of the month', $fmt( Scheduler::next_run( [ 'enabled' => true, 'frequency' => 'monthly', 'month_day' => 0, 'hours' => [ 23 ] ], $after ) ), 'Mon 30 Nov 23:00' );
 check( 'monthly: needs no weekdays', null !== Scheduler::next_run( [ 'enabled' => true, 'frequency' => 'monthly', 'days' => [], 'month_day' => 20, 'hours' => [ 3 ] ], $after ), true );
 check( 'disabled schedule has no slot', Scheduler::next_run( [ 'enabled' => false, 'days' => [ 1 ], 'hours' => [ 3 ] ], $after ), null );
+
+// --- Migration: a pattern copied as exact rules ---------------------------------------------------
+$expander = new Expander( new Url_Normalizer( 'https://example.test/', 'https://example.test/' ) );
+( new ReflectionProperty( Expander::class, 'known' ) )->setValue( $expander, [ '/docs/v1/install', '/docs/v1/upgrade', '/docs/v2/install', '/kb/a', '/news', 'ext:https://other.test/docs/v1/x' ] );
+$fmt_rules = static fn( array $rules ) => implode( ', ', array_map( static fn( Rule $r ) => $r->from . ' > ' . $r->to, $rules ) );
+
+check( 'expand: regex with capture over known URLs', $fmt_rules( $expander->expand( new Rule( 'rank-math', '1', '^docs/v1/(.*)', '/docs/v2/$1', 301, Rule::MATCH_REGEX, false ) ) ), '/docs/v1/install > /docs/v2/install, /docs/v1/upgrade > /docs/v2/upgrade' );
+check( 'expand: relative target gets a leading slash', $fmt_rules( $expander->expand( new Rule( 'yoast', '2', '^news$', 'blog', 301, Rule::MATCH_REGEX, false ) ) ), '/news > /blog' );
+check( 'expand: prefix rule (SRM wildcard)', $fmt_rules( $expander->expand( new Rule( 'safe-redirect-manager', '3', '/kb/', '/help/*', 301, Rule::MATCH_PREFIX ) ) ), '/kb/a > /help/a' );
+check( 'expand: a rule into itself is left out', $expander->expand( new Rule( 'smartcrawl', '4', '^/kb/(.+)$', '/kb/$1', 301, Rule::MATCH_REGEX ) ), [] );
+check( 'expand: unsafe target is left out', $expander->expand( new Rule( 'x', '5', '^/news$', '/x"onmouseover=1', 301, Rule::MATCH_REGEX ) ), [] );
+check( 'expand: invalid regex gives nothing', $expander->expand( new Rule( 'x', '6', '^/(unclosed', '/y', 301, Rule::MATCH_REGEX ) ), [] );
+check( 'expand: exact rules are not expanded', $expander->expand( new Rule( 'x', '7', '/news', '/y' ) ), [] );
+
+// --- Regex search --------------------------------------------------------------------------------
+check( 'search regex: case-insensitive', 1 === preg_match( Log_Repository::search_pattern( '^/DOCS/' ), '/docs/v1' ), true );
+check( 'search regex: delimiter in the pattern is escaped', 1 === preg_match( Log_Repository::search_pattern( 'a~b' ), 'xa~by' ), true );
+$invalid = false;
+try {
+	Log_Repository::search_pattern( '(unclosed' );
+} catch ( InvalidArgumentException $e ) {
+	$invalid = true;
+}
+check( 'search regex: invalid pattern is refused', $invalid, true );
 
 echo $failures ? "\n{$failures} failed\n" : "\nAll passed\n";
 exit( $failures ? 1 : 0 );

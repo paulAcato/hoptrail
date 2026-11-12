@@ -7,6 +7,7 @@
 
 namespace Acato\RedirectInspector\Includes;
 
+use Acato\RedirectInspector\Includes\Analysis\Expander;
 use Acato\RedirectInspector\Includes\Sources\Purgeable;
 use Acato\RedirectInspector\Includes\Sources\Registry;
 use Acato\RedirectInspector\Includes\Sources\Source;
@@ -129,16 +130,18 @@ final class Migrator {
 	 * @param string           $to      Target slug.
 	 * @param bool             $dry_run Only count.
 	 *
-	 * @return array{created:int, existing:int, unsupported:int, failed:int, dry_run:bool}
+	 * @return array{created:int, existing:int, unsupported:int, failed:int, expanded:int, dry_run:bool}
 	 */
 	private static function copy( Source $source, $target, string $from, string $to, bool $dry_run ): array {
 		$normalizer = new Url_Normalizer();
 		$existing   = self::existing_sources( $target, $normalizer );
+		$expander   = new Expander( $normalizer );
 		$result     = [
 			'created'     => 0,
 			'existing'    => 0,
 			'unsupported' => 0,
 			'failed'      => 0,
+			'expanded'    => 0,
 			'dry_run'     => $dry_run,
 		];
 
@@ -152,7 +155,37 @@ final class Migrator {
 					continue;
 				}
 				if ( ! $target->supports( $rule ) || ! Url_Normalizer::is_safe_target( $rule->to ) ) {
-					++$result['unsupported'];
+					// A pattern the target can't hold: copy it as exact rules for the URLs it redirects.
+					$exact = self::expandable( $target, $rule ) ? self::fresh( $expander->expand( $rule ), $existing, $normalizer ) : [];
+					if ( ! $exact ) {
+						++$result['unsupported'];
+						continue;
+					}
+					++$result['expanded'];
+					foreach ( $exact as $key_exact => $one ) {
+						if ( $dry_run || $target->create( $one ) ) {
+							++$result['created'];
+							$existing[ $key_exact ] = true;
+							if ( ! $dry_run ) {
+								Log_Repository::log_fix(
+									0,
+									'migrated',
+									$to,
+									'',
+									array_merge(
+										$one->to_array(),
+										[
+											'from_plugin' => $from,
+											'expanded_from' => $rule->from,
+										]
+									),
+									[]
+								);
+							}
+						} else {
+							++$result['failed'];
+						}
+					}
 					continue;
 				}
 				if ( $dry_run ) {
@@ -192,6 +225,7 @@ final class Migrator {
 
 		$normalizer = new Url_Normalizer();
 		$existing   = $target ? self::existing_sources( $target, $normalizer ) : [];
+		$expander   = new Expander( $normalizer );
 		$rules      = [];
 
 		$rows = $source->count() + $source->skipped();
@@ -199,18 +233,31 @@ final class Migrator {
 		$rows = min( $rows, 1000 );
 		for ( $offset = 0; $offset < $rows; $offset += self::PAGE_SIZE ) {
 			foreach ( $source->rules( $offset, self::PAGE_SIZE ) as $rule ) {
-				$key    = $rule->is_exact() ? Url_Normalizer::fold( $normalizer->key( $rule->from ) ) : 're:' . $rule->regex( true );
-				$status = 'none';
+				$key      = $rule->is_exact() ? Url_Normalizer::fold( $normalizer->key( $rule->from ) ) : 're:' . $rule->regex( true );
+				$status   = 'none';
+				$expanded = [];
 				if ( $target ) {
 					$status = isset( $existing[ $key ] ) ? 'exists' : ( $target->supports( $rule ) && Url_Normalizer::is_safe_target( $rule->to ) ? 'copy' : 'unsupported' );
+					if ( 'unsupported' === $status && self::expandable( $target, $rule ) ) {
+						$expanded = array_values( self::fresh( $expander->expand( $rule ), $existing, $normalizer ) );
+						$status   = $expanded ? 'expand' : 'unsupported';
+					}
 				}
 				$rules[] = [
-					'id'     => $rule->id,
-					'from'   => $rule->from,
-					'to'     => $rule->to,
-					'code'   => $rule->code,
-					'match'  => $rule->match,
-					'status' => $status,
+					'id'       => $rule->id,
+					'from'     => $rule->from,
+					'to'       => $rule->to,
+					'code'     => $rule->code,
+					'match'    => $rule->match,
+					'status'   => $status,
+					'expanded' => array_map(
+						static fn( Rule $one ) => [
+							'from' => $one->from,
+							'to'   => $one->to,
+						],
+						array_slice( $expanded, 0, 50 )
+					),
+					'expands'  => count( $expanded ),
 				];
 			}
 		}
@@ -332,6 +379,39 @@ final class Migrator {
 		}
 
 		return $source;
+	}
+
+	/**
+	 * Whether a pattern rule may be copied as exact rules into the target.
+	 *
+	 * @param Writable $target Target.
+	 * @param Rule     $rule   Rule.
+	 *
+	 * @return bool
+	 */
+	private static function expandable( Writable $target, Rule $rule ): bool {
+		return ! $rule->is_exact() && $target->supports( new Rule( $rule->source, $rule->id, '/x', '/y' ) );
+	}
+
+	/**
+	 * Expanded rules whose source the target doesn't have yet, by folded key.
+	 *
+	 * @param Rule[]              $rules      Exact rules.
+	 * @param array<string, true> $existing   Keys the target has.
+	 * @param Url_Normalizer      $normalizer Normaliser.
+	 *
+	 * @return array<string, Rule>
+	 */
+	private static function fresh( array $rules, array $existing, Url_Normalizer $normalizer ): array {
+		$fresh = [];
+		foreach ( $rules as $rule ) {
+			$key = Url_Normalizer::fold( $normalizer->key( $rule->from ) );
+			if ( ! isset( $existing[ $key ] ) ) {
+				$fresh[ $key ] = $rule;
+			}
+		}
+
+		return $fresh;
 	}
 
 	/**

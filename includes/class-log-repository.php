@@ -18,6 +18,16 @@ defined( 'ABSPATH' ) || exit;
 final class Log_Repository {
 
 	/**
+	 * Most issues a regex search looks at.
+	 */
+	const MAX_REGEX_ROWS = 5000;
+
+	/**
+	 * Most seconds a regex search may take.
+	 */
+	const REGEX_SECONDS = 2;
+
+	/**
 	 * Create a running scan.
 	 *
 	 * @param string $trigger manual|cli.
@@ -288,11 +298,18 @@ final class Log_Repository {
 	 * @param string $search   Search in source/target.
 	 * @param int    $page     Page (1-based).
 	 * @param int    $per_page Page size (max 100).
+	 * @param bool   $regex    Treat $search as a regular expression.
 	 *
 	 * @return array{items: array[], total: int}
+	 *
+	 * @throws \InvalidArgumentException When $regex is set and the pattern is invalid.
 	 */
-	public static function issues( int $scan_id, array $types, string $plugin, string $search, int $page, int $per_page ): array {
+	public static function issues( int $scan_id, array $types, string $plugin, string $search, int $page, int $per_page, bool $regex = false ): array {
 		global $wpdb;
+
+		if ( $regex && '' !== $search ) {
+			return self::issues_matching( $scan_id, $types, $plugin, self::search_pattern( $search ), $page, $per_page );
+		}
 
 		$table    = Installer::issues_table();
 		$types    = implode( ',', array_values( array_intersect( $types, Analyzer::TYPES ) ) );
@@ -312,6 +329,93 @@ final class Log_Repository {
 		return [
 			'items' => array_map( static fn( $row ) => self::format_issue( $row, $previous ), $rows ),
 			'total' => $total,
+		];
+	}
+
+	/**
+	 * A user's search regex as a PCRE pattern (case-insensitive, like the text search).
+	 *
+	 * @param string $search Pattern without delimiters.
+	 *
+	 * @return string
+	 *
+	 * @throws \InvalidArgumentException When it doesn't compile.
+	 */
+	public static function search_pattern( string $search ): string {
+		$pattern = '~' . str_replace( '~', '\\~', $search ) . '~iu';
+
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- The compile error is reported below.
+		if ( false === @preg_match( $pattern, '' ) ) {
+			throw new \InvalidArgumentException( __( 'This is not a valid regular expression.', 'redirect-inspector' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+		}
+
+		return $pattern;
+	}
+
+	/**
+	 * Issues whose source, target or any hop matches a regex; filtered in PHP (PCRE, the engine
+	 * the redirect plugins use), at most MAX_REGEX_ROWS issues and REGEX_SECONDS looked at.
+	 *
+	 * @param int    $scan_id  Scan ID.
+	 * @param array  $types    Types.
+	 * @param string $plugin   Plugin slug.
+	 * @param string $pattern  Compiled-checked PCRE pattern.
+	 * @param int    $page     Page.
+	 * @param int    $per_page Page size.
+	 *
+	 * @return array{items: array[], total: int}
+	 */
+	private static function issues_matching( int $scan_id, array $types, string $plugin, string $pattern, int $page, int $per_page ): array {
+		global $wpdb;
+
+		$table    = Installer::issues_table();
+		$types    = implode( ',', array_values( array_intersect( $types, Analyzer::TYPES ) ) );
+		$per_page = max( 1, min( 100, $per_page ) );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$rows = (array) $wpdb->get_results( $wpdb->prepare( "SELECT id, source_url, target_url, hops FROM %i WHERE scan_id = %d AND ( %s = '' OR FIND_IN_SET( type, %s ) ) AND ( %s = '' OR FIND_IN_SET( %s, plugins ) ) ORDER BY FIELD( severity, 'critical', 'high', 'medium', 'low' ), FIELD( type, 'loop', 'chain', 'conflict', 'noop', 'duplicate', 'redundant', 'shadow', 'broken' ), id LIMIT %d", $table, $scan_id, $types, $types, $plugin, $plugin, self::MAX_REGEX_ROWS ), ARRAY_A );
+
+		// Untrusted pattern: a PCRE error (such as the backtrack limit) counts as no match, and the
+		// search stops after a time budget.
+		$deadline = microtime( true ) + self::REGEX_SECONDS;
+
+		$ids = [];
+		foreach ( $rows as $row ) {
+			if ( microtime( true ) > $deadline ) {
+				break;
+			}
+			$subjects = [ (string) $row['source_url'], (string) $row['target_url'] ];
+			foreach ( (array) json_decode( (string) $row['hops'], true ) as $hop ) {
+				$subjects[] = (string) ( $hop['from'] ?? '' );
+				$subjects[] = (string) ( $hop['to'] ?? '' );
+				$subjects[] = (string) ( $hop['rule']['from'] ?? '' );
+			}
+			foreach ( $subjects as $subject ) {
+				if ( '' !== $subject && 1 === preg_match( $pattern, $subject ) ) {
+					$ids[] = (int) $row['id'];
+					break;
+				}
+			}
+		}
+
+		$page_ids = array_slice( $ids, ( max( 1, $page ) - 1 ) * $per_page, $per_page );
+		$items    = [];
+		if ( $page_ids ) {
+			$marks = implode( ',', array_fill( 0, count( $page_ids ), '%d' ) );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders -- Placeholders built from count.
+			$found    = (array) $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %i WHERE id IN ({$marks})", $table, ...$page_ids ), ARRAY_A );
+			$by_id    = array_column( $found, null, 'id' );
+			$previous = self::previous_fingerprints( $scan_id );
+			foreach ( $page_ids as $id ) {
+				if ( isset( $by_id[ $id ] ) ) {
+					$items[] = self::format_issue( $by_id[ $id ], $previous );
+				}
+			}
+		}
+
+		return [
+			'items' => $items,
+			'total' => count( $ids ),
 		];
 	}
 

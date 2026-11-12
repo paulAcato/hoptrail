@@ -17,9 +17,11 @@ interface Props {
 	targets: Target[];
 }
 
-const statusLabel = (status: LeftoverRule['status'], target: string): string => ({
+const statusLabel = ({ status, expands }: LeftoverRule, target: string): string => ({
 	/* translators: %s: plugin. */
 	copy: sprintf(__('Will be copied to %s', 'redirect-inspector'), target),
+	/* translators: 1: number of rules, 2: plugin. */
+	expand: sprintf(_n('Becomes %1$d exact rule in %2$s', 'Becomes %1$d exact rules in %2$s', expands, 'redirect-inspector'), expands, target),
 	/* translators: %s: plugin. */
 	exists: sprintf(__('Already in %s', 'redirect-inspector'), target),
 	/* translators: %s: plugin. */
@@ -30,6 +32,7 @@ const statusLabel = (status: LeftoverRule['status'], target: string): string => 
 /** One rule row, with an inline "Delete" confirmation. */
 const RuleRow = ({ rule, slug, target }: { rule: LeftoverRule; slug: string; target: string }) => {
 	const [confirming, setConfirming] = useState(false);
+	const [expanded, setExpanded] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const remove = useMutation<{ deleted: boolean }>();
 	const confirmRef = useRef<HTMLButtonElement>(null);
@@ -64,11 +67,25 @@ const RuleRow = ({ rule, slug, target }: { rule: LeftoverRule; slug: string; tar
 	};
 
 	return (
+		<>
 		<tr>
 			<td><code>{rule.from}</code></td>
 			<td><code>{rule.to}</code></td>
 			<td className="is-num">{rule.code}</td>
-			<td><span className={`rdi-migrate__status is-${rule.status}`}>{statusLabel(rule.status, target)}</span></td>
+			<td>
+				<span className={`rdi-migrate__status is-${rule.status}`}>{statusLabel(rule, target)}</span>
+				{'expand' === rule.status && (
+					<Button
+						className="rdi-migrate__toggle"
+						variant="link"
+						aria-expanded={expanded}
+						aria-controls={`rdi-expanded-${rule.id}`}
+						onClick={() => setExpanded((value) => !value)}
+					>
+						{expanded ? __('Hide the exact rules', 'redirect-inspector') : __('Show the exact rules', 'redirect-inspector')}
+					</Button>
+				)}
+			</td>
 			<td className="rdi-migrate__actions">
 				{confirming ? (
 					<>
@@ -95,6 +112,20 @@ const RuleRow = ({ rule, slug, target }: { rule: LeftoverRule; slug: string; tar
 				{error && <span className="rdi-migrate__error" role="alert">{error}</span>}
 			</td>
 		</tr>
+		{'expand' === rule.status && (
+			<tr id={`rdi-expanded-${rule.id}`} className="rdi-migrate__expanded" hidden={!expanded}>
+				<td colSpan={5}>
+					<p className="rdi-muted">
+						{/* translators: %s: plugin. */}
+						{sprintf(__('%s only holds exact rules, so this pattern is copied for the URLs this site is known to have: published content, URLs from the 404 log, and the sources and targets of other rules.', 'redirect-inspector'), target)}
+					</p>
+					<ul>
+						{rule.expanded.map((one) => <li key={one.from}><code>{one.from}</code> → <code>{one.to}</code></li>)}
+					</ul>
+				</td>
+			</tr>
+		)}
+		</>
 	);
 };
 
@@ -114,7 +145,9 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 	const counts = useMemo(() => {
 		const tally = { copy: 0, exists: 0, unsupported: 0 };
 		data?.rules.forEach((rule) => {
-			if (rule.status in tally) {
+			if ('expand' === rule.status) {
+				tally.copy += rule.expands;
+			} else if (rule.status in tally) {
 				tally[rule.status as keyof typeof tally] += 1;
 			}
 		});

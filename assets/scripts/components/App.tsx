@@ -1,4 +1,4 @@
-import { Notice, Spinner } from '@wordpress/components';
+import { Button, Notice, Spinner } from '@wordpress/components';
 import { useEffect, useState } from '@wordpress/element';
 import { speak } from '@wordpress/a11y';
 import { __, _n, sprintf } from '@wordpress/i18n';
@@ -9,6 +9,8 @@ import { duration } from '../lib/format';
 import { TYPE_ORDER, typeMeta, GROUPS, type Group } from '../lib/meta';
 import { MultiSourceContext } from '../lib/context';
 import { usePresence } from '../api/presence';
+import { markSeen, pendingSteps, steps, type TourStep } from '../lib/tour';
+import { Tour } from './Tour';
 import { AllClear } from './AllClear';
 import { Banner } from './Banner';
 import { Leftovers } from './Leftovers';
@@ -44,8 +46,32 @@ export const App = () => {
 		return () => window.clearTimeout(timer);
 	}, [summary, visible, scan.busy]);
 
-	// Deep link (plugins screen → #settings): the section only exists once the data has loaded.
 	const loaded = Boolean(summary);
+	const [tourSteps, setTourSteps] = useState<TourStep[] | null>(null);
+	const endTour = () => {
+		setTourSteps(null);
+		markSeen();
+	};
+
+	// The walkthrough: on the first visit, and after an update that added steps (only those).
+	useEffect(() => {
+		const tour = window.redirectInspector?.tour;
+		if (!loaded || !tour?.pending || '#settings' === window.location.hash) {
+			return undefined;
+		}
+		// Let the issue list and history render first, so their steps have something to point at.
+		const timer = window.setTimeout(() => {
+			const pending = pendingSteps(tour.seen, tour.version);
+			if (pending.length) {
+				setTourSteps(pending);
+			} else {
+				markSeen();
+			}
+		}, 1200);
+		return () => window.clearTimeout(timer);
+	}, [loaded]);
+
+	// Deep link (plugins screen → #settings): the section only exists once the data has loaded.
 	useEffect(() => {
 		if (!loaded || '#settings' !== window.location.hash) {
 			return;
@@ -205,6 +231,14 @@ export const App = () => {
 				<ScanHistory />
 				<SettingsPanel settings={summary.settings} retention={summary.retention} nextScan={summary.next_scan} />
 			</div>
+
+			<p className="rdi-footer">
+				<Button variant="link" onClick={() => setTourSteps(steps().filter((step) => null !== document.querySelector(step.target)))}>
+					{__('Show the walkthrough', 'redirect-inspector')}
+				</Button>
+			</p>
+
+			{tourSteps && <Tour steps={tourSteps} onEnd={endTour} />}
 		</div>
 		</MultiSourceContext.Provider>
 	);

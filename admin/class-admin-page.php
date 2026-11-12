@@ -136,6 +136,7 @@ final class Admin_Page extends Singleton {
 					'wapuu'        => REDIRECT_INSPECTOR_URL . 'assets/images/wapuu.svg',
 					'stateVersion' => Presence::version(),
 					'userId'       => get_current_user_id(),
+					'tour'         => Tour::boot(),
 				]
 			) . ';',
 			'before'

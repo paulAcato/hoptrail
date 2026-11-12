@@ -78,6 +78,23 @@
 	}
 }
 
+// Search field with the regular-expression toggle glued to its end.
+.rdi-filters__search {
+	display: flex;
+	gap: 0.25lh;
+	align-items: center;
+
+	.components-search-control {
+		flex: 1;
+	}
+
+	.rdi-filters__regex.components-button {
+		flex: none;
+		justify-content: center;
+		min-inline-size: 40px;
+	}
+}
+
 .rdi-issues {
 	display: grid;
 	gap: 0.5lh;
@@ -557,7 +574,8 @@
 	&__status {
 		font-size: 12.5px;
 
-		&.is-copy {
+		&.is-copy,
+		&.is-expand {
 			color: $good-text;
 		}
 
@@ -710,5 +728,30 @@
 
 	svg {
 		fill: currentcolor;
+	}
+}
+
+.rdi-migrate__toggle.components-button {
+	display: block;
+	block-size: auto;
+	margin-block-start: 0.125lh;
+	padding: 0;
+}
+
+.rdi-table .rdi-migrate__expanded td {
+	padding-block-start: 0;
+	white-space: normal;
+
+	p {
+		margin-block: 0 0.25lh;
+	}
+
+	ul {
+		margin-block: 0;
+		margin-inline: 0;
+	}
+
+	li {
+		margin-block: 0.125lh;
 	}
 }

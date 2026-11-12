@@ -16,6 +16,7 @@ const globals: Record<string, string> = {
 	'@wordpress/a11y': 'wp.a11y',
 	'@wordpress/primitives': 'wp.primitives',
 	'@wordpress/date': 'wp.date',
+	'@wordpress/hooks': 'wp.hooks',
 };
 
 export default defineConfig({

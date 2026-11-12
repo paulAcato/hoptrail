@@ -13,12 +13,14 @@ The user-facing description is in [readme.txt](readme.txt), which is also what W
 - **One rule graph over all plugins**: loops (also across plugins), chains, conflicts, duplicates, self-redirects, rules made redundant by WordPress's old-slug redirects, redirects hiding published content, broken targets and invalid regexes. Regex, wildcard, prefix and per-post redirects are all followed.
 - **Verify live**: follows real hops over HTTP, on the site's own host only.
 - **Apply fix**: only for clear-cut cases (shorten a chain, switch off a duplicate/self/redundant/hiding rule), confirmed inline, re-checked before writing, logged.
-- **Leftover redirects**: rules of plugins that are no longer active; review in a modal, migrate into an active plugin, delete single rules or all data (and the plugin's own tables).
+- **Leftover redirects**: rules of plugins that are no longer active; review in a modal, migrate into an active plugin, delete single rules or all data (and the plugin's own tables). Patterns go into exact-only plugins (Simple 301, 301 Redirects) as exact rules for known URLs: published content, Redirection's 404 log, and every rule's source and target (`includes/analysis/class-expander.php`).
+- **Regex search**: the issue list searches source, target and every hop with PCRE (the plugins' own engine), with a low backtrack limit and invalid patterns refused (`Log_Repository::search_pattern()`).
+- **Walkthrough**: a pointer on the Tools menu (plain JS, `assets/menu-pointer.js`) and a step-by-step tour on the dashboard (React `Popover`, `components/Tour.tsx`). Each step has a `since` version in `lib/tour.ts`; bump `Admin\Tour::VERSION` when a release adds steps and administrators who saw an older tour get only the new steps. Progress is per user (`redirect_inspector_tour` user meta). No jQuery.
 - **Dashboard** (Tools → Redirect Inspector): health score, trends, severity chart, issue explorer, scan history with date picker and sorting, an "All clear" view, light/dark and more-contrast colour schemes (WCAG 2.2 AA).
 - **Scheduled scans**: daily, weekly or monthly at chosen hours, in site time. **Retention** by days or by the newest number of scans, with a weekly cleanup.
 - **WP-CLI**: `scan` (with `--fail-on` and `--porcelain` for pipelines) and `purge-logs`.
 - **Abilities** (WordPress 7.1+): `run-scan`, `get-scan-results`, `get-next-scan` and `flush-logs` (destructive, needs `confirm: true`), for administrators, public for AI clients via the MCP adapter, not on REST, with a GDPR guard.
-- **Presence and live updates**: other administrators on the dashboard are shown; any change (scan, fix, migration, deletion, settings, flush) refreshes every open dashboard within ~15 s, via the WordPress Heartbeat API.
+- **Presence and live updates**: other administrators on the dashboard are shown; any change (scan, fix, migration, deletion, settings, flush) refreshes every open dashboard within ~15 s, via the WordPress Heartbeat API (its `wp.hooks` actions).
 - **Multisite**: per-site dashboards plus a network overview.
 
 ## Development
@@ -38,12 +40,18 @@ vendor/bin/phpstan analyse --memory-limit=1G
 php tests/test-analysis.php   # analysis, regex, security and schedule tests
 ```
 
-Dummy data for every supported plugin (local or development environments only):
+Dummy data for all ten supported plugins (local or development environments only), with exact, wildcard and regex rules and loops and chains across plugins. Inactive plugins are seeded in their own storage format, so they show up as leftovers:
 
 ```bash
 wp eval-file bin/seed-dummy-data.php          # seed
 wp eval-file bin/seed-dummy-data.php remove   # remove
-wp redirect-inspector scan                    # expected counts: bin/seed-expected.json
+wp redirect-inspector scan                    # expected counts (all ten active): bin/seed-expected.json
+```
+
+The WordPress.org live preview (`.wordpress-org/blueprints/blueprint.json`) installs all ten plugins and runs the same seed. Rebuild it after changing the seed:
+
+```bash
+php bin/build-blueprint.php
 ```
 
 ## Structure

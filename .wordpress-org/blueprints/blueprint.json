@@ -5,6 +5,9 @@
         "php": "8.2",
         "wp": "latest"
     },
+    "features": {
+        "networking": true
+    },
     "steps": [
         {
             "step": "login",
@@ -12,10 +15,42 @@
             "password": "password"
         },
         {
+            "step": "defineWpConfigConsts",
+            "consts": {
+                "WP_ENVIRONMENT_TYPE": "development"
+            }
+        },
+        {
+            "step": "setSiteOptions",
+            "options": {
+                "permalink_structure": "/%postname%/"
+            }
+        },
+        {
             "step": "installPlugin",
             "pluginData": {
                 "resource": "wordpress.org/plugins",
                 "slug": "redirection"
+            },
+            "options": {
+                "activate": true
+            }
+        },
+        {
+            "step": "installPlugin",
+            "pluginData": {
+                "resource": "wordpress.org/plugins",
+                "slug": "seo-by-rank-math"
+            },
+            "options": {
+                "activate": true
+            }
+        },
+        {
+            "step": "installPlugin",
+            "pluginData": {
+                "resource": "wordpress.org/plugins",
+                "slug": "safe-redirect-manager"
             },
             "options": {
                 "activate": true
@@ -35,6 +70,56 @@
             "step": "installPlugin",
             "pluginData": {
                 "resource": "wordpress.org/plugins",
+                "slug": "eps-301-redirects"
+            },
+            "options": {
+                "activate": true
+            }
+        },
+        {
+            "step": "installPlugin",
+            "pluginData": {
+                "resource": "wordpress.org/plugins",
+                "slug": "slim-seo"
+            },
+            "options": {
+                "activate": true
+            }
+        },
+        {
+            "step": "installPlugin",
+            "pluginData": {
+                "resource": "wordpress.org/plugins",
+                "slug": "smartcrawl-seo"
+            },
+            "options": {
+                "activate": true
+            }
+        },
+        {
+            "step": "installPlugin",
+            "pluginData": {
+                "resource": "wordpress.org/plugins",
+                "slug": "wp-seopress"
+            },
+            "options": {
+                "activate": true
+            }
+        },
+        {
+            "step": "installPlugin",
+            "pluginData": {
+                "resource": "wordpress.org/plugins",
+                "slug": "autodescription"
+            },
+            "options": {
+                "activate": true
+            }
+        },
+        {
+            "step": "installPlugin",
+            "pluginData": {
+                "resource": "wordpress.org/plugins",
                 "slug": "redirect-inspector"
             },
             "options": {
@@ -43,7 +128,7 @@
         },
         {
             "step": "runPHP",
-            "code": "<?php\nrequire_once '/wordpress/wp-load.php';\nwp_set_current_user( 1 );\n\n// Redirection keeps its rules in its own tables; create them, then a group.\n// Redirection installs its tables on first use of its admin; install them now.\nforeach ( array( 'Redirection\\\\Database\\\\Database', 'Database' ) as $db ) {\n\tif ( class_exists( $db ) && method_exists( $db, 'get_latest_database' ) ) {\n\t\t$db::get_latest_database()->install();\n\t\tbreak;\n\t}\n}\n$group = class_exists( 'Red_Group' ) ? Red_Group::create( 'Demo', 1 ) : null;\n\n// A chain, a loop and a self-redirect in Redirection.\nforeach ( array( array( '/old-about', '/about-old' ), array( '/about-old', '/about-2020' ), array( '/about-2020', '/sample-page' ), array( '/loop-a', '/loop-b' ), array( '/loop-b', '/loop-a' ), array( '/self', '/self' ) ) as $rule ) {\n\tif ( $group ) {\n\t\tRed_Item::create( array( 'url' => $rule[0], 'action_data' => array( 'url' => $rule[1] ), 'group_id' => $group->get_id(), 'match_type' => 'url', 'action_type' => 'url', 'action_code' => 301 ) );\n\t}\n}\n\n// A loop across plugins and a duplicate, in Simple 301 Redirects.\nupdate_option( '301_redirects', array( '/loop-c' => '/loop-a', '/self' => '/self', '/old-promo' => '/sample-page' ) );\n\n// A first scan, so the dashboard has something to show.\nif ( class_exists( '\\\\Acato\\\\RedirectInspector\\\\Includes\\\\Scanner' ) ) {\n\t\\Acato\\RedirectInspector\\Includes\\Scanner::run( 'manual' );\n}\n"
+            "code": "<?php\nrequire_once '/wordpress/wp-load.php';\nwp_set_current_user( 1 );\n\nif ( ! class_exists( 'WP_CLI' ) ) {\n\tdefine( 'WP_CLI', true );\n\tclass WP_CLI {\n\t\tpublic static function log( $message ) {}\n\t\tpublic static function warning( $message ) { error_log( 'Seed: ' . $message ); }\n\t\tpublic static function success( $message ) {}\n\t\tpublic static function error( $message ) { throw new RuntimeException( $message ); }\n\t}\n}\n\n// Redirection creates its tables on first use of its admin screen; create them now.\nforeach ( [ 'Redirection\\\\Database\\\\Database', 'Red_Database' ] as $rdi_db ) {\n\tif ( class_exists( $rdi_db ) && method_exists( $rdi_db, 'get_latest_database' ) ) {\n\t\t$rdi_db::get_latest_database()->install();\n\t\tbreak;\n\t}\n}\nif ( function_exists( 'red_get_options' ) && function_exists( 'red_set_options' ) ) {\n\tred_set_options( [ 'database' => REDIRECTION_DB_VERSION ] );\n}\n\n$args = [];\n/**\n * Dummy redirects for every supported plugin. Development only; not part of the release.\n *\n * Usage: wp eval-file bin/seed-dummy-data.php            (seed / re-seed)\n *        wp eval-file bin/seed-dummy-data.php remove     (remove seed data)\n *\n * Idempotent: everything it creates is recorded in the `redirect_inspector_seed` option and\n * removed again on the next run (S12: it never touches rules it didn't create).\n *\n * @package Acato\\RedirectInspector\n */\n\nif ( ! defined( 'WP_CLI' ) || ! WP_CLI ) {\n\texit;\n}\n\nif ( ! in_array( wp_get_environment_type(), [ 'local', 'development' ], true ) ) {\n\tWP_CLI::error( 'The seed script only runs on local or development environments.' );\n}\n\nconst RDI_SEED_OPTION = 'redirect_inspector_seed';\n\n$manifest = get_option( RDI_SEED_OPTION, [] );\n$manifest = is_array( $manifest ) ? $manifest : [];\n\nglobal $wpdb;\n\n/**\n * Whether one of this site's tables exists (plugins keep their tables while inactive).\n *\n * @param string $table Table name without prefix.\n *\n * @return bool\n */\n$rdi_has_table = static function ( string $table ) use ( $wpdb ): bool {\n\treturn $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->prefix . $table ) ) === $wpdb->prefix . $table; // phpcs:ignore\n};\n\n/*\n * 1. Remove the previous seed.\n */\n\nif ( ! empty( $manifest['redirection_group'] ) && $rdi_has_table( 'redirection_groups' ) ) {\n\t// Directly, so it also works while Redirection is inactive.\n\t$wpdb->delete( $wpdb->prefix . 'redirection_items', [ 'group_id' => (int) $manifest['redirection_group'] ] ); // phpcs:ignore\n\t$wpdb->delete( $wpdb->prefix . 'redirection_groups', [ 'id' => (int) $manifest['redirection_group'] ] ); // phpcs:ignore\n}\n\nif ( ! empty( $manifest['rank_math_ids'] ) && $rdi_has_table( 'rank_math_redirections' ) ) {\n\t$ids = implode( ',', array_map( 'absint', $manifest['rank_math_ids'] ) );\n\t$wpdb->query( \"DELETE FROM {$wpdb->prefix}rank_math_redirections WHERE id IN ({$ids})\" ); // phpcs:ignore\n}\n\nforeach ( $manifest['srm_ids'] ?? [] as $seed_post_id ) {\n\twp_delete_post( (int) $seed_post_id, true );\n}\n\n$yoast = get_option( 'wpseo-premium-redirects-base', [] );\n$yoast = is_array( $yoast ) ? $yoast : [];\n$yoast = array_values( array_filter( $yoast, static fn( $item ) => ! in_array( $item['origin'] ?? '', $manifest['yoast_origins'] ?? [], true ) ) );\n\n$simple = get_option( '301_redirects', [] );\n$simple = is_array( $simple ) ? $simple : [];\nforeach ( $manifest['simple_keys'] ?? [] as $key ) {\n\tunset( $simple[ $key ] );\n}\n\nforeach ( $manifest['post_ids'] ?? [] as $seed_post_id ) {\n\twp_delete_post( (int) $seed_post_id, true );\n}\n\nif ( ! empty( $manifest['eps_ids'] ) && $rdi_has_table( 'redirects' ) ) {\n\t$wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE id IN (' . implode( ',', array_map( 'absint', $manifest['eps_ids'] ) ) . ')', $wpdb->prefix . 'redirects' ) ); // phpcs:ignore\n}\nif ( ! empty( $manifest['smartcrawl_ids'] ) && $rdi_has_table( 'smartcrawl_redirects' ) ) {\n\t$wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE id IN (' . implode( ',', array_map( 'absint', $manifest['smartcrawl_ids'] ) ) . ')', $wpdb->prefix . 'smartcrawl_redirects' ) ); // phpcs:ignore\n}\n$slim = get_option( 'ss_redirects', [] );\n$slim = is_array( $slim ) ? array_diff_key( $slim, array_flip( $manifest['slim_ids'] ?? [] ) ) : [];\nupdate_option( 'ss_redirects', $slim );\n\nif ( ! empty( $manifest['redirection_404_ids'] ) && $rdi_has_table( 'redirection_404' ) ) {\n\t$wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE id IN (' . implode( ',', array_map( 'absint', $manifest['redirection_404_ids'] ) ) . ')', $wpdb->prefix . 'redirection_404' ) ); // phpcs:ignore\n}\n\nupdate_option( 'wpseo-premium-redirects-base', $yoast, false );\nupdate_option( '301_redirects', $simple );\ndelete_option( RDI_SEED_OPTION );\n\nif ( 'remove' === ( $args[0] ?? '' ) ) {\n\tWP_CLI::success( 'Seed data removed.' );\n\treturn;\n}\n\n$manifest = [];\n\n/*\n * 2. Content: pages the redirects point to, and a post whose slug changed (→ _wp_old_slug).\n */\n$seed_pages = [\n\t'about-us' => 'About us',\n\t'services' => 'Services',\n\t'contact'  => 'Contact',\n\t'team'     => 'Team',\n\t'pricing'  => 'Pricing',\n\t'news'     => 'News',\n\t'careers'  => 'Careers',\n\t'faq'      => 'FAQ',\n];\nforeach ( $seed_pages as $slug => $seed_title ) {\n\tif ( get_page_by_path( $slug ) ) {\n\t\tcontinue;\n\t}\n\t$manifest['post_ids'][] = wp_insert_post(\n\t\t[\n\t\t\t'post_type'    => 'page',\n\t\t\t'post_status'  => 'publish',\n\t\t\t'post_name'    => $slug,\n\t\t\t'post_title'   => $seed_title,\n\t\t\t'post_content' => '<!-- wp:paragraph --><p>Redirect Inspector demo page.</p><!-- /wp:paragraph -->',\n\t\t]\n\t);\n}\n\n$launch = get_page_by_path( 'launch-announcement', OBJECT, 'post' );\nif ( ! $launch ) {\n\t$launch_id = wp_insert_post(\n\t\t[\n\t\t\t'post_type'   => 'post',\n\t\t\t'post_status' => 'publish',\n\t\t\t'post_name'   => 'old-launch',\n\t\t\t'post_title'  => 'Launch announcement',\n\t\t]\n\t);\n\twp_update_post(\n\t\t[\n\t\t\t'ID'        => $launch_id,\n\t\t\t'post_name' => 'launch-announcement',\n\t\t]\n\t); // Core stores `old-launch` in _wp_old_slug.\n\t$manifest['post_ids'][] = $launch_id;\n}\n\n/*\n * 3. Redirection: chain, 2-node loop, self-loop, regex loop, disabled rule, broken target,\n *    duplicate, conflict, cross-plugin chain and loop legs.\n */\nif ( $rdi_has_table( 'redirection_items' ) && $rdi_has_table( 'redirection_groups' ) ) {\n\t// Redirection's API when it is active; its own table format when it isn't.\n\t$api = class_exists( 'Red_Group' ) && class_exists( 'Red_Item' );\n\tif ( $api ) {\n\t\t$gid = Red_Group::create( 'Redirect Inspector seed', 1 )->get_id();\n\t} else {\n\t\t$wpdb->insert( $wpdb->prefix . 'redirection_groups', [ 'name' => 'Redirect Inspector seed', 'tracking' => 1, 'module_id' => 1, 'status' => 'enabled', 'position' => 0 ] ); // phpcs:ignore\n\t\t$gid = (int) $wpdb->insert_id;\n\t}\n\n\t$redirection = [\n\t\t[ '/old-about', '/about-old' ],\n\t\t[ '/about-old', '/about-2020' ],\n\t\t[ '/about-2020', '/about-us' ],\n\t\t[ '/loop-a', '/loop-b' ],\n\t\t[ '/loop-b', '/loop-a' ],\n\t\t[ '/self', '/self' ],\n\t\t[ '^/blog/(.*)$', '/news/$1', true ],\n\t\t[ '^/news/(.+)$', '/blog/$1', true ],\n\t\t[ '/old-pricing', '/pricing-2019' ],\n\t\t[ '/dup-source', '/contact' ],\n\t\t[ '/conflict-source', '/contact' ],\n\t\t[ '/promo', '/promo-2024' ],\n\t\t[ '/cross-a', '/cross-b' ],\n\t\t[ '/disabled-rule', '/contact', false, 'disabled' ],\n\t];\n\n\tforeach ( $redirection as $position => $row ) {\n\t\tif ( ! $api ) {\n\t\t\t$wpdb->insert( // phpcs:ignore\n\t\t\t\t$wpdb->prefix . 'redirection_items',\n\t\t\t\t[\n\t\t\t\t\t'url'         => $row[0],\n\t\t\t\t\t'match_url'   => ! empty( $row[2] ) ? 'regex' : strtolower( $row[0] ),\n\t\t\t\t\t'match_data'  => wp_json_encode( [ 'source' => [ 'flag_regex' => ! empty( $row[2] ) ] ] ),\n\t\t\t\t\t'regex'       => ! empty( $row[2] ) ? 1 : 0,\n\t\t\t\t\t'position'    => $position,\n\t\t\t\t\t'group_id'    => $gid,\n\t\t\t\t\t'status'      => 'disabled' === ( $row[3] ?? '' ) ? 'disabled' : 'enabled',\n\t\t\t\t\t'action_type' => 'url',\n\t\t\t\t\t'action_code' => 301,\n\t\t\t\t\t'action_data' => $row[1],\n\t\t\t\t\t'match_type'  => 'url',\n\t\t\t\t\t'title'       => '',\n\t\t\t\t]\n\t\t\t);\n\t\t\tcontinue;\n\t\t}\n\t\t$item = Red_Item::create(\n\t\t\t[\n\t\t\t\t'url'         => $row[0],\n\t\t\t\t'action_data' => [ 'url' => $row[1] ],\n\t\t\t\t'regex'       => ! empty( $row[2] ),\n\t\t\t\t'group_id'    => $gid,\n\t\t\t\t'match_type'  => 'url',\n\t\t\t\t'action_type' => 'url',\n\t\t\t\t'action_code' => 301,\n\t\t\t]\n\t\t);\n\t\tif ( is_wp_error( $item ) ) {\n\t\t\tWP_CLI::warning( 'Redirection: ' . $item->get_error_message() );\n\t\t\tcontinue;\n\t\t}\n\t\tif ( 'disabled' === ( $row[3] ?? '' ) ) {\n\t\t\t$item->disable();\n\t\t}\n\t}\n\n\t$manifest['redirection_group'] = $gid;\n} else {\n\tWP_CLI::warning( 'Redirection has no tables (never activated); skipped.' );\n}\n\n/*\n * 3b. Old URLs visitors still request (Redirection's 404 log): the URLs pattern rules are for.\n *     Migrating a pattern rule into a plugin that only holds exact rules expands it over these.\n */\nif ( $rdi_has_table( 'redirection_404' ) ) {\n\tforeach ( [ '/docs/v1/install', '/docs/v1/upgrade', '/products/shoes', '/products/socks', '/blog/hello-world', '/legacy/brochure', '/old-shop/gift-card' ] as $seed_url ) {\n\t\t$wpdb->insert( $wpdb->prefix . 'redirection_404', [ 'created' => current_time( 'mysql', true ), 'url' => $seed_url, 'http_code' => 404, 'request_method' => 'GET', 'agent' => 'Redirect Inspector seed' ] ); // phpcs:ignore\n\t\t$manifest['redirection_404_ids'][] = (int) $wpdb->insert_id;\n\t}\n}\n\n/*\n * 4. Yoast SEO Premium (its storage format): chain continuation, trailing-slash no-op,\n *    regex rule, cross-plugin loop leg.\n */\n$yoast_seed = [\n\t[ 'promo-2024', 'pricing', 'plain' ],\n\t[ 'help/', 'help', 'plain' ],\n\t[ '^shop/(.*)', 'store/$1', 'regex' ],\n\t[ '^(?i)Team-(\\\\d+)$', 'team', 'regex' ],\n\t[ 'cross-c', 'cross-a', 'plain' ],\n];\nforeach ( $yoast_seed as [ $origin, $url, $format ] ) {\n\t$yoast[]                     = [\n\t\t'origin' => $origin,\n\t\t'url'    => $url,\n\t\t'type'   => 301,\n\t\t'format' => $format,\n\t];\n\t$manifest['yoast_origins'][] = $origin;\n}\nupdate_option( 'wpseo-premium-redirects-base', $yoast, false );\n\n/*\n * 5. Rank Math: cross-plugin loop leg, \"starts with\" rule, rule hiding a published page.\n */\nif ( class_exists( '\\RankMath\\Installer' ) || $rdi_has_table( 'rank_math_redirections' ) ) {\n\t$modules = get_option( 'rank_math_modules', [] );\n\tif ( ! in_array( 'redirections', (array) $modules, true ) ) {\n\t\t$modules[] = 'redirections';\n\t\tupdate_option( 'rank_math_modules', $modules );\n\t}\n\tif ( class_exists( '\\RankMath\\Installer' ) ) {\n\t\t\\RankMath\\Installer::create_tables( [ 'redirections' ] );\n\t}\n\n\t$rank_math = [\n\t\t[ 'cross-b', 'exact', home_url( '/cross-c' ) ],\n\t\t[ 'archive-2019', 'start', home_url( '/news' ) ],\n\t\t[ 'services', 'exact', home_url( '/pricing' ) ],\n\t\t[ '^docs/v1/(.*)', 'regex', home_url( '/docs/v2/$1' ) ],\n\t];\n\tforeach ( $rank_math as [ $pattern, $comparison, $seed_to ] ) {\n\t\t$wpdb->insert(\n\t\t\t\"{$wpdb->prefix}rank_math_redirections\",\n\t\t\t[\n\t\t\t\t'sources'     => serialize( // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Rank Math's own storage format.\n\n\t\t\t\t\t[\n\t\t\t\t\t[\n\t\t\t\t\t'pattern'    => $pattern,\n\t\t\t\t\t'comparison' => $comparison,\n\t\t\t\t\t'ignore'     => 'case',\n\t\t\t\t\t],\n\t\t\t\t\t]\n\t\t\t\t), // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Rank Math's own storage format.\n\t\t\t\t'url_to'      => $seed_to,\n\t\t\t\t'header_code' => 301,\n\t\t\t\t'status'      => 'active',\n\t\t\t\t'created'     => current_time( 'mysql' ),\n\t\t\t\t'updated'     => current_time( 'mysql' ),\n\t\t\t]\n\t\t);\n\t\t$manifest['rank_math_ids'][] = (int) $wpdb->insert_id;\n\t}\n} else {\n\tWP_CLI::warning( 'Rank Math has no tables (never activated); skipped.' );\n}\n\n/*\n * 6. Safe Redirect Manager: conflicting duplicate, chain, wildcard that runs into the regex loop.\n */\n$srm = [\n\t[ '/conflict-source', '/team', false ],\n\t[ '/careers-old', '/jobs', false ],\n\t[ '/jobs', '/careers', false ],\n\t[ '/legacy/*', '/news/*', false ],\n\t[ '/products/([a-z]+)/?$', '/shop/$1', true ],\n];\nif ( function_exists( 'srm_create_redirect' ) ) {\n\tforeach ( $srm as [ $seed_from, $seed_to, $regex ] ) {\n\t\t$seed_id = srm_create_redirect( $seed_from, $seed_to, 301, $regex );\n\t\tif ( is_wp_error( $seed_id ) ) {\n\t\t\tWP_CLI::warning( 'SRM: ' . $seed_id->get_error_message() );\n\t\t\tcontinue;\n\t\t}\n\t\t$manifest['srm_ids'][] = (int) $seed_id;\n\t}\n} else {\n\t// SRM's own storage: a redirect_rule post with its meta.\n\tforeach ( $srm as $position => [ $seed_from, $seed_to, $regex ] ) {\n\t\t$manifest['srm_ids'][] = (int) wp_insert_post(\n\t\t\t[\n\t\t\t\t'post_type'   => 'redirect_rule',\n\t\t\t\t'post_status' => 'publish',\n\t\t\t\t'post_title'  => $seed_from,\n\t\t\t\t'menu_order'  => $position,\n\t\t\t\t'meta_input'  => [\n\t\t\t\t\t'_redirect_rule_from'        => $seed_from,\n\t\t\t\t\t'_redirect_rule_to'          => $seed_to,\n\t\t\t\t\t'_redirect_rule_status_code' => 301,\n\t\t\t\t\t'_redirect_rule_from_regex'  => $regex ? 1 : 0,\n\t\t\t\t],\n\t\t\t]\n\t\t);\n\t}\n}\n\n/*\n * 7. Simple 301 Redirects: duplicate (same target), rule made redundant by _wp_old_slug,\n *    wildcard rule, case-sensitive rule.\n */\n$simple_seed = [\n\t'/dup-source'  => '/contact',\n\t'/old-launch'  => '/launch-announcement',\n\t'/old-shop/*'  => '/store/*',\n\t'/Pricing-Old' => '/pricing',\n];\nforeach ( $simple_seed as $seed_from => $seed_to ) {\n\t$simple[ $seed_from ]      = $seed_to;\n\t$manifest['simple_keys'][] = $seed_from;\n}\nupdate_option( '301_redirects', $simple );\nupdate_option( '301_redirects_wildcard', 'true' );\n\n/*\n * 8. 301 Redirects: a chain that continues in Slim SEO, and a third copy of /dup-source.\n */\nglobal $wpdb;\nif ( defined( 'EPS_REDIRECT_VERSION' ) || $rdi_has_table( 'redirects' ) ) {\n\tforeach ( [ [ 'eps-old', '/eps-mid' ], [ 'dup-source', '/contact' ] ] as [ $seed_from, $seed_to ] ) {\n\t\t$wpdb->insert( $wpdb->prefix . 'redirects', [ 'url_from' => $seed_from, 'url_to' => $seed_to, 'status' => '301', 'type' => 'url' ] ); // phpcs:ignore\n\t\t$manifest['eps_ids'][] = (int) $wpdb->insert_id;\n\t}\n} else {\n\tWP_CLI::warning( '301 Redirects has no table (never activated); skipped.' );\n}\n\n/*\n * 9. Slim SEO: the second leg of the 301 Redirects chain.\n */\n$seed_slim_id                 = 'rdiseed' . substr( md5( 'eps-mid' ), 0, 6 );\n$slim[ $seed_slim_id ]        = [\n\t'type'             => 301,\n\t'condition'        => 'exact-match',\n\t'from'             => 'eps-mid',\n\t'to'               => 'contact',\n\t'note'             => 'Redirect Inspector seed',\n\t'enable'           => 1,\n\t'ignoreParameters' => 0,\n];\n$manifest['slim_ids'][]       = $seed_slim_id;\n// A regex rule: the second leg of the Rank Math docs chain.\n$seed_slim_id           = 'rdiseed' . substr( md5( 'docs-v2' ), 0, 6 );\n$slim[ $seed_slim_id ]  = [\n\t'type'             => 301,\n\t'condition'        => 'regex',\n\t'from'             => '^docs/v2/(.*)',\n\t'to'               => 'docs/$1',\n\t'note'             => 'Redirect Inspector seed',\n\t'enable'           => 1,\n\t'ignoreParameters' => 0,\n];\n$manifest['slim_ids'][] = $seed_slim_id;\nupdate_option( 'ss_redirects', $slim );\n\n/*\n * 10. SEOPress and The SEO Framework redirect from a page itself; SmartCrawl links into both:\n *     /old-seopress → (SEOPress page) → /about-us is a chain,\n *     (SEO Framework page) → /sc-target → back to that page is a loop.\n */\n$seed_page = static function ( string $slug, string $title ) use ( &$manifest ): int {\n\t$id                     = wp_insert_post( [ 'post_type' => 'page', 'post_status' => 'publish', 'post_name' => $slug, 'post_title' => $title ] );\n\t$manifest['post_ids'][] = $id;\n\treturn (int) $id;\n};\n$seopress_page = $seed_page( 'seopress-page', 'SEOPress demo page' );\nupdate_post_meta( $seopress_page, '_seopress_redirections_enabled', 'yes' );\nupdate_post_meta( $seopress_page, '_seopress_redirections_value', home_url( '/about-us' ) );\nupdate_post_meta( $seopress_page, '_seopress_redirections_type', '301' );\nupdate_post_meta( $seopress_page, '_seopress_redirections_logged_status', 'both' );\n\n$tsf_page = $seed_page( 'tsf-page', 'SEO Framework demo page' );\nupdate_post_meta( $tsf_page, 'redirect', home_url( '/sc-target' ) );\n\nif ( defined( 'SMARTCRAWL_PLUGIN_DIR' ) || $rdi_has_table( 'smartcrawl_redirects' ) ) {\n\t// SmartCrawl only redirects with its URL Redirection module on.\n\tif ( class_exists( '\\\\SmartCrawl\\\\Modules\\\\Advanced\\\\Redirects\\\\Controller' ) ) {\n\t\t$sc = \\SmartCrawl\\Modules\\Advanced\\Redirects\\Controller::get();\n\t\tif ( ! $sc->parent->should_run() ) {\n\t\t\t$sc->parent->update_option( 'active', true );\n\t\t}\n\t\t$sc->parent->update_option( $sc->module_name, array_merge( (array) $sc->options, [ 'active' => true ] ) );\n\t}\n\n\t// The last one is a regex that redirects into itself: a loop.\n\tforeach ( [ [ '/old-seopress', home_url( '/seopress-page' ), false ], [ '/sc-target', home_url( '/tsf-page' ), false ], [ '^/kb/(.+)$', '/kb/$1', true ] ] as [ $seed_from, $seed_to, $regex ] ) {\n\t\t$wpdb->insert( $wpdb->prefix . 'smartcrawl_redirects', [ 'title' => 'Redirect Inspector seed', 'source' => $seed_from, 'path' => $regex ? 'regex' : $seed_from, 'destination' => wp_json_encode( $seed_to ), 'type' => 301, 'options' => $regex ? 'regex' : '', 'rules' => '[]' ] ); // phpcs:ignore\n\t\t$manifest['smartcrawl_ids'][] = (int) $wpdb->insert_id;\n\t}\n} else {\n\tWP_CLI::warning( 'SmartCrawl has no table (never activated); skipped.' );\n}\n\nupdate_option( RDI_SEED_OPTION, $manifest, false );\n\nWP_CLI::success( 'Seeded redirects for all ten plugins (inactive ones in their own storage format, so they show up as leftovers).' );\nWP_CLI::log( 'Expected counts: see bin/seed-expected.json. Verify with: wp redirect-inspector scan' );\n\n// A first scan, so the dashboard has something to show.\n\\Acato\\RedirectInspector\\Includes\\Scanner::run( 'manual' );\n"
         }
     ]
 }

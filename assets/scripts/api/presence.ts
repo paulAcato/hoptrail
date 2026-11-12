@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from '@wordpress/element';
 import { speak } from '@wordpress/a11y';
+import { addAction, removeAction } from '@wordpress/hooks';
 import { __, sprintf } from '@wordpress/i18n';
 import { invalidate } from './client';
 import type { PresentUser } from './types';
@@ -16,12 +17,6 @@ interface Tick {
 	version?: number;
 	change?: Change;
 }
-
-/** jQuery as loaded by WordPress for the Heartbeat API (not bundled). */
-type JQueryLike = (target: Document) => {
-	on: (events: string, handler: (event: unknown, data: Record<string, unknown>) => void) => unknown;
-	off: (events: string) => unknown;
-};
 
 const describe = ({ action, by }: Change): string => {
 	const who = by || __('Someone', 'redirect-inspector');
@@ -56,15 +51,10 @@ export const usePresence = () => {
 	const version = useRef(window.redirectInspector?.stateVersion ?? 0);
 
 	useEffect(() => {
-		const jq = (window as unknown as { jQuery?: JQueryLike }).jQuery;
-		if (!jq) {
-			return undefined;
-		}
-
-		const send = (_event: unknown, data: Record<string, unknown>) => {
+		const send = (data: Record<string, unknown>) => {
 			data.redirect_inspector = { screen: window.redirectInspector?.mode ?? 'site' };
 		};
-		const tick = (_event: unknown, data: Record<string, unknown>) => {
+		const tick = (data: Record<string, unknown>) => {
 			const payload = data?.redirect_inspector as Tick | undefined;
 			if (!payload) {
 				return;
@@ -83,8 +73,10 @@ export const usePresence = () => {
 			}
 		};
 
-		jq(document).on('heartbeat-send.redirectInspector', send);
-		jq(document).on('heartbeat-tick.redirectInspector', tick);
+		// Core's Heartbeat runs these wp.hooks actions on every beat.
+		addAction('heartbeat.send', 'redirect-inspector/presence', send);
+		addAction('heartbeat.tick', 'redirect-inspector/presence', tick);
+
 		// Every 15 s while this dashboard is open (WordPress slows it down in background tabs),
 		// and announce ourselves right away instead of after the first interval.
 		const heartbeat = (window as unknown as { wp?: { heartbeat?: { interval?: (speed: number) => void; connectNow?: () => void } } }).wp?.heartbeat;
@@ -92,8 +84,8 @@ export const usePresence = () => {
 		heartbeat?.connectNow?.();
 
 		return () => {
-			jq(document).off('heartbeat-send.redirectInspector');
-			jq(document).off('heartbeat-tick.redirectInspector');
+			removeAction('heartbeat.send', 'redirect-inspector/presence');
+			removeAction('heartbeat.tick', 'redirect-inspector/presence');
 		};
 	}, []);
 

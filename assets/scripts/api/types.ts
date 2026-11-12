@@ -96,7 +96,10 @@ export interface LeftoverRule {
 	to: string;
 	code: number;
 	match: string;
-	status: 'copy' | 'exists' | 'unsupported' | 'none';
+	status: 'copy' | 'expand' | 'exists' | 'unsupported' | 'none';
+	/** For 'expand': the exact rules it becomes (first 50), and how many. */
+	expanded: Array<{ from: string; to: string }>;
+	expands: number;
 }
 
 export interface MigrationResult {
@@ -104,6 +107,7 @@ export interface MigrationResult {
 	existing: number;
 	unsupported: number;
 	failed: number;
+	expanded: number;
 	dry_run: boolean;
 }
 
@@ -205,6 +209,7 @@ export interface BootData {
 	wapuu: string;
 	stateVersion: number;
 	userId: number;
+	tour: { version: string; seen: string; pending: boolean };
 }
 
 declare global {

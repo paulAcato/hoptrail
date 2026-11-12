@@ -2,6 +2,7 @@ import { Button, SearchControl, SelectControl, Spinner } from '@wordpress/compon
 import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
 import { speak } from '@wordpress/a11y';
 import { __, _n, sprintf } from '@wordpress/i18n';
+import { regularExpression } from '../lib/icons';
 import { route } from '../api/client';
 import { useDebounced, useResource } from '../api/hooks';
 import type { Issue, Paged, SourceSummary, TypeCounts } from '../api/types';
@@ -24,12 +25,13 @@ interface Props {
 export const IssueExplorer = ({ scanId, counts, sources, group, onGroup }: Props) => {
 	const [plugin, setPlugin] = useState('');
 	const [search, setSearch] = useState('');
+	const [regex, setRegex] = useState(false);
 	const [page, setPage] = useState(1);
 	const query = useDebounced(search.trim(), 300);
 	const multi = useMultiSource();
 
 	// Any filter change starts at page 1.
-	useEffect(() => setPage(1), [group, plugin, query, scanId]);
+	useEffect(() => setPage(1), [group, plugin, query, regex, scanId]);
 
 	const path = useMemo(
 		() => route('/issues', {
@@ -37,16 +39,17 @@ export const IssueExplorer = ({ scanId, counts, sources, group, onGroup }: Props
 			types: 'all' === group ? undefined : GROUPS[group],
 			plugin,
 			search: query,
+			regex: regex && query ? 1 : undefined,
 			page,
 			per_page: PER_PAGE,
 		}),
-		[scanId, group, plugin, query, page]
+		[scanId, group, plugin, query, regex, page]
 	);
 
 	const { data, loading, error } = useResource<Paged<Issue>>(path);
 
 	// Announce the result count after a filter change (not on first load).
-	const filterKey = `${group}|${plugin}|${query}`;
+	const filterKey = `${group}|${plugin}|${query}|${regex}`;
 	const announced = useRef(filterKey);
 	useEffect(() => {
 		if (!data || loading || announced.current === filterKey) {
@@ -75,12 +78,25 @@ export const IssueExplorer = ({ scanId, counts, sources, group, onGroup }: Props
 			</div>
 
 			<div className={`rdi-filters${multi ? '' : ' is-single'}`}>
-				<SearchControl
-					__nextHasNoMarginBottom
-					label={__('Search URLs', 'redirect-inspector')}
-					value={search}
-					onChange={(value: string) => setSearch(value ?? '')}
-				/>
+				<div className="rdi-filters__search">
+					<SearchControl
+						__nextHasNoMarginBottom
+						label={regex ? __('Search URLs with a regular expression', 'redirect-inspector') : __('Search URLs', 'redirect-inspector')}
+						placeholder={regex ? '^/blog/(.*)$' : __('Search', 'redirect-inspector')}
+						value={search}
+						onChange={(value: string) => setSearch(value ?? '')}
+					/>
+					<Button
+						className="rdi-filters__regex"
+						__next40pxDefaultSize
+						variant="secondary"
+						icon={regularExpression}
+						isPressed={regex}
+						label={__('Use regular expression', 'redirect-inspector')}
+						showTooltip
+						onClick={() => setRegex((value) => !value)}
+					/>
+				</div>
 				{multi && <SelectControl
 					__nextHasNoMarginBottom
 					__next40pxDefaultSize
