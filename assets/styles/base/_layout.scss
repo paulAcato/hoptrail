@@ -103,3 +103,17 @@
 		color: $ink-secondary;
 	}
 }
+
+// The two chart cards share a row: same height, charts aligned at the bottom so their axes line up.
+.rdi-grid--charts {
+	align-items: stretch;
+}
+
+.rdi-card--chart {
+	display: flex;
+	flex-direction: column;
+
+	> .rdi-chart {
+		margin-block-start: auto;
+	}
+}

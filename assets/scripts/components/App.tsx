@@ -152,15 +152,15 @@ export const App = () => {
 				<>
 					<StatTiles summary={summary} active={group} onSelect={showGroup} />
 
-					<div className="rdi-grid">
-						<section className="rdi-card" aria-labelledby="rdi-score-title">
+					<div className="rdi-grid rdi-grid--charts">
+						<section className="rdi-card rdi-card--chart" aria-labelledby="rdi-score-title">
 							<header className="rdi-card__header">
 								<h2 id="rdi-score-title">{__('Health score', 'redirect-inspector')}</h2>
 								<span className="rdi-card__meta">{__('below 50 critical · 80 and up healthy', 'redirect-inspector')}</span>
 							</header>
 							<ScoreChart trend={summary.trend} />
 						</section>
-						<section className="rdi-card" aria-labelledby="rdi-severity-title">
+						<section className="rdi-card rdi-card--chart" aria-labelledby="rdi-severity-title">
 							<header className="rdi-card__header">
 								<h2 id="rdi-severity-title">{__('Issues by severity', 'redirect-inspector')}</h2>
 							</header>
