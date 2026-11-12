@@ -34,7 +34,7 @@ final class Log_Repository {
 			Installer::scans_table(),
 			[
 				'status'       => 'running',
-				'trigger_type' => in_array( $trigger, [ 'manual', 'cli', 'cron' ], true ) ? $trigger : 'manual',
+				'trigger_type' => in_array( $trigger, [ 'manual', 'cli', 'cron', 'ability' ], true ) ? $trigger : 'manual',
 				'user_id'      => (int) $user->ID,
 				'user_login'   => (string) $user->user_login,
 				'started_at'   => current_time( 'mysql', true ),
@@ -459,7 +459,8 @@ final class Log_Repository {
 	private static function trigger_label( string $trigger, string $user_login ): string {
 		return match ( $trigger ) {
 			'cli'   => 'WP-CLI',
-			'cron'  => __( 'Scheduled', 'redirect-inspector' ),
+			'cron'    => __( 'Scheduled', 'redirect-inspector' ),
+			'ability' => __( 'Ability', 'redirect-inspector' ),
 			default => $user_login,
 		};
 	}

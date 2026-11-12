@@ -15,7 +15,7 @@ export interface SourceStats {
 export interface Scan {
 	id: number;
 	status: ScanStatus;
-	trigger: 'manual' | 'cli' | 'cron';
+	trigger: 'manual' | 'cli' | 'cron' | 'ability';
 	user: string;
 	started_at: string;
 	finished_at: string | null;

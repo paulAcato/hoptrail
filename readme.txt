@@ -1,7 +1,7 @@
 === Redirect Inspector ===
 Contributors: paulacato
 Tags: redirects, redirect loop, redirect chain, 301, seo
-Requires at least: 6.6
+Requires at least: 6.9
 Tested up to: 7.1
 Requires PHP: 8.1
 Stable tag: 1.0.0
@@ -56,8 +56,18 @@ The dashboard follows your system's light or dark mode and its contrast preferen
 
 = From WP-CLI =
 
-`wp redirect-inspector scan [--format=table|json|summary]` runs a scan and prints the issues.
-`wp redirect-inspector purge-logs [--all]` removes old scan history.
+* `wp redirect-inspector scan [--format=table|json|summary]` runs a scan and prints the issues.
+* `wp redirect-inspector scan --porcelain --fail-on=loop,conflict` prints only the health score and exits with code 1 when loops or conflicts exist, so a deploy pipeline can stop on them (`--fail-on=any` for every type).
+* `wp redirect-inspector purge-logs [--all]` removes old scan history.
+
+= Abilities (WordPress 7.1+) =
+
+Two abilities for the WordPress Abilities API, so AI clients connected through the MCP adapter can run a scan and read the results for administrators (`manage_options`):
+
+* `redirect-inspector/run-scan`: runs a scan and returns the health score, counts per type and severity, and the most severe issues with their redirect path and a suggested fix.
+* `redirect-inspector/get-scan-results`: the same for the latest scan, without running a new one; optionally filtered by issue type.
+
+They never return user data and never change a redirect rule. They are not exposed on the abilities REST API.
 
 = Changing other plugins' rules =
 

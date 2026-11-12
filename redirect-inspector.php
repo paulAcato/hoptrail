@@ -4,7 +4,7 @@
  * Plugin URI:        https://github.com/paulAcato/redirect-inspector
  * Description:       Finds redirect loops, chains and redirects you don't need across Redirection, Yoast SEO Premium, Rank Math, Safe Redirect Manager and Simple 301 Redirects, and fixes the clear-cut ones.
  * Version:           1.0.0
- * Requires at least: 6.6
+ * Requires at least: 6.9
  * Requires PHP:      8.1
  * Author:            Paul van Impelen
  * Author URI:        https://profiles.wordpress.org/paulacato/

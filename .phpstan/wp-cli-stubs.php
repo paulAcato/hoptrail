@@ -42,6 +42,24 @@ namespace {
 		public static function log( $message ) {}
 
 		/**
+		 * Print a line without a prefix.
+		 *
+		 * @param string $message Message.
+		 * @return void
+		 */
+		public static function line( $message = '' ) {}
+
+		/**
+		 * Exit with a return code.
+		 *
+		 * @param int $return_code Exit code.
+		 * @return never
+		 */
+		public static function halt( $return_code ) {
+			exit( (int) $return_code );
+		}
+
+		/**
 		 * Write a success message and exit successfully.
 		 *
 		 * @param string $message Message.

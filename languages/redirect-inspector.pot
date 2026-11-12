@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-12T19:34:47+00:00\n"
+"POT-Creation-Date: 2026-11-12T19:45:45+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: redirect-inspector\n"
@@ -21,6 +21,7 @@ msgstr ""
 #: admin/class-admin-page.php:73
 #: admin/class-admin-page.php:74
 #: admin/class-admin-page.php:95
+#: includes/class-abilities.php:112
 #: dist/redirect-inspector.CBb-uj4o.js:531
 #: dist/redirect-inspector.CBb-uj4o.js:2618
 msgid "Redirect Inspector"
@@ -118,6 +119,193 @@ msgstr ""
 msgid "The final target doesn't match a post, page or term, so it probably shows a 404. Run a live check to confirm."
 msgstr ""
 
+#: includes/class-abilities.php:113
+msgid "Find redirect loops, chains and redirects you don't need across the redirect plugins of this site."
+msgstr ""
+
+#: includes/class-abilities.php:139
+msgid "Run a redirect scan"
+msgstr ""
+
+#: includes/class-abilities.php:140
+msgid "Reads every redirect rule of the active redirect plugins, follows each one to where it ends, and stores the result. Returns the health score (0–100), counts per issue type and severity, and the most severe issues with their redirect path and a suggested fix. Never returns who ran a scan or any other user data, and never changes a redirect rule."
+msgstr ""
+
+#: includes/class-abilities.php:179
+msgid "Get redirect scan results"
+msgstr ""
+
+#: includes/class-abilities.php:180
+msgid "Returns the results of the latest redirect scan without running a new one: when it ran, the health score (0–100), counts per issue type and severity, and the most severe issues (optionally of the given types) with their redirect path and a suggested fix. Never returns who ran a scan or any other user data."
+msgstr ""
+
+#: includes/class-abilities.php:185
+msgid "Issue Type"
+msgstr ""
+
+#: includes/class-abilities.php:185
+#: includes/class-abilities.php:298
+msgid "Issue type."
+msgstr ""
+
+#: includes/class-abilities.php:187
+msgid "Issue Types"
+msgstr ""
+
+#: includes/class-abilities.php:188
+msgid "Only issues of these types; all types when empty."
+msgstr ""
+
+#: includes/class-abilities.php:213
+msgid "There is no scan yet. Run a scan first."
+msgstr ""
+
+#: includes/class-abilities.php:286
+msgid "Scanned At"
+msgstr ""
+
+#: includes/class-abilities.php:286
+msgid "When the scan finished (ISO 8601, UTC)."
+msgstr ""
+
+#: includes/class-abilities.php:287
+#: dist/redirect-inspector.CBb-uj4o.js:1886
+msgid "Status"
+msgstr ""
+
+#: includes/class-abilities.php:287
+msgid "done, or partial when a time budget was reached."
+msgstr ""
+
+#: includes/class-abilities.php:288
+msgid "Health Score"
+msgstr ""
+
+#: includes/class-abilities.php:288
+msgid "0–100; below 50 is critical, 80 and up is healthy."
+msgstr ""
+
+#: includes/class-abilities.php:289
+msgid "Rule Count"
+msgstr ""
+
+#: includes/class-abilities.php:289
+msgid "Redirect rules read from all active plugins."
+msgstr ""
+
+#: includes/class-abilities.php:290
+msgid "Issue Count"
+msgstr ""
+
+#: includes/class-abilities.php:290
+msgid "Issues found."
+msgstr ""
+
+#: includes/class-abilities.php:291
+msgid "Issues Per Type"
+msgstr ""
+
+#: includes/class-abilities.php:291
+msgid "loop, chain, conflict, noop, duplicate, redundant, shadow, broken."
+msgstr ""
+
+#: includes/class-abilities.php:292
+msgid "Issues Per Severity"
+msgstr ""
+
+#: includes/class-abilities.php:292
+msgid "critical, high, medium, low."
+msgstr ""
+
+#: includes/class-abilities.php:293
+msgid "Issues Shown"
+msgstr ""
+
+#: includes/class-abilities.php:293
+msgid "Issues in this response, most severe first."
+msgstr ""
+
+#: includes/class-abilities.php:294
+msgid "Issues Total"
+msgstr ""
+
+#: includes/class-abilities.php:294
+msgid "Issues matching the filter."
+msgstr ""
+
+#: includes/class-abilities.php:298
+msgid "Type"
+msgstr ""
+
+#: includes/class-abilities.php:299
+msgid "Severity"
+msgstr ""
+
+#: includes/class-abilities.php:299
+msgid "critical, high, medium or low."
+msgstr ""
+
+#: includes/class-abilities.php:300
+msgid "Source"
+msgstr ""
+
+#: includes/class-abilities.php:300
+msgid "URL or pattern the issue starts at."
+msgstr ""
+
+#: includes/class-abilities.php:301
+msgid "Target"
+msgstr ""
+
+#: includes/class-abilities.php:301
+msgid "Where the path ends."
+msgstr ""
+
+#: includes/class-abilities.php:302
+msgid "Path"
+msgstr ""
+
+#: includes/class-abilities.php:302
+msgid "Every hop: URL → (status code, plugin) URL → …"
+msgstr ""
+
+#: includes/class-abilities.php:303
+#: dist/redirect-inspector.CBb-uj4o.js:1691
+msgid "Plugin"
+msgstr ""
+
+#: includes/class-abilities.php:303
+msgid "Redirect plugin involved."
+msgstr ""
+
+#: includes/class-abilities.php:304
+msgid "Suggestion"
+msgstr ""
+
+#: includes/class-abilities.php:304
+msgid "What to change, in plain text."
+msgstr ""
+
+#: includes/class-abilities.php:307
+msgid "Fixable"
+msgstr ""
+
+#: includes/class-abilities.php:308
+msgid "Whether Apply fix is available on the dashboard (Tools → Redirect Inspector)."
+msgstr ""
+
+#: includes/class-abilities.php:323
+msgid "Issue Limit"
+msgstr ""
+
+#: includes/class-abilities.php:323
+msgid "Most issues to return, most severe first (0 for counts only). Default 10."
+msgstr ""
+
+#: includes/class-abilities.php:503
+msgid "This request involves personal data, such as names or e-mail addresses. Sending personal data to an AI service can breach the GDPR, so it is not shared. Please do not ask for personal data through AI; look it up in the WordPress admin instead."
+msgstr ""
+
 #: includes/class-fixer.php:36
 msgid "This issue has no automatic fix."
 msgstr ""
@@ -150,6 +338,10 @@ msgstr ""
 msgid "Scheduled"
 msgstr ""
 
+#: includes/class-log-repository.php:463
+msgid "Ability"
+msgstr ""
+
 #: includes/class-migrator.php:86
 msgid "There are no leftover rules to migrate from that plugin."
 msgstr ""
@@ -158,15 +350,15 @@ msgstr ""
 msgid "Rules can only be migrated into an active redirect plugin."
 msgstr ""
 
-#: includes/class-migrator.php:206
+#: includes/class-migrator.php:208
 msgid "The rule could not be deleted. It may already be gone."
 msgstr ""
 
-#: includes/class-migrator.php:229
+#: includes/class-migrator.php:231
 msgid "The data could not be deleted."
 msgstr ""
 
-#: includes/class-migrator.php:249
+#: includes/class-migrator.php:251
 msgid "There are no leftover rules for that plugin."
 msgstr ""
 
@@ -735,10 +927,6 @@ msgstr ""
 msgid "Search URLs"
 msgstr ""
 
-#: dist/redirect-inspector.CBb-uj4o.js:1691
-msgid "Plugin"
-msgstr ""
-
 #: dist/redirect-inspector.CBb-uj4o.js:1695
 msgid "All plugins"
 msgstr ""
@@ -829,10 +1017,6 @@ msgstr ""
 
 #: dist/redirect-inspector.CBb-uj4o.js:1883
 msgid "Took"
-msgstr ""
-
-#: dist/redirect-inspector.CBb-uj4o.js:1886
-msgid "Status"
 msgstr ""
 
 #: dist/redirect-inspector.CBb-uj4o.js:1890

@@ -12,7 +12,7 @@
 	<exclude-pattern>/bin/*</exclude-pattern>
 
 	<config name="testVersion" value="8.1-"/>
-	<config name="minimum_wp_version" value="6.6"/>
+	<config name="minimum_wp_version" value="6.9"/>
 	<rule ref="PHPCompatibilityWP"/>
 
 	<arg name="extensions" value="php"/>
