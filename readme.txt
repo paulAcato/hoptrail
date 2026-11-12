@@ -144,6 +144,7 @@ Rules are read in batches and analysed within a time budget. If a scan reaches t
 3. Scan history and the schedule and retention settings.
 4. The dashboard in every colour scheme: light, dark, and both with more contrast.
 5. The charts in every colour scheme.
+6. Leftover rules of an inactive plugin: review them, migrate them into an active plugin, or delete them.
 
 == Changelog ==
 
