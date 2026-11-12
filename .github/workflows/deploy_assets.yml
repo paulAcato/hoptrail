@@ -42,6 +42,13 @@ jobs:
             echo "The Stable tag changes, so the readme goes out with the tag."
             echo "skip=true" >> "$GITHUB_OUTPUT"
           fi
+          # WordPress.org creates the SVN repository once the plugin is approved; until then
+          # there is nowhere to send the readme and assets to.
+          status=$(curl -s -o /dev/null -w '%{http_code}' https://plugins.svn.wordpress.org/redirect-inspector/)
+          if [ "$status" = "404" ]; then
+            echo "::notice::The plugin is not on WordPress.org yet (SVN repository missing); nothing to update."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: WordPress.org plugin asset/readme update
         if: steps.release.outputs.skip != 'true'
