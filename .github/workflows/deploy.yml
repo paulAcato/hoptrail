@@ -3,12 +3,21 @@
 # The dashboard script and stylesheet are built by Vite into dist/,
 # which is not in the repository, so the job builds them first. What ships is
 # the checkout plus that build, minus whatever .distignore excludes. The
-# sources in assets/ ship too, so the minified files can be read and rebuilt.
+# sources in assets/ ship too, so the built files can be read and rebuilt.
+#
+# Release safety:
+# - Only version tags (1.2.3) start a release, and a "Release tags" ruleset lets only the
+#   repository admin create them.
+# - The job runs in the wordpress-org environment: it waits for a required reviewer's
+#   approval, and only there are the SVN secrets available.
+# - The tagged commit must be on main, so nothing unreviewed is shipped from a side branch.
+# - Third-party actions are pinned to a commit (the version is in the comment); Dependabot
+#   proposes updates (.github/dependabot.yml).
 name: Deploy to WordPress.org
 on:
   push:
     tags:
-      - "*"
+      - "*.*.*"
 # The job only reads the repository; WordPress.org is reached with the SVN secrets.
 permissions:
   contents: read
@@ -16,18 +25,28 @@ jobs:
   tag:
     name: New tag
     runs-on: ubuntu-latest
+    environment: wordpress-org
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
 
-      - uses: actions/setup-node@v7
+      - name: Only tags on main
+        run: |
+          git fetch --no-tags origin main
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::The tag $GITHUB_REF_NAME is not on main; only reviewed code on main is released."
+            exit 1
+          fi
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version-file: .nvmrc
           cache: npm
 
       # npm ci installs exactly what package-lock.json says, and nothing
       # else will do for a release: should it fail, the job fails, rather than
-      # ship a build made with whatever versions resolve that day. The check
-      # workflow keeps a fallback, since it ships nothing.
+      # ship a build made with whatever versions resolve that day.
       - name: Install build tools
         # No install scripts: the build needs none, and they could change what ships.
         run: npm ci --ignore-scripts --prefer-offline --no-audit --fund=false
@@ -36,7 +55,7 @@ jobs:
         run: npm run build
 
       - name: WordPress Plugin Deploy
-        uses: 10up/action-wordpress-plugin-deploy@stable
+        uses: 10up/action-wordpress-plugin-deploy@54bd289b8525fd23a5c365ec369185f2966529c2 # 2.3.0
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}

@@ -12,6 +12,9 @@
 # A push that changes the Stable tag is a release, not a readme fix. Sent
 # ahead of the tag, that readme would point WordPress.org at a tag that is not
 # in SVN yet, so it is left to deploy.yml, which sends the readme with the tag.
+#
+# Two jobs: "check" decides without secrets whether there is anything to send, so
+# the wordpress-org environment (approval, SVN secrets) is only asked for when there is.
 name: Plugin asset/readme update
 on:
   push:
@@ -25,11 +28,13 @@ permissions:
   contents: read
 
 jobs:
-  trunk:
-    name: Push to main
+  check:
+    name: Anything to send?
     runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.release.outputs.skip }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
 
@@ -50,9 +55,17 @@ jobs:
             echo "skip=true" >> "$GITHUB_OUTPUT"
           fi
 
+  trunk:
+    name: Push to main
+    needs: check
+    if: needs.check.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    environment: wordpress-org
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
       - name: WordPress.org plugin asset/readme update
-        if: steps.release.outputs.skip != 'true'
-        uses: 10up/action-wordpress-plugin-asset-update@stable
+        uses: 10up/action-wordpress-plugin-asset-update@2480306f6f693672726d08b5917ea114cb2825f7 # 2.2.0
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
