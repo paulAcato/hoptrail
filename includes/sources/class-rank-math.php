@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * Reads {prefix}rank_math_redirections. One row can hold several sources (serialised); each becomes
  * its own rule. Patterns are stored and matched without leading slash.
  */
-final class Rank_Math implements Source, Writable {
+final class Rank_Math implements Source, Writable, Purgeable {
 
 	use Reads_Storage;
 
@@ -293,5 +293,64 @@ final class Rank_Math implements Source, Writable {
 		);
 
 		return false !== $ok;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function own_tables(): array {
+		global $wpdb;
+
+		return [ $wpdb->prefix . 'rank_math_redirections', $wpdb->prefix . 'rank_math_redirections_cache' ];
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * Removes this source from its row, or the row when it was the only source.
+	 *
+	 * @param string $id Rule ID.
+	 */
+	public function delete_stored( string $id ): bool {
+		global $wpdb;
+
+		[ $row_id, $index ] = self::split_id( $id );
+		$table              = $wpdb->prefix . 'rank_math_redirections';
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$sources = self::safe_unserialize( $wpdb->get_var( $wpdb->prepare( 'SELECT sources FROM %i WHERE id = %d', $table, $row_id ) ) );
+		$sources = is_array( $sources ) ? array_values( $sources ) : [];
+
+		if ( count( $sources ) > 1 ) {
+			unset( $sources[ $index ] );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Rank Math's own storage format.
+			return false !== $wpdb->update( $table, [ 'sources' => serialize( array_values( $sources ) ) ], [ 'id' => $row_id ], [ '%s' ], [ '%d' ] );
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$wpdb->delete( $wpdb->prefix . 'rank_math_redirections_cache', [ 'redirection_id' => $row_id ], [ '%d' ] );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		return (bool) $wpdb->delete( $table, [ 'id' => $row_id ], [ '%d' ] );
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @param bool $drop_tables Drop Rank Math's redirect tables too.
+	 */
+	public function purge_storage( bool $drop_tables ): bool {
+		global $wpdb;
+
+		foreach ( $this->own_tables() as $table ) {
+			if ( $drop_tables ) {
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Explicit, confirmed clean-up of an inactive plugin.
+				$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $table ) );
+			} else {
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+				$wpdb->query( $wpdb->prepare( 'DELETE FROM %i', $table ) );
+			}
+		}
+
+		return true;
 	}
 }

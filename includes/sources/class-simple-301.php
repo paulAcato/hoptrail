@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * in the request becomes `(.*)` and a `*` in the destination becomes `$1`, exactly as the plugin
  * does it (unescaped, case-sensitive).
  */
-final class Simple_301 implements Source, Writable {
+final class Simple_301 implements Source, Writable, Purgeable {
 
 	use Reads_Storage;
 
@@ -205,5 +205,35 @@ final class Simple_301 implements Source, Writable {
 		$items[ $rule->path() ] = $rule->to;
 
 		return update_option( '301_redirects', $items );
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function own_tables(): array {
+		return [];
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @param string $id Rule ID.
+	 */
+	public function delete_stored( string $id ): bool {
+		return '' !== $this->disable( $id );
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @param bool $drop_tables Unused: Simple 301 Redirects keeps its redirects in options.
+	 */
+	public function purge_storage( bool $drop_tables ): bool {
+		unset( $drop_tables );
+
+		delete_option( '301_redirects' );
+		delete_option( '301_redirects_wildcard' );
+
+		return true;
 	}
 }

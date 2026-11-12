@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * Reads {prefix}redirection_items: enabled URL-only rules in enabled WordPress-module groups.
  * Conditional rules (login, referrer, cookie, …) and non-redirect actions are counted as skipped.
  */
-final class Redirection implements Source, Writable {
+final class Redirection implements Source, Writable, Purgeable {
 
 	use Reads_Storage;
 
@@ -220,5 +220,47 @@ final class Redirection implements Source, Writable {
 		$group = \Red_Group::create( $name, 1 );
 
 		return $group ? (int) $group->get_id() : 1;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function own_tables(): array {
+		global $wpdb;
+
+		return [ $wpdb->prefix . 'redirection_items', $wpdb->prefix . 'redirection_groups', $wpdb->prefix . 'redirection_logs', $wpdb->prefix . 'redirection_404' ];
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @param string $id Rule ID.
+	 */
+	public function delete_stored( string $id ): bool {
+		global $wpdb;
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		return (bool) $wpdb->delete( $wpdb->prefix . 'redirection_items', [ 'id' => absint( $id ) ], [ '%d' ] );
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @param bool $drop_tables Drop Redirection's tables too.
+	 */
+	public function purge_storage( bool $drop_tables ): bool {
+		global $wpdb;
+
+		if ( $drop_tables ) {
+			foreach ( $this->own_tables() as $table ) {
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Explicit, confirmed clean-up of an inactive plugin.
+				$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $table ) );
+			}
+			delete_option( 'redirection_options' );
+			return true;
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		return false !== $wpdb->query( $wpdb->prepare( 'DELETE FROM %i', $wpdb->prefix . 'redirection_items' ) );
 	}
 }

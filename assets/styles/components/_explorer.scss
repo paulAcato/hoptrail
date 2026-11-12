@@ -518,3 +518,112 @@
 		margin-block-start: 0.75lh;
 	}
 }
+
+// Leftover rules modal.
+.rdi-migrate {
+	&__intro {
+		margin-block: 0 0.75lh;
+		margin-inline: 0;
+		color: $ink-secondary;
+	}
+
+	&__target {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5lh 1lh;
+		align-items: flex-end;
+		margin-block-end: 0.75lh;
+
+		.components-base-control {
+			min-inline-size: min(100%, 240px);
+		}
+	}
+
+	&__summary {
+		margin: 0;
+		padding-block-end: 0.5lh;
+		color: $ink-secondary;
+		font-size: 13px;
+	}
+
+	&__table td {
+		white-space: normal;
+
+		code {
+			overflow-wrap: anywhere;
+		}
+	}
+
+	&__status {
+		font-size: 12.5px;
+
+		&.is-copy {
+			color: $good-text;
+		}
+
+		&.is-exists,
+		&.is-none {
+			color: $ink-muted;
+		}
+
+		&.is-unsupported {
+			color: $warning-text;
+		}
+	}
+
+	&__actions {
+		text-align: end;
+		white-space: nowrap;
+	}
+
+	&__result {
+		margin-block: 0.75lh 0;
+		margin-inline: 0;
+		color: $good-text;
+	}
+
+	&__error {
+		display: block;
+		margin-block-start: 0.25lh;
+		color: $critical-text;
+		white-space: normal;
+	}
+
+	&__footer {
+		margin-block-start: 1lh;
+		padding-block-start: 0.75lh;
+		border-block-start: 1px solid $hairline;
+	}
+
+	&__buttons {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5lh;
+		justify-content: flex-end;
+	}
+
+	&__confirm {
+		display: grid;
+		gap: 0.5lh;
+
+		p {
+			margin: 0;
+			color: $critical-text;
+			font-weight: 500;
+		}
+	}
+}
+
+// The modal renders into <body>; give it the scheme's surface.
+.rdi-page .rdi-migrate.components-modal__frame {
+	background: $surface;
+	color: $ink;
+
+	.components-modal__header {
+		background: $surface;
+	}
+
+	.components-modal__header-heading {
+		color: $ink;
+	}
+}

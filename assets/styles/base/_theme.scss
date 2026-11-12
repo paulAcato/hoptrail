@@ -188,27 +188,24 @@ html:has(body.rdi-page) {
 	scroll-padding-block-start: calc(var(--wp-admin--admin-bar--height, 32px) + 8px);
 }
 
-// Our screens only: the page behind the app follows the scheme too.
+// Our screens only: the page behind the app follows the scheme too. wp-admin paints html and body,
+// so no ID selectors (#wpwrap, #wpbody-content) are needed.
+html:has(body.rdi-page),
 body.rdi-page {
 	background: var(--rdi-page);
+}
 
-	#wpwrap,
-	#wpcontent,
-	#wpbody-content {
-		background: var(--rdi-page);
-	}
-
-	.wrap > .notice,
-	#wpbody-content > .notice {
-		background: var(--rdi-surface);
-		color: var(--rdi-ink);
-	}
+// Admin notices printed above the app.
+.rdi-page .wrap > .notice {
+	background: var(--rdi-surface);
+	color: var(--rdi-ink);
 }
 
 // @wordpress/components inputs in the dark schemes (they hard-code white backgrounds).
 @media (prefers-color-scheme: dark) {
 	.rdi-page {
 		.rdi-app,
+		.rdi-migrate,
 		.components-popover {
 			.components-input-control__container,
 			.components-search-control input,
@@ -237,6 +234,11 @@ body.rdi-page {
 			.components-notice {
 				background: var(--rdi-plane);
 				color: var(--rdi-ink);
+			}
+
+			// Core's destructive red (#cc1818) is ~3:1 on the dark surface.
+			.components-button.is-destructive:not(.is-primary) {
+				color: var(--rdi-critical-text);
 			}
 		}
 	}

@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * Reads published `redirect_rule` posts and their meta. A source ending in `*` is a wildcard
  * (prefix) rule; a target ending in `*` receives the matched remainder.
  */
-final class Safe_Redirect_Manager implements Source, Writable {
+final class Safe_Redirect_Manager implements Source, Writable, Purgeable {
 
 	use Reads_Storage;
 
@@ -234,5 +234,43 @@ final class Safe_Redirect_Manager implements Source, Writable {
 		self::flush();
 
 		return ! is_wp_error( $result ) && $result;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function own_tables(): array {
+		return [];
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @param string $id Rule ID.
+	 */
+	public function delete_stored( string $id ): bool {
+		$post = get_post( absint( $id ) );
+
+		return $post && self::POST_TYPE === $post->post_type && (bool) wp_delete_post( $post->ID, true );
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @param bool $drop_tables Unused: SRM keeps its rules as posts.
+	 */
+	public function purge_storage( bool $drop_tables ): bool {
+		global $wpdb;
+
+		unset( $drop_tables );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$ids = (array) $wpdb->get_col( $wpdb->prepare( 'SELECT ID FROM %i WHERE post_type = %s', $wpdb->posts, self::POST_TYPE ) );
+		foreach ( $ids as $post_id ) {
+			wp_delete_post( (int) $post_id, true );
+		}
+		delete_transient( '_srm_redirects_graph' );
+
+		return true;
 	}
 }

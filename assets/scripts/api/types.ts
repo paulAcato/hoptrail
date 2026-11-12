@@ -81,6 +81,17 @@ export interface Leftover {
 	slug: string;
 	label: string;
 	rules: number;
+	/** Number of own tables (Redirection, Rank Math); 0 for option/post storage. */
+	tables: number;
+}
+
+export interface LeftoverRule {
+	id: string;
+	from: string;
+	to: string;
+	code: number;
+	match: string;
+	status: 'copy' | 'exists' | 'unsupported' | 'none';
 }
 
 export interface MigrationResult {

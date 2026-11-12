@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-12T19:27:32+00:00\n"
+"POT-Creation-Date: 2026-11-12T19:34:47+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: redirect-inspector\n"
@@ -21,8 +21,8 @@ msgstr ""
 #: admin/class-admin-page.php:73
 #: admin/class-admin-page.php:74
 #: admin/class-admin-page.php:95
-#: dist/redirect-inspector.CRJAYhD9.js:531
-#: dist/redirect-inspector.CRJAYhD9.js:2410
+#: dist/redirect-inspector.CBb-uj4o.js:531
+#: dist/redirect-inspector.CBb-uj4o.js:2618
 msgid "Redirect Inspector"
 msgstr ""
 
@@ -150,32 +150,44 @@ msgstr ""
 msgid "Scheduled"
 msgstr ""
 
-#: includes/class-migrator.php:84
+#: includes/class-migrator.php:86
 msgid "There are no leftover rules to migrate from that plugin."
 msgstr ""
 
-#: includes/class-migrator.php:87
+#: includes/class-migrator.php:89
 msgid "Rules can only be migrated into an active redirect plugin."
 msgstr ""
 
-#: includes/class-rest-controller.php:305
+#: includes/class-migrator.php:206
+msgid "The rule could not be deleted. It may already be gone."
+msgstr ""
+
+#: includes/class-migrator.php:229
+msgid "The data could not be deleted."
+msgstr ""
+
+#: includes/class-migrator.php:249
+msgid "There are no leftover rules for that plugin."
+msgstr ""
+
+#: includes/class-rest-controller.php:345
 #: includes/class-scanner.php:68
 msgid "The Redirect Inspector tables are missing and could not be created."
 msgstr ""
 
-#: includes/class-rest-controller.php:501
+#: includes/class-rest-controller.php:586
 msgid "Issue not found."
 msgstr ""
 
-#: includes/class-rest-controller.php:508
+#: includes/class-rest-controller.php:593
 msgid "Nothing to check."
 msgstr ""
 
-#: includes/class-rest-controller.php:543
+#: includes/class-rest-controller.php:628
 msgid "Pick at least one day and one hour for scheduled scans."
 msgstr ""
 
-#: includes/class-rest-controller.php:589
+#: includes/class-rest-controller.php:674
 msgid "A scan is running. Try again in a moment."
 msgstr ""
 
@@ -203,741 +215,824 @@ msgstr ""
 msgid "Time or evaluation budget reached; results may be incomplete."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:34
+#: dist/redirect-inspector.CBb-uj4o.js:34
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:237
+#: dist/redirect-inspector.CBb-uj4o.js:237
 msgid "never"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:244
+#: dist/redirect-inspector.CBb-uj4o.js:244
 msgid "just now"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:246
+#: dist/redirect-inspector.CBb-uj4o.js:246
 #, js-format
 msgid "%d ms"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:246
+#: dist/redirect-inspector.CBb-uj4o.js:246
 #, js-format
 msgid "%s s"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:269
+#: dist/redirect-inspector.CBb-uj4o.js:269
 msgid "Loop"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:270
-#: dist/redirect-inspector.CRJAYhD9.js:323
-#: dist/redirect-inspector.CRJAYhD9.js:2466
+#: dist/redirect-inspector.CBb-uj4o.js:270
+#: dist/redirect-inspector.CBb-uj4o.js:323
+#: dist/redirect-inspector.CBb-uj4o.js:2674
 msgid "Loops"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:271
+#: dist/redirect-inspector.CBb-uj4o.js:271
 msgid "Redirects that never end"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:274
+#: dist/redirect-inspector.CBb-uj4o.js:274
 msgid "Chain"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:275
-#: dist/redirect-inspector.CRJAYhD9.js:324
-#: dist/redirect-inspector.CRJAYhD9.js:2471
+#: dist/redirect-inspector.CBb-uj4o.js:275
+#: dist/redirect-inspector.CBb-uj4o.js:324
+#: dist/redirect-inspector.CBb-uj4o.js:2679
 msgid "Chains"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:276
+#: dist/redirect-inspector.CBb-uj4o.js:276
 msgid "Two or more hops before the page loads"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:279
+#: dist/redirect-inspector.CBb-uj4o.js:279
 msgid "Conflict"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:280
-#: dist/redirect-inspector.CRJAYhD9.js:325
+#: dist/redirect-inspector.CBb-uj4o.js:280
+#: dist/redirect-inspector.CBb-uj4o.js:325
 msgid "Conflicts"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:281
+#: dist/redirect-inspector.CBb-uj4o.js:281
 msgid "One URL, several different targets"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:284
+#: dist/redirect-inspector.CBb-uj4o.js:284
 msgid "Self-redirect"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:285
+#: dist/redirect-inspector.CBb-uj4o.js:285
 msgid "Self-redirects"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:286
+#: dist/redirect-inspector.CBb-uj4o.js:286
 msgid "Source and target are the same URL"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:289
+#: dist/redirect-inspector.CBb-uj4o.js:289
 msgid "Duplicate"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:290
+#: dist/redirect-inspector.CBb-uj4o.js:290
 msgid "Duplicates"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:291
+#: dist/redirect-inspector.CBb-uj4o.js:291
 msgid "The same redirect defined twice"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:294
-#: dist/redirect-inspector.CRJAYhD9.js:295
+#: dist/redirect-inspector.CBb-uj4o.js:294
+#: dist/redirect-inspector.CBb-uj4o.js:295
 msgid "Redundant"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:296
+#: dist/redirect-inspector.CBb-uj4o.js:296
 msgid "WordPress already handles it"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:299
-#: dist/redirect-inspector.CRJAYhD9.js:300
+#: dist/redirect-inspector.CBb-uj4o.js:299
+#: dist/redirect-inspector.CBb-uj4o.js:300
 msgid "Hides content"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:301
+#: dist/redirect-inspector.CBb-uj4o.js:301
 msgid "Redirects away from a published page"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:304
+#: dist/redirect-inspector.CBb-uj4o.js:304
 msgid "Broken target"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:305
+#: dist/redirect-inspector.CBb-uj4o.js:305
 msgid "Broken targets"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:306
+#: dist/redirect-inspector.CBb-uj4o.js:306
 msgid "Ends on a page that probably 404s"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:322
+#: dist/redirect-inspector.CBb-uj4o.js:322
 msgid "All issues"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:326
+#: dist/redirect-inspector.CBb-uj4o.js:326
 msgid "Unnecessary"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:327
+#: dist/redirect-inspector.CBb-uj4o.js:327
 msgid "Broken"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:331
-#: dist/redirect-inspector.CRJAYhD9.js:357
+#: dist/redirect-inspector.CBb-uj4o.js:331
+#: dist/redirect-inspector.CBb-uj4o.js:357
 msgid "Critical"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:332
+#: dist/redirect-inspector.CBb-uj4o.js:332
 msgid "High"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:333
+#: dist/redirect-inspector.CBb-uj4o.js:333
 msgid "Medium"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:334
+#: dist/redirect-inspector.CBb-uj4o.js:334
 msgid "Low"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:355
+#: dist/redirect-inspector.CBb-uj4o.js:355
 msgid "Healthy"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:356
+#: dist/redirect-inspector.CBb-uj4o.js:356
 msgid "Needs attention"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:535
+#: dist/redirect-inspector.CBb-uj4o.js:535
 msgid "Follows every rule from Redirection, Yoast SEO Premium, Rank Math, Safe Redirect Manager and Simple 301 Redirects to where it really ends."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:540
+#: dist/redirect-inspector.CBb-uj4o.js:540
 #, js-format
 msgid "Last scan %1$s · %2$d rules · %3$s"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:540
-#: dist/redirect-inspector.CRJAYhD9.js:568
+#: dist/redirect-inspector.CBb-uj4o.js:540
+#: dist/redirect-inspector.CBb-uj4o.js:568
 msgid "No scan yet"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:562
+#: dist/redirect-inspector.CBb-uj4o.js:562
 msgid "Scanning…"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:562
+#: dist/redirect-inspector.CBb-uj4o.js:562
 msgid "Run scan"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:568
-#: dist/redirect-inspector.CRJAYhD9.js:2324
+#: dist/redirect-inspector.CBb-uj4o.js:568
+#: dist/redirect-inspector.CBb-uj4o.js:2532
 msgid "Health score"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:591
+#: dist/redirect-inspector.CBb-uj4o.js:591
 msgid "no score"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:602
+#: dist/redirect-inspector.CBb-uj4o.js:601
 #, js-format
-msgid "%1$d rule will be copied to %2$s"
-msgid_plural "%1$d rules will be copied to %2$s"
+msgid "Will be copied to %s"
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:602
+#, js-format
+msgid "Already in %s"
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:603
+#, js-format
+msgid "%s can’t hold this rule"
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:623
+#, js-format
+msgid "Deleted the rule for %s."
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:657
+#: dist/redirect-inspector.CBb-uj4o.js:675
+msgid "Delete"
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:667
+#: dist/redirect-inspector.CBb-uj4o.js:855
+#: dist/redirect-inspector.CBb-uj4o.js:1564
+#: dist/redirect-inspector.CBb-uj4o.js:2202
+msgid "Cancel"
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:673
+#, js-format
+msgid "Delete the rule for %s"
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:723
+#, js-format
+msgid "%1$d rule copied to %2$s. Run a scan to include it."
+msgid_plural "%1$d rules copied to %2$s. Run a scan to include them."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:602
+#: dist/redirect-inspector.CBb-uj4o.js:736
 #, js-format
-msgid "%1$d rule copied to %2$s"
-msgid_plural "%1$d rules copied to %2$s"
+msgid "Deleted %1$d stored rule of %2$s."
+msgid_plural "Deleted %1$d stored rules of %2$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:603
+#: dist/redirect-inspector.CBb-uj4o.js:749
+#, js-format
+msgid "Leftover rules of %s"
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:756
+msgid "This plugin is not active, so these rules redirect nothing. Copy them into an active redirect plugin, or delete them."
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:763
+msgid "Migrate to"
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:774
+#, js-format
+msgid "%d will be copied"
+msgid_plural "%d will be copied"
+msgstr[0] ""
+msgstr[1] ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:775
 #, js-format
 msgid "%d already there"
 msgid_plural "%d already there"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:604
+#: dist/redirect-inspector.CBb-uj4o.js:776
 #, js-format
-msgid "%d it can’t hold"
-msgid_plural "%d it can’t hold"
+msgid "%d not supported"
+msgid_plural "%d not supported"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:605
+#: dist/redirect-inspector.CBb-uj4o.js:789
+msgid "Stored rules"
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:796
+msgid "From"
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:800
+msgid "To"
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:805
+msgid "Code"
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:809
+msgid "Migration"
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:815
+msgid "Actions"
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:839
 #, js-format
-msgid "%d failed"
-msgid_plural "%d failed"
+msgid "Permanently delete %1$d stored rule of %2$s? This cannot be undone."
+msgid_plural "Permanently delete %1$d stored rules of %2$s? This cannot be undone."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:652
+#: dist/redirect-inspector.CBb-uj4o.js:842
+#, js-format
+msgid "Also drop the redirect tables of %s"
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:843
+msgid "Only when you don’t plan to activate it again; it would have to set up its tables anew."
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:865
+msgid "Delete rules and tables"
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:865
+msgid "Delete rules"
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:876
+msgid "Delete all data"
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:884
+msgid "Delete data"
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:892
+#, js-format
+msgid "Migrate %d rule"
+msgid_plural "Migrate %d rules"
+msgstr[0] ""
+msgstr[1] ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:919
+msgid "Leftover redirects"
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:922
+msgid "These plugins are not active, so their rules redirect nothing."
+msgstr ""
+
+#: dist/redirect-inspector.CBb-uj4o.js:933
 #, js-format
 msgid "Not active · %d stored rule"
 msgid_plural "Not active · %d stored rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:662
-msgid "Run a scan to include them."
+#: dist/redirect-inspector.CBb-uj4o.js:942
+msgid "Review rules"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:670
-msgid "Migrate to"
-msgstr ""
-
-#: dist/redirect-inspector.CRJAYhD9.js:674
-#, js-format
-msgid "Migrate to %s"
-msgstr ""
-
-#: dist/redirect-inspector.CRJAYhD9.js:687
-msgid "Preview"
-msgstr ""
-
-#: dist/redirect-inspector.CRJAYhD9.js:696
-msgid "Migrate"
-msgstr ""
-
-#: dist/redirect-inspector.CRJAYhD9.js:701
-msgid "Activate a redirect plugin to migrate these rules into."
-msgstr ""
-
-#: dist/redirect-inspector.CRJAYhD9.js:726
-msgid "Leftover redirects"
-msgstr ""
-
-#: dist/redirect-inspector.CRJAYhD9.js:729
-msgid "These plugins are not active, so their rules redirect nothing."
-msgstr ""
-
-#: dist/redirect-inspector.CRJAYhD9.js:741
-msgid "Migrating copies the rules; the inactive plugin’s data is left as it is. Each copied rule is logged."
-msgstr ""
-
-#: dist/redirect-inspector.CRJAYhD9.js:935
+#: dist/redirect-inspector.CBb-uj4o.js:1143
 msgid "Health score per scan"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:938
-#: dist/redirect-inspector.CRJAYhD9.js:1099
+#: dist/redirect-inspector.CBb-uj4o.js:1146
+#: dist/redirect-inspector.CBb-uj4o.js:1307
 msgid "Scan"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:941
-#: dist/redirect-inspector.CRJAYhD9.js:1674
-#: dist/redirect-inspector.CRJAYhD9.js:2456
+#: dist/redirect-inspector.CBb-uj4o.js:1149
+#: dist/redirect-inspector.CBb-uj4o.js:1882
+#: dist/redirect-inspector.CBb-uj4o.js:2664
 msgid "Score"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1096
+#: dist/redirect-inspector.CBb-uj4o.js:1304
 msgid "Issues per scan by severity"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1130
+#: dist/redirect-inspector.CBb-uj4o.js:1338
 msgid "Redirect path"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1153
-#: dist/redirect-inspector.CRJAYhD9.js:1159
+#: dist/redirect-inspector.CBb-uj4o.js:1361
+#: dist/redirect-inspector.CBb-uj4o.js:1367
 #, js-format
 msgid "%1$s – edit the rule to %2$s"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1170
+#: dist/redirect-inspector.CBb-uj4o.js:1378
 msgid "back to start"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1179
+#: dist/redirect-inspector.CBb-uj4o.js:1387
 msgid "Loads after one redirect"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1180
+#: dist/redirect-inspector.CBb-uj4o.js:1388
 msgid "Confirmed chain"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1181
+#: dist/redirect-inspector.CBb-uj4o.js:1389
 msgid "Confirmed loop"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1182
+#: dist/redirect-inspector.CBb-uj4o.js:1390
 msgid "Ends in an error page"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1183
+#: dist/redirect-inspector.CBb-uj4o.js:1391
 msgid "Leaves this site (not followed)"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1184
+#: dist/redirect-inspector.CBb-uj4o.js:1392
 msgid "Request failed"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1191
+#: dist/redirect-inspector.CBb-uj4o.js:1399
 msgid "Live check"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1203
+#: dist/redirect-inspector.CBb-uj4o.js:1411
 msgid "external, not requested"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1227
+#: dist/redirect-inspector.CBb-uj4o.js:1435
 #, js-format
 msgid "Point %1$s straight to %2$s in %3$s?"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1228
+#: dist/redirect-inspector.CBb-uj4o.js:1436
 #, js-format
 msgid "Switch off %d duplicate rule?"
 msgid_plural "Switch off %d duplicate rules?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1229
+#: dist/redirect-inspector.CBb-uj4o.js:1437
 #, js-format
 msgid "Remove the rule for %1$s from %2$s? It has no off switch; the old rule is kept in the fix log."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1229
+#: dist/redirect-inspector.CBb-uj4o.js:1437
 #, js-format
 msgid "Switch off the rule for %1$s in %2$s? You can switch it back on there."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1231
+#: dist/redirect-inspector.CBb-uj4o.js:1439
 msgid "Shorten chain"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1231
+#: dist/redirect-inspector.CBb-uj4o.js:1439
 msgid "Switch off rule"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1266
+#: dist/redirect-inspector.CBb-uj4o.js:1474
 msgid "Live check finished."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1278
+#: dist/redirect-inspector.CBb-uj4o.js:1486
 msgid "Fix applied. Run a new scan to update the numbers."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1305
+#: dist/redirect-inspector.CBb-uj4o.js:1513
 msgid "New"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1309
+#: dist/redirect-inspector.CBb-uj4o.js:1517
 msgid "Fixed"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1316
+#: dist/redirect-inspector.CBb-uj4o.js:1524
 msgid "hop"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1316
+#: dist/redirect-inspector.CBb-uj4o.js:1524
 msgid "hops"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1333
+#: dist/redirect-inspector.CBb-uj4o.js:1541
 #, js-format
 msgid "Fixed by %1$s %2$s. Run a new scan to update the numbers."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1337
+#: dist/redirect-inspector.CBb-uj4o.js:1545
 msgid "Confirm fix"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1348
+#: dist/redirect-inspector.CBb-uj4o.js:1556
 msgid "Applying…"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1348
+#: dist/redirect-inspector.CBb-uj4o.js:1556
 msgid "Apply"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1356
-#: dist/redirect-inspector.CRJAYhD9.js:1994
-msgid "Cancel"
-msgstr ""
-
-#: dist/redirect-inspector.CRJAYhD9.js:1371
+#: dist/redirect-inspector.CBb-uj4o.js:1579
 msgid "Checking…"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1371
+#: dist/redirect-inspector.CBb-uj4o.js:1579
 msgid "Verify live"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1381
+#: dist/redirect-inspector.CBb-uj4o.js:1589
 msgid "Apply fix"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1438
+#: dist/redirect-inspector.CBb-uj4o.js:1646
 #, js-format
 msgid "%d issue found"
 msgid_plural "%d issues found"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1455
-#: dist/redirect-inspector.CRJAYhD9.js:1673
+#: dist/redirect-inspector.CBb-uj4o.js:1663
+#: dist/redirect-inspector.CBb-uj4o.js:1881
 msgid "Issues"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1461
+#: dist/redirect-inspector.CBb-uj4o.js:1669
 msgid "Filter by issue type"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1477
+#: dist/redirect-inspector.CBb-uj4o.js:1685
 msgid "Search URLs"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1483
+#: dist/redirect-inspector.CBb-uj4o.js:1691
 msgid "Plugin"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1487
+#: dist/redirect-inspector.CBb-uj4o.js:1695
 msgid "All plugins"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1505
+#: dist/redirect-inspector.CBb-uj4o.js:1713
 msgid "Nothing matches these filters"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1505
+#: dist/redirect-inspector.CBb-uj4o.js:1713
 msgid "No issues found"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1506
+#: dist/redirect-inspector.CBb-uj4o.js:1714
 msgid "Try another type, plugin or search term."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1506
+#: dist/redirect-inspector.CBb-uj4o.js:1714
 msgid "Every redirect goes straight to its destination."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1511
+#: dist/redirect-inspector.CBb-uj4o.js:1719
 msgid "Issue pages"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1519
-#: dist/redirect-inspector.CRJAYhD9.js:1730
-#: dist/redirect-inspector.CRJAYhD9.js:2537
+#: dist/redirect-inspector.CBb-uj4o.js:1727
+#: dist/redirect-inspector.CBb-uj4o.js:1938
+#: dist/redirect-inspector.CBb-uj4o.js:2745
 msgid "Previous"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1521
+#: dist/redirect-inspector.CBb-uj4o.js:1729
 #, js-format
 msgid "Page %1$d of %2$d · %3$d issue"
 msgid_plural "Page %1$d of %2$d · %3$d issues"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1528
-#: dist/redirect-inspector.CRJAYhD9.js:1743
-#: dist/redirect-inspector.CRJAYhD9.js:2550
+#: dist/redirect-inspector.CBb-uj4o.js:1736
+#: dist/redirect-inspector.CBb-uj4o.js:1951
+#: dist/redirect-inspector.CBb-uj4o.js:2758
 msgid "Next"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1540
+#: dist/redirect-inspector.CBb-uj4o.js:1748
 msgid "Running"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1541
+#: dist/redirect-inspector.CBb-uj4o.js:1749
 msgid "Complete"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1542
+#: dist/redirect-inspector.CBb-uj4o.js:1750
 msgid "Partial"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1543
+#: dist/redirect-inspector.CBb-uj4o.js:1751
 msgid "Failed"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1608
+#: dist/redirect-inspector.CBb-uj4o.js:1816
 msgid "Scan history"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1622
+#: dist/redirect-inspector.CBb-uj4o.js:1830
 msgid "Pick a date"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1637
+#: dist/redirect-inspector.CBb-uj4o.js:1845
 msgid "Days with a scan are marked."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1645
+#: dist/redirect-inspector.CBb-uj4o.js:1853
 msgid "Show all dates"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1667
+#: dist/redirect-inspector.CBb-uj4o.js:1875
 msgid "Scanned"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1670
+#: dist/redirect-inspector.CBb-uj4o.js:1878
 msgid "By"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1672
-#: dist/redirect-inspector.CRJAYhD9.js:2461
+#: dist/redirect-inspector.CBb-uj4o.js:1880
+#: dist/redirect-inspector.CBb-uj4o.js:2669
 msgid "Rules"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1675
+#: dist/redirect-inspector.CBb-uj4o.js:1883
 msgid "Took"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1678
+#: dist/redirect-inspector.CBb-uj4o.js:1886
 msgid "Status"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1682
+#: dist/redirect-inspector.CBb-uj4o.js:1890
 #, js-format
 msgid "No scans on %s."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1682
+#: dist/redirect-inspector.CBb-uj4o.js:1890
 msgid "No scans yet."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1722
+#: dist/redirect-inspector.CBb-uj4o.js:1930
 msgid "Scan history pages"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1799
+#: dist/redirect-inspector.CBb-uj4o.js:2007
 msgid "Off. Scans only run when you start them."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1800
+#: dist/redirect-inspector.CBb-uj4o.js:2008
 msgid "Pick at least one day and one hour."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1801
+#: dist/redirect-inspector.CBb-uj4o.js:2009
 msgid "every day"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1802
+#: dist/redirect-inspector.CBb-uj4o.js:2010
 #, js-format
 msgid "Runs %1$s at %2$s (%3$s)."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1818
+#: dist/redirect-inspector.CBb-uj4o.js:2026
 msgid "Settings saved."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1828
+#: dist/redirect-inspector.CBb-uj4o.js:2036
 #, js-format
 msgid "Deleted %d scans."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1843
+#: dist/redirect-inspector.CBb-uj4o.js:2051
 msgid "Schedule & retention"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1852
-#: dist/redirect-inspector.CRJAYhD9.js:1862
+#: dist/redirect-inspector.CBb-uj4o.js:2060
+#: dist/redirect-inspector.CBb-uj4o.js:2070
 msgid "Scheduled scans"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1883
+#: dist/redirect-inspector.CBb-uj4o.js:2091
 msgid "Days"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1905
+#: dist/redirect-inspector.CBb-uj4o.js:2113
 msgid "Hours"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1931
+#: dist/redirect-inspector.CBb-uj4o.js:2139
 #, js-format
 msgid "Next scan: %s"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1940
+#: dist/redirect-inspector.CBb-uj4o.js:2148
 msgid "History"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1946
+#: dist/redirect-inspector.CBb-uj4o.js:2154
 msgid "Keep scans for"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1950
+#: dist/redirect-inspector.CBb-uj4o.js:2158
 msgid "7 to 365 days."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1953
+#: dist/redirect-inspector.CBb-uj4o.js:2161
 msgid "days"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1960
+#: dist/redirect-inspector.CBb-uj4o.js:2168
 #, js-format
 msgid "Next cleanup: %s."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1976
+#: dist/redirect-inspector.CBb-uj4o.js:2184
 msgid "Delete all scan history? This cannot be undone."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1986
+#: dist/redirect-inspector.CBb-uj4o.js:2194
 msgid "Deleting…"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:1986
+#: dist/redirect-inspector.CBb-uj4o.js:2194
 msgid "Delete all"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2004
+#: dist/redirect-inspector.CBb-uj4o.js:2212
 msgid "Delete history"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2013
+#: dist/redirect-inspector.CBb-uj4o.js:2221
 msgid "Saving…"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2013
+#: dist/redirect-inspector.CBb-uj4o.js:2221
 msgid "Save settings"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2033
+#: dist/redirect-inspector.CBb-uj4o.js:2241
 msgid "Rules by plugin"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2036
+#: dist/redirect-inspector.CBb-uj4o.js:2244
 #, js-format
 msgid "%s rule"
 msgid_plural "%s rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2068
+#: dist/redirect-inspector.CBb-uj4o.js:2276
 #, js-format
 msgid "%d issue"
 msgid_plural "%d issues"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2068
+#: dist/redirect-inspector.CBb-uj4o.js:2276
 msgid "No issues"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2068
-#: dist/redirect-inspector.CRJAYhD9.js:2522
+#: dist/redirect-inspector.CBb-uj4o.js:2276
+#: dist/redirect-inspector.CBb-uj4o.js:2730
 msgid "Not active"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2173
+#: dist/redirect-inspector.CBb-uj4o.js:2381
 msgid "No change"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2173
+#: dist/redirect-inspector.CBb-uj4o.js:2381
 #, js-format
 msgid "%s since last scan"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2249
+#: dist/redirect-inspector.CBb-uj4o.js:2457
 #, js-format
 msgid "Scanned %1$d rules and found %2$d issue in %3$s."
 msgid_plural "Scanned %1$d rules and found %2$d issues in %3$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2306
+#: dist/redirect-inspector.CBb-uj4o.js:2514
 msgid "Nothing scanned yet"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2307
+#: dist/redirect-inspector.CBb-uj4o.js:2515
 msgid "Use “Run scan” (top right) to check every redirect rule on this site."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2327
+#: dist/redirect-inspector.CBb-uj4o.js:2535
 msgid "below 50 critical · 80 and up healthy"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2337
+#: dist/redirect-inspector.CBb-uj4o.js:2545
 msgid "Issues by severity"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2351
-#: dist/redirect-inspector.CRJAYhD9.js:2357
+#: dist/redirect-inspector.CBb-uj4o.js:2559
+#: dist/redirect-inspector.CBb-uj4o.js:2565
 msgid "Issues by type"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2413
+#: dist/redirect-inspector.CBb-uj4o.js:2621
 msgid "Latest scan per site. Scans run per site, from each site’s Tools menu."
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2424
+#: dist/redirect-inspector.CBb-uj4o.js:2632
 msgid "Sites"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2431
+#: dist/redirect-inspector.CBb-uj4o.js:2639
 msgid "Search sites"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2451
+#: dist/redirect-inspector.CBb-uj4o.js:2659
 msgid "Site"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2476
+#: dist/redirect-inspector.CBb-uj4o.js:2684
 msgid "Other"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2480
+#: dist/redirect-inspector.CBb-uj4o.js:2688
 msgid "Last scan"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2522
+#: dist/redirect-inspector.CBb-uj4o.js:2730
 msgid "Never"
 msgstr ""
 
-#: dist/redirect-inspector.CRJAYhD9.js:2529
+#: dist/redirect-inspector.CBb-uj4o.js:2737
 msgid "Site pages"
 msgstr ""

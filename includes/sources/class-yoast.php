@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * Reads the option Premium keeps its redirects in: a list of { origin, url, type, format }.
  * Origins are stored without leading slash; regex origins are matched against that slash-less path.
  */
-final class Yoast implements Source, Writable {
+final class Yoast implements Source, Writable, Purgeable {
 
 	use Reads_Storage;
 
@@ -272,5 +272,37 @@ final class Yoast implements Source, Writable {
 				return $entries;
 			}
 		);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function own_tables(): array {
+		return [];
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @param string $id Rule ID.
+	 */
+	public function delete_stored( string $id ): bool {
+		return '' !== $this->disable( $id );
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @param bool $drop_tables Unused: Yoast keeps its redirects in options.
+	 */
+	public function purge_storage( bool $drop_tables ): bool {
+		unset( $drop_tables );
+
+		$this->items = null;
+		foreach ( [ self::OPTION, 'wpseo-premium-redirects-export-plain', 'wpseo-premium-redirects-export-regex' ] as $option ) {
+			delete_option( $option );
+		}
+
+		return true;
 	}
 }

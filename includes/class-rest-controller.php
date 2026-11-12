@@ -156,6 +156,46 @@ final class Rest_Controller extends Singleton {
 
 		register_rest_route(
 			self::NAMESPACE,
+			'/leftovers/(?P<slug>[a-z0-9-]+)',
+			[
+				[
+					'methods'             => WP_REST_Server::READABLE,
+					'permission_callback' => $manage,
+					'callback'            => [ $this, 'leftover_rules' ],
+					'args'                => [
+						'to' => [
+							'type'              => 'string',
+							'default'           => '',
+							'sanitize_callback' => 'sanitize_key',
+						],
+					],
+				],
+				[
+					'methods'             => WP_REST_Server::DELETABLE,
+					'permission_callback' => $manage,
+					'callback'            => [ $this, 'purge_leftover' ],
+					'args'                => [
+						'drop_tables' => [
+							'type'    => 'boolean',
+							'default' => false,
+						],
+					],
+				],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/leftovers/(?P<slug>[a-z0-9-]+)/rules/(?P<id>[A-Za-z0-9.]+)',
+			[
+				'methods'             => WP_REST_Server::DELETABLE,
+				'permission_callback' => $manage,
+				'callback'            => [ $this, 'delete_leftover_rule' ],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
 			'/migrate',
 			[
 				'methods'             => WP_REST_Server::CREATABLE,
@@ -468,6 +508,51 @@ final class Rest_Controller extends Singleton {
 			return new WP_REST_Response( Fixer::apply( (int) $request['id'] ) );
 		} catch ( \RuntimeException $error ) {
 			return new WP_Error( 'redirect_inspector_fix_failed', $error->getMessage(), [ 'status' => in_array( $error->getCode(), [ 400, 409 ], true ) ? $error->getCode() : 500 ] );
+		}
+	}
+
+	/**
+	 * Leftover rules of an inactive plugin, with what migrating each into `to` would do.
+	 *
+	 * @param WP_REST_Request $request Request.
+	 *
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function leftover_rules( WP_REST_Request $request ) {
+		try {
+			return new WP_REST_Response( Migrator::preview( sanitize_key( (string) $request['slug'] ), (string) $request['to'] ) );
+		} catch ( \RuntimeException $error ) {
+			return new WP_Error( 'redirect_inspector_leftovers', $error->getMessage(), [ 'status' => 400 ] );
+		}
+	}
+
+	/**
+	 * Delete every leftover rule of an inactive plugin (optionally its tables).
+	 *
+	 * @param WP_REST_Request $request Request.
+	 *
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function purge_leftover( WP_REST_Request $request ) {
+		try {
+			return new WP_REST_Response( [ 'deleted' => Migrator::purge( sanitize_key( (string) $request['slug'] ), (bool) $request['drop_tables'] ) ] );
+		} catch ( \RuntimeException $error ) {
+			return new WP_Error( 'redirect_inspector_leftovers', $error->getMessage(), [ 'status' => 400 === $error->getCode() ? 400 : 500 ] );
+		}
+	}
+
+	/**
+	 * Delete one leftover rule.
+	 *
+	 * @param WP_REST_Request $request Request.
+	 *
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function delete_leftover_rule( WP_REST_Request $request ) {
+		try {
+			return new WP_REST_Response( [ 'deleted' => Migrator::delete_rule( sanitize_key( (string) $request['slug'] ), (string) $request['id'] ) ] );
+		} catch ( \RuntimeException $error ) {
+			return new WP_Error( 'redirect_inspector_leftovers', $error->getMessage(), [ 'status' => 404 === $error->getCode() ? 404 : 400 ] );
 		}
 	}
 

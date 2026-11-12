@@ -7,6 +7,7 @@
 
 namespace Acato\RedirectInspector\Includes;
 
+use Acato\RedirectInspector\Includes\Sources\Purgeable;
 use Acato\RedirectInspector\Includes\Sources\Registry;
 use Acato\RedirectInspector\Includes\Sources\Source;
 use Acato\RedirectInspector\Includes\Sources\Writable;
@@ -34,9 +35,10 @@ final class Migrator {
 		foreach ( Registry::all() as $slug => $source ) {
 			if ( ! $source->is_available() && $source->has_storage() ) {
 				$leftovers[] = [
-					'slug'  => $slug,
-					'label' => $source->label(),
-					'rules' => $source->count(),
+					'slug'   => $slug,
+					'label'  => $source->label(),
+					'rules'  => $source->count(),
+					'tables' => $source instanceof Purgeable ? count( $source->own_tables() ) : 0,
 				];
 			}
 		}
@@ -128,6 +130,128 @@ final class Migrator {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Every leftover rule with what migrating it into $to would do: copy, exists or unsupported.
+	 *
+	 * @param string $from Source slug (inactive, with storage).
+	 * @param string $to   Target slug ('' = no target, only list).
+	 *
+	 * @return array{rules: array<int, array<string, mixed>>, total: int}
+	 *
+	 * @throws \RuntimeException When the source isn't a leftover.
+	 */
+	public static function preview( string $from, string $to ): array {
+		$source = self::leftover( $from );
+		$all    = Registry::all();
+		$target = $all[ $to ] ?? null;
+		$target = $target instanceof Writable && $target instanceof Source && $target->is_available() ? $target : null;
+
+		$normalizer = new Url_Normalizer();
+		$existing   = $target ? self::existing_sources( $target, $normalizer ) : [];
+		$rules      = [];
+
+		$rows = $source->count() + $source->skipped();
+		// At most 1000 rules in the preview; the total is reported separately.
+		$rows = min( $rows, 1000 );
+		for ( $offset = 0; $offset < $rows; $offset += self::PAGE_SIZE ) {
+			foreach ( $source->rules( $offset, self::PAGE_SIZE ) as $rule ) {
+				$key    = $rule->is_exact() ? Url_Normalizer::fold( $normalizer->key( $rule->from ) ) : 're:' . $rule->regex( true );
+				$status = 'none';
+				if ( $target ) {
+					$status = isset( $existing[ $key ] ) ? 'exists' : ( $target->supports( $rule ) ? 'copy' : 'unsupported' );
+				}
+				$rules[] = [
+					'id'     => $rule->id,
+					'from'   => $rule->from,
+					'to'     => $rule->to,
+					'code'   => $rule->code,
+					'match'  => $rule->match,
+					'status' => $status,
+				];
+			}
+		}
+
+		return [
+			'rules' => $rules,
+			'total' => $source->count(),
+		];
+	}
+
+	/**
+	 * Delete one leftover rule (logged with its old value).
+	 *
+	 * @param string $from Source slug.
+	 * @param string $id   Rule ID.
+	 *
+	 * @return bool
+	 *
+	 * @throws \RuntimeException When the source isn't a leftover or the rule is gone.
+	 */
+	public static function delete_rule( string $from, string $id ): bool {
+		$source = self::leftover( $from );
+		$rule   = null;
+
+		$rows = $source->count() + $source->skipped();
+		for ( $offset = 0; $offset < $rows && ! $rule; $offset += self::PAGE_SIZE ) {
+			foreach ( $source->rules( $offset, self::PAGE_SIZE ) as $candidate ) {
+				if ( $candidate->id === $id ) {
+					$rule = $candidate;
+					break;
+				}
+			}
+		}
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Shown as text.
+		if ( ! $rule || ! $source instanceof Purgeable || ! $source->delete_stored( $id ) ) {
+			throw new \RuntimeException( __( 'The rule could not be deleted. It may already be gone.', 'redirect-inspector' ), 404 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+		}
+
+		Log_Repository::log_fix( 0, 'deleted', $from, $id, $rule->to_array(), [] );
+
+		return true;
+	}
+
+	/**
+	 * Delete all leftover rules of a plugin; optionally drop its own tables (logged).
+	 *
+	 * @param string $from        Source slug.
+	 * @param bool   $drop_tables Drop the plugin's redirect tables too.
+	 *
+	 * @return int Rules deleted.
+	 *
+	 * @throws \RuntimeException When the source isn't a leftover.
+	 */
+	public static function purge( string $from, bool $drop_tables ): int {
+		$source = self::leftover( $from );
+		$count  = $source->count();
+
+		if ( ! $source instanceof Purgeable || ! $source->purge_storage( $drop_tables && [] !== $source->own_tables() ) ) {
+			throw new \RuntimeException( __( 'The data could not be deleted.', 'redirect-inspector' ), 500 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+		}
+
+		Log_Repository::log_fix( 0, $drop_tables ? 'dropped' : 'purged', $from, '', [ 'rules' => $count ], [] );
+
+		return $count;
+	}
+
+	/**
+	 * A leftover source (inactive plugin with stored rules), or an exception.
+	 *
+	 * @param string $from Source slug.
+	 *
+	 * @return Source
+	 *
+	 * @throws \RuntimeException When it isn't one.
+	 */
+	private static function leftover( string $from ): Source {
+		$source = Registry::all()[ $from ] ?? null;
+		if ( ! $source instanceof Source || $source->is_available() || ! $source->has_storage() ) {
+			throw new \RuntimeException( __( 'There are no leftover rules for that plugin.', 'redirect-inspector' ), 400 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+		}
+
+		return $source;
 	}
 
 	/**
