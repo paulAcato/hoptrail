@@ -185,3 +185,29 @@ $banner-end: hsl(225deg 52% 28%);
 		inline-size: 100%;
 	}
 }
+
+// Other administrators with the dashboard open.
+.rdi-presence {
+	display: flex;
+	gap: 0.5lh;
+	align-items: center;
+	margin-block: 0.5lh 0;
+	margin-inline: 0;
+	color: hsl(0deg 0% 100% / 80%);
+	font-size: 13px;
+
+	&__avatars {
+		display: inline-flex;
+
+		img {
+			inline-size: 24px;
+			block-size: 24px;
+			border: 2px solid hsl(225deg 52% 20%);
+			border-radius: 50%;
+
+			& + img {
+				margin-inline-start: -8px;
+			}
+		}
+	}
+}

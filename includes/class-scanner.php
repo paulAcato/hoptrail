@@ -137,6 +137,8 @@ final class Scanner {
 				]
 			);
 
+			Presence::changed( 'cron' === $trigger ? 'scheduled-scan' : 'scan' );
+
 			// "Keep the newest N scans": trim right away, so the history never grows past N.
 			$settings = Settings::all();
 			if ( 'count' === $settings['retention_mode'] ) {

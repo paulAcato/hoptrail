@@ -203,10 +203,18 @@ export interface BootData {
 	startOfWeek: number;
 	timezone: string;
 	wapuu: string;
+	stateVersion: number;
+	userId: number;
 }
 
 declare global {
 	interface Window {
 		redirectInspector?: BootData;
 	}
+}
+
+export interface PresentUser {
+	id: number;
+	name: string;
+	avatar: string;
 }

@@ -1,7 +1,8 @@
 import { Button } from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
 import { update } from '@wordpress/icons';
-import type { Scan } from '../api/types';
+import type { PresentUser, Scan } from '../api/types';
+import { PresenceBadge } from './Presence';
 import { dateTime, duration, relative } from '../lib/format';
 import { healthBand, healthLabel } from '../lib/meta';
 
@@ -9,13 +10,14 @@ const RADIUS = 44;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 interface Props {
+	others: PresentUser[];
 	latest: Scan | null;
 	running: boolean;
 	onScan: () => void;
 }
 
 /** Page banner: title and context on the start side; Run scan (top) and the health score on the end side. */
-export const Banner = ({ latest, running, onScan }: Props) => {
+export const Banner = ({ others, latest, running, onScan }: Props) => {
 	const score = latest ? latest.score : null;
 	const band = null === score ? 'none' : healthBand(score);
 
@@ -37,6 +39,7 @@ export const Banner = ({ latest, running, onScan }: Props) => {
 						)
 						: __('No scan yet', 'redirect-inspector')}
 				</p>
+				<PresenceBadge others={others} />
 			</div>
 
 			{window.redirectInspector?.wapuu && (

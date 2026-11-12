@@ -8,6 +8,7 @@ import type { Scan, Summary as SummaryData } from '../api/types';
 import { duration } from '../lib/format';
 import { TYPE_ORDER, typeMeta, GROUPS, type Group } from '../lib/meta';
 import { MultiSourceContext } from '../lib/context';
+import { usePresence } from '../api/presence';
 import { AllClear } from './AllClear';
 import { Banner } from './Banner';
 import { Leftovers } from './Leftovers';
@@ -30,6 +31,7 @@ export const App = () => {
 	const { data: summary, error, loading } = useResource<SummaryData>(SUMMARY);
 	const scan = useMutation<Scan>();
 	const visible = usePageVisible();
+	const presence = usePresence();
 	const [group, setGroup] = useState<Group>('all');
 	const [feedback, setFeedback] = useState<{ status: 'success' | 'warning' | 'error'; text: string } | null>(null);
 
@@ -122,7 +124,13 @@ export const App = () => {
 	return (
 		<MultiSourceContext.Provider value={multiSource}>
 		<div className="rdi-app">
-			<Banner latest={latest} running={running} onScan={runScan} />
+			<Banner others={presence.others} latest={latest} running={running} onScan={runScan} />
+
+			{presence.note && (
+				<Notice className="rdi-feedback" status="info" onRemove={presence.dismiss} spokenMessage={null}>
+					{presence.note}
+				</Notice>
+			)}
 
 			{feedback && (
 				<Notice className="rdi-feedback" status={feedback.status} onRemove={() => setFeedback(null)} spokenMessage={null}>

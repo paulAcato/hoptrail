@@ -8,6 +8,7 @@
 namespace Acato\RedirectInspector\Admin;
 
 use Acato\RedirectInspector\Includes\Caps;
+use Acato\RedirectInspector\Includes\Presence;
 use Acato\RedirectInspector\Includes\Retention;
 use Acato\RedirectInspector\Includes\Singleton;
 
@@ -126,18 +127,21 @@ final class Admin_Page extends Singleton {
 			Assets::HANDLE,
 			'window.redirectInspector = ' . wp_json_encode(
 				[
-					'mode'        => $mode,
-					'version'     => REDIRECT_INSPECTOR_VERSION,
-					'retention'   => Retention::describe(),
-					'siteUrl'     => home_url( '/' ),
-					'startOfWeek' => (int) get_option( 'start_of_week', 1 ),
-					'timezone'    => wp_timezone_string(),
-					'wapuu'       => REDIRECT_INSPECTOR_URL . 'assets/images/wapuu.svg',
+					'mode'         => $mode,
+					'version'      => REDIRECT_INSPECTOR_VERSION,
+					'retention'    => Retention::describe(),
+					'siteUrl'      => home_url( '/' ),
+					'startOfWeek'  => (int) get_option( 'start_of_week', 1 ),
+					'timezone'     => wp_timezone_string(),
+					'wapuu'        => REDIRECT_INSPECTOR_URL . 'assets/images/wapuu.svg',
+					'stateVersion' => Presence::version(),
+					'userId'       => get_current_user_id(),
 				]
 			) . ';',
 			'before'
 		);
 	}
+
 
 	/**
 	 * Mark our screens, so the colour scheme (light/dark/contrast) can style the whole page.

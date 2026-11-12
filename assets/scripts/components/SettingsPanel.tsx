@@ -63,6 +63,28 @@ export const SettingsPanel = ({ settings, retention, nextScan }: Props) => {
 	const save = useMutation<{ settings: Settings; retention: Retention; next_scan: string | null }>();
 	const purge = useMutation<{ deleted: number }>();
 
+	// Settings saved elsewhere (another admin, an AI client): adopt them unless there are unsaved edits.
+	const shown = useRef(settings);
+	const [outdated, setOutdated] = useState(false);
+	useEffect(() => {
+		const before = shown.current;
+		if (JSON.stringify(before) === JSON.stringify(settings)) {
+			return;
+		}
+		const untouched = Number(days) === before.retention_days && mode === before.retention_mode && Number(count) === before.retention_count && same(schedule, before.schedule);
+		shown.current = settings;
+		if (untouched) {
+			setDays(String(settings.retention_days));
+			setMode(settings.retention_mode);
+			setCount(String(settings.retention_count));
+			setSchedule(settings.schedule);
+			setOutdated(false);
+		} else {
+			setOutdated(true);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps -- Only when the saved settings change.
+	}, [settings]);
+
 	// Focus follows the inline delete confirmation (2.4.3).
 	const deleteRef = useRef<HTMLButtonElement>(null);
 	const confirmRef = useRef<HTMLButtonElement>(null);
@@ -285,6 +307,12 @@ export const SettingsPanel = ({ settings, retention, nextScan }: Props) => {
 					)}
 				</p>
 			</div>
+
+			{outdated && (
+				<Notice status="warning" isDismissible onRemove={() => setOutdated(false)} spokenMessage={null}>
+					{__('Someone else saved these settings while you were editing. Saving now replaces their changes with yours.', 'redirect-inspector')}
+				</Notice>
+			)}
 
 			{feedback && (
 				<Notice status={feedback.status} isDismissible onRemove={() => setFeedback(null)} spokenMessage={null}>

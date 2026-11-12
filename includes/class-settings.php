@@ -151,6 +151,7 @@ final class Settings {
 		}
 
 		update_option( self::OPTION, $settings, false );
+		Presence::changed( 'settings' );
 
 		return $settings;
 	}

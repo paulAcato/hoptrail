@@ -706,7 +706,10 @@ final class Rest_Controller extends Singleton {
 			return new WP_Error( 'redirect_inspector_busy', __( 'A scan is running. Try again in a moment.', 'redirect-inspector' ), [ 'status' => 409 ] );
 		}
 
-		return new WP_REST_Response( [ 'deleted' => Retention::cleanup( 0 ) ] );
+		$deleted = Retention::cleanup( 0 );
+		Presence::changed( 'flush' );
+
+		return new WP_REST_Response( [ 'deleted' => $deleted ] );
 	}
 
 	/**

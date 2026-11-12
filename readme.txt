@@ -58,6 +58,7 @@ Under Tools → Redirect Inspector:
 * **Scan history** with a date picker (limited to the days that have scans) and sortable columns.
 * **Scheduled scans**: daily, weekly (on the weekdays you pick) or monthly (on a day of the month or the last day), at the hours you pick, in the site's timezone.
 * **Retention**: keep scans for a number of days, or keep only the newest number of scans. Old scans are removed every Sunday around 03:00 (and right after every scan when you keep a number of scans).
+* **Working together**: when other administrators have the dashboard open, you see who; when one of them (or a scheduled scan, WP-CLI or an AI client) changes something, your dashboard updates within about 15 seconds and says what happened. Settings you are editing are never overwritten.
 
 Dates and times follow the site's date and time formats, timezone and language. When your computer runs on another timezone than the site, scheduled times also show your own clock. The dashboard follows your system's light or dark mode and its contrast preference, and was checked against WCAG 2.2 AA in all of them.
 

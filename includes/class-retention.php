@@ -202,6 +202,7 @@ final class Retention extends Singleton {
 				self::delete_fixes_older_than( 0 );
 				$deleted['changes'] = $counts['changes'];
 			}
+			Presence::changed( 'flush' );
 			return $deleted;
 		} finally {
 			Lock::release( self::LOCK_OPTION );

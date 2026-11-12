@@ -18,6 +18,7 @@ The user-facing description is in [readme.txt](readme.txt), which is also what W
 - **Scheduled scans**: daily, weekly or monthly at chosen hours, in site time. **Retention** by days or by the newest number of scans, with a weekly cleanup.
 - **WP-CLI**: `scan` (with `--fail-on` and `--porcelain` for pipelines) and `purge-logs`.
 - **Abilities** (WordPress 7.1+): `run-scan`, `get-scan-results`, `get-next-scan` and `flush-logs` (destructive, needs `confirm: true`), for administrators, public for AI clients via the MCP adapter, not on REST, with a GDPR guard.
+- **Presence and live updates**: other administrators on the dashboard are shown; any change (scan, fix, migration, deletion, settings, flush) refreshes every open dashboard within ~15 s, via the WordPress Heartbeat API.
 - **Multisite**: per-site dashboards plus a network overview.
 
 ## Development

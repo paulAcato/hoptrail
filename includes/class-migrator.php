@@ -91,7 +91,9 @@ final class Migrator {
 		// phpcs:enable
 
 		if ( ! $dry_run ) {
-			return self::locked( static fn() => self::copy( $source, $target, $from, $to, false ) );
+			$result = self::locked( static fn() => self::copy( $source, $target, $from, $to, false ) );
+			Presence::changed( 'migrate' );
+			return $result;
 		}
 
 		return self::copy( $source, $target, $from, $to, true );
@@ -231,7 +233,10 @@ final class Migrator {
 	 * @throws \RuntimeException When the source isn't a leftover or the rule is gone or changed.
 	 */
 	public static function delete_rule( string $from, string $id, string $expected ): bool {
-		return (bool) self::locked( static fn() => self::delete_rule_locked( $from, $id, $expected ) );
+		$deleted = (bool) self::locked( static fn() => self::delete_rule_locked( $from, $id, $expected ) );
+		Presence::changed( 'delete' );
+
+		return $deleted;
 	}
 
 	/**
@@ -280,7 +285,10 @@ final class Migrator {
 	 * @throws \RuntimeException When the source isn't a leftover.
 	 */
 	public static function purge( string $from, bool $drop_tables ): int {
-		return (int) self::locked( static fn() => self::purge_locked( $from, $drop_tables ) );
+		$deleted = (int) self::locked( static fn() => self::purge_locked( $from, $drop_tables ) );
+		Presence::changed( 'purge' );
+
+		return $deleted;
 	}
 
 	/**

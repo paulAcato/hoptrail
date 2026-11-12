@@ -121,6 +121,7 @@ final class Fixer {
 			'at'      => gmdate( 'c' ),
 		];
 		Log_Repository::mark_fixed( $issue_id, $fixed );
+		Presence::changed( 'fix' );
 
 		return $fixed;
 	}

@@ -28,6 +28,7 @@ final class Plugin extends Singleton {
 		Installer::instance();
 		Retention::instance();
 		Scheduler::instance();
+		Presence::instance();
 
 		// WordPress 7.1+ Abilities API (the class checks the version itself).
 		if ( class_exists( Abilities::class ) ) {
