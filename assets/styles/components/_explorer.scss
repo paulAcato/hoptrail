@@ -627,3 +627,75 @@
 		color: $ink;
 	}
 }
+
+// All clear: replaces the breakdown and the issue list when a scan found nothing.
+.rdi-clear {
+	&__head {
+		display: flex;
+		gap: 1lh;
+		align-items: center;
+		margin-block-end: 1lh;
+
+		h2 {
+			margin: 0;
+			font-size: 17px;
+			font-weight: 600;
+		}
+
+		p {
+			margin-block: 0.25lh 0;
+			margin-inline: 0;
+			color: $ink-secondary;
+		}
+	}
+
+	&__badge {
+		display: grid;
+		flex: none;
+		place-items: center;
+		inline-size: 56px;
+		block-size: 56px;
+		border-radius: 50%;
+		background: $good-bg;
+		color: $good-text;
+
+		svg {
+			fill: currentcolor;
+		}
+	}
+
+	&__checks {
+		display: grid;
+		gap: 0.5lh 1lh;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr));
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		li {
+			display: flex;
+			gap: 0.5lh;
+			align-items: flex-start;
+			margin: 0;
+			padding-block: 0.5lh;
+			padding-inline: 0.75lh;
+			border-radius: $radius-small;
+			background: $good-wash;
+			font-size: 13px;
+		}
+
+		svg {
+			flex: none;
+			fill: $good-text;
+		}
+
+		span {
+			display: grid;
+		}
+
+		small {
+			color: $ink-muted;
+			font-size: 12px;
+		}
+	}
+}

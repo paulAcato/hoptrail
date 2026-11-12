@@ -8,6 +8,7 @@ import type { Scan, Summary as SummaryData } from '../api/types';
 import { duration } from '../lib/format';
 import { TYPE_ORDER, typeMeta, GROUPS, type Group } from '../lib/meta';
 import { MultiSourceContext } from '../lib/context';
+import { AllClear } from './AllClear';
 import { Banner } from './Banner';
 import { Leftovers } from './Leftovers';
 import { BarList } from './BarList';
@@ -159,27 +160,36 @@ export const App = () => {
 						</section>
 					</div>
 
-					<div className="rdi-grid">
-						{multiSource && <SourcesPanel summary={summary} />}
-						<section className="rdi-card" aria-labelledby="rdi-types-title">
-							<header className="rdi-card__header">
-								<h2 id="rdi-types-title">{__('Issues by type', 'redirect-inspector')}</h2>
-								<span className="rdi-card__meta">{latest.issue_count}</span>
-							</header>
-							<BarList
-								caption={__('Issues by type', 'redirect-inspector')}
-								bars={TYPE_ORDER.map((type) => ({
-									key: type,
-									label: typeMeta(type).plural,
-									hint: typeMeta(type).description,
-									value: counts[type] ?? 0,
-									onSelect: () => showGroup(groupOf(type)),
-								}))}
-							/>
-						</section>
-					</div>
+					{0 === latest.issue_count ? (
+						<>
+							{multiSource && <SourcesPanel summary={summary} />}
+							<AllClear rules={latest.rule_count} partial={'partial' === latest.status} />
+						</>
+					) : (
+						<>
+							<div className="rdi-grid">
+								{multiSource && <SourcesPanel summary={summary} />}
+								<section className="rdi-card" aria-labelledby="rdi-types-title">
+									<header className="rdi-card__header">
+										<h2 id="rdi-types-title">{__('Issues by type', 'redirect-inspector')}</h2>
+										<span className="rdi-card__meta">{latest.issue_count}</span>
+									</header>
+									<BarList
+										caption={__('Issues by type', 'redirect-inspector')}
+										bars={TYPE_ORDER.map((type) => ({
+											key: type,
+											label: typeMeta(type).plural,
+											hint: typeMeta(type).description,
+											value: counts[type] ?? 0,
+											onSelect: () => showGroup(groupOf(type)),
+										}))}
+									/>
+								</section>
+							</div>
 
-					<IssueExplorer scanId={latest.id} counts={counts} sources={summary.sources} group={group} onGroup={setGroup} />
+							<IssueExplorer scanId={latest.id} counts={counts} sources={summary.sources} group={group} onGroup={setGroup} />
+						</>
+					)}
 				</>
 			)}
 
