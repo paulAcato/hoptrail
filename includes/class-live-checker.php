@@ -33,6 +33,24 @@ final class Live_Checker {
 	const MAX_URLS = 20;
 
 	/**
+	 * Seconds one call may take in total; stays below the lock's lifetime (LOCK_TTL), so a long
+	 * check can never run alongside a second one.
+	 */
+	const BUDGET = 90;
+
+	/**
+	 * Lifetime of the per-user lock in seconds.
+	 */
+	const LOCK_TTL = 120;
+
+	/**
+	 * Moment (microtime) after which no new request is made; 0 outside check_many().
+	 *
+	 * @var float
+	 */
+	private float $deadline = 0.0;
+
+	/**
 	 * Per-user mutex option prefix.
 	 */
 	const LOCK_PREFIX = 'redirect_inspector_live_lock_';
@@ -62,11 +80,12 @@ final class Live_Checker {
 	 */
 	public function check_many( array $urls ): array {
 		$lock = self::LOCK_PREFIX . get_current_user_id();
-		if ( ! Lock::acquire( $lock, 2 * MINUTE_IN_SECONDS ) ) {
+		if ( ! Lock::acquire( $lock, self::LOCK_TTL ) ) {
 			throw new \RuntimeException( __( 'A live check is already running.', 'redirect-inspector' ), 409 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Shown as text.
 		}
 
 		add_filter( 'http_request_host_is_external', [ $this, 'allow_own_host' ], 10, 2 );
+		$this->deadline = microtime( true ) + self::BUDGET;
 
 		try {
 			$results = [];
@@ -126,7 +145,10 @@ final class Live_Checker {
 			}
 			$seen[ $current ] = true;
 
-			$response = $this->request( $current );
+			// Out of time: stop here rather than outlive the lock.
+			$response = $this->deadline && microtime( true ) + self::TIMEOUT > $this->deadline
+				? new \WP_Error( 'redirect_inspector_time_budget', __( 'Stopped: the live check took too long.', 'redirect-inspector' ) )
+				: $this->request( $current );
 			if ( is_wp_error( $response ) ) {
 				$hops[]  = [
 					'url'    => $current,

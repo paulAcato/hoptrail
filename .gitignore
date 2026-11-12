@@ -7,5 +7,4 @@ vendor/
 *.log
 .prd/
 /scope/
-composer.lock
 phpcs-report.xml

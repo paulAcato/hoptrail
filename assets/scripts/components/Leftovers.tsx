@@ -141,7 +141,7 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 	const purgeConfirmRef = useRef<HTMLButtonElement>(null);
 	const targetLabel = targets.find((item) => item.slug === target)?.label ?? '';
 
-	const { data, loading, error: loadError } = useResource<{ rules: LeftoverRule[]; total: number }>(route(`/leftovers/${leftover.slug}`, { to: target }));
+	const { data, loading, error: loadError } = useResource<{ rules: LeftoverRule[]; total: number; plan: string; partial: boolean }>(route(`/leftovers/${leftover.slug}`, { to: target }));
 	const counts = useMemo(() => {
 		const tally = { copy: 0, exists: 0, unsupported: 0 };
 		data?.rules.forEach((rule) => {
@@ -168,7 +168,8 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 	const onMigrate = async () => {
 		setError(null);
 		try {
-			const done = await migrate.run(route('/migrate'), 'POST', { from: leftover.slug, to: target, dry_run: false });
+			// The plan binds the run to this reviewed list; the server refuses if it changed meanwhile.
+			const done = await migrate.run(route('/migrate'), 'POST', { from: leftover.slug, to: target, dry_run: false, plan: data?.plan ?? '' });
 			invalidate();
 			/* translators: 1: number of rules, 2: plugin. */
 			report(sprintf(_n('%1$d rule copied to %2$s. Run a scan to include it.', '%1$d rules copied to %2$s. Run a scan to include them.', done.created, 'redirect-inspector'), done.created, targetLabel));
@@ -176,6 +177,8 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 			if (!isAbort(caught)) {
 				setError(errorMessage(caught));
 				speak(errorMessage(caught), 'assertive');
+				// The list changed under us: show the current one.
+				invalidate(`/leftovers/${leftover.slug}`);
 			}
 		}
 	};
@@ -238,6 +241,9 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 			)}
 
 			{loadError && <div className="notice notice-error inline" role="alert"><p>{loadError}</p></div>}
+			{data?.partial && (
+				<div className="notice notice-warning inline"><p>{__('Not every pattern could be checked against all known URLs in time; some exact rules may be missing from this list.', 'redirect-inspector')}</p></div>
+			)}
 			{loading && !data && <Spinner />}
 
 			{rules.length > 0 && (
@@ -273,7 +279,7 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 								leftover.label
 							)}
 						</p>
-						{leftover.tables > 0 && (
+						{leftover.tables > 0 && (window.redirectInspector?.canDropTables ?? false) && (
 							<CheckboxControl
 								__nextHasNoMarginBottom
 								/* translators: %s: plugin. */

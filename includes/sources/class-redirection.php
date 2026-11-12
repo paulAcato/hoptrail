@@ -252,12 +252,16 @@ final class Redirection implements Source, Writable, Purgeable {
 		global $wpdb;
 
 		if ( $drop_tables ) {
+			$ok = true;
 			foreach ( $this->own_tables() as $table ) {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Explicit, confirmed clean-up of an inactive plugin.
-				$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $table ) );
+				$ok = false !== $wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $table ) ) && $ok;
 			}
-			delete_option( 'redirection_options' );
-			return true;
+			// Its settings only go once every table is gone, so a half-failed purge can be retried.
+			if ( $ok ) {
+				delete_option( 'redirection_options' );
+			}
+			return $ok;
 		}
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery

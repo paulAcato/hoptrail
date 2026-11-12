@@ -11,6 +11,7 @@ import { MultiSourceContext } from '../lib/context';
 import { usePresence } from '../api/presence';
 import { markSeen, pendingSteps, steps, type TourStep } from '../lib/tour';
 import { Tour } from './Tour';
+import { FlushApproval } from './FlushApproval';
 import { AllClear } from './AllClear';
 import { Banner } from './Banner';
 import { Leftovers } from './Leftovers';
@@ -163,6 +164,8 @@ export const App = () => {
 					{feedback.text}
 				</Notice>
 			)}
+
+			{summary.flush_request && <FlushApproval request={summary.flush_request} />}
 
 			<Leftovers leftovers={summary.leftovers ?? []} targets={summary.targets ?? []} />
 

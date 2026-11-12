@@ -1,6 +1,8 @@
 <?php
 /**
- * Uninstall: drop tables, options and cron on every site.
+ * Uninstall: remove everything Redirect Inspector stored, on every site of a network: its tables,
+ * options, transients, locks and scheduled events, and its user meta. Other plugins' redirect rules
+ * (including rules it migrated or fixed there) are theirs and stay.
  *
  * @package Acato\RedirectInspector
  */
@@ -25,3 +27,6 @@ if ( is_multisite() ) {
 } else {
 	Installer::uninstall_site();
 }
+
+// User meta is shared by every site, so once.
+Installer::uninstall_users();

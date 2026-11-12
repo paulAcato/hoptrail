@@ -122,6 +122,8 @@ final class Presence extends Singleton {
 
 		$state = self::state();
 		$by    = $state['by'] ? get_userdata( $state['by'] ) : false;
+		// Named only while that person may still use the dashboard, like the list of others above.
+		$by = $by && user_can( $by, Caps::MANAGE ) ? $by : false;
 
 		$response[ self::KEY ] = [
 			'others'  => $others,

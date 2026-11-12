@@ -17,6 +17,14 @@ defined( 'ABSPATH' ) || exit;
 final class Lock {
 
 	/**
+	 * Values of the locks this request holds (timestamp and a random token), so a release only
+	 * removes our own lock, never one another request took over after ours went stale.
+	 *
+	 * @var array<string, string>
+	 */
+	private static array $held = [];
+
+	/**
 	 * Take a lock.
 	 *
 	 * @param string $name Option name.
@@ -27,29 +35,37 @@ final class Lock {
 	public static function acquire( string $name, int $ttl ): bool {
 		global $wpdb;
 
-		$now = (string) time();
+		// "<timestamp>:<token>": the timestamp decides staleness, the token ownership.
+		$value = time() . ':' . wp_generate_password( 16, false );
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-		$inserted = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO %i (option_name, option_value, autoload) VALUES (%s, %s, 'off')", $wpdb->options, $name, $now ) );
+		$inserted = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO %i (option_name, option_value, autoload) VALUES (%s, %s, 'off')", $wpdb->options, $name, $value ) );
 		if ( 1 === (int) $inserted ) {
 			self::flush( $name );
+			self::$held[ $name ] = $value;
 			return true;
 		}
 
-		$held = self::held_since( $name );
-		if ( null !== $held && $held > time() - $ttl ) {
+		$current = self::value( $name );
+		if ( null !== $current && (int) $current > time() - $ttl ) {
 			return false;
 		}
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-		$updated = $wpdb->query( $wpdb->prepare( 'UPDATE %i SET option_value = %s WHERE option_name = %s AND option_value = %s', $wpdb->options, $now, $name, (string) $held ) );
+		$updated = $wpdb->query( $wpdb->prepare( 'UPDATE %i SET option_value = %s WHERE option_name = %s AND option_value = %s', $wpdb->options, $value, $name, (string) $current ) );
 		self::flush( $name );
 
-		return 1 === (int) $updated;
+		if ( 1 !== (int) $updated ) {
+			return false;
+		}
+		self::$held[ $name ] = $value;
+
+		return true;
 	}
 
 	/**
-	 * Release a lock.
+	 * Release a lock this request took. A lock taken over by another request after ours went
+	 * stale is left alone. Without a lock of its own (deactivation, uninstall) it is removed.
 	 *
 	 * @param string $name Option name.
 	 *
@@ -58,8 +74,14 @@ final class Lock {
 	public static function release( string $name ): void {
 		global $wpdb;
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-		$wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE option_name = %s', $wpdb->options, $name ) );
+		if ( isset( self::$held[ $name ] ) ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE option_name = %s AND option_value = %s', $wpdb->options, $name, self::$held[ $name ] ) );
+			unset( self::$held[ $name ] );
+		} else {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE option_name = %s', $wpdb->options, $name ) );
+		}
 		self::flush( $name );
 	}
 
@@ -72,25 +94,26 @@ final class Lock {
 	 * @return bool
 	 */
 	public static function is_held( string $name, int $ttl ): bool {
-		$held = self::held_since( $name );
+		$value = self::value( $name );
 
-		return null !== $held && $held > time() - $ttl;
+		return null !== $value && (int) $value > time() - $ttl;
 	}
 
 	/**
-	 * Timestamp the lock was taken, read from the database.
+	 * The lock's stored value ("<timestamp>:<token>", or a bare timestamp from before tokens),
+	 * read from the database. (int) of it is the moment it was taken.
 	 *
 	 * @param string $name Option name.
 	 *
-	 * @return int|null
+	 * @return string|null
 	 */
-	private static function held_since( string $name ): ?int {
+	private static function value( string $name ): ?string {
 		global $wpdb;
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$value = $wpdb->get_var( $wpdb->prepare( 'SELECT option_value FROM %i WHERE option_name = %s', $wpdb->options, $name ) );
 
-		return null === $value ? null : (int) $value;
+		return null === $value ? null : (string) $value;
 	}
 
 	/**

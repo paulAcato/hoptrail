@@ -7,6 +7,8 @@
 
 namespace Acato\RedirectInspector\Includes;
 
+use Acato\RedirectInspector\Admin\Tour;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -235,7 +237,33 @@ final class Installer extends Singleton {
 	}
 
 	/**
-	 * Drop the tables and options of the current site.
+	 * Remove what the plugin stores per user, once for the whole install (user meta is shared by
+	 * every site of a network): the walkthrough progress, and the plugin's entries in each user's
+	 * list of dismissed admin pointers. Other plugins' entries stay.
+	 *
+	 * @return void
+	 */
+	public static function uninstall_users(): void {
+		delete_metadata( 'user', 0, Tour::META, '', true );
+
+		$users = get_users(
+			[
+				'blog_id'  => 0,
+				'fields'   => 'ID',
+				'meta_key' => 'dismissed_wp_pointers', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- One-off, at uninstall.
+			]
+		);
+		foreach ( $users as $user_id ) {
+			$dismissed = array_filter( explode( ',', (string) get_user_meta( (int) $user_id, 'dismissed_wp_pointers', true ) ) );
+			$kept      = array_filter( $dismissed, static fn( $pointer ) => ! str_starts_with( $pointer, 'redirect_inspector_tour_' ) );
+			if ( count( $kept ) !== count( $dismissed ) ) {
+				update_user_meta( (int) $user_id, 'dismissed_wp_pointers', implode( ',', $kept ) );
+			}
+		}
+	}
+
+	/**
+	 * Drop the tables, options, transients, locks and scheduled events of the current site.
 	 *
 	 * @return void
 	 */
@@ -250,6 +278,11 @@ final class Installer extends Singleton {
 		delete_option( Scanner::LOCK_OPTION );
 		delete_option( Retention::LOCK_OPTION );
 		delete_option( Fixer::LOCK );
+		delete_option( Presence::STATE );
+		delete_option( Flush_Requests::OPTION );
+		// Manifest of the development seed script (bin/seed-dummy-data.php), if it ever ran here.
+		delete_option( 'redirect_inspector_seed' );
+		delete_transient( Presence::PRESENCE );
 		// Per-user live-check locks.
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE option_name LIKE %s', $wpdb->options, $wpdb->esc_like( Live_Checker::LOCK_PREFIX ) . '%' ) );

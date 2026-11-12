@@ -54,7 +54,7 @@ Under Tools → Redirect Inspector:
 * A searchable, filterable list of issues, each showing the full redirect path and which plugin owns every hop. Search with plain text or, with the .* switch, a regular expression (such as `^/blog/`). When a scan finds nothing, an "All clear" overview shows the checks it passed.
 * **Verify live**: follows the real redirects of an issue over HTTP, on your own site only, to confirm what visitors get.
 * **Apply fix**: only where the fix is clear-cut. A chain is shortened by pointing its first rule at the final URL; a duplicate, self-redirect, redundant rule or rule hiding content is switched off. You confirm each change first.
-* **Leftover redirects**: a redirect plugin that is no longer active but still holds rules is detected. Review its rules in a dialog, then migrate them into an active redirect plugin, delete single rules, or delete all of its data (and, for plugins with their own tables, the tables). Regex, wildcard and prefix rules are migrated as they are where the other plugin supports them; into a plugin that only holds exact rules (Simple 301 Redirects, 301 Redirects), they are copied as exact rules for the URLs your site is known to have: published content, URLs from Redirection's 404 log, and the sources and targets of other rules. The dialog lists them first.
+* **Leftover redirects**: a redirect plugin that is no longer active but still holds rules is detected. Review its rules in a dialog, then migrate them into an active redirect plugin, delete single rules, or delete all of its data (and, for plugins with their own tables, the tables). Regex, wildcard and prefix rules are migrated as they are where the other plugin supports them; into a plugin that only holds exact rules (Simple 301 Redirects, 301 Redirects), they are copied as exact rules for the URLs your site is known to have: published content, the sources and targets of other rules, and URLs from Redirection's 404 log. Only plain paths become rules (no spaces, control characters, markup or `*`), and what is migrated is exactly what the dialog listed: if anything changed meanwhile, you are asked to review it again. On a multisite network, only a network administrator can drop another plugin's tables.
 * **Scan history** with a date picker (limited to the days that have scans) and sortable columns.
 * **Scheduled scans**: daily, weekly (on the weekdays you pick) or monthly (on a day of the month or the last day), at the hours you pick, in the site's timezone.
 * **Retention**: keep scans for a number of days, or keep only the newest number of scans. Old scans are removed every Sunday around 03:00 (and right after every scan when you keep a number of scans).
@@ -76,7 +76,7 @@ Four abilities for the WordPress Abilities API, so AI clients connected through 
 * `redirect-inspector/run-scan`: runs a scan and returns the health score, counts per type and severity, and the most severe issues with their redirect path and a suggested fix.
 * `redirect-inspector/get-scan-results`: the same for the latest scan, without running a new one; optionally filtered by issue type.
 * `redirect-inspector/get-next-scan`: when the next scheduled scan runs, the schedule, and the retention policy.
-* `redirect-inspector/flush-logs`: deletes the scan history, the change log or both. It is marked destructive, so AI clients ask before running it, and without `confirm: true` it only reports what it would delete.
+* `redirect-inspector/flush-logs`: asks to delete the scan history, the change log or both. An AI client can't delete anything with it: with `confirm: true` it files a request, and the logs are only deleted when an administrator approves that request on the dashboard (Tools → Redirect Inspector). Requests expire after an hour.
 
 They never return user data (e-mail addresses in rule strings are masked) and never change a redirect rule. They are not exposed on the abilities REST API.
 
@@ -93,7 +93,7 @@ Redirect Inspector only reads other plugins' rules, except when you choose **App
 
 = Privacy =
 
-Redirect Inspector does not contact any external service. The live check only requests URLs on your own site. Scan history and the change log are stored in your site's database, are kept for the period you set (90 days by default), and are removed when the plugin is deleted.
+Redirect Inspector does not contact any external service. The live check only requests URLs on your own site. Scan history and the change log are stored in your site's database, are kept for the period you set (90 days by default). Deleting the plugin removes everything it stored, on every site of a network: its tables, settings, scheduled events and the walkthrough progress per user. Redirect rules it changed or migrated in other plugins belong to those plugins and stay.
 
 = On multisite =
 
@@ -153,4 +153,5 @@ Rules are read in batches and analysed within a time budget. If a scan reaches t
 * First release: reads redirects from ten SEO and redirect plugins and finds loops, chains, conflicts, duplicates, self-redirects, redundant and hidden-content rules, broken targets and invalid patterns.
 * Verify live, Apply fix, leftover detection with migration (patterns as exact rules where needed) and deletion, scheduled scans, retention by days or by number of scans.
 * Regex search in the issue list, a versioned walkthrough, and live updates when other administrators change something.
+* Log deletions requested by AI clients need an administrator's approval in wp-admin.
 * WP-CLI commands and four abilities for the WordPress Abilities API.

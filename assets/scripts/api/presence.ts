@@ -37,6 +37,10 @@ const describe = ({ action, by }: Change): string => {
 		case 'settings': return sprintf(__('%s changed the schedule or retention settings.', 'redirect-inspector'), who);
 		/* translators: %s: name of an administrator. */
 		case 'flush': return sprintf(__('%s deleted logs.', 'redirect-inspector'), who);
+		/* translators: %s: name of an administrator. */
+		case 'flush-request': return sprintf(__('An AI client used by %s asked to delete logs. It waits for approval on this dashboard.', 'redirect-inspector'), who);
+		/* translators: %s: name of an administrator. */
+		case 'flush-declined': return sprintf(__('%s declined the request to delete logs.', 'redirect-inspector'), who);
 		default: return __('Redirect Inspector was updated by someone else.', 'redirect-inspector');
 	}
 };

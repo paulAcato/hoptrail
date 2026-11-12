@@ -8,6 +8,11 @@
 
 // phpcs:ignoreFile -- Test runner with WordPress stubs.
 
+// Command line only: never run from a web request (e.g. on a git-clone install).
+if ( 'cli' !== PHP_SAPI ) {
+	exit( 1 );
+}
+
 define( 'ABSPATH', __DIR__ . '/' );
 define( 'REDIRECT_INSPECTOR_PATH', dirname( __DIR__ ) . '/' );
 define( 'REDIRECT_INSPECTOR_VERSION', 'test' );
@@ -199,6 +204,24 @@ check( 'expand: a rule into itself is left out', $expander->expand( new Rule( 's
 check( 'expand: unsafe target is left out', $expander->expand( new Rule( 'x', '5', '^/news$', '/x"onmouseover=1', 301, Rule::MATCH_REGEX ) ), [] );
 check( 'expand: invalid regex gives nothing', $expander->expand( new Rule( 'x', '6', '^/(unclosed', '/y', 301, Rule::MATCH_REGEX ) ), [] );
 check( 'expand: exact rules are not expanded', $expander->expand( new Rule( 'x', '7', '/news', '/y' ) ), [] );
+
+// --- Rule sources written into other plugins --------------------------------------------------
+check( 'safe source: plain path with query', Url_Normalizer::is_safe_source( '/docs/v1/install?ref=a' ), true );
+check( 'safe source: newline refused', Url_Normalizer::is_safe_source( "/old-blog/x\n<img src=x onerror=alert(1)>" ), false );
+check( 'safe source: markup refused', Url_Normalizer::is_safe_source( '/a<b' ), false );
+check( 'safe source: quote refused', Url_Normalizer::is_safe_source( '/a"b' ), false );
+check( 'safe source: wildcard refused', Url_Normalizer::is_safe_source( '/legacy/*' ), false );
+check( 'safe source: backslash refused', Url_Normalizer::is_safe_source( '/a\\b' ), false );
+check( 'safe source: protocol-relative refused', Url_Normalizer::is_safe_source( '//evil.example/x' ), false );
+check( 'safe source: relative refused', Url_Normalizer::is_safe_source( 'docs' ), false );
+
+$expander2 = new Expander( new Url_Normalizer( 'https://example.test/', 'https://example.test/' ) );
+( new ReflectionProperty( Expander::class, 'known' ) )->setValue( $expander2, [ '/old-blog/fine', "/old-blog/x\n<img src=x>", '/old-blog/a"b' ] );
+check( 'expand: unsafe known URLs never become sources', $fmt_rules( $expander2->expand( new Rule( 'rank-math', '9', 'old-blog/', '/blog/', 301, Rule::MATCH_PREFIX, false ) ) ), '/old-blog/fine > /blog/' );
+
+$expander3 = new Expander( new Url_Normalizer( 'https://example.test/', 'https://example.test/' ), microtime( true ) - 1 );
+( new ReflectionProperty( Expander::class, 'known' ) )->setValue( $expander3, [ '/old-blog/fine' ] );
+check( 'expand: shared budget spent gives nothing and flags partial', [ $expander3->expand( new Rule( 'x', '10', 'old-blog/', '/blog/', 301, Rule::MATCH_PREFIX, false ) ), $expander3->partial ], [ [], true ] );
 
 // --- Regex search --------------------------------------------------------------------------------
 check( 'search regex: case-insensitive', 1 === preg_match( Log_Repository::search_pattern( '^/DOCS/' ), '/docs/v1' ), true );

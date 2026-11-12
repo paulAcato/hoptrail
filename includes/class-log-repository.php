@@ -391,6 +391,10 @@ final class Log_Repository {
 				$subjects[] = (string) ( $hop['rule']['from'] ?? '' );
 			}
 			foreach ( $subjects as $subject ) {
+				// Also per subject: one conflict can carry many hops.
+				if ( microtime( true ) > $deadline ) {
+					break 2;
+				}
 				if ( '' !== $subject && 1 === preg_match( $pattern, $subject ) ) {
 					$ids[] = (int) $row['id'];
 					break;

@@ -146,6 +146,10 @@ final class Matcher {
 
 		if ( null === $result ) {
 			foreach ( $this->patterns as $rule ) {
+				// Out of budget: stop walking patterns (apply() would only return null for each).
+				if ( ! $this->within_budget() ) {
+					break;
+				}
 				$target = $this->apply( $rule, $key );
 				if ( null !== $target ) {
 					$result = [

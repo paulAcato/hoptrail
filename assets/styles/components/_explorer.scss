@@ -755,3 +755,25 @@
 		margin-block: 0.125lh;
 	}
 }
+
+// A log deletion an AI client asked for: stands out, and needs a deliberate click.
+.rdi-approval {
+	display: grid;
+	gap: 0.5lh;
+	border-inline-start: 4px solid $warning;
+
+	h2 {
+		margin: 0;
+	}
+
+	p {
+		margin: 0;
+	}
+
+	&__buttons {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5lh;
+		justify-content: flex-end;
+	}
+}

@@ -84,6 +84,19 @@ final class Fixer {
 			$targets[] = [ $source, $current ];
 		}
 
+		// Rules the fix relies on without changing them (the later hops of a chain, the duplicate
+		// that stays) must still be as scanned, where their plugin lets us read one rule back.
+		foreach ( (array) ( $fix['requires'] ?? [] ) as $ref ) {
+			$source = $sources[ $ref['source'] ?? '' ] ?? null;
+			if ( ! $source instanceof Writable || ! $source->is_available() ) {
+				continue;
+			}
+			$current = $source->find( (string) $ref['id'] );
+			if ( ! $current || $current->from !== $ref['from'] || $current->to !== $ref['to'] ) {
+				throw new \RuntimeException( __( 'A rule this fix depends on changed since the last scan. Run a new scan first.', 'redirect-inspector' ), 409 );
+			}
+		}
+
 		$changes = [];
 		foreach ( $targets as [ $source, $rule ] ) {
 			$before = $rule->to_array();

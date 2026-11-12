@@ -159,6 +159,9 @@ final class Safe_Redirect_Manager implements Source, Writable, Purgeable {
 	 * @param string $to New target.
 	 */
 	public function retarget( string $id, string $to ): bool {
+		if ( ! $this->is_rule_post( $id ) ) {
+			return false;
+		}
 		$ok = false !== update_post_meta( absint( $id ), '_redirect_rule_to', $to );
 		self::flush();
 
@@ -171,6 +174,9 @@ final class Safe_Redirect_Manager implements Source, Writable, Purgeable {
 	 * @param string $id Rule ID.
 	 */
 	public function disable( string $id ): string {
+		if ( ! $this->is_rule_post( $id ) ) {
+			return '';
+		}
 		$result = wp_update_post(
 			[
 				'ID'          => absint( $id ),
@@ -181,6 +187,19 @@ final class Safe_Redirect_Manager implements Source, Writable, Purgeable {
 		self::flush();
 
 		return is_wp_error( $result ) ? '' : 'disabled';
+	}
+
+	/**
+	 * Whether an ID is one of SRM's redirect rules (and not any other post).
+	 *
+	 * @param string $id Post ID.
+	 *
+	 * @return bool
+	 */
+	private function is_rule_post( string $id ): bool {
+		$post = get_post( absint( $id ) );
+
+		return $post && self::POST_TYPE === $post->post_type;
 	}
 
 	/**
@@ -249,9 +268,7 @@ final class Safe_Redirect_Manager implements Source, Writable, Purgeable {
 	 * @param string $id Rule ID.
 	 */
 	public function delete_stored( string $id ): bool {
-		$post = get_post( absint( $id ) );
-
-		return $post && self::POST_TYPE === $post->post_type && (bool) wp_delete_post( $post->ID, true );
+		return $this->is_rule_post( $id ) && (bool) wp_delete_post( absint( $id ), true );
 	}
 
 	/**

@@ -118,7 +118,7 @@ final class Tour extends Singleton {
 		// Our own look (the dashboard banner's), placed by a few lines of plain JavaScript.
 		wp_enqueue_style( 'redirect-inspector-pointer', REDIRECT_INSPECTOR_URL . 'assets/menu-pointer.css', [], REDIRECT_INSPECTOR_VERSION );
 		wp_enqueue_script( 'redirect-inspector-pointer', REDIRECT_INSPECTOR_URL . 'assets/menu-pointer.js', [], REDIRECT_INSPECTOR_VERSION, true );
-		wp_add_inline_script( 'redirect-inspector-pointer', 'window.redirectInspectorPointer = ' . wp_json_encode( $pointer ) . ';', 'before' );
+		wp_add_inline_script( 'redirect-inspector-pointer', 'window.redirectInspectorPointer = ' . wp_json_encode( $pointer, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT ) . ';', 'before' );
 	}
 
 	/**

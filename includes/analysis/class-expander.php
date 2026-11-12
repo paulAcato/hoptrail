@@ -7,6 +7,7 @@
 
 namespace Acato\RedirectInspector\Includes\Analysis;
 
+use Acato\RedirectInspector\Includes\Installer;
 use Acato\RedirectInspector\Includes\Rule;
 use Acato\RedirectInspector\Includes\Sources\Registry;
 use Acato\RedirectInspector\Includes\Url_Normalizer;
@@ -15,9 +16,13 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * A regex can match infinitely many URLs, so it is expanded over the URLs this site is known to
- * have: published content, URLs from Redirection's 404 log, and every source and target of every
- * stored redirect rule. URLs outside
- * that set are not covered; the preview says so.
+ * have: published content, every source and target of every stored redirect rule, and URLs from
+ * Redirection's 404 log. URLs outside that set are not covered; the preview says so.
+ *
+ * 404-log URLs are written by anonymous visitors, so: a URL carrying HTML entities is skipped
+ * (decoding could rebuild markup the logger neutralised), every source must pass
+ * Url_Normalizer::is_safe_source(), and content and rule URLs take the per-rule slots first, so a
+ * flood of 404 requests cannot push them out.
  */
 final class Expander {
 
@@ -44,11 +49,20 @@ final class Expander {
 	private ?array $known = null;
 
 	/**
+	 * Whether the time budget ran out, so some rules were not (fully) expanded.
+	 *
+	 * @var bool
+	 */
+	public bool $partial = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Url_Normalizer $normalizer Normaliser.
+	 * @param float          $deadline   microtime(true) after which nothing more is expanded (0 = none),
+	 *                                   shared by every rule of one migration.
 	 */
-	public function __construct( private Url_Normalizer $normalizer ) {}
+	public function __construct( private Url_Normalizer $normalizer, private float $deadline = 0.0 ) {}
 
 	/**
 	 * Exact rules standing in for a pattern rule: one per known URL it redirects.
@@ -62,7 +76,13 @@ final class Expander {
 			return [];
 		}
 
-		$matcher = new Matcher( $this->normalizer, microtime( true ) + 5, 100000 );
+		$now = microtime( true );
+		if ( $this->deadline && $now >= $this->deadline ) {
+			$this->partial = true;
+			return [];
+		}
+
+		$matcher = new Matcher( $this->normalizer, $this->deadline ? min( $now + 5, $this->deadline ) : $now + 5, 100000 );
 		$matcher->add( [ $rule ] );
 		if ( $matcher->invalid ) {
 			return [];
@@ -70,6 +90,10 @@ final class Expander {
 
 		$rules = [];
 		foreach ( $this->known() as $key ) {
+			// Only plain paths become rule sources in another plugin.
+			if ( ! Url_Normalizer::is_safe_source( $key ) ) {
+				continue;
+			}
 			$target = $matcher->apply( $rule, $key );
 			if ( null === $target ) {
 				continue;
@@ -95,6 +119,10 @@ final class Expander {
 			}
 		}
 
+		if ( $matcher->partial ) {
+			$this->partial = true;
+		}
+
 		return $rules;
 	}
 
@@ -111,10 +139,6 @@ final class Expander {
 		$keys = [];
 
 		foreach ( $this->content_urls() as $url ) {
-			$keys[ $this->normalizer->key( $url ) ] = true;
-		}
-
-		foreach ( $this->requested_urls() as $url ) {
 			$keys[ $this->normalizer->key( $url ) ] = true;
 		}
 
@@ -135,13 +159,22 @@ final class Expander {
 			}
 		}
 
-		$this->known = array_values(
-			array_filter(
-				array_keys( $keys ),
-				static fn( $key ) => ! Url_Normalizer::is_external_key( (string) $key ) && '/' !== $key
-			)
-		);
-		sort( $this->known );
+		$internal = static fn( $key ) => ! Url_Normalizer::is_external_key( (string) $key ) && '/' !== $key;
+		$trusted  = array_values( array_filter( array_keys( $keys ), $internal ) );
+		sort( $trusted );
+
+		// Visitor-requested URLs come after the site's own, so they never take their slots.
+		$requested = [];
+		foreach ( $this->requested_urls() as $url ) {
+			$key = $this->normalizer->key( $url );
+			if ( ! isset( $keys[ $key ] ) ) {
+				$requested[ $key ] = true;
+			}
+		}
+		$requested = array_values( array_filter( array_keys( $requested ), $internal ) );
+		sort( $requested );
+
+		$this->known = array_merge( $trusted, $requested );
 
 		return $this->known;
 	}
@@ -156,13 +189,15 @@ final class Expander {
 		global $wpdb;
 
 		$table = $wpdb->prefix . 'redirection_404';
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) !== $table ) {
+		if ( ! Installer::table_exists( $table ) ) {
 			return [];
 		}
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-		return array_map( 'strval', (array) $wpdb->get_col( $wpdb->prepare( 'SELECT DISTINCT url FROM %i ORDER BY id DESC LIMIT %d', $table, self::MAX_CONTENT ) ) );
+		$urls = array_map( 'strval', (array) $wpdb->get_col( $wpdb->prepare( 'SELECT url FROM %i GROUP BY url ORDER BY MAX(id) DESC LIMIT %d', $table, self::MAX_CONTENT ) ) );
+
+		// Redirection stores markup as entities; decoding them would rebuild it. Such URLs are skipped.
+		return array_values( array_filter( $urls, static fn( $url ) => ! preg_match( '/&(?:#\d+|#x[0-9a-f]+|[a-z][a-z0-9]*);/i', $url ) ) );
 	}
 
 	/**

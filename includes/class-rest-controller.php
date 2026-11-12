@@ -227,6 +227,11 @@ final class Rest_Controller extends Singleton {
 						'type'    => 'boolean',
 						'default' => true,
 					],
+					'plan'    => [
+						'type'    => 'string',
+						'default' => '',
+						'pattern' => '^([a-f0-9]{64})?$',
+					],
 				],
 			]
 		);
@@ -335,6 +340,24 @@ final class Rest_Controller extends Singleton {
 			]
 		);
 
+		// Approve or decline a log deletion an AI client asked for (flush-logs ability).
+		register_rest_route(
+			self::NAMESPACE,
+			'/flush-request/(?P<id>[A-Za-z0-9]{20})',
+			[
+				[
+					'methods'             => WP_REST_Server::CREATABLE,
+					'permission_callback' => $manage,
+					'callback'            => [ $this, 'approve_flush_request' ],
+				],
+				[
+					'methods'             => WP_REST_Server::DELETABLE,
+					'permission_callback' => $manage,
+					'callback'            => [ $this, 'decline_flush_request' ],
+				],
+			]
+		);
+
 		if ( is_multisite() && is_main_site() ) {
 			register_rest_route(
 				self::NAMESPACE,
@@ -405,8 +428,8 @@ final class Rest_Controller extends Singleton {
 
 		return new WP_REST_Response(
 			[
-				'latest'    => Log_Repository::latest_scan(),
-				'trend'     => array_map(
+				'latest'        => Log_Repository::latest_scan(),
+				'trend'         => array_map(
 					static fn( $scan ) => [
 						'id'          => $scan['id'],
 						'finished_at' => $scan['finished_at'],
@@ -417,13 +440,15 @@ final class Rest_Controller extends Singleton {
 					],
 					$trend
 				),
-				'sources'   => $sources,
-				'running'   => Scanner::is_running(),
-				'settings'  => Settings::all(),
-				'retention' => self::retention(),
-				'next_scan' => self::next_scan(),
-				'leftovers' => Migrator::leftovers(),
-				'targets'   => Migrator::targets(),
+				'sources'       => $sources,
+				'running'       => Scanner::is_running(),
+				'settings'      => Settings::all(),
+				'retention'     => self::retention(),
+				'next_scan'     => self::next_scan(),
+				'leftovers'     => Migrator::leftovers(),
+				'targets'       => Migrator::targets(),
+				// A log deletion an AI client asked for, waiting for approval here.
+				'flush_request' => Flush_Requests::for_dashboard(),
 			]
 		);
 	}
@@ -568,6 +593,10 @@ final class Rest_Controller extends Singleton {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function purge_leftover( WP_REST_Request $request ) {
+		if ( $request['drop_tables'] && ! Caps::can_drop_tables() ) {
+			return new WP_Error( 'redirect_inspector_forbidden', __( 'Only a network administrator can drop another plugin\'s tables.', 'redirect-inspector' ), [ 'status' => 403 ] );
+		}
+
 		try {
 			return new WP_REST_Response( [ 'deleted' => Migrator::purge( sanitize_key( (string) $request['slug'] ), (bool) $request['drop_tables'] ) ] );
 		} catch ( \RuntimeException $error ) {
@@ -599,7 +628,7 @@ final class Rest_Controller extends Singleton {
 	 */
 	public function migrate( WP_REST_Request $request ) {
 		try {
-			return new WP_REST_Response( Migrator::run( (string) $request['from'], (string) $request['to'], (bool) $request['dry_run'] ) );
+			return new WP_REST_Response( Migrator::run( (string) $request['from'], (string) $request['to'], (bool) $request['dry_run'], (string) $request['plan'] ) );
 		} catch ( \RuntimeException $error ) {
 			return new WP_Error( 'redirect_inspector_migrate_failed', $error->getMessage(), [ 'status' => 409 === $error->getCode() ? 409 : 400 ] );
 		}
@@ -701,7 +730,37 @@ final class Rest_Controller extends Singleton {
 	}
 
 	/**
-	 * Delete all scan history.
+	 * Approve a pending log deletion request (the human approval the flush-logs ability needs).
+	 *
+	 * @param WP_REST_Request $request Request.
+	 *
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function approve_flush_request( WP_REST_Request $request ) {
+		try {
+			return new WP_REST_Response( Flush_Requests::approve( (string) $request['id'] ) );
+		} catch ( \RuntimeException $error ) {
+			return new WP_Error( 'redirect_inspector_flush_request', $error->getMessage(), [ 'status' => in_array( $error->getCode(), [ 404, 409 ], true ) ? $error->getCode() : 409 ] );
+		}
+	}
+
+	/**
+	 * Decline a pending log deletion request.
+	 *
+	 * @param WP_REST_Request $request Request.
+	 *
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function decline_flush_request( WP_REST_Request $request ) {
+		if ( ! Flush_Requests::decline( (string) $request['id'] ) ) {
+			return new WP_Error( 'redirect_inspector_flush_request', __( 'This request is no longer waiting for approval.', 'redirect-inspector' ), [ 'status' => 404 ] );
+		}
+
+		return new WP_REST_Response( [ 'declined' => true ] );
+	}
+
+	/**
+	 * Purge logs now.
 	 *
 	 * @return WP_REST_Response|WP_Error
 	 */

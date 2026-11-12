@@ -22,6 +22,11 @@ defined( 'ABSPATH' ) || exit;
 final class Migrator {
 
 	/**
+	 * Seconds one migration (or its preview) may spend expanding patterns, over all rules together.
+	 */
+	const EXPANSION_BUDGET = 20;
+
+	/**
 	 * Rules read per page.
 	 */
 	const PAGE_SIZE = 500;
@@ -72,12 +77,14 @@ final class Migrator {
 	 * @param string $from    Source slug (inactive, with storage).
 	 * @param string $to      Target slug (active, writable).
 	 * @param bool   $dry_run Only count.
+	 * @param string $plan    The plan the administrator reviewed (from preview()); when given, a real
+	 *                        run refuses if what it would write differs ('' = no check).
 	 *
-	 * @return array{created:int, existing:int, unsupported:int, failed:int, dry_run:bool}
+	 * @return array{created:int, existing:int, unsupported:int, failed:int, expanded:int, partial:bool, plan:string, dry_run:bool}
 	 *
-	 * @throws \RuntimeException When the source or target isn't eligible.
+	 * @throws \RuntimeException When the source or target isn't eligible, or the plan changed.
 	 */
-	public static function run( string $from, string $to, bool $dry_run ): array {
+	public static function run( string $from, string $to, bool $dry_run, string $plan = '' ): array {
 		$sources = Registry::all();
 		$source  = $sources[ $from ] ?? null;
 		$target  = $sources[ $to ] ?? null;
@@ -92,7 +99,16 @@ final class Migrator {
 		// phpcs:enable
 
 		if ( ! $dry_run ) {
-			$result = self::locked( static fn() => self::copy( $source, $target, $from, $to, false ) );
+			$result = self::locked(
+				static function () use ( $source, $target, $from, $to, $plan ) {
+					// What was reviewed is what gets written: the 404 log and other plugins' rules
+					// may have changed since the preview.
+					if ( '' !== $plan && ! hash_equals( $plan, self::copy( $source, $target, $from, $to, true )['plan'] ) ) {
+						throw new \RuntimeException( __( 'The rules to migrate changed since you reviewed them. Review the list again.', 'redirect-inspector' ), 409 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+					}
+					return self::copy( $source, $target, $from, $to, false );
+				}
+			);
 			Presence::changed( 'migrate' );
 			return $result;
 		}
@@ -130,18 +146,21 @@ final class Migrator {
 	 * @param string           $to      Target slug.
 	 * @param bool             $dry_run Only count.
 	 *
-	 * @return array{created:int, existing:int, unsupported:int, failed:int, expanded:int, dry_run:bool}
+	 * @return array{created:int, existing:int, unsupported:int, failed:int, expanded:int, partial:bool, plan:string, dry_run:bool}
 	 */
 	private static function copy( Source $source, $target, string $from, string $to, bool $dry_run ): array {
 		$normalizer = new Url_Normalizer();
 		$existing   = self::existing_sources( $target, $normalizer );
-		$expander   = new Expander( $normalizer );
+		$expander   = new Expander( $normalizer, microtime( true ) + self::EXPANSION_BUDGET );
+		$planned    = [];
 		$result     = [
 			'created'     => 0,
 			'existing'    => 0,
 			'unsupported' => 0,
 			'failed'      => 0,
 			'expanded'    => 0,
+			'partial'     => false,
+			'plan'        => '',
 			'dry_run'     => $dry_run,
 		];
 
@@ -154,6 +173,11 @@ final class Migrator {
 					++$result['existing'];
 					continue;
 				}
+				// An exact source is written as-is: it must be a plain path, like the target.
+				if ( $rule->is_exact() && ! Url_Normalizer::is_safe_source( $rule->path() ) ) {
+					++$result['unsupported'];
+					continue;
+				}
 				if ( ! $target->supports( $rule ) || ! Url_Normalizer::is_safe_target( $rule->to ) ) {
 					// A pattern the target can't hold: copy it as exact rules for the URLs it redirects.
 					$exact = self::expandable( $target, $rule ) ? self::fresh( $expander->expand( $rule ), $existing, $normalizer ) : [];
@@ -163,6 +187,7 @@ final class Migrator {
 					}
 					++$result['expanded'];
 					foreach ( $exact as $key_exact => $one ) {
+						$planned[] = [ $one->from, $one->to, $one->code ];
 						if ( $dry_run || $target->create( $one ) ) {
 							++$result['created'];
 							$existing[ $key_exact ] = true;
@@ -188,6 +213,7 @@ final class Migrator {
 					}
 					continue;
 				}
+				$planned[] = [ $rule->from, $rule->to, $rule->code ];
 				if ( $dry_run ) {
 					++$result['created'];
 					$existing[ $key ] = true;
@@ -204,6 +230,9 @@ final class Migrator {
 			}
 		}
 
+		$result['partial'] = $expander->partial;
+		$result['plan']    = hash( 'sha256', $to . "\n" . wp_json_encode( $planned ) );
+
 		return $result;
 	}
 
@@ -213,7 +242,7 @@ final class Migrator {
 	 * @param string $from Source slug (inactive, with storage).
 	 * @param string $to   Target slug ('' = no target, only list).
 	 *
-	 * @return array{rules: array<int, array<string, mixed>>, total: int}
+	 * @return array{rules: array<int, array<string, mixed>>, total: int, plan: string, partial: bool}
 	 *
 	 * @throws \RuntimeException When the source isn't a leftover.
 	 */
@@ -225,7 +254,7 @@ final class Migrator {
 
 		$normalizer = new Url_Normalizer();
 		$existing   = $target ? self::existing_sources( $target, $normalizer ) : [];
-		$expander   = new Expander( $normalizer );
+		$expander   = new Expander( $normalizer, microtime( true ) + self::EXPANSION_BUDGET );
 		$rules      = [];
 
 		$rows = $source->count() + $source->skipped();
@@ -237,7 +266,7 @@ final class Migrator {
 				$status   = 'none';
 				$expanded = [];
 				if ( $target ) {
-					$status = isset( $existing[ $key ] ) ? 'exists' : ( $target->supports( $rule ) && Url_Normalizer::is_safe_target( $rule->to ) ? 'copy' : 'unsupported' );
+					$status = isset( $existing[ $key ] ) ? 'exists' : ( $target->supports( $rule ) && Url_Normalizer::is_safe_target( $rule->to ) && ( ! $rule->is_exact() || Url_Normalizer::is_safe_source( $rule->path() ) ) ? 'copy' : 'unsupported' );
 					if ( 'unsupported' === $status && self::expandable( $target, $rule ) ) {
 						$expanded = array_values( self::fresh( $expander->expand( $rule ), $existing, $normalizer ) );
 						$status   = $expanded ? 'expand' : 'unsupported';
@@ -262,9 +291,14 @@ final class Migrator {
 			}
 		}
 
+		// The plan the administrator reviews: the real run refuses when it would write anything else.
+		$plan = $target ? self::copy( $source, $target, $from, $to, true ) : null;
+
 		return [
-			'rules' => $rules,
-			'total' => $source->count(),
+			'rules'   => $rules,
+			'total'   => $source->count(),
+			'plan'    => $plan ? $plan['plan'] : '',
+			'partial' => $expander->partial || ( $plan && $plan['partial'] ),
 		];
 	}
 

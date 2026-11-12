@@ -107,6 +107,11 @@ final class Seopress implements Source, Writable, Purgeable {
 	 * @param string $to New target.
 	 */
 	public function retarget( string $id, string $to ): bool {
+		// Only a post that already has a SEOPress redirect.
+		if ( '' === (string) get_post_meta( absint( $id ), '_seopress_redirections_value', true ) ) {
+			return false;
+		}
+
 		return false !== update_post_meta( absint( $id ), '_seopress_redirections_value', $to );
 	}
 
@@ -116,6 +121,10 @@ final class Seopress implements Source, Writable, Purgeable {
 	 * @param string $id Post ID.
 	 */
 	public function disable( string $id ): string {
+		if ( '' === (string) get_post_meta( absint( $id ), '_seopress_redirections_value', true ) ) {
+			return '';
+		}
+
 		return false !== update_post_meta( absint( $id ), '_seopress_redirections_enabled', '' ) ? 'disabled' : '';
 	}
 

@@ -1,5 +1,6 @@
 import { __, _n, sprintf } from '@wordpress/i18n';
 import type { PresentUser } from '../api/types';
+import { safeHref } from '../lib/format';
 
 /** "Anna is also here": avatars of the other administrators with the dashboard open. */
 export const PresenceBadge = ({ others }: { others: PresentUser[] }) => {
@@ -17,7 +18,11 @@ export const PresenceBadge = ({ others }: { others: PresentUser[] }) => {
 	return (
 		<p className="rdi-presence">
 			<span className="rdi-presence__avatars" aria-hidden="true">
-				{others.slice(0, 3).map((user) => <img key={user.id} src={user.avatar} alt="" width={24} height={24} />)}
+				{others.slice(0, 3).map((user) => {
+					// Avatar URLs are filterable: only http(s), like every other data-derived URL.
+					const src = safeHref(user.avatar, window.location.href);
+					return src ? <img key={user.id} src={src} alt="" width={24} height={24} /> : null;
+				})}
 			</span>
 			<span>{text}</span>
 		</p>

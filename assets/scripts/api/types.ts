@@ -80,6 +80,18 @@ export interface Summary {
 	next_scan: string | null;
 	leftovers: Leftover[];
 	targets: { slug: string; label: string }[];
+	/** A log deletion an AI client asked for, waiting for approval. */
+	flush_request: FlushRequest | null;
+}
+
+export interface FlushRequest {
+	id: string;
+	scope: 'history' | 'changes' | 'all';
+	scans: number;
+	changes: number;
+	by: string;
+	created: string;
+	expires: string;
 }
 
 export interface Leftover {
@@ -108,6 +120,8 @@ export interface MigrationResult {
 	unsupported: number;
 	failed: number;
 	expanded: number;
+	partial: boolean;
+	plan: string;
 	dry_run: boolean;
 }
 
@@ -210,6 +224,7 @@ export interface BootData {
 	stateVersion: number;
 	userId: number;
 	tour: { version: string; seen: string; pending: boolean };
+	canDropTables: boolean;
 }
 
 declare global {

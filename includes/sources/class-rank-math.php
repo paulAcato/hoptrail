@@ -342,17 +342,18 @@ final class Rank_Math implements Source, Writable, Purgeable {
 	public function purge_storage( bool $drop_tables ): bool {
 		global $wpdb;
 
+		$ok = true;
 		foreach ( $this->own_tables() as $table ) {
 			if ( $drop_tables ) {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Explicit, confirmed clean-up of an inactive plugin.
-				$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $table ) );
+				$ok = false !== $wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $table ) ) && $ok;
 			} else {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-				$wpdb->query( $wpdb->prepare( 'DELETE FROM %i', $table ) );
+				$ok = false !== $wpdb->query( $wpdb->prepare( 'DELETE FROM %i', $table ) ) && $ok;
 			}
 		}
 
-		return true;
+		return $ok;
 	}
 
 	/**

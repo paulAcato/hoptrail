@@ -142,6 +142,23 @@ final class Url_Normalizer {
 	}
 
 	/**
+	 * Whether an exact rule source may be written into another plugin's storage: a path with a
+	 * leading slash (and optional query), without whitespace, control or markup characters, and
+	 * without `*`, which some plugins read as a wildcard (Safe Redirect Manager, Simple 301).
+	 *
+	 * @param string $source Path, as a key from key().
+	 *
+	 * @return bool
+	 */
+	public static function is_safe_source( string $source ): bool {
+		if ( '' === $source || strlen( $source ) > 2048 || ! str_starts_with( $source, '/' ) || str_starts_with( $source, '//' ) ) {
+			return false;
+		}
+
+		return ! preg_match( '/[\s<>"\'`\\\\*]|\p{Cc}/u', $source );
+	}
+
+	/**
 	 * Case-insensitive form of a key.
 	 *
 	 * @param string $key Key.

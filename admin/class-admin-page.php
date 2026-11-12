@@ -127,17 +127,20 @@ final class Admin_Page extends Singleton {
 			Assets::HANDLE,
 			'window.redirectInspector = ' . wp_json_encode(
 				[
-					'mode'         => $mode,
-					'version'      => REDIRECT_INSPECTOR_VERSION,
-					'retention'    => Retention::describe(),
-					'siteUrl'      => home_url( '/' ),
-					'startOfWeek'  => (int) get_option( 'start_of_week', 1 ),
-					'timezone'     => wp_timezone_string(),
-					'wapuu'        => REDIRECT_INSPECTOR_URL . 'assets/images/wapuu.svg',
-					'stateVersion' => Presence::version(),
-					'userId'       => get_current_user_id(),
-					'tour'         => Tour::boot(),
-				]
+					'mode'          => $mode,
+					'version'       => REDIRECT_INSPECTOR_VERSION,
+					'retention'     => Retention::describe(),
+					'siteUrl'       => home_url( '/' ),
+					'startOfWeek'   => (int) get_option( 'start_of_week', 1 ),
+					'timezone'      => wp_timezone_string(),
+					'wapuu'         => REDIRECT_INSPECTOR_URL . 'assets/images/wapuu.svg',
+					'stateVersion'  => Presence::version(),
+					'userId'        => get_current_user_id(),
+					'tour'          => Tour::boot(),
+					'canDropTables' => Caps::can_drop_tables(),
+				],
+				// Never let a value end the inline script, whatever is added to this later.
+				JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
 			) . ';',
 			'before'
 		);

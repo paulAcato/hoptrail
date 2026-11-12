@@ -97,6 +97,11 @@ final class Seo_Framework implements Source, Writable {
 	 * @param string $to New target.
 	 */
 	public function retarget( string $id, string $to ): bool {
+		// Only a post that already has a redirect set.
+		if ( '' === (string) get_post_meta( absint( $id ), 'redirect', true ) ) {
+			return false;
+		}
+
 		return false !== update_post_meta( absint( $id ), 'redirect', $to );
 	}
 

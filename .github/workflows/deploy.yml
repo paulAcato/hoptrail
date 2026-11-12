@@ -9,6 +9,9 @@ on:
   push:
     tags:
       - "*"
+# The job only reads the repository; WordPress.org is reached with the SVN secrets.
+permissions:
+  contents: read
 jobs:
   tag:
     name: New tag
@@ -26,7 +29,8 @@ jobs:
       # ship a build made with whatever versions resolve that day. The check
       # workflow keeps a fallback, since it ships nothing.
       - name: Install build tools
-        run: npm ci --prefer-offline --no-audit --fund=false
+        # No install scripts: the build needs none, and they could change what ships.
+        run: npm ci --ignore-scripts --prefer-offline --no-audit --fund=false
 
       - name: Build assets
         run: npm run build

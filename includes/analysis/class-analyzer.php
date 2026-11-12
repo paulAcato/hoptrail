@@ -153,7 +153,8 @@ final class Analyzer {
 						count( $rules ),
 						self::label( $winner->source )
 					),
-					self::fix( 'disable', array_slice( $rules, 1 ) )
+					// The rule that stays must still be there, unchanged.
+					self::fix( 'disable', array_slice( $rules, 1 ), '', [ $winner ] )
 				);
 				continue;
 			}
@@ -220,6 +221,7 @@ final class Analyzer {
 		$current  = $first_target;
 		$last     = $rule;
 		$last_raw = $raw_target;
+		$later    = [];
 
 		for ( $steps = 1; $steps < self::MAX_HOPS; $steps = count( $hops ) ) {
 			$index = array_search( $current, $path, true );
@@ -235,6 +237,7 @@ final class Analyzer {
 			}
 
 			$hops[]   = self::hop( $next['rule'], $current, $next['target'] );
+			$later[]  = $next['rule'];
 			$current  = $next['target'];
 			$last     = $next['rule'];
 			$last_raw = $next['rule']->is_exact() ? $next['rule']->to : '';
@@ -257,7 +260,8 @@ final class Analyzer {
 				),
 				// The fix writes the final rule's own target as stored (not the normalised key), and only
 				// when it is a plain, safe URL or path.
-				$rule->is_exact() && $last->is_exact() && count( $hops ) < self::MAX_HOPS && Url_Normalizer::is_safe_target( $last_raw ) ? self::fix( 'retarget', [ $rule ], $last_raw ) : []
+				// The later hops must still be as scanned when the fix is applied.
+				$rule->is_exact() && $last->is_exact() && count( $hops ) < self::MAX_HOPS && Url_Normalizer::is_safe_target( $last_raw ) ? self::fix( 'retarget', [ $rule ], $last_raw, $later ) : []
 			);
 		}
 
@@ -525,24 +529,25 @@ final class Analyzer {
 	 * @param string $action retarget|disable.
 	 * @param Rule[] $rules  Rules to change.
 	 * @param string $to     New target (retarget).
+	 * @param Rule[] $requires Rules the fix relies on without changing them (re-checked before applying).
 	 *
 	 * @return array
 	 */
-	private static function fix( string $action, array $rules, string $to = '' ): array {
+	private static function fix( string $action, array $rules, string $to = '', array $requires = [] ): array {
+		$ref = static fn( Rule $rule ) => [
+			'source' => $rule->source,
+			'label'  => self::label( $rule->source ),
+			'id'     => $rule->id,
+			'from'   => $rule->from,
+			'to'     => $rule->to,
+		];
+
 		return array_filter(
 			[
-				'action' => $action,
-				'to'     => $to,
-				'rules'  => array_map(
-					static fn( Rule $rule ) => [
-						'source' => $rule->source,
-						'label'  => self::label( $rule->source ),
-						'id'     => $rule->id,
-						'from'   => $rule->from,
-						'to'     => $rule->to,
-					],
-					$rules
-				),
+				'action'   => $action,
+				'to'       => $to,
+				'rules'    => array_map( $ref, $rules ),
+				'requires' => array_map( $ref, $requires ),
 			]
 		);
 	}

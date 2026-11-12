@@ -12,7 +12,10 @@ use Acato\RedirectInspector\Includes\Installer;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Safe reads only: no plugin code is loaded, no objects are ever unserialised.
+ * Safe reads only: no plugin code is loaded. Raw serialised values this trait unserialises itself
+ * never become objects. Options and post meta arrive already unserialised by WordPress core
+ * (get_option / get_post_meta), as for every plugin; only values written through those APIs end up
+ * there, which re-serialise what they store.
  */
 trait Reads_Storage {
 
@@ -39,7 +42,7 @@ trait Reads_Storage {
 	}
 
 	/**
-	 * Unserialise without ever instantiating objects (S4: no object injection).
+	 * Unserialise a raw database value without ever instantiating objects (S4: no object injection).
 	 *
 	 * @param mixed $value Raw DB value.
 	 *

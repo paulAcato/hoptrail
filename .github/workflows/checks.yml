@@ -79,7 +79,7 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: npm
-      - run: npm ci --prefer-offline --no-audit --fund=false || npm i --prefer-offline --no-audit --fund=false
+      - run: npm ci --prefer-offline --no-audit --fund=false
       - run: npm run build
       - uses: wordpress/plugin-check-action@v1
         with:

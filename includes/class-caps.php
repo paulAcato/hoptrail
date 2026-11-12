@@ -41,4 +41,14 @@ final class Caps {
 	public static function can_view_network(): bool {
 		return is_multisite() && current_user_can( self::NETWORK );
 	}
+
+	/**
+	 * Whether the current user may drop another plugin's database tables (leftover clean-up).
+	 * On a multisite network that is uninstall-like work for a super admin, not a site admin.
+	 *
+	 * @return bool
+	 */
+	public static function can_drop_tables(): bool {
+		return self::can_manage() && ( ! is_multisite() || is_super_admin() );
+	}
 }
