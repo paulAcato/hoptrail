@@ -1,6 +1,6 @@
 import { useCallback, useState } from '@wordpress/element';
 import { useEscape } from '../api/hooks';
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import type { TrendPoint } from '../api/types';
 import { SEVERITIES, SEVERITY_COLORS, useWidth } from '../lib/chart';
 import { dateTime } from '../lib/format';
@@ -104,7 +104,7 @@ export const SeverityChart = ({ trend }: { trend: TrendPoint[] }) => {
 					<caption>{__('Issues per scan by severity', 'hoptrail')}</caption>
 					<thead>
 						<tr>
-							<th scope="col">{__('Scan', 'hoptrail')}</th>
+							<th scope="col">{_x('Scan', 'noun, table column: the date of a scan', 'hoptrail')}</th>
 							{SEVERITIES.map((key) => <th key={key} scope="col">{severityLabel(key)}</th>)}
 						</tr>
 					</thead>

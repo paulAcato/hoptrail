@@ -4,6 +4,7 @@ import { addAction, removeAction } from '@wordpress/hooks';
 import { __, sprintf } from '@wordpress/i18n';
 import { invalidate } from './client';
 import type { PresentUser } from './types';
+import { pluginName } from '../lib/plugin';
 
 interface Change {
 	action: string;
@@ -23,25 +24,16 @@ const describe = ({ action, by }: Change): string => {
 	switch (action) {
 		case 'scheduled-scan':
 			return __('A scheduled scan finished. The dashboard is up to date.', 'hoptrail');
-		/* translators: %s: name of an administrator. */
-		case 'scan': return by ? sprintf(__('%s ran a scan. The dashboard is up to date.', 'hoptrail'), who) : __('A scan ran (WP-CLI or an AI client). The dashboard is up to date.', 'hoptrail');
-		/* translators: %s: name of an administrator. */
-		case 'fix': return sprintf(__('%s applied a fix.', 'hoptrail'), who);
-		/* translators: %s: name of an administrator. */
-		case 'migrate': return sprintf(__('%s migrated leftover rules.', 'hoptrail'), who);
-		/* translators: %s: name of an administrator. */
-		case 'delete': return sprintf(__('%s deleted a leftover rule.', 'hoptrail'), who);
-		/* translators: %s: name of an administrator. */
-		case 'purge': return sprintf(__('%s deleted leftover data.', 'hoptrail'), who);
-		/* translators: %s: name of an administrator. */
-		case 'settings': return sprintf(__('%s changed the schedule or retention settings.', 'hoptrail'), who);
-		/* translators: %s: name of an administrator. */
-		case 'flush': return sprintf(__('%s deleted logs.', 'hoptrail'), who);
-		/* translators: %s: name of an administrator. */
-		case 'flush-request': return sprintf(__('An AI client used by %s asked to delete logs. It waits for approval on this dashboard.', 'hoptrail'), who);
-		/* translators: %s: name of an administrator. */
-		case 'flush-declined': return sprintf(__('%s declined the request to delete logs.', 'hoptrail'), who);
-		default: return __('Hoptrail was updated by someone else.', 'hoptrail');
+		case 'scan': return by ? sprintf(/* translators: %s: name of an administrator. */ __('%s ran a scan. The dashboard is up to date.', 'hoptrail'), who) : __('A scan ran (WP-CLI or an AI client). The dashboard is up to date.', 'hoptrail');
+		case 'fix': return sprintf(/* translators: %s: name of an administrator. */ __('%s applied a fix.', 'hoptrail'), who);
+		case 'migrate': return sprintf(/* translators: %s: name of an administrator. */ __('%s migrated leftover rules.', 'hoptrail'), who);
+		case 'delete': return sprintf(/* translators: %s: name of an administrator. */ __('%s deleted a leftover rule.', 'hoptrail'), who);
+		case 'purge': return sprintf(/* translators: %s: name of an administrator. */ __('%s deleted leftover data.', 'hoptrail'), who);
+		case 'settings': return sprintf(/* translators: %s: name of an administrator. */ __('%s changed the schedule or retention settings.', 'hoptrail'), who);
+		case 'flush': return sprintf(/* translators: %s: name of an administrator. */ __('%s deleted logs.', 'hoptrail'), who);
+		case 'flush-request': return sprintf(/* translators: %s: name of an administrator. */ __('An AI client used by %s asked to delete logs. It waits for approval on this dashboard.', 'hoptrail'), who);
+		case 'flush-declined': return sprintf(/* translators: %s: name of an administrator. */ __('%s declined the request to delete logs.', 'hoptrail'), who);
+		default: return sprintf(/* translators: %s: plugin name. */ __('%s was updated by someone else.', 'hoptrail'), pluginName);
 	}
 };
 

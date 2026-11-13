@@ -76,8 +76,7 @@ export const Tour = ({ steps, onEnd }: Props) => {
 				<p id="rdi-tour-text" className="rdi-tour__text">{step.text}</p>
 				<div className="rdi-tour__footer">
 					<span className="rdi-tour__count">
-						{/* translators: 1: step number, 2: number of steps. */}
-						{sprintf(__('%1$d of %2$d', 'hoptrail'), index + 1, steps.length)}
+						{sprintf(/* translators: 1: step number, 2: number of steps. */ __('%1$d of %2$d', 'hoptrail'), index + 1, steps.length)}
 					</span>
 					{!last && (
 						<Button variant="tertiary" size="compact" onClick={end}>

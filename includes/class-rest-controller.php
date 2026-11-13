@@ -394,7 +394,7 @@ final class Rest_Controller extends Singleton {
 			return null;
 		}
 
-		return new WP_Error( 'hoptrail_not_installed', __( 'The Hoptrail tables are missing and could not be created.', 'hoptrail' ), [ 'status' => 500 ] );
+		return new WP_Error( 'hoptrail_not_installed', sprintf( /* translators: %s: plugin name. */ __( 'The %s tables are missing and could not be created.', 'hoptrail' ), HOPTRAIL_NAME ), [ 'status' => 500 ] );
 	}
 
 	/**

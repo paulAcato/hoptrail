@@ -208,7 +208,7 @@ final class Live_Checker {
 			'redirection'         => 0,
 			'timeout'             => self::TIMEOUT,
 			'reject_unsafe_urls'  => true,
-			'user-agent'          => 'Hoptrail/' . HOPTRAIL_VERSION . '; ' . home_url( '/' ),
+			'user-agent'          => HOPTRAIL_NAME . '/' . HOPTRAIL_VERSION . '; ' . home_url( '/' ),
 			'cookies'             => [],
 			'headers'             => [],
 			'limit_response_size' => 1024,

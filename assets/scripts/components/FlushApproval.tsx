@@ -6,6 +6,7 @@ import { errorMessage, invalidate, isAbort, route } from '../api/client';
 import { useMutation } from '../api/hooks';
 import type { FlushRequest } from '../api/types';
 import { dateTime } from '../lib/format';
+import { pluginName } from '../lib/plugin';
 
 /**
  * A log deletion an AI client asked for (flush-logs ability). Nothing is deleted until an
@@ -17,14 +18,14 @@ export const FlushApproval = ({ request }: { request: FlushRequest }) => {
 	const decline = useMutation<{ declined: boolean }>();
 	const busy = approve.busy || decline.busy;
 
-	const what = {
-		/* translators: %d: number of scans. */
-		history: sprintf(_n('%d scan and its issues', '%d scans and their issues', request.scans, 'hoptrail'), request.scans),
-		/* translators: %d: number of change-log entries. */
-		changes: sprintf(_n('%d entry of the change log', '%d entries of the change log', request.changes, 'hoptrail'), request.changes),
-		/* translators: 1: number of scans, 2: number of change-log entries. */
-		all: sprintf(__('%1$d scans with their issues and %2$d change-log entries', 'hoptrail'), request.scans, request.changes),
-	}[request.scope];
+	// One standalone item per part: no counted fragments inside a sentence.
+	const items: string[] = [];
+	if ('changes' !== request.scope) {
+		items.push(sprintf(/* translators: %d: number of scans. */ _n('%d scan and its issues', '%d scans and their issues', request.scans, 'hoptrail'), request.scans));
+	}
+	if ('history' !== request.scope) {
+		items.push(sprintf(/* translators: %d: number of change log entries. */ _n('%d entry of the change log', '%d entries of the change log', request.changes, 'hoptrail'), request.changes));
+	}
 
 	const act = async (kind: 'approve' | 'decline') => {
 		setError(null);
@@ -32,8 +33,10 @@ export const FlushApproval = ({ request }: { request: FlushRequest }) => {
 			const path = route(`/flush-request/${request.id}`);
 			if ('approve' === kind) {
 				const done = await approve.run(path, 'POST');
-				/* translators: 1: number of scans, 2: number of change-log entries. */
-				speak(sprintf(__('Deleted %1$d scans and %2$d change-log entries.', 'hoptrail'), done.scans, done.changes), 'polite');
+				speak([
+					'changes' !== request.scope && sprintf(/* translators: %d: number of scans. */ _n('Deleted %d scan and its issues.', 'Deleted %d scans and their issues.', done.scans, 'hoptrail'), done.scans),
+					'history' !== request.scope && sprintf(/* translators: %d: number of change log entries. */ _n('Deleted %d entry of the change log.', 'Deleted %d entries of the change log.', done.changes, 'hoptrail'), done.changes),
+				].filter(Boolean).join(' '), 'polite');
 			} else {
 				await decline.run(path, 'DELETE');
 				speak(__('Request declined. Nothing was deleted.', 'hoptrail'), 'polite');
@@ -52,17 +55,16 @@ export const FlushApproval = ({ request }: { request: FlushRequest }) => {
 		<section className="rdi-card rdi-approval" role="region" aria-labelledby="rdi-approval-title">
 			<h2 id="rdi-approval-title">{__('An AI client asks to delete logs', 'hoptrail')}</h2>
 			<p>
-				{sprintf(
-					/* translators: 1: what would be deleted, 2: administrator's name, 3: date and time. */
-					__('Through the Hoptrail abilities, an AI client used by %2$s asked to permanently delete %1$s (%3$s). Nothing is deleted unless you approve it here.', 'hoptrail'),
-					what,
-					request.by || __('an administrator', 'hoptrail'),
-					dateTime(request.created)
-				)}
+				{request.by
+					? sprintf(/* translators: 1: date and time, 2: administrator's name, 3: plugin name. */ __('On %1$s, an AI client used by %2$s asked through the %3$s abilities to permanently delete:', 'hoptrail'), dateTime(request.created), request.by, pluginName)
+					: sprintf(/* translators: 1: date and time, 2: plugin name. */ __('On %1$s, an AI client asked through the %2$s abilities to permanently delete:', 'hoptrail'), dateTime(request.created), pluginName)}
 			</p>
+			<ul className="rdi-approval__list">
+				{items.map((item) => <li key={item}>{item}</li>)}
+			</ul>
+			<p>{__('Nothing is deleted unless you approve it here.', 'hoptrail')}</p>
 			<p className="rdi-muted">
-				{/* translators: %s: date and time. */}
-				{sprintf(__('If you did not ask for this, decline it. The request expires at %s.', 'hoptrail'), dateTime(request.expires))}
+				{sprintf(/* translators: %s: date and time. */ __('If you did not ask for this, decline it. The request expires at %s.', 'hoptrail'), dateTime(request.expires))}
 			</p>
 			{error && <p className="rdi-migrate__error" role="alert">{error}</p>}
 			<div className="rdi-approval__buttons">

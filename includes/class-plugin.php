@@ -44,7 +44,7 @@ final class Plugin extends Singleton {
 		add_action( 'rest_api_init', [ Rest_Controller::instance(), 'register_routes' ] );
 
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			\WP_CLI::add_command( 'hoptrail', Cli::class );
+			\WP_CLI::add_command( HOPTRAIL_CLI_COMMAND, Cli::class );
 		}
 	}
 }

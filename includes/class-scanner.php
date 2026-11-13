@@ -65,7 +65,7 @@ final class Scanner {
 	 */
 	public static function run( string $trigger = 'manual' ): array {
 		if ( ! Installer::is_installed() && ! Installer::install() ) {
-			throw new \RuntimeException( __( 'The Hoptrail tables are missing and could not be created.', 'hoptrail' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Shown as text via JSON/React or WP-CLI.
+			throw new \RuntimeException( sprintf( /* translators: %s: plugin name. */ __( 'The %s tables are missing and could not be created.', 'hoptrail' ), HOPTRAIL_NAME ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Shown as text via JSON/React or WP-CLI.
 		}
 
 		if ( ! Lock::acquire( self::LOCK_OPTION, self::STALE_MINUTES * MINUTE_IN_SECONDS ) ) {

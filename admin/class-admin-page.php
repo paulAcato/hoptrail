@@ -51,8 +51,8 @@ final class Admin_Page extends Singleton {
 	 */
 	public function register_site_page(): void {
 		$hook = add_management_page(
-			__( 'Hoptrail', 'hoptrail' ),
-			__( 'Hoptrail', 'hoptrail' ),
+			HOPTRAIL_NAME,
+			HOPTRAIL_NAME,
 			Caps::MANAGE,
 			self::SLUG,
 			[ $this, 'render' ]
@@ -71,8 +71,8 @@ final class Admin_Page extends Singleton {
 	public function register_network_page(): void {
 		$hook = add_submenu_page(
 			'settings.php',
-			__( 'Hoptrail', 'hoptrail' ),
-			__( 'Hoptrail', 'hoptrail' ),
+			HOPTRAIL_NAME,
+			HOPTRAIL_NAME,
 			Caps::NETWORK,
 			self::SLUG,
 			[ $this, 'render' ]
@@ -93,7 +93,16 @@ final class Admin_Page extends Singleton {
 		<div class="wrap rdi-wrap">
 			<hr class="wp-header-end">
 			<div id="hoptrail-root">
-				<noscript><h1><?php esc_html_e( 'Hoptrail', 'hoptrail' ); ?></h1><div class="notice notice-error"><p><?php esc_html_e( 'Hoptrail needs JavaScript. Alternatively run: wp hoptrail scan', 'hoptrail' ); ?></p></div></noscript>
+				<noscript><h1><?php echo esc_html( HOPTRAIL_NAME ); ?></h1><div class="notice notice-error"><p>
+				<?php
+				printf(
+					/* translators: 1: plugin name, 2: WP-CLI command, e.g. wp hoptrail scan. */
+					esc_html__( '%1$s needs JavaScript. Alternatively, run %2$s.', 'hoptrail' ),
+					esc_html( HOPTRAIL_NAME ),
+					'<code>wp ' . esc_html( HOPTRAIL_CLI_COMMAND ) . ' scan</code>'
+				);
+				?>
+				</p></div></noscript>
 			</div>
 		</div>
 		<?php
@@ -117,7 +126,15 @@ final class Admin_Page extends Singleton {
 			add_action(
 				'admin_notices',
 				static function () {
-					echo '<div class="notice notice-error"><p>' . esc_html__( 'Hoptrail: the dashboard assets are missing. Run npm run build in the plugin folder.', 'hoptrail' ) . '</p></div>';
+					printf(
+						'<div class="notice notice-error"><p>%s</p></div>',
+						sprintf(
+							/* translators: 1: plugin name, 2: build command, npm run build. */
+							esc_html__( '%1$s: the dashboard assets are missing. Run %2$s in the plugin folder.', 'hoptrail' ),
+							esc_html( HOPTRAIL_NAME ),
+							'<code>npm run build</code>'
+						)
+					);
 				}
 			);
 			return;
@@ -128,6 +145,7 @@ final class Admin_Page extends Singleton {
 			'window.hoptrail = ' . wp_json_encode(
 				[
 					'mode'          => $mode,
+					'name'          => HOPTRAIL_NAME,
 					'version'       => HOPTRAIL_VERSION,
 					'retention'     => Retention::describe(),
 					'siteUrl'       => home_url( '/' ),

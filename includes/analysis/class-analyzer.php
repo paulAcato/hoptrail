@@ -149,7 +149,7 @@ final class Analyzer {
 					$hops,
 					sprintf(
 						/* translators: 1: number of rules, 2: plugin that wins. */
-						__( '%1$d rules redirect this URL to the same target. Keep the one in %2$s and remove the others.', 'hoptrail' ),
+						_n( '%1$d rule redirects this URL to the same target. Keep the one in %2$s and remove the others.', '%1$d rules redirect this URL to the same target. Keep the one in %2$s and remove the others.', count( $rules ), 'hoptrail' ),
 						count( $rules ),
 						self::label( $winner->source )
 					),
@@ -167,8 +167,8 @@ final class Analyzer {
 				$winner->to,
 				$hops,
 				sprintf(
-					/* translators: 1: number of rules, 2: number of targets. */
-					__( '%1$d rules send this URL to %2$d different targets; which one wins depends on plugin load order. Keep one rule.', 'hoptrail' ),
+					/* translators: 1: number of rules, 2: number of targets. Labels with a colon, so no plural forms are needed. */
+					__( 'These rules send this URL to different targets (rules: %1$d, targets: %2$d); which one wins depends on plugin load order. Keep one rule.', 'hoptrail' ),
 					count( $rules ),
 					count( $targets )
 				)
@@ -253,7 +253,7 @@ final class Analyzer {
 				$hops,
 				sprintf(
 					/* translators: 1: source URL, 2: final URL, 3: number of hops. */
-					__( 'Visitors and crawlers take %3$d hops. Point %1$s straight to %2$s.', 'hoptrail' ),
+					_n( 'Visitors and crawlers take %3$d hop. Point %1$s straight to %2$s.', 'Visitors and crawlers take %3$d hops. Point %1$s straight to %2$s.', count( $hops ), 'hoptrail' ),
 					$rule->from,
 					$this->display( $current ),
 					count( $hops )

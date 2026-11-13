@@ -23,8 +23,7 @@ export const AllClear = ({ rules, partial }: { rules: number; partial: boolean }
 				<h2 id="rdi-clear-title">
 					{partial
 						? __('No issues found so far', 'hoptrail')
-						/* translators: %d: number of redirect rules. */
-						: sprintf(_n('All clear: no issues in %d redirect rule', 'All clear: no issues in %d redirect rules', rules, 'hoptrail'), rules)}
+						: sprintf(/* translators: %d: number of redirect rules. */ _n('All clear: no issues in %d redirect rule', 'All clear: no issues in %d redirect rules', rules, 'hoptrail'), rules)}
 				</h2>
 				<p>{__('Every redirect goes straight to its destination. These are the checks it passed:', 'hoptrail')}</p>
 			</div>

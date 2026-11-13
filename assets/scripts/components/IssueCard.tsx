@@ -1,7 +1,7 @@
 import { Button } from '@wordpress/components';
 import { useEffect, useRef, useState } from '@wordpress/element';
 import { speak } from '@wordpress/a11y';
-import { __, _n, sprintf } from '@wordpress/i18n';
+import { __, _n, _x, sprintf } from '@wordpress/i18n';
 import { seen, tool } from '@wordpress/icons';
 import { invalidate, errorMessage, isAbort, route } from '../api/client';
 import { useMutation } from '../api/hooks';
@@ -19,18 +19,14 @@ const NO_DISABLE = ['yoast', 'simple-301'];
 const describe = (fix: Fix): string => {
 	const [first] = fix.rules;
 	if ('retarget' === fix.action) {
-		/* translators: 1: source URL, 2: new target, 3: plugin. */
-		return sprintf(__('Point %1$s straight to %2$s in %3$s?', 'hoptrail'), first.from, fix.to ?? '', first.label);
+		return sprintf(/* translators: 1: source URL, 2: new target, 3: plugin. */ __('Point %1$s straight to %2$s in %3$s?', 'hoptrail'), first.from, fix.to ?? '', first.label);
 	}
 	if (fix.rules.length > 1) {
-		/* translators: %d: number of rules. */
-		return sprintf(_n('Switch off %d duplicate rule?', 'Switch off %d duplicate rules?', fix.rules.length, 'hoptrail'), fix.rules.length);
+		return sprintf(/* translators: %d: number of rules. */ _n('Switch off %d duplicate rule?', 'Switch off %d duplicate rules?', fix.rules.length, 'hoptrail'), fix.rules.length);
 	}
 	return NO_DISABLE.includes(first.source)
-		/* translators: 1: source URL, 2: plugin. */
-		? sprintf(__('Remove the rule for %1$s from %2$s? It has no off switch; the old rule is kept in the fix log.', 'hoptrail'), first.from, first.label)
-		/* translators: 1: source URL, 2: plugin. */
-		: sprintf(__('Switch off the rule for %1$s in %2$s? You can switch it back on there.', 'hoptrail'), first.from, first.label);
+		? sprintf(/* translators: 1: source URL, 2: plugin. */ __('Remove the rule for %1$s from %2$s? It has no off switch; the old rule is kept in the change log.', 'hoptrail'), first.from, first.label)
+		: sprintf(/* translators: 1: source URL, 2: plugin. */ __('Switch off the rule for %1$s in %2$s? You can switch it back on there.', 'hoptrail'), first.from, first.label);
 };
 
 const fixLabel = (fix: Fix): string => ('retarget' === fix.action ? __('Shorten chain', 'hoptrail') : __('Switch off rule', 'hoptrail'));
@@ -107,10 +103,10 @@ export const IssueCard = ({ issue }: { issue: Issue }) => {
 					<span className="rdi-issue__type">{meta.label}</span>
 					<code className="rdi-issue__source">{issue.source_url}</code>
 				</h3>
-				{issue.is_new && !fixed && <span className="rdi-chip rdi-chip--new">{__('New', 'hoptrail')}</span>}
-				{fixed && <span className="rdi-chip rdi-chip--fixed">{__('Fixed', 'hoptrail')}</span>}
+				{issue.is_new && !fixed && <span className="rdi-chip rdi-chip--new">{_x('New', 'issue status chip', 'hoptrail')}</span>}
+				{fixed && <span className="rdi-chip rdi-chip--fixed">{_x('Fixed', 'issue status chip', 'hoptrail')}</span>}
 				<span className="rdi-issue__hops-count">
-					{issue.hops.length} {1 === issue.hops.length ? __('hop', 'hoptrail') : __('hops', 'hoptrail')}
+					{sprintf(/* translators: %d: number of hops. */ _n('%d hop', '%d hops', issue.hops.length, 'hoptrail'), issue.hops.length)}
 				</span>
 			</header>
 

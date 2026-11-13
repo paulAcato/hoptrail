@@ -175,7 +175,7 @@ final class Smartcrawl implements Source, Writable, Purgeable {
 		return false !== $wpdb->insert(
 			$this->table(),
 			[
-				'title'       => 'Migrated by Hoptrail',
+				'title'       => 'Migrated by ' . HOPTRAIL_NAME,
 				'source'      => $exact ? $rule->path() : $rule->regex( true ),
 				'path'        => $exact ? ( '' === $path ? '/' : $path ) : 'regex',
 				'destination' => wp_json_encode( $rule->to ),

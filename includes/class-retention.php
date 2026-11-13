@@ -273,9 +273,12 @@ final class Retention extends Singleton {
 		$settings = Settings::all();
 		if ( 'count' === $settings['retention_mode'] ) {
 			return sprintf(
-				/* translators: 1: number of scans, 2: number of days. */
-				__( 'The newest %1$d scans are kept; older ones are removed after every scan. Changes made through Apply fix or Migrate are logged for %2$d days.', 'hoptrail' ),
-				$settings['retention_count'],
+				/* translators: %d: number of scans. */
+				_n( 'The newest %d scan is kept; older ones are removed after every scan.', 'The newest %d scans are kept; older ones are removed after every scan.', $settings['retention_count'], 'hoptrail' ),
+				$settings['retention_count']
+			) . ' ' . sprintf(
+				/* translators: %d: number of days. */
+				_n( 'Changes made through Apply fix or Migrate are logged for %d day.', 'Changes made through Apply fix or Migrate are logged for %d days.', $settings['retention_days'], 'hoptrail' ),
 				$settings['retention_days']
 			);
 		}
