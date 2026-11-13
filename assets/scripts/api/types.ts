@@ -229,7 +229,7 @@ export interface BootData {
 
 declare global {
 	interface Window {
-		redirectInspector?: BootData;
+		hoptrail?: BootData;
 	}
 }
 

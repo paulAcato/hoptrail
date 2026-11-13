@@ -2,12 +2,12 @@
 /**
  * SmartCrawl (WPMU DEV) redirects.
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes\Sources;
+namespace Hoptrail\Includes\Sources;
 
-use Acato\RedirectInspector\Includes\Rule;
+use Hoptrail\Includes\Rule;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -175,7 +175,7 @@ final class Smartcrawl implements Source, Writable, Purgeable {
 		return false !== $wpdb->insert(
 			$this->table(),
 			[
-				'title'       => 'Migrated by Redirect Inspector',
+				'title'       => 'Migrated by Hoptrail',
 				'source'      => $exact ? $rule->path() : $rule->regex( true ),
 				'path'        => $exact ? ( '' === $path ? '/' : $path ) : 'regex',
 				'destination' => wp_json_encode( $rule->to ),

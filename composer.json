@@ -1,9 +1,9 @@
 {
-	"name": "paulacato/redirect-inspector",
+	"name": "paulacato/hoptrail",
 	"description": "Find redirect loops, chains and redirects you don't need across ten SEO and redirect plugins at once.",
 	"type": "wordpress-plugin",
 	"license": "GPL-2.0-or-later",
-	"homepage": "https://github.com/paulAcato/redirect-inspector",
+	"homepage": "https://github.com/paulAcato/hoptrail",
 	"authors": [
 		{
 			"name": "Paul van Impelen",

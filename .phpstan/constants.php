@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin constants for static analysis (defined at runtime by redirect-inspector.php).
+ * Plugin constants for static analysis (defined at runtime by hoptrail.php).
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-define( 'REDIRECT_INSPECTOR_VERSION', '1.0.0' );
-define( 'REDIRECT_INSPECTOR_FILE', __DIR__ . '/../redirect-inspector.php' );
-define( 'REDIRECT_INSPECTOR_PATH', __DIR__ . '/../' );
-define( 'REDIRECT_INSPECTOR_URL', 'https://example.test/wp-content/plugins/redirect-inspector/' );
+define( 'HOPTRAIL_VERSION', '1.0.0' );
+define( 'HOPTRAIL_FILE', __DIR__ . '/../hoptrail.php' );
+define( 'HOPTRAIL_PATH', __DIR__ . '/../' );
+define( 'HOPTRAIL_URL', 'https://example.test/wp-content/plugins/hoptrail/' );

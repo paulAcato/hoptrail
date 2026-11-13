@@ -2,10 +2,10 @@
 /**
  * Scheduled scans: on chosen weekdays at chosen hours, in the site's timezone.
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes;
+namespace Hoptrail\Includes;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -19,7 +19,7 @@ final class Scheduler extends Singleton {
 	/**
 	 * Cron hook.
 	 */
-	const HOOK = 'redirect_inspector_scheduled_scan';
+	const HOOK = 'hoptrail_scheduled_scan';
 
 	/**
 	 * Register hooks.

@@ -2,10 +2,10 @@
 /**
  * The SEO Framework: the 301 redirect set on a post.
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes\Sources;
+namespace Hoptrail\Includes\Sources;
 
 defined( 'ABSPATH' ) || exit;
 

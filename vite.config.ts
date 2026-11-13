@@ -38,8 +38,8 @@ export default defineConfig({
 			output: {
 				format: 'iife',
 				globals,
-				entryFileNames: 'redirect-inspector.[hash].js',
-				assetFileNames: 'redirect-inspector.[hash][extname]',
+				entryFileNames: 'hoptrail.[hash].js',
+				assetFileNames: 'hoptrail.[hash][extname]',
 			},
 		},
 	},

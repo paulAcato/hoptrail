@@ -101,10 +101,10 @@ export const SeverityChart = ({ trend }: { trend: TrendPoint[] }) => {
 				)}
 				<ChartTooltip tip={tip} width={width} />
 				<table className="screen-reader-text">
-					<caption>{__('Issues per scan by severity', 'redirect-inspector')}</caption>
+					<caption>{__('Issues per scan by severity', 'hoptrail')}</caption>
 					<thead>
 						<tr>
-							<th scope="col">{__('Scan', 'redirect-inspector')}</th>
+							<th scope="col">{__('Scan', 'hoptrail')}</th>
 							{SEVERITIES.map((key) => <th key={key} scope="col">{severityLabel(key)}</th>)}
 						</tr>
 					</thead>

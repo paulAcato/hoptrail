@@ -2,10 +2,10 @@
 /**
  * Who else has the dashboard open, and what changed: through the WordPress Heartbeat API.
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes;
+namespace Hoptrail\Includes;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -20,12 +20,12 @@ final class Presence extends Singleton {
 	/**
 	 * Transient with user ID ⇒ last seen (per site).
 	 */
-	const PRESENCE = 'redirect_inspector_presence';
+	const PRESENCE = 'hoptrail_presence';
 
 	/**
 	 * Option with the change version and the latest change.
 	 */
-	const STATE = 'redirect_inspector_state';
+	const STATE = 'hoptrail_state';
 
 	/**
 	 * Seconds a user counts as present after their last tick.
@@ -35,7 +35,7 @@ final class Presence extends Singleton {
 	/**
 	 * Heartbeat key.
 	 */
-	const KEY = 'redirect_inspector';
+	const KEY = 'hoptrail';
 
 	/**
 	 * Register hooks.

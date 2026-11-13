@@ -1,11 +1,11 @@
 /**
- * Redirect Inspector: pointer on the Tools menu that leads to the walkthrough.
+ * Hoptrail: pointer on the Tools menu that leads to the walkthrough.
  *
  * Plain JavaScript (no jQuery), styled by assets/menu-pointer.css. Data comes from
- * Admin\Tour::menu_pointer() in window.redirectInspectorPointer.
+ * Admin\Tour::menu_pointer() in window.hoptrailPointer.
  */
 ( function () {
-	var data = window.redirectInspectorPointer;
+	var data = window.hoptrailPointer;
 	var target = document.getElementById( 'menu-tools' );
 	if ( ! data || ! target ) {
 		return;

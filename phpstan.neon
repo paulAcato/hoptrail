@@ -3,7 +3,7 @@
 parameters:
 	level: 5
 	paths:
-		- redirect-inspector.php
+		- hoptrail.php
 		- admin
 		- includes
 		- uninstall.php

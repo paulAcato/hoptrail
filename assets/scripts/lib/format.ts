@@ -38,7 +38,7 @@ export const dateTimeWithLocal = (iso: string | null): string => {
 	const viewer = -new Date(iso).getTimezoneOffset() / 60;
 	const sameDay = dateI18n('Y-m-d', iso) === dateI18n('Y-m-d', iso, viewer);
 	/* translators: 1: date and time in site time, 2: the same moment on the viewer's clock. */
-	return sprintf(__('%1$s (%2$s your time)', 'redirect-inspector'), site, dateI18n(sameDay ? timeFormat : `${dateFormat} ${timeFormat}`, iso, viewer));
+	return sprintf(__('%1$s (%2$s your time)', 'hoptrail'), site, dateI18n(sameDay ? timeFormat : `${dateFormat} ${timeFormat}`, iso, viewer));
 };
 
 /** The site timezone as WordPress names it: "Europe/Amsterdam", or "UTC+1" for a plain offset. */
@@ -59,7 +59,7 @@ export const hour = (value: number): string => dateI18n(timeFormat, Date.UTC(200
 
 export const relative = (iso: string | null): string => {
 	if (!iso) {
-		return __('never', 'redirect-inspector');
+		return __('never', 'hoptrail');
 	}
 	const seconds = Math.round((new Date(iso).getTime() - Date.now()) / 1000);
 	const steps: [Intl.RelativeTimeFormatUnit, number][] = [['day', 86400], ['hour', 3600], ['minute', 60]];
@@ -68,15 +68,15 @@ export const relative = (iso: string | null): string => {
 			return relativeFormat.format(Math.round(seconds / size), unit);
 		}
 	}
-	return __('just now', 'redirect-inspector');
+	return __('just now', 'hoptrail');
 };
 
 export const duration = (ms: number): string =>
 	ms < 1000
 		/* translators: %d: milliseconds. */
-		? sprintf(__('%d ms', 'redirect-inspector'), ms)
+		? sprintf(__('%d ms', 'hoptrail'), ms)
 		/* translators: %s: seconds. */
-		: sprintf(__('%s s', 'redirect-inspector'), (ms / 1000).toFixed(1));
+		: sprintf(__('%s s', 'hoptrail'), (ms / 1000).toFixed(1));
 
 /** A link target only when it is http(s) — rule strings are untrusted (no javascript: URLs). */
 export const safeHref = (url: string, base: string): string | undefined => {

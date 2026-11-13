@@ -2,12 +2,12 @@
 /**
  * WP-CLI commands.
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes;
+namespace Hoptrail\Includes;
 
-use Acato\RedirectInspector\Includes\Analysis\Analyzer;
+use Hoptrail\Includes\Analysis\Analyzer;
 use WP_CLI;
 
 defined( 'ABSPATH' ) || exit;
@@ -41,9 +41,9 @@ final class Cli {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     wp redirect-inspector scan
-	 *     wp redirect-inspector scan --format=json
-	 *     wp redirect-inspector scan --porcelain --fail-on=loop,conflict
+	 *     wp hoptrail scan
+	 *     wp hoptrail scan --format=json
+	 *     wp hoptrail scan --porcelain --fail-on=loop,conflict
 	 *
 	 * @param array $args       Positional args.
 	 * @param array $assoc_args Flags.

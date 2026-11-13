@@ -2,10 +2,10 @@
 /**
  * Capabilities: one constant per surface, used by menus and every handler.
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes;
+namespace Hoptrail\Includes;
 
 defined( 'ABSPATH' ) || exit;
 

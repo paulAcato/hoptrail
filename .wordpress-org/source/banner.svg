@@ -16,10 +16,10 @@
     <path d="M264 372 h120 m-24 -24 24 24 -24 24" stroke="#ec835a" stroke-width="8" opacity=".9"/>
     <path d="M424 372 h120 m-24 -24 24 24 -24 24" stroke="#d03b3b" stroke-width="8" opacity=".9"/>
   </g>
-  <text x="96" y="210" fill="#fff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="92" font-weight="700" letter-spacing="-2">Redirect Inspector</text>
+  <text x="96" y="210" fill="#fff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="92" font-weight="700" letter-spacing="-2">Hoptrail</text>
   <text x="100" y="282" fill="#fff" fill-opacity=".8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="38">Loops, chains and redirects you don’t need.</text>
   <svg x="1110" y="24" width="410" height="450" viewBox="0 0 920 1010">
-  <!-- Wapuu hugging a magnifying glass. Original drawing for Redirect Inspector, in the style of the
+  <!-- Wapuu hugging a magnifying glass. Original drawing for Hoptrail, in the style of the
        original Wapuu by Kazuko Kaneuchi (GPLv2 or later). -->
   <defs>
     <radialGradient id="lens" cx="38%" cy="32%" r="75%">

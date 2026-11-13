@@ -49,7 +49,7 @@ jobs:
           fi
           # WordPress.org creates the SVN repository once the plugin is approved; until then
           # there is nowhere to send the readme and assets to.
-          status=$(curl -s -o /dev/null -w '%{http_code}' https://plugins.svn.wordpress.org/redirect-inspector/)
+          status=$(curl -s -o /dev/null -w '%{http_code}' https://plugins.svn.wordpress.org/hoptrail/)
           if [ "$status" = "404" ]; then
             echo "::notice::The plugin is not on WordPress.org yet (SVN repository missing); nothing to update."
             echo "skip=true" >> "$GITHUB_OUTPUT"

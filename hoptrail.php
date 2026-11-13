@@ -1,7 +1,7 @@
 <?php
 /**
- * Plugin Name:       Redirect Inspector
- * Plugin URI:        https://github.com/paulAcato/redirect-inspector
+ * Plugin Name:       Hoptrail – Redirect Loop & Chain Checker
+ * Plugin URI:        https://github.com/paulAcato/hoptrail
  * Description:       Finds redirect loops, chains and redirects you don't need across ten SEO and redirect plugins at once, and fixes the clear-cut ones.
  * Version:           1.0.0
  * Requires at least: 6.9
@@ -10,31 +10,31 @@
  * Author URI:        https://profiles.wordpress.org/paulacato/
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       redirect-inspector
+ * Text Domain:       hoptrail
  * Domain Path:       /languages
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'REDIRECT_INSPECTOR_VERSION', '1.0.0' );
-define( 'REDIRECT_INSPECTOR_FILE', __FILE__ );
-define( 'REDIRECT_INSPECTOR_PATH', plugin_dir_path( __FILE__ ) );
-define( 'REDIRECT_INSPECTOR_URL', plugin_dir_url( __FILE__ ) );
+define( 'HOPTRAIL_VERSION', '1.0.0' );
+define( 'HOPTRAIL_FILE', __FILE__ );
+define( 'HOPTRAIL_PATH', plugin_dir_path( __FILE__ ) );
+define( 'HOPTRAIL_URL', plugin_dir_url( __FILE__ ) );
 
 /**
- * Autoloader for the Acato\RedirectInspector namespace.
+ * Autoloader for the Hoptrail namespace.
  *
- * Acato\RedirectInspector\Includes\Sources\Rank_Math → includes/sources/class-rank-math.php.
+ * Hoptrail\Includes\Sources\Rank_Math → includes/sources/class-rank-math.php.
  * Resolves classes, then traits, then interfaces.
  *
  * @param string $fqcn Fully qualified class name.
  *
  * @return void
  */
-function redirect_inspector_autoload( $fqcn ) {
-	$prefix = 'Acato\\RedirectInspector\\';
+function hoptrail_autoload( $fqcn ) {
+	$prefix = 'Hoptrail\\';
 	if ( 0 !== strpos( $fqcn, $prefix ) ) {
 		return;
 	}
@@ -44,13 +44,13 @@ function redirect_inspector_autoload( $fqcn ) {
 	$name     = basename( $relative );
 
 	foreach ( [ "class-{$name}.php", "trait-{$name}.php", "interface-{$name}.php" ] as $file ) {
-		$path = REDIRECT_INSPECTOR_PATH . $dir . '/' . $file;
+		$path = HOPTRAIL_PATH . $dir . '/' . $file;
 		if ( is_readable( $path ) ) {
 			require_once $path;
 			return;
 		}
 	}
 }
-spl_autoload_register( 'redirect_inspector_autoload' );
+spl_autoload_register( 'hoptrail_autoload' );
 
-Acato\RedirectInspector\Includes\Plugin::instance();
+Hoptrail\Includes\Plugin::instance();
