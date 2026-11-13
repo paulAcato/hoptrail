@@ -1,7 +1,7 @@
 import { Button, CheckboxControl, Modal, SelectControl, Spinner } from '@wordpress/components';
 import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
 import { speak } from '@wordpress/a11y';
-import { __, _n, sprintf } from '@wordpress/i18n';
+import { __, _n, _x, sprintf } from '@wordpress/i18n';
 import { chevronDown, chevronUp } from '@wordpress/icons';
 import { errorMessage, invalidate, isAbort, route } from '../api/client';
 import { useMutation, useResource } from '../api/hooks';
@@ -18,14 +18,10 @@ interface Props {
 }
 
 const statusLabel = ({ status, expands }: LeftoverRule, target: string): string => ({
-	/* translators: %s: plugin. */
-	copy: sprintf(__('Will be copied to %s', 'redirect-inspector'), target),
-	/* translators: 1: number of rules, 2: plugin. */
-	expand: sprintf(_n('Becomes %1$d exact rule in %2$s', 'Becomes %1$d exact rules in %2$s', expands, 'redirect-inspector'), expands, target),
-	/* translators: %s: plugin. */
-	exists: sprintf(__('Already in %s', 'redirect-inspector'), target),
-	/* translators: %s: plugin. */
-	unsupported: sprintf(__('%s can’t hold this rule', 'redirect-inspector'), target),
+	copy: sprintf(/* translators: %s: plugin. */ __('Will be copied to %s', 'hoptrail'), target),
+	expand: sprintf(/* translators: 1: number of rules, 2: plugin. */ _n('Becomes %1$d exact rule in %2$s', 'Becomes %1$d exact rules in %2$s', expands, 'hoptrail'), expands, target),
+	exists: sprintf(/* translators: %s: plugin. */ __('Already in %s', 'hoptrail'), target),
+	unsupported: sprintf(/* translators: %s: plugin. */ __('%s can’t hold this rule', 'hoptrail'), target),
 	none: '—',
 })[status];
 
@@ -52,8 +48,7 @@ const RuleRow = ({ rule, slug, target }: { rule: LeftoverRule; slug: string; tar
 		setError(null);
 		try {
 			await remove.run(route(`/leftovers/${slug}/rules/${encodeURIComponent(rule.id)}`, { from: rule.from }), 'DELETE');
-			/* translators: %s: source URL. */
-			speak(sprintf(__('Deleted the rule for %s.', 'redirect-inspector'), rule.from), 'polite');
+			speak(sprintf(/* translators: %s: source URL. */ __('Deleted the rule for %s.', 'hoptrail'), rule.from), 'polite');
 			invalidate('/leftovers');
 			invalidate('/summary');
 		} catch (caught) {
@@ -82,7 +77,7 @@ const RuleRow = ({ rule, slug, target }: { rule: LeftoverRule; slug: string; tar
 						aria-controls={`rdi-expanded-${rule.id}`}
 						onClick={() => setExpanded((value) => !value)}
 					>
-						{expanded ? __('Hide the exact rules', 'redirect-inspector') : __('Show the exact rules', 'redirect-inspector')}
+						{expanded ? __('Hide the exact rules', 'hoptrail') : __('Show the exact rules', 'hoptrail')}
 					</Button>
 				)}
 			</td>
@@ -90,10 +85,10 @@ const RuleRow = ({ rule, slug, target }: { rule: LeftoverRule; slug: string; tar
 				{confirming ? (
 					<>
 						<Button ref={confirmRef} variant="primary" isDestructive size="compact" isBusy={remove.busy} disabled={remove.busy} accessibleWhenDisabled onClick={onDelete}>
-							{__('Delete', 'redirect-inspector')}
+							{__('Delete', 'hoptrail')}
 						</Button>
 						<Button variant="tertiary" size="compact" disabled={remove.busy} accessibleWhenDisabled onClick={() => { back.current = true; setConfirming(false); }}>
-							{__('Cancel', 'redirect-inspector')}
+							{__('Cancel', 'hoptrail')}
 						</Button>
 					</>
 				) : (
@@ -102,11 +97,10 @@ const RuleRow = ({ rule, slug, target }: { rule: LeftoverRule; slug: string; tar
 						variant="tertiary"
 						isDestructive
 						size="compact"
-						/* translators: %s: source URL. */
-						aria-label={sprintf(__('Delete the rule for %s', 'redirect-inspector'), rule.from)}
+						aria-label={sprintf(/* translators: %s: source URL. */ __('Delete the rule for %s', 'hoptrail'), rule.from)}
 						onClick={() => setConfirming(true)}
 					>
-						{__('Delete', 'redirect-inspector')}
+						{__('Delete', 'hoptrail')}
 					</Button>
 				)}
 				{error && <span className="rdi-migrate__error" role="alert">{error}</span>}
@@ -116,8 +110,7 @@ const RuleRow = ({ rule, slug, target }: { rule: LeftoverRule; slug: string; tar
 			<tr id={`rdi-expanded-${rule.id}`} className="rdi-migrate__expanded" hidden={!expanded}>
 				<td colSpan={5}>
 					<p className="rdi-muted">
-						{/* translators: %s: plugin. */}
-						{sprintf(__('%s only holds exact rules, so this pattern is copied for the URLs this site is known to have: published content, URLs from the 404 log, and the sources and targets of other rules.', 'redirect-inspector'), target)}
+						{sprintf(/* translators: %s: plugin. */ __('%s only holds exact rules, so this pattern is copied for the URLs this site is known to have: published content, URLs from the 404 log, and the sources and targets of other rules.', 'hoptrail'), target)}
 					</p>
 					<ul>
 						{rule.expanded.map((one) => <li key={one.from}><code>{one.from}</code> → <code>{one.to}</code></li>)}
@@ -171,8 +164,7 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 			// The plan binds the run to this reviewed list; the server refuses if it changed meanwhile.
 			const done = await migrate.run(route('/migrate'), 'POST', { from: leftover.slug, to: target, dry_run: false, plan: data?.plan ?? '' });
 			invalidate();
-			/* translators: 1: number of rules, 2: plugin. */
-			report(sprintf(_n('%1$d rule copied to %2$s. Run a scan to include it.', '%1$d rules copied to %2$s. Run a scan to include them.', done.created, 'redirect-inspector'), done.created, targetLabel));
+			report(sprintf(/* translators: 1: number of rules, 2: plugin. */ _n('%1$d rule copied to %2$s. Run a scan to include it.', '%1$d rules copied to %2$s. Run a scan to include them.', done.created, 'hoptrail'), done.created, targetLabel));
 		} catch (caught) {
 			if (!isAbort(caught)) {
 				setError(errorMessage(caught));
@@ -188,8 +180,7 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 		try {
 			const done = await purge.run(route(`/leftovers/${leftover.slug}`, { drop_tables: dropTables ? '1' : '' }), 'DELETE');
 			invalidate();
-			/* translators: 1: number of rules, 2: plugin. */
-			report(sprintf(_n('Deleted %1$d stored rule of %2$s.', 'Deleted %1$d stored rules of %2$s.', done.deleted, 'redirect-inspector'), done.deleted, leftover.label));
+			report(sprintf(/* translators: 1: number of rules, 2: plugin. */ _n('Deleted %1$d stored rule of %2$s.', 'Deleted %1$d stored rules of %2$s.', done.deleted, 'hoptrail'), done.deleted, leftover.label));
 			onClose();
 		} catch (caught) {
 			if (!isAbort(caught)) {
@@ -205,14 +196,13 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 
 	return (
 		<Modal
-			/* translators: %s: plugin. */
-			title={sprintf(__('Leftover rules of %s', 'redirect-inspector'), leftover.label)}
+			title={sprintf(/* translators: %s: plugin. */ __('Leftover rules of %s', 'hoptrail'), leftover.label)}
 			onRequestClose={onClose}
 			size="large"
 			className="rdi-migrate"
 		>
 			<p className="rdi-migrate__intro">
-				{__('This plugin is not active, so these rules redirect nothing. Copy them into an active redirect plugin, or delete them.', 'redirect-inspector')}
+				{__('This plugin is not active, so these rules redirect nothing. Copy them into an active redirect plugin, or delete them.', 'hoptrail')}
 			</p>
 
 			{targets.length > 0 && (
@@ -220,7 +210,7 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 					<SelectControl
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
-						label={__('Migrate to', 'redirect-inspector')}
+						label={__('Migrate to', 'hoptrail')}
 						value={target}
 						options={targets.map((item) => ({ label: item.label, value: item.slug }))}
 						onChange={(value: string) => setTarget(value)}
@@ -228,12 +218,9 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 					{data && (
 						<p className="rdi-migrate__summary" aria-live="off">
 							{[
-								/* translators: %d: number of rules. */
-								sprintf(_n('%d will be copied', '%d will be copied', counts.copy, 'redirect-inspector'), counts.copy),
-								/* translators: %d: number of rules. */
-								counts.exists ? sprintf(_n('%d already there', '%d already there', counts.exists, 'redirect-inspector'), counts.exists) : '',
-								/* translators: %d: number of rules. */
-								counts.unsupported ? sprintf(_n('%d not supported', '%d not supported', counts.unsupported, 'redirect-inspector'), counts.unsupported) : '',
+								sprintf(/* translators: %d: number of rules. */ _n('%d will be copied', '%d will be copied', counts.copy, 'hoptrail'), counts.copy),
+								counts.exists ? sprintf(/* translators: %d: number of rules. */ _n('%d already there', '%d already there', counts.exists, 'hoptrail'), counts.exists) : '',
+								counts.unsupported ? sprintf(/* translators: %d: number of rules. */ _n('%d not supported', '%d not supported', counts.unsupported, 'hoptrail'), counts.unsupported) : '',
 							].filter(Boolean).join(' · ')}
 						</p>
 					)}
@@ -242,20 +229,20 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 
 			{loadError && <div className="notice notice-error inline" role="alert"><p>{loadError}</p></div>}
 			{data?.partial && (
-				<div className="notice notice-warning inline"><p>{__('Not every pattern could be checked against all known URLs in time; some exact rules may be missing from this list.', 'redirect-inspector')}</p></div>
+				<div className="notice notice-warning inline"><p>{__('Not every pattern could be checked against all known URLs in time; some exact rules may be missing from this list.', 'hoptrail')}</p></div>
 			)}
 			{loading && !data && <Spinner />}
 
 			{rules.length > 0 && (
-				<div className="rdi-table-wrap" role="region" aria-label={__('Stored rules', 'redirect-inspector')} tabIndex={0}>
+				<div className="rdi-table-wrap" role="region" aria-label={__('Stored rules', 'hoptrail')} tabIndex={0}>
 					<table className="rdi-table rdi-migrate__table">
 						<thead>
 							<tr>
-								<th scope="col">{__('From', 'redirect-inspector')}</th>
-								<th scope="col">{__('To', 'redirect-inspector')}</th>
-								<th scope="col" className="is-num">{__('Code', 'redirect-inspector')}</th>
-								<th scope="col">{__('Migration', 'redirect-inspector')}</th>
-								<th scope="col"><span className="screen-reader-text">{__('Actions', 'redirect-inspector')}</span></th>
+								<th scope="col">{_x('From', 'table column: source URL of a redirect rule', 'hoptrail')}</th>
+								<th scope="col">{_x('To', 'table column: target URL of a redirect rule', 'hoptrail')}</th>
+								<th scope="col" className="is-num">{__('Code', 'hoptrail')}</th>
+								<th scope="col">{__('Migration', 'hoptrail')}</th>
+								<th scope="col"><span className="screen-reader-text">{__('Actions', 'hoptrail')}</span></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -274,27 +261,26 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 						<p>
 							{sprintf(
 								/* translators: 1: number of rules, 2: plugin. */
-								_n('Permanently delete %1$d stored rule of %2$s? This cannot be undone.', 'Permanently delete %1$d stored rules of %2$s? This cannot be undone.', data?.total ?? leftover.rules, 'redirect-inspector'),
+								_n('Permanently delete %1$d stored rule of %2$s? This cannot be undone.', 'Permanently delete %1$d stored rules of %2$s? This cannot be undone.', data?.total ?? leftover.rules, 'hoptrail'),
 								data?.total ?? leftover.rules,
 								leftover.label
 							)}
 						</p>
-						{leftover.tables > 0 && (window.redirectInspector?.canDropTables ?? false) && (
+						{leftover.tables > 0 && (window.hoptrail?.canDropTables ?? false) && (
 							<CheckboxControl
 								__nextHasNoMarginBottom
-								/* translators: %s: plugin. */
-								label={sprintf(__('Also drop the redirect tables of %s', 'redirect-inspector'), leftover.label)}
-								help={__('Only when you don’t plan to activate it again; it would have to set up its tables anew.', 'redirect-inspector')}
+								label={sprintf(/* translators: %s: plugin. */ __('Also drop the redirect tables of %s', 'hoptrail'), leftover.label)}
+								help={__('Only when you don’t plan to activate it again; it would have to set up its tables anew.', 'hoptrail')}
 								checked={dropTables}
 								onChange={setDropTables}
 							/>
 						)}
 						<div className="rdi-migrate__buttons">
 							<Button __next40pxDefaultSize variant="tertiary" disabled={purge.busy} accessibleWhenDisabled onClick={() => setConfirmingPurge(false)}>
-								{__('Cancel', 'redirect-inspector')}
+								{__('Cancel', 'hoptrail')}
 							</Button>
 							<Button ref={purgeConfirmRef} __next40pxDefaultSize variant="primary" isDestructive isBusy={purge.busy} disabled={purge.busy} accessibleWhenDisabled onClick={onPurge}>
-								{dropTables ? __('Delete rules and tables', 'redirect-inspector') : __('Delete rules', 'redirect-inspector')}
+								{dropTables ? __('Delete rules and tables', 'hoptrail') : __('Delete rules', 'hoptrail')}
 							</Button>
 						</div>
 					</div>
@@ -302,17 +288,16 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 					<div className="rdi-migrate__buttons">
 						{!nothingToMigrate && (
 							<Button __next40pxDefaultSize variant="tertiary" isDestructive onClick={() => setConfirmingPurge(true)}>
-								{__('Delete all data', 'redirect-inspector')}
+								{__('Delete all data', 'hoptrail')}
 							</Button>
 						)}
 						{nothingToMigrate ? (
 							<Button __next40pxDefaultSize variant="primary" isDestructive disabled={!data} accessibleWhenDisabled onClick={() => setConfirmingPurge(true)}>
-								{__('Delete data', 'redirect-inspector')}
+								{__('Delete data', 'hoptrail')}
 							</Button>
 						) : (
 							<Button __next40pxDefaultSize variant="primary" isBusy={migrate.busy} disabled={migrate.busy || !data} accessibleWhenDisabled onClick={onMigrate}>
-								{/* translators: %d: number of rules. */}
-								{sprintf(_n('Migrate %d rule', 'Migrate %d rules', counts.copy, 'redirect-inspector'), counts.copy)}
+								{sprintf(/* translators: %d: number of rules. */ _n('Migrate %d rule', 'Migrate %d rules', counts.copy, 'hoptrail'), counts.copy)}
 							</Button>
 						)}
 					</div>
@@ -346,8 +331,8 @@ export const Leftovers = ({ leftovers, targets }: Props) => {
 	return (
 		<section className="rdi-card rdi-leftovers" aria-labelledby="rdi-leftovers-title">
 			<header className="rdi-card__header">
-				<h2 id="rdi-leftovers-title" tabIndex={-1}>{__('Leftover redirects', 'redirect-inspector')}</h2>
-				<span className="rdi-card__meta">{__('These plugins are not active, so their rules redirect nothing.', 'redirect-inspector')}</span>
+				<h2 id="rdi-leftovers-title" tabIndex={-1}>{__('Leftover redirects', 'hoptrail')}</h2>
+				<span className="rdi-card__meta">{__('These plugins are not active, so their rules redirect nothing.', 'hoptrail')}</span>
 			</header>
 			<ul className="rdi-leftovers__list" id="rdi-leftovers-list">
 				{(expanded ? leftovers : leftovers.slice(0, FOLD)).map((leftover) => (
@@ -355,8 +340,7 @@ export const Leftovers = ({ leftovers, targets }: Props) => {
 						<div className="rdi-leftovers__what">
 							<strong>{leftover.label}</strong>
 							<span className="rdi-muted">
-								{/* translators: %d: number of rules. */}
-								{sprintf(_n('Not active · %d stored rule', 'Not active · %d stored rules', leftover.rules, 'redirect-inspector'), leftover.rules)}
+								{sprintf(/* translators: %d: number of rules. */ _n('Not active · %d stored rule', 'Not active · %d stored rules', leftover.rules, 'hoptrail'), leftover.rules)}
 							</span>
 						</div>
 						<Button
@@ -365,7 +349,7 @@ export const Leftovers = ({ leftovers, targets }: Props) => {
 							variant="secondary"
 							onClick={() => setOpen(leftover.slug)}
 						>
-							{__('Review rules', 'redirect-inspector')}
+							{__('Review rules', 'hoptrail')}
 						</Button>
 					</li>
 				))}
@@ -382,9 +366,8 @@ export const Leftovers = ({ leftovers, targets }: Props) => {
 					onClick={() => setExpanded((value) => !value)}
 				>
 					{expanded
-						? __('Show fewer', 'redirect-inspector')
-						/* translators: %d: number of plugins with leftover rules. */
-						: sprintf(__('Show all %d', 'redirect-inspector'), leftovers.length)}
+						? __('Show fewer', 'hoptrail')
+						: sprintf(/* translators: %d: number of plugins with leftover rules. */ __('Show all %d', 'hoptrail'), leftovers.length)}
 				</Button>
 			)}
 			{current && <LeftoverModal leftover={current} targets={targets} onClose={close} />}

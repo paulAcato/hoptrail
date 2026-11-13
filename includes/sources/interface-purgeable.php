@@ -2,10 +2,10 @@
 /**
  * A source whose stored rules can be deleted (leftovers of an inactive plugin).
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes\Sources;
+namespace Hoptrail\Includes\Sources;
 
 defined( 'ABSPATH' ) || exit;
 

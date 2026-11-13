@@ -1,8 +1,8 @@
 {
-  "name": "redirect-inspector",
+  "name": "hoptrail",
   "version": "1.0.0",
   "private": true,
-  "description": "Redirect Inspector dashboard (React + TypeScript, built with Vite).",
+  "description": "Hoptrail dashboard (React + TypeScript, built with Vite).",
   "type": "module",
   "engines": {
     "node": ">=24"

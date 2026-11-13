@@ -4,6 +4,7 @@ import { addAction, removeAction } from '@wordpress/hooks';
 import { __, sprintf } from '@wordpress/i18n';
 import { invalidate } from './client';
 import type { PresentUser } from './types';
+import { pluginName } from '../lib/plugin';
 
 interface Change {
 	action: string;
@@ -19,29 +20,20 @@ interface Tick {
 }
 
 const describe = ({ action, by }: Change): string => {
-	const who = by || __('Someone', 'redirect-inspector');
+	const who = by || __('Someone', 'hoptrail');
 	switch (action) {
 		case 'scheduled-scan':
-			return __('A scheduled scan finished. The dashboard is up to date.', 'redirect-inspector');
-		/* translators: %s: name of an administrator. */
-		case 'scan': return by ? sprintf(__('%s ran a scan. The dashboard is up to date.', 'redirect-inspector'), who) : __('A scan ran (WP-CLI or an AI client). The dashboard is up to date.', 'redirect-inspector');
-		/* translators: %s: name of an administrator. */
-		case 'fix': return sprintf(__('%s applied a fix.', 'redirect-inspector'), who);
-		/* translators: %s: name of an administrator. */
-		case 'migrate': return sprintf(__('%s migrated leftover rules.', 'redirect-inspector'), who);
-		/* translators: %s: name of an administrator. */
-		case 'delete': return sprintf(__('%s deleted a leftover rule.', 'redirect-inspector'), who);
-		/* translators: %s: name of an administrator. */
-		case 'purge': return sprintf(__('%s deleted leftover data.', 'redirect-inspector'), who);
-		/* translators: %s: name of an administrator. */
-		case 'settings': return sprintf(__('%s changed the schedule or retention settings.', 'redirect-inspector'), who);
-		/* translators: %s: name of an administrator. */
-		case 'flush': return sprintf(__('%s deleted logs.', 'redirect-inspector'), who);
-		/* translators: %s: name of an administrator. */
-		case 'flush-request': return sprintf(__('An AI client used by %s asked to delete logs. It waits for approval on this dashboard.', 'redirect-inspector'), who);
-		/* translators: %s: name of an administrator. */
-		case 'flush-declined': return sprintf(__('%s declined the request to delete logs.', 'redirect-inspector'), who);
-		default: return __('Redirect Inspector was updated by someone else.', 'redirect-inspector');
+			return __('A scheduled scan finished. The dashboard is up to date.', 'hoptrail');
+		case 'scan': return by ? sprintf(/* translators: %s: name of an administrator. */ __('%s ran a scan. The dashboard is up to date.', 'hoptrail'), who) : __('A scan ran (WP-CLI or an AI client). The dashboard is up to date.', 'hoptrail');
+		case 'fix': return sprintf(/* translators: %s: name of an administrator. */ __('%s applied a fix.', 'hoptrail'), who);
+		case 'migrate': return sprintf(/* translators: %s: name of an administrator. */ __('%s migrated leftover rules.', 'hoptrail'), who);
+		case 'delete': return sprintf(/* translators: %s: name of an administrator. */ __('%s deleted a leftover rule.', 'hoptrail'), who);
+		case 'purge': return sprintf(/* translators: %s: name of an administrator. */ __('%s deleted leftover data.', 'hoptrail'), who);
+		case 'settings': return sprintf(/* translators: %s: name of an administrator. */ __('%s changed the schedule or retention settings.', 'hoptrail'), who);
+		case 'flush': return sprintf(/* translators: %s: name of an administrator. */ __('%s deleted logs.', 'hoptrail'), who);
+		case 'flush-request': return sprintf(/* translators: %s: name of an administrator. */ __('An AI client used by %s asked to delete logs. It waits for approval on this dashboard.', 'hoptrail'), who);
+		case 'flush-declined': return sprintf(/* translators: %s: name of an administrator. */ __('%s declined the request to delete logs.', 'hoptrail'), who);
+		default: return sprintf(/* translators: %s: plugin name. */ __('%s was updated by someone else.', 'hoptrail'), pluginName);
 	}
 };
 
@@ -52,14 +44,14 @@ const describe = ({ action, by }: Change): string => {
 export const usePresence = () => {
 	const [others, setOthers] = useState<PresentUser[]>([]);
 	const [note, setNote] = useState<string | null>(null);
-	const version = useRef(window.redirectInspector?.stateVersion ?? 0);
+	const version = useRef(window.hoptrail?.stateVersion ?? 0);
 
 	useEffect(() => {
 		const send = (data: Record<string, unknown>) => {
-			data.redirect_inspector = { screen: window.redirectInspector?.mode ?? 'site' };
+			data.hoptrail = { screen: window.hoptrail?.mode ?? 'site' };
 		};
 		const tick = (data: Record<string, unknown>) => {
-			const payload = data?.redirect_inspector as Tick | undefined;
+			const payload = data?.hoptrail as Tick | undefined;
 			if (!payload) {
 				return;
 			}
@@ -78,8 +70,8 @@ export const usePresence = () => {
 		};
 
 		// Core's Heartbeat runs these wp.hooks actions on every beat.
-		addAction('heartbeat.send', 'redirect-inspector/presence', send);
-		addAction('heartbeat.tick', 'redirect-inspector/presence', tick);
+		addAction('heartbeat.send', 'hoptrail/presence', send);
+		addAction('heartbeat.tick', 'hoptrail/presence', tick);
 
 		// Every 15 s while this dashboard is open (WordPress slows it down in background tabs),
 		// and announce ourselves right away instead of after the first interval.
@@ -88,8 +80,8 @@ export const usePresence = () => {
 		heartbeat?.connectNow?.();
 
 		return () => {
-			removeAction('heartbeat.send', 'redirect-inspector/presence');
-			removeAction('heartbeat.tick', 'redirect-inspector/presence');
+			removeAction('heartbeat.send', 'hoptrail/presence');
+			removeAction('heartbeat.tick', 'hoptrail/presence');
 		};
 	}, []);
 

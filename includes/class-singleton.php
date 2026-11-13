@@ -2,10 +2,10 @@
 /**
  * Base singleton.
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes;
+namespace Hoptrail\Includes;
 
 defined( 'ABSPATH' ) || exit;
 

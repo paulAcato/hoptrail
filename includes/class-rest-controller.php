@@ -2,13 +2,13 @@
 /**
  * REST API for the dashboard.
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes;
+namespace Hoptrail\Includes;
 
-use Acato\RedirectInspector\Includes\Analysis\Analyzer;
-use Acato\RedirectInspector\Includes\Sources\Registry;
+use Hoptrail\Includes\Analysis\Analyzer;
+use Hoptrail\Includes\Sources\Registry;
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -17,7 +17,7 @@ use WP_REST_Server;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Namespace redirect-inspector/v1. Every route requires a capability (S6); the wp_rest nonce is
+ * Namespace hoptrail/v1. Every route requires a capability (S6); the wp_rest nonce is
  * verified by core for cookie-authenticated requests.
  */
 final class Rest_Controller extends Singleton {
@@ -25,7 +25,7 @@ final class Rest_Controller extends Singleton {
 	/**
 	 * Namespace.
 	 */
-	const NAMESPACE = 'redirect-inspector/v1';
+	const NAMESPACE = 'hoptrail/v1';
 
 	/**
 	 * Register routes.
@@ -394,7 +394,7 @@ final class Rest_Controller extends Singleton {
 			return null;
 		}
 
-		return new WP_Error( 'redirect_inspector_not_installed', __( 'The Redirect Inspector tables are missing and could not be created.', 'redirect-inspector' ), [ 'status' => 500 ] );
+		return new WP_Error( 'hoptrail_not_installed', sprintf( /* translators: %s: plugin name. */ __( 'The %s tables are missing and could not be created.', 'hoptrail' ), HOPTRAIL_NAME ), [ 'status' => 500 ] );
 	}
 
 	/**
@@ -506,7 +506,7 @@ final class Rest_Controller extends Singleton {
 				(bool) $request['regex']
 			);
 		} catch ( \InvalidArgumentException $e ) {
-			return new WP_Error( 'redirect_inspector_invalid_regex', $e->getMessage(), [ 'status' => 400 ] );
+			return new WP_Error( 'hoptrail_invalid_regex', $e->getMessage(), [ 'status' => 400 ] );
 		}
 
 		$response = new WP_REST_Response( $result );
@@ -551,7 +551,7 @@ final class Rest_Controller extends Singleton {
 		try {
 			return new WP_REST_Response( Scanner::run( 'manual' ), 201 );
 		} catch ( \RuntimeException $error ) {
-			return new WP_Error( 'redirect_inspector_scan_failed', $error->getMessage(), [ 'status' => 409 === $error->getCode() ? 409 : 500 ] );
+			return new WP_Error( 'hoptrail_scan_failed', $error->getMessage(), [ 'status' => 409 === $error->getCode() ? 409 : 500 ] );
 		}
 	}
 
@@ -566,7 +566,7 @@ final class Rest_Controller extends Singleton {
 		try {
 			return new WP_REST_Response( Fixer::apply( (int) $request['id'] ) );
 		} catch ( \RuntimeException $error ) {
-			return new WP_Error( 'redirect_inspector_fix_failed', $error->getMessage(), [ 'status' => in_array( $error->getCode(), [ 400, 409 ], true ) ? $error->getCode() : 500 ] );
+			return new WP_Error( 'hoptrail_fix_failed', $error->getMessage(), [ 'status' => in_array( $error->getCode(), [ 400, 409 ], true ) ? $error->getCode() : 500 ] );
 		}
 	}
 
@@ -581,7 +581,7 @@ final class Rest_Controller extends Singleton {
 		try {
 			return new WP_REST_Response( Migrator::preview( sanitize_key( (string) $request['slug'] ), (string) $request['to'] ) );
 		} catch ( \RuntimeException $error ) {
-			return new WP_Error( 'redirect_inspector_leftovers', $error->getMessage(), [ 'status' => 400 ] );
+			return new WP_Error( 'hoptrail_leftovers', $error->getMessage(), [ 'status' => 400 ] );
 		}
 	}
 
@@ -594,13 +594,13 @@ final class Rest_Controller extends Singleton {
 	 */
 	public function purge_leftover( WP_REST_Request $request ) {
 		if ( $request['drop_tables'] && ! Caps::can_drop_tables() ) {
-			return new WP_Error( 'redirect_inspector_forbidden', __( 'Only a network administrator can drop another plugin\'s tables.', 'redirect-inspector' ), [ 'status' => 403 ] );
+			return new WP_Error( 'hoptrail_forbidden', __( 'Only a network administrator can drop another plugin\'s tables.', 'hoptrail' ), [ 'status' => 403 ] );
 		}
 
 		try {
 			return new WP_REST_Response( [ 'deleted' => Migrator::purge( sanitize_key( (string) $request['slug'] ), (bool) $request['drop_tables'] ) ] );
 		} catch ( \RuntimeException $error ) {
-			return new WP_Error( 'redirect_inspector_leftovers', $error->getMessage(), [ 'status' => in_array( $error->getCode(), [ 400, 409 ], true ) ? $error->getCode() : 500 ] );
+			return new WP_Error( 'hoptrail_leftovers', $error->getMessage(), [ 'status' => in_array( $error->getCode(), [ 400, 409 ], true ) ? $error->getCode() : 500 ] );
 		}
 	}
 
@@ -615,7 +615,7 @@ final class Rest_Controller extends Singleton {
 		try {
 			return new WP_REST_Response( [ 'deleted' => Migrator::delete_rule( sanitize_key( (string) $request['slug'] ), (string) $request['id'], (string) $request['from'] ) ] );
 		} catch ( \RuntimeException $error ) {
-			return new WP_Error( 'redirect_inspector_leftovers', $error->getMessage(), [ 'status' => in_array( $error->getCode(), [ 404, 409 ], true ) ? $error->getCode() : 400 ] );
+			return new WP_Error( 'hoptrail_leftovers', $error->getMessage(), [ 'status' => in_array( $error->getCode(), [ 404, 409 ], true ) ? $error->getCode() : 400 ] );
 		}
 	}
 
@@ -630,7 +630,7 @@ final class Rest_Controller extends Singleton {
 		try {
 			return new WP_REST_Response( Migrator::run( (string) $request['from'], (string) $request['to'], (bool) $request['dry_run'], (string) $request['plan'] ) );
 		} catch ( \RuntimeException $error ) {
-			return new WP_Error( 'redirect_inspector_migrate_failed', $error->getMessage(), [ 'status' => 409 === $error->getCode() ? 409 : 400 ] );
+			return new WP_Error( 'hoptrail_migrate_failed', $error->getMessage(), [ 'status' => 409 === $error->getCode() ? 409 : 400 ] );
 		}
 	}
 
@@ -646,20 +646,20 @@ final class Rest_Controller extends Singleton {
 		$issue    = $issue_id ? Log_Repository::issue( $issue_id ) : null;
 
 		if ( $issue_id && ! $issue ) {
-			return new WP_Error( 'redirect_inspector_no_issue', __( 'Issue not found.', 'redirect-inspector' ), [ 'status' => 404 ] );
+			return new WP_Error( 'hoptrail_no_issue', __( 'Issue not found.', 'hoptrail' ), [ 'status' => 404 ] );
 		}
 
 		$urls = $issue ? [ $issue['hops'][0]['from'] ?? $issue['source_url'] ] : array_map( 'strval', (array) $request['urls'] );
 		$urls = array_values( array_filter( array_map( 'trim', $urls ) ) );
 
 		if ( ! $urls ) {
-			return new WP_Error( 'redirect_inspector_no_urls', __( 'Nothing to check.', 'redirect-inspector' ), [ 'status' => 400 ] );
+			return new WP_Error( 'hoptrail_no_urls', __( 'Nothing to check.', 'hoptrail' ), [ 'status' => 400 ] );
 		}
 
 		try {
 			$results = ( new Live_Checker() )->check_many( $urls );
 		} catch ( \RuntimeException $error ) {
-			return new WP_Error( 'redirect_inspector_busy', $error->getMessage(), [ 'status' => 409 ] );
+			return new WP_Error( 'hoptrail_busy', $error->getMessage(), [ 'status' => 409 ] );
 		}
 
 		if ( $issue ) {
@@ -689,7 +689,7 @@ final class Rest_Controller extends Singleton {
 		$schedule = $request['schedule'];
 		$weekly   = 'weekly' === ( $schedule['frequency'] ?? 'weekly' );
 		if ( is_array( $schedule ) && ! empty( $schedule['enabled'] ) && ( empty( $schedule['hours'] ) || ( $weekly && empty( $schedule['days'] ) ) ) ) {
-			return new WP_Error( 'redirect_inspector_schedule', __( 'Pick at least one day and one hour for scheduled scans.', 'redirect-inspector' ), [ 'status' => 400 ] );
+			return new WP_Error( 'hoptrail_schedule', __( 'Pick at least one day and one hour for scheduled scans.', 'hoptrail' ), [ 'status' => 400 ] );
 		}
 
 		$values = [];
@@ -740,7 +740,7 @@ final class Rest_Controller extends Singleton {
 		try {
 			return new WP_REST_Response( Flush_Requests::approve( (string) $request['id'] ) );
 		} catch ( \RuntimeException $error ) {
-			return new WP_Error( 'redirect_inspector_flush_request', $error->getMessage(), [ 'status' => in_array( $error->getCode(), [ 404, 409 ], true ) ? $error->getCode() : 409 ] );
+			return new WP_Error( 'hoptrail_flush_request', $error->getMessage(), [ 'status' => in_array( $error->getCode(), [ 404, 409 ], true ) ? $error->getCode() : 409 ] );
 		}
 	}
 
@@ -753,7 +753,7 @@ final class Rest_Controller extends Singleton {
 	 */
 	public function decline_flush_request( WP_REST_Request $request ) {
 		if ( ! Flush_Requests::decline( (string) $request['id'] ) ) {
-			return new WP_Error( 'redirect_inspector_flush_request', __( 'This request is no longer waiting for approval.', 'redirect-inspector' ), [ 'status' => 404 ] );
+			return new WP_Error( 'hoptrail_flush_request', __( 'This request is no longer waiting for approval.', 'hoptrail' ), [ 'status' => 404 ] );
 		}
 
 		return new WP_REST_Response( [ 'declined' => true ] );
@@ -771,7 +771,7 @@ final class Rest_Controller extends Singleton {
 		}
 
 		if ( Scanner::is_running() ) {
-			return new WP_Error( 'redirect_inspector_busy', __( 'A scan is running. Try again in a moment.', 'redirect-inspector' ), [ 'status' => 409 ] );
+			return new WP_Error( 'hoptrail_busy', __( 'A scan is running. Try again in a moment.', 'hoptrail' ), [ 'status' => 409 ] );
 		}
 
 		$deleted = Retention::cleanup( 0 );
@@ -820,7 +820,7 @@ final class Rest_Controller extends Singleton {
 				'id'        => (int) $site->blog_id,
 				'name'      => (string) get_bloginfo( 'name' ),
 				'url'       => home_url( '/' ),
-				'dashboard' => admin_url( 'tools.php?page=redirect-inspector' ),
+				'dashboard' => admin_url( 'tools.php?page=hoptrail' ),
 				'active'    => Installer::is_installed(),
 				'latest'    => $latest ? [
 					'finished_at' => $latest['finished_at'],

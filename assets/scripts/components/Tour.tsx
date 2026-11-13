@@ -76,21 +76,20 @@ export const Tour = ({ steps, onEnd }: Props) => {
 				<p id="rdi-tour-text" className="rdi-tour__text">{step.text}</p>
 				<div className="rdi-tour__footer">
 					<span className="rdi-tour__count">
-						{/* translators: 1: step number, 2: number of steps. */}
-						{sprintf(__('%1$d of %2$d', 'redirect-inspector'), index + 1, steps.length)}
+						{sprintf(/* translators: 1: step number, 2: number of steps. */ __('%1$d of %2$d', 'hoptrail'), index + 1, steps.length)}
 					</span>
 					{!last && (
 						<Button variant="tertiary" size="compact" onClick={end}>
-							{__('Skip walkthrough', 'redirect-inspector')}
+							{__('Skip walkthrough', 'hoptrail')}
 						</Button>
 					)}
 					{index > 0 && (
 						<Button variant="secondary" size="compact" onClick={() => setIndex(index - 1)}>
-							{__('Back', 'redirect-inspector')}
+							{__('Back', 'hoptrail')}
 						</Button>
 					)}
 					<Button ref={primary} variant="primary" size="compact" onClick={() => (last ? end() : setIndex(index + 1))}>
-						{last ? __('Done', 'redirect-inspector') : __('Next', 'redirect-inspector')}
+						{last ? __('Done', 'hoptrail') : __('Next', 'hoptrail')}
 					</Button>
 				</div>
 			</div>

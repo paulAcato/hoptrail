@@ -2,10 +2,10 @@
 /**
  * Per-site settings.
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes;
+namespace Hoptrail\Includes;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -17,7 +17,7 @@ final class Settings {
 	/**
 	 * Option name.
 	 */
-	const OPTION = 'redirect_inspector_settings';
+	const OPTION = 'hoptrail_settings';
 
 	/**
 	 * Retention as agreed: 90 days (3 months).

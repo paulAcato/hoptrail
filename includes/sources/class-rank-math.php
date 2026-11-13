@@ -2,12 +2,12 @@
 /**
  * Rank Math SEO redirections module.
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes\Sources;
+namespace Hoptrail\Includes\Sources;
 
-use Acato\RedirectInspector\Includes\Rule;
+use Hoptrail\Includes\Rule;
 
 defined( 'ABSPATH' ) || exit;
 

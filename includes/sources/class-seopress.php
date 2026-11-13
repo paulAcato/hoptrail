@@ -2,10 +2,10 @@
 /**
  * SEOPress: the redirect set on a post (free version).
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes\Sources;
+namespace Hoptrail\Includes\Sources;
 
 defined( 'ABSPATH' ) || exit;
 

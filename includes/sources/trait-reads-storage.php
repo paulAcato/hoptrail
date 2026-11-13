@@ -2,12 +2,12 @@
 /**
  * Shared helpers for adapters that read another plugin's storage.
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes\Sources;
+namespace Hoptrail\Includes\Sources;
 
-use Acato\RedirectInspector\Includes\Installer;
+use Hoptrail\Includes\Installer;
 
 defined( 'ABSPATH' ) || exit;
 

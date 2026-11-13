@@ -770,6 +770,12 @@
 		margin: 0;
 	}
 
+	&__list {
+		margin: 0;
+		padding-inline-start: 1.25em;
+		list-style: disc;
+	}
+
 	&__buttons {
 		display: flex;
 		flex-wrap: wrap;

@@ -4,11 +4,11 @@ import { NetworkApp } from './components/NetworkApp';
 import '../styles/main.scss';
 
 const mount = () => {
-	const root = document.getElementById('redirect-inspector-root');
+	const root = document.getElementById('hoptrail-root');
 	if (!root) {
 		return;
 	}
-	createRoot(root).render('network' === window.redirectInspector?.mode ? <NetworkApp /> : <App />);
+	createRoot(root).render('network' === window.hoptrail?.mode ? <NetworkApp /> : <App />);
 };
 
 if ('loading' === document.readyState) {

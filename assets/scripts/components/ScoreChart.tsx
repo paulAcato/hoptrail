@@ -1,6 +1,6 @@
 import { useCallback, useState } from '@wordpress/element';
 import { useEscape } from '../api/hooks';
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import type { TrendPoint } from '../api/types';
 import { useWidth } from '../lib/chart';
 import { dateTime } from '../lib/format';
@@ -71,8 +71,8 @@ export const ScoreChart = ({ trend }: { trend: TrendPoint[] }) => {
 			)}
 			<ChartTooltip tip={tip} width={width} />
 			<table className="screen-reader-text">
-				<caption>{__('Health score per scan', 'redirect-inspector')}</caption>
-				<thead><tr><th scope="col">{__('Scan', 'redirect-inspector')}</th><th scope="col">{__('Score', 'redirect-inspector')}</th></tr></thead>
+				<caption>{__('Health score per scan', 'hoptrail')}</caption>
+				<thead><tr><th scope="col">{_x('Scan', 'noun, table column: the date of a scan', 'hoptrail')}</th><th scope="col">{__('Score', 'hoptrail')}</th></tr></thead>
 				<tbody>
 					{trend.map((point) => <tr key={point.id}><th scope="row">{dateTime(point.finished_at)}</th><td>{point.score} ({healthLabel(point.score)})</td></tr>)}
 				</tbody>

@@ -1,10 +1,10 @@
-# Redirect Inspector
+# Hoptrail
 
 Finds redirect loops, chains and redirects you don't need across ten SEO and redirect plugins on a WordPress site at once, and fixes the clear-cut ones.
 
 ![Banner](.wordpress-org/banner-1544x500.png)
 
-Supported: Redirection, Yoast SEO Premium, Rank Math, Safe Redirect Manager, Simple 301 Redirects, 301 Redirects – Redirect Manager, SEOPress, Slim SEO, SmartCrawl and The SEO Framework. More can be added through the `redirect_inspector_sources` filter.
+Supported: Redirection, Yoast SEO Premium, Rank Math, Safe Redirect Manager, Simple 301 Redirects, 301 Redirects – Redirect Manager, SEOPress, Slim SEO, SmartCrawl and The SEO Framework. More can be added through the `hoptrail_sources` filter.
 
 The user-facing description is in [readme.txt](readme.txt), which is also what WordPress.org shows.
 
@@ -15,8 +15,8 @@ The user-facing description is in [readme.txt](readme.txt), which is also what W
 - **Apply fix**: only for clear-cut cases (shorten a chain, switch off a duplicate/self/redundant/hiding rule), confirmed inline, re-checked before writing, logged.
 - **Leftover redirects**: rules of plugins that are no longer active; review in a modal, migrate into an active plugin, delete single rules or all data (and the plugin's own tables). Patterns go into exact-only plugins (Simple 301, 301 Redirects) as exact rules for known URLs: published content, every rule's source and target, then Redirection's 404 log (`includes/analysis/class-expander.php`). Sources must pass `Url_Normalizer::is_safe_source()` (log URLs with HTML entities are skipped), all expansion shares one time budget, and the real run is bound to the reviewed preview by a plan hash (refused with 409 when it changed).
 - **Regex search**: the issue list searches source, target and every hop with PCRE (the plugins' own engine), with a low backtrack limit and invalid patterns refused (`Log_Repository::search_pattern()`).
-- **Walkthrough**: a pointer on the Tools menu (plain JS, `assets/menu-pointer.js`) and a step-by-step tour on the dashboard (React `Popover`, `components/Tour.tsx`). Each step has a `since` version in `lib/tour.ts`; bump `Admin\Tour::VERSION` when a release adds steps and administrators who saw an older tour get only the new steps. Progress is per user (`redirect_inspector_tour` user meta). No jQuery.
-- **Dashboard** (Tools → Redirect Inspector): health score, trends, severity chart, issue explorer, scan history with date picker and sorting, an "All clear" view, light/dark and more-contrast colour schemes (WCAG 2.2 AA).
+- **Walkthrough**: a pointer on the Tools menu (plain JS, `assets/menu-pointer.js`) and a step-by-step tour on the dashboard (React `Popover`, `components/Tour.tsx`). Each step has a `since` version in `lib/tour.ts`; bump `Admin\Tour::VERSION` when a release adds steps and administrators who saw an older tour get only the new steps. Progress is per user (`hoptrail_tour` user meta). No jQuery.
+- **Dashboard** (Tools → Hoptrail): health score, trends, severity chart, issue explorer, scan history with date picker and sorting, an "All clear" view, light/dark and more-contrast colour schemes (WCAG 2.2 AA).
 - **Scheduled scans**: daily, weekly or monthly at chosen hours, in site time. **Retention** by days or by the newest number of scans, with a weekly cleanup.
 - **WP-CLI**: `scan` (with `--fail-on` and `--porcelain` for pipelines) and `purge-logs`.
 - **Abilities** (WordPress 7.1+): `run-scan`, `get-scan-results`, `get-next-scan` and `flush-logs` (only files a request with `confirm: true`; an administrator approves it on the dashboard, see `includes/class-flush-requests.php`), for administrators, public for AI clients via the MCP adapter, not on REST, with a GDPR guard.
@@ -45,7 +45,7 @@ Dummy data for all ten supported plugins (local or development environments only
 ```bash
 wp eval-file bin/seed-dummy-data.php          # seed
 wp eval-file bin/seed-dummy-data.php remove   # remove
-wp redirect-inspector scan                    # expected counts (all ten active): bin/seed-expected.json
+wp hoptrail scan                    # expected counts (all ten active): bin/seed-expected.json
 ```
 
 The WordPress.org live preview (`.wordpress-org/blueprints/blueprint.json`) installs all ten plugins and runs the same seed. Rebuild it after changing the seed:
@@ -71,7 +71,7 @@ Every action requires `manage_options` and runs through REST with the core nonce
 
 ## Releasing
 
-1. Update the version in `redirect-inspector.php` (header and constant), `package.json` and the `Stable tag` and changelog in `readme.txt`.
+1. Update the version in `hoptrail.php` (header and constant), `package.json` and the `Stable tag` and changelog in `readme.txt`.
 2. Tag the release (`git tag 1.0.1 && git push --tags`). The **Deploy to WordPress.org** workflow builds `dist/` and pushes to SVN.
 
 Changes to only `readme.txt` or `.wordpress-org/` on `main` are pushed to WordPress.org by the **Plugin asset/readme update** workflow. Both need the repository secrets `SVN_USERNAME` and `SVN_PASSWORD`.

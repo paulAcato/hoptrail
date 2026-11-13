@@ -56,7 +56,7 @@ export const App = () => {
 
 	// The walkthrough: on the first visit, and after an update that added steps (only those).
 	useEffect(() => {
-		const tour = window.redirectInspector?.tour;
+		const tour = window.hoptrail?.tour;
 		if (!loaded || !tour?.pending || '#settings' === window.location.hash) {
 			return undefined;
 		}
@@ -119,7 +119,7 @@ export const App = () => {
 			invalidate();
 			const text = sprintf(
 				/* translators: 1: number of rules, 2: number of issues, 3: duration. */
-				_n('Scanned %1$d rules and found %2$d issue in %3$s.', 'Scanned %1$d rules and found %2$d issues in %3$s.', result.issue_count, 'redirect-inspector'),
+				_n('Scanned %1$d rules and found %2$d issue in %3$s.', 'Scanned %1$d rules and found %2$d issues in %3$s.', result.issue_count, 'hoptrail'),
 				result.rule_count,
 				result.issue_count,
 				duration(result.duration_ms)
@@ -175,7 +175,7 @@ export const App = () => {
 
 			{!latest ? (
 				<section className="rdi-card">
-					<EmptyState title={__('Nothing scanned yet', 'redirect-inspector')} text={__('Use “Run scan” (top right) to check every redirect rule on this site.', 'redirect-inspector')} />
+					<EmptyState title={__('Nothing scanned yet', 'hoptrail')} text={__('Use “Run scan” (top right) to check every redirect rule on this site.', 'hoptrail')} />
 				</section>
 			) : (
 				<>
@@ -184,14 +184,14 @@ export const App = () => {
 					<div className="rdi-grid rdi-grid--charts">
 						<section className="rdi-card rdi-card--chart" aria-labelledby="rdi-score-title">
 							<header className="rdi-card__header">
-								<h2 id="rdi-score-title">{__('Health score', 'redirect-inspector')}</h2>
-								<span className="rdi-card__meta">{__('below 50 critical · 80 and up healthy', 'redirect-inspector')}</span>
+								<h2 id="rdi-score-title">{__('Health score', 'hoptrail')}</h2>
+								<span className="rdi-card__meta">{__('below 50 critical · 80 and up healthy', 'hoptrail')}</span>
 							</header>
 							<ScoreChart trend={summary.trend} />
 						</section>
 						<section className="rdi-card rdi-card--chart" aria-labelledby="rdi-severity-title">
 							<header className="rdi-card__header">
-								<h2 id="rdi-severity-title">{__('Issues by severity', 'redirect-inspector')}</h2>
+								<h2 id="rdi-severity-title">{__('Issues by severity', 'hoptrail')}</h2>
 							</header>
 							<SeverityChart trend={summary.trend} />
 						</section>
@@ -208,11 +208,11 @@ export const App = () => {
 								{multiSource && <SourcesPanel summary={summary} />}
 								<section className="rdi-card" aria-labelledby="rdi-types-title">
 									<header className="rdi-card__header">
-										<h2 id="rdi-types-title">{__('Issues by type', 'redirect-inspector')}</h2>
+										<h2 id="rdi-types-title">{__('Issues by type', 'hoptrail')}</h2>
 										<span className="rdi-card__meta">{latest.issue_count}</span>
 									</header>
 									<BarList
-										caption={__('Issues by type', 'redirect-inspector')}
+										caption={__('Issues by type', 'hoptrail')}
 										bars={TYPE_ORDER.map((type) => ({
 											key: type,
 											label: typeMeta(type).plural,
@@ -237,7 +237,7 @@ export const App = () => {
 
 			<p className="rdi-footer">
 				<Button variant="link" onClick={() => setTourSteps(steps().filter((step) => null !== document.querySelector(step.target)))}>
-					{__('Show the walkthrough', 'redirect-inspector')}
+					{__('Show the walkthrough', 'hoptrail')}
 				</Button>
 			</p>
 

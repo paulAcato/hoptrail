@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="Redirect Inspector">
-	<description>WordPress coding standards for Redirect Inspector.</description>
+<ruleset name="Hoptrail">
+	<description>WordPress coding standards for Hoptrail.</description>
 
 	<file>.</file>
 	<exclude-pattern>/vendor/*</exclude-pattern>
@@ -30,7 +30,7 @@
 	<rule ref="WordPress.WP.I18n">
 		<properties>
 			<property name="text_domain" type="array">
-				<element value="redirect-inspector"/>
+				<element value="hoptrail"/>
 			</property>
 		</properties>
 	</rule>

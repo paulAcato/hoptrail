@@ -2,10 +2,10 @@
 /**
  * Manifest-aware enqueueing of the Vite build.
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Admin;
+namespace Hoptrail\Admin;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -18,7 +18,7 @@ final class Assets {
 	/**
 	 * Script/style handle.
 	 */
-	const HANDLE = 'redirect-inspector';
+	const HANDLE = 'hoptrail';
 
 	/**
 	 * Vite entry.
@@ -44,7 +44,7 @@ final class Assets {
 		}
 
 		wp_enqueue_script( self::HANDLE, self::url( $entry['file'] ), self::DEPENDENCIES, null, [ 'in_footer' => true ] ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Hashed filename is the cache-buster.
-		wp_set_script_translations( self::HANDLE, 'redirect-inspector', REDIRECT_INSPECTOR_PATH . 'languages' );
+		wp_set_script_translations( self::HANDLE, 'hoptrail', HOPTRAIL_PATH . 'languages' );
 
 		wp_enqueue_style( 'wp-components' );
 		// IIFE builds list the extracted stylesheet under `style.css` instead of on the entry.
@@ -66,7 +66,7 @@ final class Assets {
 	 * @return array
 	 */
 	private static function manifest(): array {
-		$path = REDIRECT_INSPECTOR_PATH . 'dist/manifest.json';
+		$path = HOPTRAIL_PATH . 'dist/manifest.json';
 		if ( ! is_readable( $path ) ) {
 			return [];
 		}
@@ -84,6 +84,6 @@ final class Assets {
 	 * @return string
 	 */
 	private static function url( string $file ): string {
-		return REDIRECT_INSPECTOR_URL . 'dist/' . ltrim( $file, '/' );
+		return HOPTRAIL_URL . 'dist/' . ltrim( $file, '/' );
 	}
 }

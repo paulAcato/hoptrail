@@ -31,9 +31,8 @@ export const StatTiles = ({ summary, active, onSelect }: { summary: Summary; act
 						<span className="rdi-tile__value">{compact(value)}</span>
 						<span className={`rdi-tile__delta is-${tone}`}>
 							{null === delta || 0 === delta
-								? __('No change', 'redirect-inspector')
-								/* translators: %s: signed change, e.g. +2. */
-								: sprintf(__('%s since last scan', 'redirect-inspector'), `${delta > 0 ? '+' : '−'}${Math.abs(delta)}`)}
+								? __('No change', 'hoptrail')
+								: sprintf(/* translators: %s: signed change, e.g. +2. */ __('%s since last scan', 'hoptrail'), `${delta > 0 ? '+' : '−'}${Math.abs(delta)}`)}
 						</span>
 						<Sparkline points={trend.map((point) => ({ label: dateTime(point.finished_at), value: groupCount(group, point.types) }))} label={groupLabel(group)} />
 					</button>
