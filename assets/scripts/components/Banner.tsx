@@ -5,6 +5,7 @@ import type { PresentUser, Scan } from '../api/types';
 import { PresenceBadge } from './Presence';
 import { dateTime, duration, relative } from '../lib/format';
 import { healthBand, healthLabel } from '../lib/meta';
+import { pluginName } from '../lib/plugin';
 
 const RADIUS = 44;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
@@ -24,7 +25,7 @@ export const Banner = ({ others, latest, running, onScan }: Props) => {
 	return (
 		<header className="rdi-banner">
 			<div className="rdi-banner__intro">
-				<h1 className="rdi-banner__title">Hoptrail</h1>
+				<h1 className="rdi-banner__title">{pluginName}</h1>
 				<p className="rdi-banner__lead">
 					{__('Follows every redirect rule of your SEO and redirect plugins to where it really ends.', 'hoptrail')}
 				</p>

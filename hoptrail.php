@@ -19,6 +19,10 @@
 defined( 'ABSPATH' ) || exit;
 
 define( 'HOPTRAIL_VERSION', '1.0.0' );
+// Display name and WP-CLI command (`wp hoptrail …`). The plugin header, readme.txt and the WP-CLI
+// docblocks in includes/class-cli.php can't use these: update them too when renaming.
+define( 'HOPTRAIL_NAME', 'Hoptrail' );
+define( 'HOPTRAIL_CLI_COMMAND', 'hoptrail' );
 define( 'HOPTRAIL_FILE', __FILE__ );
 define( 'HOPTRAIL_PATH', plugin_dir_path( __FILE__ ) );
 define( 'HOPTRAIL_URL', plugin_dir_url( __FILE__ ) );

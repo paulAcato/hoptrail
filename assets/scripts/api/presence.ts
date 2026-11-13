@@ -4,6 +4,7 @@ import { addAction, removeAction } from '@wordpress/hooks';
 import { __, sprintf } from '@wordpress/i18n';
 import { invalidate } from './client';
 import type { PresentUser } from './types';
+import { pluginName } from '../lib/plugin';
 
 interface Change {
 	action: string;
@@ -32,7 +33,7 @@ const describe = ({ action, by }: Change): string => {
 		case 'flush': return sprintf(/* translators: %s: name of an administrator. */ __('%s deleted logs.', 'hoptrail'), who);
 		case 'flush-request': return sprintf(/* translators: %s: name of an administrator. */ __('An AI client used by %s asked to delete logs. It waits for approval on this dashboard.', 'hoptrail'), who);
 		case 'flush-declined': return sprintf(/* translators: %s: name of an administrator. */ __('%s declined the request to delete logs.', 'hoptrail'), who);
-		default: return __('Hoptrail was updated by someone else.', 'hoptrail');
+		default: return sprintf(/* translators: %s: plugin name. */ __('%s was updated by someone else.', 'hoptrail'), pluginName);
 	}
 };
 

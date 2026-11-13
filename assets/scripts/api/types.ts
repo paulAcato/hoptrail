@@ -215,6 +215,7 @@ export interface NetworkSite {
 
 export interface BootData {
 	mode: 'site' | 'network';
+	name: string;
 	version: string;
 	retention: string;
 	siteUrl: string;

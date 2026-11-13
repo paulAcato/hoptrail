@@ -210,7 +210,7 @@ final class Redirection implements Source, Writable, Purgeable {
 	private function migration_group(): int {
 		global $wpdb;
 
-		$name = 'Migrated by Hoptrail';
+		$name = 'Migrated by ' . HOPTRAIL_NAME;
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$id = (int) $wpdb->get_var( $wpdb->prepare( 'SELECT id FROM %i WHERE name = %s AND module_id = 1 LIMIT 1', $wpdb->prefix . 'redirection_groups', $name ) );
 		if ( $id ) {

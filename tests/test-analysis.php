@@ -16,6 +16,8 @@ if ( 'cli' !== PHP_SAPI ) {
 define( 'ABSPATH', __DIR__ . '/' );
 define( 'HOPTRAIL_PATH', dirname( __DIR__ ) . '/' );
 define( 'HOPTRAIL_VERSION', 'test' );
+define( 'HOPTRAIL_NAME', 'Hoptrail' );
+define( 'HOPTRAIL_CLI_COMMAND', 'hoptrail' );
 
 // --- WordPress stubs ---------------------------------------------------------------------------
 function __( $text ) { return $text; }

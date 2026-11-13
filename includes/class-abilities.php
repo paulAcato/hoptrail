@@ -114,7 +114,7 @@ final class Abilities extends Singleton {
 		wp_register_ability_category(
 			self::CATEGORY,
 			[
-				'label'       => 'Hoptrail',
+				'label'       => HOPTRAIL_NAME,
 				'description' => __( 'Find redirect loops, chains and redirects you don\'t need across the redirect plugins of this site.', 'hoptrail' ),
 			]
 		);
@@ -293,8 +293,10 @@ final class Abilities extends Singleton {
 		$this->register(
 			'flush-logs',
 			[
-				'label'            => __( 'Flush Hoptrail logs', 'hoptrail' ),
-				'description'      => __( 'Asks to delete stored logs: the scan history (all scans and their issues), the change log of Apply fix and Migrate, or both. Without confirm: true it only reports what would be deleted. With confirm: true it still deletes nothing: it files a request that an administrator must approve on the Hoptrail dashboard in wp-admin (valid for one hour). Never deletes or changes a redirect rule.', 'hoptrail' ),
+				/* translators: %s: plugin name. */
+				'label'            => sprintf( __( 'Flush %s logs', 'hoptrail' ), HOPTRAIL_NAME ),
+				/* translators: %s: plugin name. */
+				'description'      => sprintf( __( 'Asks to delete stored logs: the scan history (all scans and their issues), the change log of Apply fix and Migrate, or both. Without confirm: true it only reports what would be deleted. With confirm: true it still deletes nothing: it files a request that an administrator must approve on the %s dashboard in wp-admin (valid for one hour). Never deletes or changes a redirect rule.', 'hoptrail' ), HOPTRAIL_NAME ),
 				'capabilities'     => [ self::CAPABILITY ],
 				'input_schema'     => $this->input_schema(
 					[
@@ -345,7 +347,7 @@ final class Abilities extends Singleton {
 		$request = true === ( $input['confirm'] ?? false );
 
 		if ( ! Installer::is_installed() ) {
-			return new WP_Error( 'hoptrail_not_installed', __( 'The Hoptrail tables are missing.', 'hoptrail' ), [ 'status' => 500 ] );
+			return new WP_Error( 'hoptrail_not_installed', sprintf( /* translators: %s: plugin name. */ __( 'The %s tables are missing.', 'hoptrail' ), HOPTRAIL_NAME ), [ 'status' => 500 ] );
 		}
 
 		// Always a dry run: deleting needs an administrator's approval in wp-admin (Flush_Requests).
@@ -362,8 +364,8 @@ final class Abilities extends Singleton {
 			'scans'             => $counts['scans'],
 			'changes'           => $counts['changes'],
 			'message'           => $request
-				/* translators: 1: number of scans, 2: number of change log entries. Labels with a colon, so no plural forms are needed. */
-				? sprintf( __( 'Nothing deleted. A request to delete logs (scans: %1$d, change log entries: %2$d) now waits for an administrator on the Hoptrail dashboard in wp-admin (Tools → Hoptrail), valid for one hour.', 'hoptrail' ), $counts['scans'], $counts['changes'] )
+				/* translators: 1: number of scans, 2: number of change log entries, 3: plugin name. Labels with a colon, so no plural forms are needed. */
+				? sprintf( __( 'Nothing deleted. A request to delete logs (scans: %1$d, change log entries: %2$d) now waits for an administrator on the %3$s dashboard in wp-admin (Tools → %3$s), valid for one hour.', 'hoptrail' ), $counts['scans'], $counts['changes'], HOPTRAIL_NAME )
 				/* translators: 1: number of scans, 2: number of change log entries. Labels with a colon, so no plural forms are needed. */
 				: sprintf( __( 'Nothing deleted. This would delete logs (scans: %1$d, change log entries: %2$d). If the user wants that, call again with confirm: true; an administrator then approves it in wp-admin.', 'hoptrail' ), $counts['scans'], $counts['changes'] ),
 		];
@@ -484,7 +486,7 @@ final class Abilities extends Singleton {
 							'fixable'    => [
 								'type'        => 'boolean',
 								'title'       => __( 'Fixable', 'hoptrail' ),
-								'description' => __( 'Whether Apply fix is available on the dashboard (Tools → Hoptrail).', 'hoptrail' ),
+								'description' => sprintf( /* translators: %s: plugin name. */ __( 'Whether Apply fix is available on the dashboard (Tools → %s).', 'hoptrail' ), HOPTRAIL_NAME ),
 							],
 						]
 					)

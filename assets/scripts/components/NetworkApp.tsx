@@ -6,6 +6,7 @@ import { useDebounced, useResource } from '../api/hooks';
 import type { NetworkSite, Paged } from '../api/types';
 import { relative, safeHref } from '../lib/format';
 import { groupCount, healthBand } from '../lib/meta';
+import { pluginName } from '../lib/plugin';
 
 const PER_PAGE = 20;
 
@@ -25,7 +26,7 @@ export const NetworkApp = () => {
 		<div className="rdi-app">
 			<header className="rdi-banner">
 				<div className="rdi-banner__intro">
-					<h1 className="rdi-banner__title">Hoptrail</h1>
+					<h1 className="rdi-banner__title">{pluginName}</h1>
 					<p className="rdi-banner__lead">{__('Latest scan per site. Scans run per site, from each site’s Tools menu.', 'hoptrail')}</p>
 				</div>
 			</header>

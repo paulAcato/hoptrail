@@ -103,11 +103,12 @@ final class Tour extends Singleton {
 
 		$text = '' === $pending
 			? __( 'Find redirect loops, chains and redirects you don’t need, across all your SEO and redirect plugins. A quick walkthrough shows you around.', 'hoptrail' )
-			: __( 'Hoptrail has new features. A quick walkthrough shows what changed.', 'hoptrail' );
+			/* translators: %s: plugin name. */
+			: sprintf( __( '%s has new features. A quick walkthrough shows what changed.', 'hoptrail' ), HOPTRAIL_NAME );
 
 		$pointer = [
 			'name'     => self::pointer_name(),
-			'title'    => 'Hoptrail',
+			'title'    => HOPTRAIL_NAME,
 			'text'     => $text,
 			'link'     => admin_url( 'tools.php?page=' . Admin_Page::SLUG ),
 			'linkText' => __( 'Take the walkthrough', 'hoptrail' ),

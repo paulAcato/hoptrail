@@ -6,6 +6,7 @@ import { errorMessage, invalidate, isAbort, route } from '../api/client';
 import { useMutation } from '../api/hooks';
 import type { FlushRequest } from '../api/types';
 import { dateTime } from '../lib/format';
+import { pluginName } from '../lib/plugin';
 
 /**
  * A log deletion an AI client asked for (flush-logs ability). Nothing is deleted until an
@@ -55,8 +56,8 @@ export const FlushApproval = ({ request }: { request: FlushRequest }) => {
 			<h2 id="rdi-approval-title">{__('An AI client asks to delete logs', 'hoptrail')}</h2>
 			<p>
 				{request.by
-					? sprintf(/* translators: 1: date and time, 2: administrator's name. */ __('On %1$s, an AI client used by %2$s asked through the Hoptrail abilities to permanently delete:', 'hoptrail'), dateTime(request.created), request.by)
-					: sprintf(/* translators: %s: date and time. */ __('On %s, an AI client asked through the Hoptrail abilities to permanently delete:', 'hoptrail'), dateTime(request.created))}
+					? sprintf(/* translators: 1: date and time, 2: administrator's name, 3: plugin name. */ __('On %1$s, an AI client used by %2$s asked through the %3$s abilities to permanently delete:', 'hoptrail'), dateTime(request.created), request.by, pluginName)
+					: sprintf(/* translators: 1: date and time, 2: plugin name. */ __('On %1$s, an AI client asked through the %2$s abilities to permanently delete:', 'hoptrail'), dateTime(request.created), pluginName)}
 			</p>
 			<ul className="rdi-approval__list">
 				{items.map((item) => <li key={item}>{item}</li>)}

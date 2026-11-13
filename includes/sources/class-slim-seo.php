@@ -202,7 +202,7 @@ final class Slim_Seo implements Source, Writable, Purgeable {
 			'condition'        => false === $condition ? 'regex' : $condition,
 			'from'             => Rule::MATCH_REGEX === $rule->match ? $rule->regex( false ) : ltrim( $rule->from, '/' ),
 			'to'               => $rule->to,
-			'note'             => 'Migrated by Hoptrail',
+			'note'             => 'Migrated by ' . HOPTRAIL_NAME,
 			'enable'           => 1,
 			'ignoreParameters' => 0,
 		];
