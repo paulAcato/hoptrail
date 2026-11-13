@@ -2,8 +2,8 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Redirect Inspector 1.0.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/redirect-inspector\n"
+"Project-Id-Version: Hoptrail 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/hoptrail\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12,10 +12,13 @@ msgstr ""
 "POT-Creation-Date: 2026-11-12T21:52:45+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
-"X-Domain: redirect-inspector\n"
+"X-Domain: hoptrail\n"
 
 #. Plugin Name of the plugin
-#: redirect-inspector.php
+#: hoptrail.php
+msgid "Hoptrail – Redirect Loop & Chain Checker"
+msgstr ""
+
 #: admin/class-admin-page.php:54
 #: admin/class-admin-page.php:55
 #: admin/class-admin-page.php:74
@@ -23,37 +26,37 @@ msgstr ""
 #: admin/class-admin-page.php:96
 #: admin/class-tour.php:110
 #: includes/class-abilities.php:117
-#: dist/redirect-inspector.CDDjso3T.js:965
-#: dist/redirect-inspector.CDDjso3T.js:3278
-msgid "Redirect Inspector"
+#: dist/hoptrail.CDDjso3T.js:965
+#: dist/hoptrail.CDDjso3T.js:3278
+msgid "Hoptrail"
 msgstr ""
 
 #. Plugin URI of the plugin
-#: redirect-inspector.php
-msgid "https://github.com/paulAcato/redirect-inspector"
+#: hoptrail.php
+msgid "https://github.com/paulAcato/hoptrail"
 msgstr ""
 
 #. Description of the plugin
-#: redirect-inspector.php
+#: hoptrail.php
 msgid "Finds redirect loops, chains and redirects you don't need across ten SEO and redirect plugins at once, and fixes the clear-cut ones."
 msgstr ""
 
 #. Author of the plugin
-#: redirect-inspector.php
+#: hoptrail.php
 msgid "Paul van Impelen"
 msgstr ""
 
 #. Author URI of the plugin
-#: redirect-inspector.php
+#: hoptrail.php
 msgid "https://profiles.wordpress.org/paulacato/"
 msgstr ""
 
 #: admin/class-admin-page.php:96
-msgid "Redirect Inspector needs JavaScript. Alternatively run: wp redirect-inspector scan"
+msgid "Hoptrail needs JavaScript. Alternatively run: wp hoptrail scan"
 msgstr ""
 
 #: admin/class-admin-page.php:120
-msgid "Redirect Inspector: the dashboard assets are missing. Run npm run build in the plugin folder."
+msgid "Hoptrail: the dashboard assets are missing. Run npm run build in the plugin folder."
 msgstr ""
 
 #: admin/class-admin-page.php:181
@@ -65,7 +68,7 @@ msgid "Find redirect loops, chains and redirects you don’t need, across all yo
 msgstr ""
 
 #: admin/class-tour.php:106
-msgid "Redirect Inspector has new features. A quick walkthrough shows what changed."
+msgid "Hoptrail has new features. A quick walkthrough shows what changed."
 msgstr ""
 
 #: admin/class-tour.php:113
@@ -194,7 +197,7 @@ msgid "Whether scans run on a schedule at all."
 msgstr ""
 
 #: includes/class-abilities.php:244
-#: dist/redirect-inspector.CDDjso3T.js:2634
+#: dist/hoptrail.CDDjso3T.js:2634
 msgid "Frequency"
 msgstr ""
 
@@ -267,11 +270,11 @@ msgid "How long scan history and the change log are kept."
 msgstr ""
 
 #: includes/class-abilities.php:296
-msgid "Flush Redirect Inspector logs"
+msgid "Flush Hoptrail logs"
 msgstr ""
 
 #: includes/class-abilities.php:297
-msgid "Asks to delete stored logs: the scan history (all scans and their issues), the change log of Apply fix and Migrate, or both. Without confirm: true it only reports what would be deleted. With confirm: true it still deletes nothing: it files a request that an administrator must approve on the Redirect Inspector dashboard in wp-admin (valid for one hour). Never deletes or changes a redirect rule."
+msgid "Asks to delete stored logs: the scan history (all scans and their issues), the change log of Apply fix and Migrate, or both. Without confirm: true it only reports what would be deleted. With confirm: true it still deletes nothing: it files a request that an administrator must approve on the Hoptrail dashboard in wp-admin (valid for one hour). Never deletes or changes a redirect rule."
 msgstr ""
 
 #: includes/class-abilities.php:301
@@ -344,13 +347,13 @@ msgid "What happened, in plain text."
 msgstr ""
 
 #: includes/class-abilities.php:348
-msgid "The Redirect Inspector tables are missing."
+msgid "The Hoptrail tables are missing."
 msgstr ""
 
 #. translators: 1: number of scans, 2: number of change-log entries.
 #: includes/class-abilities.php:366
 #, php-format
-msgid "Nothing deleted. A request to delete %1$d scans and %2$d change-log entries now waits for an administrator on the Redirect Inspector dashboard in wp-admin (Tools → Redirect Inspector), valid for one hour."
+msgid "Nothing deleted. A request to delete %1$d scans and %2$d change-log entries now waits for an administrator on the Hoptrail dashboard in wp-admin (Tools → Hoptrail), valid for one hour."
 msgstr ""
 
 #. translators: 1: number of scans, 2: number of change-log entries.
@@ -368,7 +371,7 @@ msgid "When the scan finished (ISO 8601, UTC)."
 msgstr ""
 
 #: includes/class-abilities.php:466
-#: dist/redirect-inspector.CDDjso3T.js:2397
+#: dist/hoptrail.CDDjso3T.js:2397
 msgid "Status"
 msgstr ""
 
@@ -469,7 +472,7 @@ msgid "Every hop: URL → (status code, plugin) URL → …"
 msgstr ""
 
 #: includes/class-abilities.php:482
-#: dist/redirect-inspector.CDDjso3T.js:2204
+#: dist/hoptrail.CDDjso3T.js:2204
 msgid "Plugin"
 msgstr ""
 
@@ -490,12 +493,12 @@ msgid "Fixable"
 msgstr ""
 
 #: includes/class-abilities.php:487
-msgid "Whether Apply fix is available on the dashboard (Tools → Redirect Inspector)."
+msgid "Whether Apply fix is available on the dashboard (Tools → Hoptrail)."
 msgstr ""
 
 #: includes/class-abilities.php:492
-#: dist/redirect-inspector.CDDjso3T.js:2163
-#: dist/redirect-inspector.CDDjso3T.js:2392
+#: dist/hoptrail.CDDjso3T.js:2163
+#: dist/hoptrail.CDDjso3T.js:2392
 msgid "Issues"
 msgstr ""
 
@@ -599,7 +602,7 @@ msgstr ""
 
 #: includes/class-rest-controller.php:397
 #: includes/class-scanner.php:68
-msgid "The Redirect Inspector tables are missing and could not be created."
+msgid "The Hoptrail tables are missing and could not be created."
 msgstr ""
 
 #: includes/class-rest-controller.php:597
@@ -656,1171 +659,1171 @@ msgstr ""
 msgid "Time or evaluation budget reached; results may be incomplete."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:34
+#: dist/hoptrail.CDDjso3T.js:34
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:253
+#: dist/hoptrail.CDDjso3T.js:253
 #, js-format
 msgid "%1$s (%2$s your time)"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:267
+#: dist/hoptrail.CDDjso3T.js:267
 msgid "never"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:274
+#: dist/hoptrail.CDDjso3T.js:274
 msgid "just now"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:276
+#: dist/hoptrail.CDDjso3T.js:276
 #, js-format
 msgid "%d ms"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:276
+#: dist/hoptrail.CDDjso3T.js:276
 #, js-format
 msgid "%s s"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:308
+#: dist/hoptrail.CDDjso3T.js:308
 msgid "Loop"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:309
-#: dist/redirect-inspector.CDDjso3T.js:362
-#: dist/redirect-inspector.CDDjso3T.js:3334
+#: dist/hoptrail.CDDjso3T.js:309
+#: dist/hoptrail.CDDjso3T.js:362
+#: dist/hoptrail.CDDjso3T.js:3334
 msgid "Loops"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:310
+#: dist/hoptrail.CDDjso3T.js:310
 msgid "Redirects that never end"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:313
+#: dist/hoptrail.CDDjso3T.js:313
 msgid "Chain"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:314
-#: dist/redirect-inspector.CDDjso3T.js:363
-#: dist/redirect-inspector.CDDjso3T.js:3339
+#: dist/hoptrail.CDDjso3T.js:314
+#: dist/hoptrail.CDDjso3T.js:363
+#: dist/hoptrail.CDDjso3T.js:3339
 msgid "Chains"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:315
+#: dist/hoptrail.CDDjso3T.js:315
 msgid "Two or more hops before the page loads"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:318
+#: dist/hoptrail.CDDjso3T.js:318
 msgid "Conflict"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:319
-#: dist/redirect-inspector.CDDjso3T.js:364
+#: dist/hoptrail.CDDjso3T.js:319
+#: dist/hoptrail.CDDjso3T.js:364
 msgid "Conflicts"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:320
+#: dist/hoptrail.CDDjso3T.js:320
 msgid "One URL, several different targets"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:323
+#: dist/hoptrail.CDDjso3T.js:323
 msgid "Self-redirect"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:324
+#: dist/hoptrail.CDDjso3T.js:324
 msgid "Self-redirects"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:325
+#: dist/hoptrail.CDDjso3T.js:325
 msgid "Source and target are the same URL"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:328
+#: dist/hoptrail.CDDjso3T.js:328
 msgid "Duplicate"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:329
+#: dist/hoptrail.CDDjso3T.js:329
 msgid "Duplicates"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:330
+#: dist/hoptrail.CDDjso3T.js:330
 msgid "The same redirect defined twice"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:333
-#: dist/redirect-inspector.CDDjso3T.js:334
+#: dist/hoptrail.CDDjso3T.js:333
+#: dist/hoptrail.CDDjso3T.js:334
 msgid "Redundant"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:335
+#: dist/hoptrail.CDDjso3T.js:335
 msgid "WordPress already handles it"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:338
-#: dist/redirect-inspector.CDDjso3T.js:339
+#: dist/hoptrail.CDDjso3T.js:338
+#: dist/hoptrail.CDDjso3T.js:339
 msgid "Hides content"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:340
+#: dist/hoptrail.CDDjso3T.js:340
 msgid "Redirects away from a published page"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:343
+#: dist/hoptrail.CDDjso3T.js:343
 msgid "Broken target"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:344
+#: dist/hoptrail.CDDjso3T.js:344
 msgid "Broken targets"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:345
+#: dist/hoptrail.CDDjso3T.js:345
 msgid "Ends on a page that probably 404s"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:361
+#: dist/hoptrail.CDDjso3T.js:361
 msgid "All issues"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:365
+#: dist/hoptrail.CDDjso3T.js:365
 msgid "Unnecessary"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:366
+#: dist/hoptrail.CDDjso3T.js:366
 msgid "Broken"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:370
-#: dist/redirect-inspector.CDDjso3T.js:401
+#: dist/hoptrail.CDDjso3T.js:370
+#: dist/hoptrail.CDDjso3T.js:401
 msgid "Critical"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:371
+#: dist/hoptrail.CDDjso3T.js:371
 msgid "High"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:372
+#: dist/hoptrail.CDDjso3T.js:372
 msgid "Medium"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:373
+#: dist/hoptrail.CDDjso3T.js:373
 msgid "Low"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:399
+#: dist/hoptrail.CDDjso3T.js:399
 msgid "Healthy"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:400
+#: dist/hoptrail.CDDjso3T.js:400
 msgid "Needs attention"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:409
+#: dist/hoptrail.CDDjso3T.js:409
 msgid "Someone"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:411
+#: dist/hoptrail.CDDjso3T.js:411
 msgid "A scheduled scan finished. The dashboard is up to date."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:412
+#: dist/hoptrail.CDDjso3T.js:412
 #, js-format
 msgid "%s ran a scan. The dashboard is up to date."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:412
+#: dist/hoptrail.CDDjso3T.js:412
 msgid "A scan ran (WP-CLI or an AI client). The dashboard is up to date."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:413
+#: dist/hoptrail.CDDjso3T.js:413
 #, js-format
 msgid "%s applied a fix."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:414
+#: dist/hoptrail.CDDjso3T.js:414
 #, js-format
 msgid "%s migrated leftover rules."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:415
+#: dist/hoptrail.CDDjso3T.js:415
 #, js-format
 msgid "%s deleted a leftover rule."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:416
+#: dist/hoptrail.CDDjso3T.js:416
 #, js-format
 msgid "%s deleted leftover data."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:417
+#: dist/hoptrail.CDDjso3T.js:417
 #, js-format
 msgid "%s changed the schedule or retention settings."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:418
+#: dist/hoptrail.CDDjso3T.js:418
 #, js-format
 msgid "%s deleted logs."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:419
+#: dist/hoptrail.CDDjso3T.js:419
 #, js-format
 msgid "An AI client used by %s asked to delete logs. It waits for approval on this dashboard."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:420
+#: dist/hoptrail.CDDjso3T.js:420
 #, js-format
 msgid "%s declined the request to delete logs."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:421
-msgid "Redirect Inspector was updated by someone else."
+#: dist/hoptrail.CDDjso3T.js:421
+msgid "Hoptrail was updated by someone else."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:471
+#: dist/hoptrail.CDDjso3T.js:471
 msgid "Run a scan"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:472
+#: dist/hoptrail.CDDjso3T.js:472
 msgid "Reads the redirect rules of all supported SEO and redirect plugins and follows every one to where it really ends. Scheduled scans do the same on their own."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:478
-#: dist/redirect-inspector.CDDjso3T.js:1003
-#: dist/redirect-inspector.CDDjso3T.js:3178
+#: dist/hoptrail.CDDjso3T.js:478
+#: dist/hoptrail.CDDjso3T.js:1003
+#: dist/hoptrail.CDDjso3T.js:3178
 msgid "Health score"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:479
+#: dist/hoptrail.CDDjso3T.js:479
 msgid "100 means every redirect goes straight to its destination. Loops cost the most, then chains and conflicts."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:485
-#: dist/redirect-inspector.CDDjso3T.js:1388
+#: dist/hoptrail.CDDjso3T.js:485
+#: dist/hoptrail.CDDjso3T.js:1388
 msgid "Leftover redirects"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:486
+#: dist/hoptrail.CDDjso3T.js:486
 msgid "Rules of plugins that are no longer active. Review them, copy them into an active plugin, or delete them. A pattern is copied as exact rules when the other plugin only holds exact ones."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:491
+#: dist/hoptrail.CDDjso3T.js:491
 msgid "Issues per type"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:492
+#: dist/hoptrail.CDDjso3T.js:492
 msgid "Loops, chains, conflicts, redirects you don’t need, and broken targets, with their trend. Select one to filter the list."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:497
-#: dist/redirect-inspector.CDDjso3T.js:2188
+#: dist/hoptrail.CDDjso3T.js:497
+#: dist/hoptrail.CDDjso3T.js:2188
 msgid "Search"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:498
+#: dist/hoptrail.CDDjso3T.js:498
 msgid "Search the URLs of every hop. Switch on .* to search with a regular expression, such as ^/blog/."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:503
+#: dist/hoptrail.CDDjso3T.js:503
 msgid "Verify and fix"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:504
+#: dist/hoptrail.CDDjso3T.js:504
 msgid "Verify live requests the URL on this site to confirm what visitors get. Apply fix appears when the fix is clear-cut, and changes the rule in the plugin it belongs to."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:509
+#: dist/hoptrail.CDDjso3T.js:509
 msgid "Schedule and retention"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:510
+#: dist/hoptrail.CDDjso3T.js:510
 msgid "Scan daily, weekly or monthly at the hours you choose, and decide how much scan history to keep."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:606
+#: dist/hoptrail.CDDjso3T.js:606
 #, js-format
 msgid "%1$d of %2$d"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:612
+#: dist/hoptrail.CDDjso3T.js:612
 msgid "Skip walkthrough"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:618
+#: dist/hoptrail.CDDjso3T.js:618
 msgid "Back"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:625
+#: dist/hoptrail.CDDjso3T.js:625
 msgid "Done"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:625
-#: dist/redirect-inspector.CDDjso3T.js:2249
-#: dist/redirect-inspector.CDDjso3T.js:2462
-#: dist/redirect-inspector.CDDjso3T.js:3418
+#: dist/hoptrail.CDDjso3T.js:625
+#: dist/hoptrail.CDDjso3T.js:2249
+#: dist/hoptrail.CDDjso3T.js:2462
+#: dist/hoptrail.CDDjso3T.js:3418
 msgid "Next"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:644
+#: dist/hoptrail.CDDjso3T.js:644
 #, js-format
 msgid "%d scan and its issues"
 msgid_plural "%d scans and their issues"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CDDjso3T.js:645
+#: dist/hoptrail.CDDjso3T.js:645
 #, js-format
 msgid "%d entry of the change log"
 msgid_plural "%d entries of the change log"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CDDjso3T.js:646
+#: dist/hoptrail.CDDjso3T.js:646
 #, js-format
 msgid "%1$d scans with their issues and %2$d change-log entries"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:654
+#: dist/hoptrail.CDDjso3T.js:654
 #, js-format
 msgid "Deleted %1$d scans and %2$d change-log entries."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:657
+#: dist/hoptrail.CDDjso3T.js:657
 msgid "Request declined. Nothing was deleted."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:675
+#: dist/hoptrail.CDDjso3T.js:675
 msgid "An AI client asks to delete logs"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:677
+#: dist/hoptrail.CDDjso3T.js:677
 #, js-format
-msgid "Through the Redirect Inspector abilities, an AI client used by %2$s asked to permanently delete %1$s (%3$s). Nothing is deleted unless you approve it here."
+msgid "Through the Hoptrail abilities, an AI client used by %2$s asked to permanently delete %1$s (%3$s). Nothing is deleted unless you approve it here."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:677
+#: dist/hoptrail.CDDjso3T.js:677
 msgid "an administrator"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:680
+#: dist/hoptrail.CDDjso3T.js:680
 #, js-format
 msgid "If you did not ask for this, decline it. The request expires at %s."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:696
+#: dist/hoptrail.CDDjso3T.js:696
 msgid "Decline"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:705
+#: dist/hoptrail.CDDjso3T.js:705
 msgid "Delete logs"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:893
+#: dist/hoptrail.CDDjso3T.js:893
 msgid "No loops"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:894
+#: dist/hoptrail.CDDjso3T.js:894
 msgid "No chains"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:895
+#: dist/hoptrail.CDDjso3T.js:895
 msgid "No conflicts"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:896
+#: dist/hoptrail.CDDjso3T.js:896
 msgid "No self-redirects"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:897
+#: dist/hoptrail.CDDjso3T.js:897
 msgid "No duplicates"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:898
+#: dist/hoptrail.CDDjso3T.js:898
 msgid "No redundant rules"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:899
+#: dist/hoptrail.CDDjso3T.js:899
 msgid "No hidden content"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:900
+#: dist/hoptrail.CDDjso3T.js:900
 msgid "No broken targets"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:917
+#: dist/hoptrail.CDDjso3T.js:917
 msgid "No issues found so far"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:917
+#: dist/hoptrail.CDDjso3T.js:917
 #, js-format
 msgid "All clear: no issues in %d redirect rule"
 msgid_plural "All clear: no issues in %d redirect rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CDDjso3T.js:918
+#: dist/hoptrail.CDDjso3T.js:918
 msgid "Every redirect goes straight to its destination. These are the checks it passed:"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:932
+#: dist/hoptrail.CDDjso3T.js:932
 #, js-format
 msgid "%s is also here"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:932
+#: dist/hoptrail.CDDjso3T.js:932
 #, js-format
 msgid "%1$s are also here"
 msgid_plural "%1$s are also here"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CDDjso3T.js:969
+#: dist/hoptrail.CDDjso3T.js:969
 msgid "Follows every redirect rule of your SEO and redirect plugins to where it really ends."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:974
+#: dist/hoptrail.CDDjso3T.js:974
 #, js-format
 msgid "Last scan %1$s · %2$d rules · %3$s"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:974
-#: dist/redirect-inspector.CDDjso3T.js:1003
+#: dist/hoptrail.CDDjso3T.js:974
+#: dist/hoptrail.CDDjso3T.js:1003
 msgid "No scan yet"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:997
+#: dist/hoptrail.CDDjso3T.js:997
 msgid "Scanning…"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:997
+#: dist/hoptrail.CDDjso3T.js:997
 msgid "Run scan"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1026
+#: dist/hoptrail.CDDjso3T.js:1026
 msgid "no score"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1036
+#: dist/hoptrail.CDDjso3T.js:1036
 #, js-format
 msgid "Will be copied to %s"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1037
+#: dist/hoptrail.CDDjso3T.js:1037
 #, js-format
 msgid "Becomes %1$d exact rule in %2$s"
 msgid_plural "Becomes %1$d exact rules in %2$s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1038
+#: dist/hoptrail.CDDjso3T.js:1038
 #, js-format
 msgid "Already in %s"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1039
+#: dist/hoptrail.CDDjso3T.js:1039
 #, js-format
 msgid "%s can’t hold this rule"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1060
+#: dist/hoptrail.CDDjso3T.js:1060
 #, js-format
 msgid "Deleted the rule for %s."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1088
+#: dist/hoptrail.CDDjso3T.js:1088
 msgid "Hide the exact rules"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1088
+#: dist/hoptrail.CDDjso3T.js:1088
 msgid "Show the exact rules"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1101
-#: dist/redirect-inspector.CDDjso3T.js:1119
+#: dist/hoptrail.CDDjso3T.js:1101
+#: dist/hoptrail.CDDjso3T.js:1119
 msgid "Delete"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1111
-#: dist/redirect-inspector.CDDjso3T.js:1321
-#: dist/redirect-inspector.CDDjso3T.js:2060
-#: dist/redirect-inspector.CDDjso3T.js:2823
+#: dist/hoptrail.CDDjso3T.js:1111
+#: dist/hoptrail.CDDjso3T.js:1321
+#: dist/hoptrail.CDDjso3T.js:2060
+#: dist/hoptrail.CDDjso3T.js:2823
 msgid "Cancel"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1117
+#: dist/hoptrail.CDDjso3T.js:1117
 #, js-format
 msgid "Delete the rule for %s"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1134
+#: dist/hoptrail.CDDjso3T.js:1134
 #, js-format
 msgid "%s only holds exact rules, so this pattern is copied for the URLs this site is known to have: published content, URLs from the 404 log, and the sources and targets of other rules."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1184
+#: dist/hoptrail.CDDjso3T.js:1184
 #, js-format
 msgid "%1$d rule copied to %2$s. Run a scan to include it."
 msgid_plural "%1$d rules copied to %2$s. Run a scan to include them."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1198
+#: dist/hoptrail.CDDjso3T.js:1198
 #, js-format
 msgid "Deleted %1$d stored rule of %2$s."
 msgid_plural "Deleted %1$d stored rules of %2$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1211
+#: dist/hoptrail.CDDjso3T.js:1211
 #, js-format
 msgid "Leftover rules of %s"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1218
+#: dist/hoptrail.CDDjso3T.js:1218
 msgid "This plugin is not active, so these rules redirect nothing. Copy them into an active redirect plugin, or delete them."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1225
+#: dist/hoptrail.CDDjso3T.js:1225
 msgid "Migrate to"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1236
+#: dist/hoptrail.CDDjso3T.js:1236
 #, js-format
 msgid "%d will be copied"
 msgid_plural "%d will be copied"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1237
+#: dist/hoptrail.CDDjso3T.js:1237
 #, js-format
 msgid "%d already there"
 msgid_plural "%d already there"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1238
+#: dist/hoptrail.CDDjso3T.js:1238
 #, js-format
 msgid "%d not supported"
 msgid_plural "%d not supported"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1249
+#: dist/hoptrail.CDDjso3T.js:1249
 msgid "Not every pattern could be checked against all known URLs in time; some exact rules may be missing from this list."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1255
+#: dist/hoptrail.CDDjso3T.js:1255
 msgid "Stored rules"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1262
+#: dist/hoptrail.CDDjso3T.js:1262
 msgid "From"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1266
+#: dist/hoptrail.CDDjso3T.js:1266
 msgid "To"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1271
+#: dist/hoptrail.CDDjso3T.js:1271
 msgid "Code"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1275
+#: dist/hoptrail.CDDjso3T.js:1275
 msgid "Migration"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1281
+#: dist/hoptrail.CDDjso3T.js:1281
 msgid "Actions"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1305
+#: dist/hoptrail.CDDjso3T.js:1305
 #, js-format
 msgid "Permanently delete %1$d stored rule of %2$s? This cannot be undone."
 msgid_plural "Permanently delete %1$d stored rules of %2$s? This cannot be undone."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1308
+#: dist/hoptrail.CDDjso3T.js:1308
 #, js-format
 msgid "Also drop the redirect tables of %s"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1309
+#: dist/hoptrail.CDDjso3T.js:1309
 msgid "Only when you don’t plan to activate it again; it would have to set up its tables anew."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1331
+#: dist/hoptrail.CDDjso3T.js:1331
 msgid "Delete rules and tables"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1331
+#: dist/hoptrail.CDDjso3T.js:1331
 msgid "Delete rules"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1342
+#: dist/hoptrail.CDDjso3T.js:1342
 msgid "Delete all data"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1350
+#: dist/hoptrail.CDDjso3T.js:1350
 msgid "Delete data"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1358
+#: dist/hoptrail.CDDjso3T.js:1358
 #, js-format
 msgid "Migrate %d rule"
 msgid_plural "Migrate %d rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1391
+#: dist/hoptrail.CDDjso3T.js:1391
 msgid "These plugins are not active, so their rules redirect nothing."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1403
+#: dist/hoptrail.CDDjso3T.js:1403
 #, js-format
 msgid "Not active · %d stored rule"
 msgid_plural "Not active · %d stored rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1412
+#: dist/hoptrail.CDDjso3T.js:1412
 msgid "Review rules"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1425
+#: dist/hoptrail.CDDjso3T.js:1425
 msgid "Show fewer"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1425
+#: dist/hoptrail.CDDjso3T.js:1425
 #, js-format
 msgid "Show all %d"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1624
+#: dist/hoptrail.CDDjso3T.js:1624
 msgid "Health score per scan"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1627
-#: dist/redirect-inspector.CDDjso3T.js:1788
+#: dist/hoptrail.CDDjso3T.js:1627
+#: dist/hoptrail.CDDjso3T.js:1788
 msgid "Scan"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1630
-#: dist/redirect-inspector.CDDjso3T.js:2393
-#: dist/redirect-inspector.CDDjso3T.js:3324
+#: dist/hoptrail.CDDjso3T.js:1630
+#: dist/hoptrail.CDDjso3T.js:2393
+#: dist/hoptrail.CDDjso3T.js:3324
 msgid "Score"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1785
+#: dist/hoptrail.CDDjso3T.js:1785
 msgid "Issues per scan by severity"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1834
+#: dist/hoptrail.CDDjso3T.js:1834
 msgid "Redirect path"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1857
-#: dist/redirect-inspector.CDDjso3T.js:1863
+#: dist/hoptrail.CDDjso3T.js:1857
+#: dist/hoptrail.CDDjso3T.js:1863
 #, js-format
 msgid "%1$s – edit the rule to %2$s"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1874
+#: dist/hoptrail.CDDjso3T.js:1874
 msgid "back to start"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1883
+#: dist/hoptrail.CDDjso3T.js:1883
 msgid "Loads after one redirect"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1884
+#: dist/hoptrail.CDDjso3T.js:1884
 msgid "Confirmed chain"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1885
+#: dist/hoptrail.CDDjso3T.js:1885
 msgid "Confirmed loop"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1886
+#: dist/hoptrail.CDDjso3T.js:1886
 msgid "Ends in an error page"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1887
+#: dist/hoptrail.CDDjso3T.js:1887
 msgid "Leaves this site (not followed)"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1888
+#: dist/hoptrail.CDDjso3T.js:1888
 msgid "Request failed"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1895
+#: dist/hoptrail.CDDjso3T.js:1895
 msgid "Live check"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1907
+#: dist/hoptrail.CDDjso3T.js:1907
 msgid "external, not requested"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1931
+#: dist/hoptrail.CDDjso3T.js:1931
 #, js-format
 msgid "Point %1$s straight to %2$s in %3$s?"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1932
+#: dist/hoptrail.CDDjso3T.js:1932
 #, js-format
 msgid "Switch off %d duplicate rule?"
 msgid_plural "Switch off %d duplicate rules?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1933
+#: dist/hoptrail.CDDjso3T.js:1933
 #, js-format
 msgid "Remove the rule for %1$s from %2$s? It has no off switch; the old rule is kept in the fix log."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1933
+#: dist/hoptrail.CDDjso3T.js:1933
 #, js-format
 msgid "Switch off the rule for %1$s in %2$s? You can switch it back on there."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1935
+#: dist/hoptrail.CDDjso3T.js:1935
 msgid "Shorten chain"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1935
+#: dist/hoptrail.CDDjso3T.js:1935
 msgid "Switch off rule"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1970
+#: dist/hoptrail.CDDjso3T.js:1970
 msgid "Live check finished."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:1982
+#: dist/hoptrail.CDDjso3T.js:1982
 msgid "Fix applied. Run a new scan to update the numbers."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2009
+#: dist/hoptrail.CDDjso3T.js:2009
 msgid "New"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2013
+#: dist/hoptrail.CDDjso3T.js:2013
 msgid "Fixed"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2020
+#: dist/hoptrail.CDDjso3T.js:2020
 msgid "hop"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2020
+#: dist/hoptrail.CDDjso3T.js:2020
 msgid "hops"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2037
+#: dist/hoptrail.CDDjso3T.js:2037
 #, js-format
 msgid "Fixed by %1$s %2$s. Run a new scan to update the numbers."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2041
+#: dist/hoptrail.CDDjso3T.js:2041
 msgid "Confirm fix"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2052
+#: dist/hoptrail.CDDjso3T.js:2052
 msgid "Applying…"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2052
+#: dist/hoptrail.CDDjso3T.js:2052
 msgid "Apply"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2075
+#: dist/hoptrail.CDDjso3T.js:2075
 msgid "Checking…"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2075
+#: dist/hoptrail.CDDjso3T.js:2075
 msgid "Verify live"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2085
+#: dist/hoptrail.CDDjso3T.js:2085
 msgid "Apply fix"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2146
+#: dist/hoptrail.CDDjso3T.js:2146
 #, js-format
 msgid "%d issue found"
 msgid_plural "%d issues found"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2169
+#: dist/hoptrail.CDDjso3T.js:2169
 msgid "Filter by issue type"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2187
+#: dist/hoptrail.CDDjso3T.js:2187
 msgid "Search URLs with a regular expression"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2187
+#: dist/hoptrail.CDDjso3T.js:2187
 msgid "Search URLs"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2197
+#: dist/hoptrail.CDDjso3T.js:2197
 msgid "Use regular expression"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2208
+#: dist/hoptrail.CDDjso3T.js:2208
 msgid "All plugins"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2226
+#: dist/hoptrail.CDDjso3T.js:2226
 msgid "Nothing matches these filters"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2226
+#: dist/hoptrail.CDDjso3T.js:2226
 msgid "No issues found"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2227
+#: dist/hoptrail.CDDjso3T.js:2227
 msgid "Try another type, plugin or search term."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2227
+#: dist/hoptrail.CDDjso3T.js:2227
 msgid "Every redirect goes straight to its destination."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2232
+#: dist/hoptrail.CDDjso3T.js:2232
 msgid "Issue pages"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2240
-#: dist/redirect-inspector.CDDjso3T.js:2449
-#: dist/redirect-inspector.CDDjso3T.js:3405
+#: dist/hoptrail.CDDjso3T.js:2240
+#: dist/hoptrail.CDDjso3T.js:2449
+#: dist/hoptrail.CDDjso3T.js:3405
 msgid "Previous"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2242
+#: dist/hoptrail.CDDjso3T.js:2242
 #, js-format
 msgid "Page %1$d of %2$d · %3$d issue"
 msgid_plural "Page %1$d of %2$d · %3$d issues"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2259
+#: dist/hoptrail.CDDjso3T.js:2259
 msgid "Running"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2260
+#: dist/hoptrail.CDDjso3T.js:2260
 msgid "Complete"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2261
+#: dist/hoptrail.CDDjso3T.js:2261
 msgid "Partial"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2262
+#: dist/hoptrail.CDDjso3T.js:2262
 msgid "Failed"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2327
+#: dist/hoptrail.CDDjso3T.js:2327
 msgid "Scan history"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2341
+#: dist/hoptrail.CDDjso3T.js:2341
 msgid "Pick a date"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2356
+#: dist/hoptrail.CDDjso3T.js:2356
 msgid "Days with a scan are marked."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2364
+#: dist/hoptrail.CDDjso3T.js:2364
 msgid "Show all dates"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2386
+#: dist/hoptrail.CDDjso3T.js:2386
 msgid "Scanned"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2389
+#: dist/hoptrail.CDDjso3T.js:2389
 msgid "By"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2391
-#: dist/redirect-inspector.CDDjso3T.js:3329
+#: dist/hoptrail.CDDjso3T.js:2391
+#: dist/hoptrail.CDDjso3T.js:3329
 msgid "Rules"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2394
+#: dist/hoptrail.CDDjso3T.js:2394
 msgid "Took"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2401
+#: dist/hoptrail.CDDjso3T.js:2401
 #, js-format
 msgid "No scans on %s."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2401
+#: dist/hoptrail.CDDjso3T.js:2401
 msgid "No scans yet."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2441
+#: dist/hoptrail.CDDjso3T.js:2441
 msgid "Scan history pages"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2493
+#: dist/hoptrail.CDDjso3T.js:2493
 msgid "Daily"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2497
+#: dist/hoptrail.CDDjso3T.js:2497
 msgid "Weekly"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2501
+#: dist/hoptrail.CDDjso3T.js:2501
 msgid "Monthly"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2505
+#: dist/hoptrail.CDDjso3T.js:2505
 msgid "the last day"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2505
+#: dist/hoptrail.CDDjso3T.js:2505
 #, js-format
 msgid "day %d"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2545
+#: dist/hoptrail.CDDjso3T.js:2545
 msgid "Off. Scans only run when you start them."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2546
+#: dist/hoptrail.CDDjso3T.js:2546
 msgid "Pick at least one day and one hour."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2548
+#: dist/hoptrail.CDDjso3T.js:2548
 #, js-format
 msgid "Runs every day at %1$s, site time (%2$s)."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2549
+#: dist/hoptrail.CDDjso3T.js:2549
 #, js-format
 msgid "Runs on %1$s of every month at %2$s, site time (%3$s)."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2550
+#: dist/hoptrail.CDDjso3T.js:2550
 msgid "every day"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2551
+#: dist/hoptrail.CDDjso3T.js:2551
 #, js-format
 msgid "Runs %1$s at %2$s, site time (%3$s)."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2569
+#: dist/hoptrail.CDDjso3T.js:2569
 msgid "Settings saved."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2579
+#: dist/hoptrail.CDDjso3T.js:2579
 #, js-format
 msgid "Deleted %d scans."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2594
+#: dist/hoptrail.CDDjso3T.js:2594
 msgid "Schedule & retention"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2603
-#: dist/redirect-inspector.CDDjso3T.js:2613
+#: dist/hoptrail.CDDjso3T.js:2603
+#: dist/hoptrail.CDDjso3T.js:2613
 msgid "Scheduled scans"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2655
+#: dist/hoptrail.CDDjso3T.js:2655
 msgid "Day of the month"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2661
+#: dist/hoptrail.CDDjso3T.js:2661
 msgid "Last day of the month"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2673
+#: dist/hoptrail.CDDjso3T.js:2673
 msgid "Days"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2694
+#: dist/hoptrail.CDDjso3T.js:2694
 msgid "Hours"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2720
+#: dist/hoptrail.CDDjso3T.js:2720
 #, js-format
 msgid "Next scan: %s"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2729
+#: dist/hoptrail.CDDjso3T.js:2729
 msgid "History"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2734
+#: dist/hoptrail.CDDjso3T.js:2734
 msgid "Keep"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2744
+#: dist/hoptrail.CDDjso3T.js:2744
 msgid "Scans of the last days"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2749
+#: dist/hoptrail.CDDjso3T.js:2749
 msgid "The newest scans"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2756
+#: dist/hoptrail.CDDjso3T.js:2756
 msgid "Keep scans for"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2760
+#: dist/hoptrail.CDDjso3T.js:2760
 msgid "7 to 365 days."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2763
+#: dist/hoptrail.CDDjso3T.js:2763
 msgid "days"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2768
+#: dist/hoptrail.CDDjso3T.js:2768
 msgid "Keep the newest"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2772
+#: dist/hoptrail.CDDjso3T.js:2772
 msgid "5 to 1,000 scans."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2775
+#: dist/hoptrail.CDDjso3T.js:2775
 msgid "scans"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2782
+#: dist/hoptrail.CDDjso3T.js:2782
 #, js-format
 msgid "Next cleanup: %s."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2791
+#: dist/hoptrail.CDDjso3T.js:2791
 msgid "Someone else saved these settings while you were editing. Saving now replaces their changes with yours."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2805
+#: dist/hoptrail.CDDjso3T.js:2805
 msgid "Delete all scan history? This cannot be undone."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2815
+#: dist/hoptrail.CDDjso3T.js:2815
 msgid "Deleting…"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2815
+#: dist/hoptrail.CDDjso3T.js:2815
 msgid "Delete all"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2833
+#: dist/hoptrail.CDDjso3T.js:2833
 msgid "Delete history"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2842
+#: dist/hoptrail.CDDjso3T.js:2842
 msgid "Saving…"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2842
+#: dist/hoptrail.CDDjso3T.js:2842
 msgid "Save settings"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2862
+#: dist/hoptrail.CDDjso3T.js:2862
 msgid "Rules by plugin"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2865
+#: dist/hoptrail.CDDjso3T.js:2865
 #, js-format
 msgid "%s rule"
 msgid_plural "%s rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2897
+#: dist/hoptrail.CDDjso3T.js:2897
 #, js-format
 msgid "%d issue"
 msgid_plural "%d issues"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2897
+#: dist/hoptrail.CDDjso3T.js:2897
 msgid "No issues"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:2897
-#: dist/redirect-inspector.CDDjso3T.js:3390
+#: dist/hoptrail.CDDjso3T.js:2897
+#: dist/hoptrail.CDDjso3T.js:3390
 msgid "Not active"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:3002
+#: dist/hoptrail.CDDjso3T.js:3002
 msgid "No change"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:3002
+#: dist/hoptrail.CDDjso3T.js:3002
 #, js-format
 msgid "%s since last scan"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:3094
+#: dist/hoptrail.CDDjso3T.js:3094
 #, js-format
 msgid "Scanned %1$d rules and found %2$d issue in %3$s."
 msgid_plural "Scanned %1$d rules and found %2$d issues in %3$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/redirect-inspector.CDDjso3T.js:3160
+#: dist/hoptrail.CDDjso3T.js:3160
 msgid "Nothing scanned yet"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:3161
+#: dist/hoptrail.CDDjso3T.js:3161
 msgid "Use “Run scan” (top right) to check every redirect rule on this site."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:3181
+#: dist/hoptrail.CDDjso3T.js:3181
 msgid "below 50 critical · 80 and up healthy"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:3191
+#: dist/hoptrail.CDDjso3T.js:3191
 msgid "Issues by severity"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:3208
-#: dist/redirect-inspector.CDDjso3T.js:3214
+#: dist/hoptrail.CDDjso3T.js:3208
+#: dist/hoptrail.CDDjso3T.js:3214
 msgid "Issues by type"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:3245
+#: dist/hoptrail.CDDjso3T.js:3245
 msgid "Show the walkthrough"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:3281
+#: dist/hoptrail.CDDjso3T.js:3281
 msgid "Latest scan per site. Scans run per site, from each site’s Tools menu."
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:3292
+#: dist/hoptrail.CDDjso3T.js:3292
 msgid "Sites"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:3299
+#: dist/hoptrail.CDDjso3T.js:3299
 msgid "Search sites"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:3319
+#: dist/hoptrail.CDDjso3T.js:3319
 msgid "Site"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:3344
+#: dist/hoptrail.CDDjso3T.js:3344
 msgid "Other"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:3348
+#: dist/hoptrail.CDDjso3T.js:3348
 msgid "Last scan"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:3390
+#: dist/hoptrail.CDDjso3T.js:3390
 msgid "Never"
 msgstr ""
 
-#: dist/redirect-inspector.CDDjso3T.js:3397
+#: dist/hoptrail.CDDjso3T.js:3397
 msgid "Site pages"
 msgstr ""

@@ -2,15 +2,15 @@
 /**
  * The list of sources.
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes\Sources;
+namespace Hoptrail\Includes\Sources;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Built-in adapters plus whatever `redirect_inspector_sources` adds.
+ * Built-in adapters plus whatever `hoptrail_sources` adds.
  */
 final class Registry {
 
@@ -34,11 +34,11 @@ final class Registry {
 		];
 
 		/**
-		 * Filter the redirect sources Redirect Inspector reads.
+		 * Filter the redirect sources Hoptrail reads.
 		 *
 		 * @param Source[] $sources Source adapters, in the order rules take precedence.
 		 */
-		$sources = apply_filters( 'redirect_inspector_sources', $sources );
+		$sources = apply_filters( 'hoptrail_sources', $sources );
 
 		$keyed = [];
 		foreach ( (array) $sources as $source ) {

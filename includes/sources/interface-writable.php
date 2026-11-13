@@ -1,13 +1,13 @@
 <?php
 /**
- * A source whose rules Redirect Inspector may change (Apply fix).
+ * A source whose rules Hoptrail may change (Apply fix).
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes\Sources;
+namespace Hoptrail\Includes\Sources;
 
-use Acato\RedirectInspector\Includes\Rule;
+use Hoptrail\Includes\Rule;
 
 defined( 'ABSPATH' ) || exit;
 

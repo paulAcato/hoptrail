@@ -19,11 +19,11 @@ export const FlushApproval = ({ request }: { request: FlushRequest }) => {
 
 	const what = {
 		/* translators: %d: number of scans. */
-		history: sprintf(_n('%d scan and its issues', '%d scans and their issues', request.scans, 'redirect-inspector'), request.scans),
+		history: sprintf(_n('%d scan and its issues', '%d scans and their issues', request.scans, 'hoptrail'), request.scans),
 		/* translators: %d: number of change-log entries. */
-		changes: sprintf(_n('%d entry of the change log', '%d entries of the change log', request.changes, 'redirect-inspector'), request.changes),
+		changes: sprintf(_n('%d entry of the change log', '%d entries of the change log', request.changes, 'hoptrail'), request.changes),
 		/* translators: 1: number of scans, 2: number of change-log entries. */
-		all: sprintf(__('%1$d scans with their issues and %2$d change-log entries', 'redirect-inspector'), request.scans, request.changes),
+		all: sprintf(__('%1$d scans with their issues and %2$d change-log entries', 'hoptrail'), request.scans, request.changes),
 	}[request.scope];
 
 	const act = async (kind: 'approve' | 'decline') => {
@@ -33,10 +33,10 @@ export const FlushApproval = ({ request }: { request: FlushRequest }) => {
 			if ('approve' === kind) {
 				const done = await approve.run(path, 'POST');
 				/* translators: 1: number of scans, 2: number of change-log entries. */
-				speak(sprintf(__('Deleted %1$d scans and %2$d change-log entries.', 'redirect-inspector'), done.scans, done.changes), 'polite');
+				speak(sprintf(__('Deleted %1$d scans and %2$d change-log entries.', 'hoptrail'), done.scans, done.changes), 'polite');
 			} else {
 				await decline.run(path, 'DELETE');
-				speak(__('Request declined. Nothing was deleted.', 'redirect-inspector'), 'polite');
+				speak(__('Request declined. Nothing was deleted.', 'hoptrail'), 'polite');
 			}
 			invalidate();
 		} catch (caught) {
@@ -50,27 +50,27 @@ export const FlushApproval = ({ request }: { request: FlushRequest }) => {
 
 	return (
 		<section className="rdi-card rdi-approval" role="region" aria-labelledby="rdi-approval-title">
-			<h2 id="rdi-approval-title">{__('An AI client asks to delete logs', 'redirect-inspector')}</h2>
+			<h2 id="rdi-approval-title">{__('An AI client asks to delete logs', 'hoptrail')}</h2>
 			<p>
 				{sprintf(
 					/* translators: 1: what would be deleted, 2: administrator's name, 3: date and time. */
-					__('Through the Redirect Inspector abilities, an AI client used by %2$s asked to permanently delete %1$s (%3$s). Nothing is deleted unless you approve it here.', 'redirect-inspector'),
+					__('Through the Hoptrail abilities, an AI client used by %2$s asked to permanently delete %1$s (%3$s). Nothing is deleted unless you approve it here.', 'hoptrail'),
 					what,
-					request.by || __('an administrator', 'redirect-inspector'),
+					request.by || __('an administrator', 'hoptrail'),
 					dateTime(request.created)
 				)}
 			</p>
 			<p className="rdi-muted">
 				{/* translators: %s: date and time. */}
-				{sprintf(__('If you did not ask for this, decline it. The request expires at %s.', 'redirect-inspector'), dateTime(request.expires))}
+				{sprintf(__('If you did not ask for this, decline it. The request expires at %s.', 'hoptrail'), dateTime(request.expires))}
 			</p>
 			{error && <p className="rdi-migrate__error" role="alert">{error}</p>}
 			<div className="rdi-approval__buttons">
 				<Button __next40pxDefaultSize variant="secondary" disabled={busy} accessibleWhenDisabled isBusy={decline.busy} onClick={() => act('decline')}>
-					{__('Decline', 'redirect-inspector')}
+					{__('Decline', 'hoptrail')}
 				</Button>
 				<Button __next40pxDefaultSize variant="primary" isDestructive disabled={busy} accessibleWhenDisabled isBusy={approve.busy} onClick={() => act('approve')}>
-					{__('Delete logs', 'redirect-inspector')}
+					{__('Delete logs', 'hoptrail')}
 				</Button>
 			</div>
 		</section>

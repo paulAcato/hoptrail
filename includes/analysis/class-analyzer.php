@@ -2,14 +2,14 @@
 /**
  * Finds loops, chains and unnecessary redirects in the merged rule graph.
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes\Analysis;
+namespace Hoptrail\Includes\Analysis;
 
-use Acato\RedirectInspector\Includes\Rule;
-use Acato\RedirectInspector\Includes\Sources\Registry;
-use Acato\RedirectInspector\Includes\Url_Normalizer;
+use Hoptrail\Includes\Rule;
+use Hoptrail\Includes\Sources\Registry;
+use Hoptrail\Includes\Url_Normalizer;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -115,7 +115,7 @@ final class Analyzer {
 				$rule->from,
 				$rule->to,
 				[ self::hop( $rule, $rule->from, $rule->to ) ],
-				__( 'This regular expression is invalid, so the rule never fires. Fix or remove it.', 'redirect-inspector' )
+				__( 'This regular expression is invalid, so the rule never fires. Fix or remove it.', 'hoptrail' )
 			);
 		}
 
@@ -149,7 +149,7 @@ final class Analyzer {
 					$hops,
 					sprintf(
 						/* translators: 1: number of rules, 2: plugin that wins. */
-						__( '%1$d rules redirect this URL to the same target. Keep the one in %2$s and remove the others.', 'redirect-inspector' ),
+						__( '%1$d rules redirect this URL to the same target. Keep the one in %2$s and remove the others.', 'hoptrail' ),
 						count( $rules ),
 						self::label( $winner->source )
 					),
@@ -168,7 +168,7 @@ final class Analyzer {
 				$hops,
 				sprintf(
 					/* translators: 1: number of rules, 2: number of targets. */
-					__( '%1$d rules send this URL to %2$d different targets; which one wins depends on plugin load order. Keep one rule.', 'redirect-inspector' ),
+					__( '%1$d rules send this URL to %2$d different targets; which one wins depends on plugin load order. Keep one rule.', 'hoptrail' ),
 					count( $rules ),
 					count( $targets )
 				)
@@ -209,8 +209,8 @@ final class Analyzer {
 				$rule->to,
 				[ self::hop( $rule, $start, $first_target ) ],
 				$identical
-					? __( 'This rule redirects a URL to itself: an endless loop. Remove it.', 'redirect-inspector' )
-					: __( 'Source and target differ only in case, trailing slash or encoding. Depending on the plugin this loops or does nothing. Remove it.', 'redirect-inspector' ),
+					? __( 'This rule redirects a URL to itself: an endless loop. Remove it.', 'hoptrail' )
+					: __( 'Source and target differ only in case, trailing slash or encoding. Depending on the plugin this loops or does nothing. Remove it.', 'hoptrail' ),
 				self::fix( 'disable', [ $rule ] )
 			);
 			return null;
@@ -253,7 +253,7 @@ final class Analyzer {
 				$hops,
 				sprintf(
 					/* translators: 1: source URL, 2: final URL, 3: number of hops. */
-					__( 'Visitors and crawlers take %3$d hops. Point %1$s straight to %2$s.', 'redirect-inspector' ),
+					__( 'Visitors and crawlers take %3$d hops. Point %1$s straight to %2$s.', 'hoptrail' ),
 					$rule->from,
 					$this->display( $current ),
 					count( $hops )
@@ -297,10 +297,10 @@ final class Analyzer {
 			count( $plugins ) > 1
 				? sprintf(
 					/* translators: %s: list of plugins. */
-					__( 'Endless loop across %s. Visitors get "too many redirects". Break the loop by changing or removing one of these rules.', 'redirect-inspector' ),
+					__( 'Endless loop across %s. Visitors get "too many redirects". Break the loop by changing or removing one of these rules.', 'hoptrail' ),
 					implode( ', ', $plugins )
 				)
-				: __( 'Endless loop. Visitors get "too many redirects". Break the loop by changing or removing one of these rules.', 'redirect-inspector' )
+				: __( 'Endless loop. Visitors get "too many redirects". Break the loop by changing or removing one of these rules.', 'hoptrail' )
 		);
 
 		if ( $leads_in ) {
@@ -313,7 +313,7 @@ final class Analyzer {
 				$all_hops,
 				sprintf(
 					/* translators: %s: source URL. */
-					__( '%s ends up in a redirect loop. Point it to a page that loads.', 'redirect-inspector' ),
+					__( '%s ends up in a redirect loop. Point it to a page that loads.', 'hoptrail' ),
 					$rule->from
 				)
 			);
@@ -361,7 +361,7 @@ final class Analyzer {
 						$rule->from,
 						$rule->to,
 						[ self::hop( $rule, $key, $permalink ) ],
-						__( 'WordPress already redirects this old slug to the post\'s current URL. This rule can be removed.', 'redirect-inspector' ),
+						__( 'WordPress already redirects this old slug to the post\'s current URL. This rule can be removed.', 'hoptrail' ),
 						self::fix( 'disable', [ $rule ] )
 					);
 				}
@@ -400,7 +400,7 @@ final class Analyzer {
 				[ self::hop( $rule, $key, $this->normalizer->key( $rule->to ) ) ],
 				sprintf(
 					/* translators: %s: post title. */
-					__( 'This URL belongs to the published "%s", which visitors can no longer reach. Remove the redirect, or unpublish the content.', 'redirect-inspector' ),
+					__( 'This URL belongs to the published "%s", which visitors can no longer reach. Remove the redirect, or unpublish the content.', 'hoptrail' ),
 					wp_strip_all_tags( get_the_title( $post_id ) )
 				),
 				self::fix( 'disable', [ $rule ] )
@@ -433,7 +433,7 @@ final class Analyzer {
 					$rule->from,
 					$this->display( $key ),
 					[ self::hop( $rule, $this->normalizer->key( $rule->is_exact() ? $rule->from : $key ), $key ) ],
-					__( 'The final target doesn\'t match a post, page or term, so it probably shows a 404. Run a live check to confirm.', 'redirect-inspector' )
+					__( 'The final target doesn\'t match a post, page or term, so it probably shows a 404. Run a live check to confirm.', 'hoptrail' )
 				);
 			}
 		}

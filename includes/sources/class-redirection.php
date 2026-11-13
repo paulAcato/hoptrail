@@ -2,12 +2,12 @@
 /**
  * Redirection (John Godley).
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes\Sources;
+namespace Hoptrail\Includes\Sources;
 
-use Acato\RedirectInspector\Includes\Rule;
+use Hoptrail\Includes\Rule;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -178,7 +178,7 @@ final class Redirection implements Source, Writable, Purgeable {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * Through Redirection's own API, into a "Migrated by Redirect Inspector" group.
+	 * Through Redirection's own API, into a "Migrated by Hoptrail" group.
 	 *
 	 * @param Rule $rule Rule.
 	 */
@@ -210,7 +210,7 @@ final class Redirection implements Source, Writable, Purgeable {
 	private function migration_group(): int {
 		global $wpdb;
 
-		$name = 'Migrated by Redirect Inspector';
+		$name = 'Migrated by Hoptrail';
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$id = (int) $wpdb->get_var( $wpdb->prepare( 'SELECT id FROM %i WHERE name = %s AND module_id = 1 LIMIT 1', $wpdb->prefix . 'redirection_groups', $name ) );
 		if ( $id ) {

@@ -1,16 +1,16 @@
 <?php
 /**
- * Tools → Redirect Inspector and the network overview page.
+ * Tools → Hoptrail and the network overview page.
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Admin;
+namespace Hoptrail\Admin;
 
-use Acato\RedirectInspector\Includes\Caps;
-use Acato\RedirectInspector\Includes\Presence;
-use Acato\RedirectInspector\Includes\Retention;
-use Acato\RedirectInspector\Includes\Singleton;
+use Hoptrail\Includes\Caps;
+use Hoptrail\Includes\Presence;
+use Hoptrail\Includes\Retention;
+use Hoptrail\Includes\Singleton;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -22,7 +22,7 @@ final class Admin_Page extends Singleton {
 	/**
 	 * Menu slug.
 	 */
-	const SLUG = 'redirect-inspector';
+	const SLUG = 'hoptrail';
 
 	/**
 	 * Hook suffixes of our screens.
@@ -41,18 +41,18 @@ final class Admin_Page extends Singleton {
 		add_action( 'network_admin_menu', [ $this, 'register_network_page' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue' ] );
 		add_filter( 'admin_body_class', [ $this, 'body_class' ] );
-		add_filter( 'plugin_action_links_' . plugin_basename( REDIRECT_INSPECTOR_FILE ), [ $this, 'action_links' ] );
+		add_filter( 'plugin_action_links_' . plugin_basename( HOPTRAIL_FILE ), [ $this, 'action_links' ] );
 	}
 
 	/**
-	 * Tools → Redirect Inspector.
+	 * Tools → Hoptrail.
 	 *
 	 * @return void
 	 */
 	public function register_site_page(): void {
 		$hook = add_management_page(
-			__( 'Redirect Inspector', 'redirect-inspector' ),
-			__( 'Redirect Inspector', 'redirect-inspector' ),
+			__( 'Hoptrail', 'hoptrail' ),
+			__( 'Hoptrail', 'hoptrail' ),
 			Caps::MANAGE,
 			self::SLUG,
 			[ $this, 'render' ]
@@ -64,15 +64,15 @@ final class Admin_Page extends Singleton {
 	}
 
 	/**
-	 * Network Admin → Settings → Redirect Inspector (read-only overview).
+	 * Network Admin → Settings → Hoptrail (read-only overview).
 	 *
 	 * @return void
 	 */
 	public function register_network_page(): void {
 		$hook = add_submenu_page(
 			'settings.php',
-			__( 'Redirect Inspector', 'redirect-inspector' ),
-			__( 'Redirect Inspector', 'redirect-inspector' ),
+			__( 'Hoptrail', 'hoptrail' ),
+			__( 'Hoptrail', 'hoptrail' ),
 			Caps::NETWORK,
 			self::SLUG,
 			[ $this, 'render' ]
@@ -92,8 +92,8 @@ final class Admin_Page extends Singleton {
 		?>
 		<div class="wrap rdi-wrap">
 			<hr class="wp-header-end">
-			<div id="redirect-inspector-root">
-				<noscript><h1><?php esc_html_e( 'Redirect Inspector', 'redirect-inspector' ); ?></h1><div class="notice notice-error"><p><?php esc_html_e( 'Redirect Inspector needs JavaScript. Alternatively run: wp redirect-inspector scan', 'redirect-inspector' ); ?></p></div></noscript>
+			<div id="hoptrail-root">
+				<noscript><h1><?php esc_html_e( 'Hoptrail', 'hoptrail' ); ?></h1><div class="notice notice-error"><p><?php esc_html_e( 'Hoptrail needs JavaScript. Alternatively run: wp hoptrail scan', 'hoptrail' ); ?></p></div></noscript>
 			</div>
 		</div>
 		<?php
@@ -117,7 +117,7 @@ final class Admin_Page extends Singleton {
 			add_action(
 				'admin_notices',
 				static function () {
-					echo '<div class="notice notice-error"><p>' . esc_html__( 'Redirect Inspector: the dashboard assets are missing. Run npm run build in the plugin folder.', 'redirect-inspector' ) . '</p></div>';
+					echo '<div class="notice notice-error"><p>' . esc_html__( 'Hoptrail: the dashboard assets are missing. Run npm run build in the plugin folder.', 'hoptrail' ) . '</p></div>';
 				}
 			);
 			return;
@@ -125,15 +125,15 @@ final class Admin_Page extends Singleton {
 
 		wp_add_inline_script(
 			Assets::HANDLE,
-			'window.redirectInspector = ' . wp_json_encode(
+			'window.hoptrail = ' . wp_json_encode(
 				[
 					'mode'          => $mode,
-					'version'       => REDIRECT_INSPECTOR_VERSION,
+					'version'       => HOPTRAIL_VERSION,
 					'retention'     => Retention::describe(),
 					'siteUrl'       => home_url( '/' ),
 					'startOfWeek'   => (int) get_option( 'start_of_week', 1 ),
 					'timezone'      => wp_timezone_string(),
-					'wapuu'         => REDIRECT_INSPECTOR_URL . 'assets/images/wapuu.svg',
+					'wapuu'         => HOPTRAIL_URL . 'assets/images/wapuu.svg',
 					'stateVersion'  => Presence::version(),
 					'userId'        => get_current_user_id(),
 					'tour'          => Tour::boot(),
@@ -178,7 +178,7 @@ final class Admin_Page extends Singleton {
 				sprintf(
 					'<a href="%1$s">%2$s</a>',
 					esc_url( admin_url( 'tools.php?page=' . self::SLUG . '#settings' ) ),
-					esc_html__( 'Settings', 'redirect-inspector' )
+					esc_html__( 'Settings', 'hoptrail' )
 				)
 			);
 		}

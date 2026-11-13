@@ -2,10 +2,10 @@
 /**
  * Log deletions requested by an AI client, waiting for an administrator's approval in wp-admin.
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes;
+namespace Hoptrail\Includes;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -21,7 +21,7 @@ final class Flush_Requests {
 	/**
 	 * Option holding the pending request.
 	 */
-	const OPTION = 'redirect_inspector_flush_request';
+	const OPTION = 'hoptrail_flush_request';
 
 	/**
 	 * Seconds a request stays valid.
@@ -106,7 +106,7 @@ final class Flush_Requests {
 	public static function approve( string $id ): array {
 		$request = self::pending();
 		if ( ! $request || ! hash_equals( (string) $request['id'], $id ) ) {
-			throw new \RuntimeException( __( 'This request is no longer waiting for approval.', 'redirect-inspector' ), 404 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+			throw new \RuntimeException( __( 'This request is no longer waiting for approval.', 'hoptrail' ), 404 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 
 		$deleted = Retention::flush( (string) $request['scope'], false );

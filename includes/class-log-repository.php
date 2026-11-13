@@ -2,12 +2,12 @@
 /**
  * Reads and writes the scans and issues tables.
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes;
+namespace Hoptrail\Includes;
 
-use Acato\RedirectInspector\Includes\Analysis\Analyzer;
+use Hoptrail\Includes\Analysis\Analyzer;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -346,7 +346,7 @@ final class Log_Repository {
 
 		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- The compile error is reported below.
 		if ( false === @preg_match( $pattern, '' ) ) {
-			throw new \InvalidArgumentException( __( 'This is not a valid regular expression.', 'redirect-inspector' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+			throw new \InvalidArgumentException( __( 'This is not a valid regular expression.', 'hoptrail' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 
 		return $pattern;
@@ -567,8 +567,8 @@ final class Log_Repository {
 	private static function trigger_label( string $trigger, string $user_login ): string {
 		return match ( $trigger ) {
 			'cli'   => 'WP-CLI',
-			'cron'    => __( 'Scheduled', 'redirect-inspector' ),
-			'ability' => __( 'Ability', 'redirect-inspector' ),
+			'cron'    => __( 'Scheduled', 'hoptrail' ),
+			'ability' => __( 'Ability', 'hoptrail' ),
 			default => $user_login,
 		};
 	}

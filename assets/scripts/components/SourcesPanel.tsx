@@ -12,9 +12,9 @@ export const SourcesPanel = ({ summary }: { summary: Summary }) => {
 	return (
 		<section className="rdi-card rdi-sources" aria-labelledby="rdi-sources-title">
 			<header className="rdi-card__header">
-				<h2 id="rdi-sources-title">{__('Rules by plugin', 'redirect-inspector')}</h2>
+				<h2 id="rdi-sources-title">{__('Rules by plugin', 'hoptrail')}</h2>
 				{/* translators: %s: number of rules. */}
-				<span className="rdi-card__meta">{sprintf(_n('%s rule', '%s rules', total, 'redirect-inspector'), compact(total))}</span>
+				<span className="rdi-card__meta">{sprintf(_n('%s rule', '%s rules', total, 'hoptrail'), compact(total))}</span>
 			</header>
 
 			<div className="rdi-segments" aria-hidden="true">
@@ -33,8 +33,8 @@ export const SourcesPanel = ({ summary }: { summary: Summary }) => {
 							<span className="rdi-legend__status">
 								{source.available
 									/* translators: %d: number of issues. */
-									? (issues ? sprintf(_n('%d issue', '%d issues', issues, 'redirect-inspector'), issues) : __('No issues', 'redirect-inspector'))
-									: __('Not active', 'redirect-inspector')}
+									? (issues ? sprintf(_n('%d issue', '%d issues', issues, 'hoptrail'), issues) : __('No issues', 'hoptrail'))
+									: __('Not active', 'hoptrail')}
 							</span>
 							<span className="rdi-legend__value">{source.available ? compact(source.rules) : '—'}</span>
 						</li>

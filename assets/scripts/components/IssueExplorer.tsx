@@ -57,18 +57,18 @@ export const IssueExplorer = ({ scanId, counts, sources, group, onGroup }: Props
 		}
 		announced.current = filterKey;
 		/* translators: %d: number of issues. */
-		speak(sprintf(_n('%d issue found', '%d issues found', data.total, 'redirect-inspector'), data.total), 'polite');
+		speak(sprintf(_n('%d issue found', '%d issues found', data.total, 'hoptrail'), data.total), 'polite');
 	}, [data, loading, filterKey]);
 	const pages = data ? Math.max(1, Math.ceil(data.total / PER_PAGE)) : 1;
 
 	return (
 		<section id="rdi-explorer" className="rdi-card rdi-explorer" aria-labelledby="rdi-explorer-title">
 			<header className="rdi-card__header">
-				<h2 id="rdi-explorer-title" tabIndex={-1}>{__('Issues', 'redirect-inspector')}</h2>
+				<h2 id="rdi-explorer-title" tabIndex={-1}>{__('Issues', 'hoptrail')}</h2>
 				{loading && <Spinner />}
 			</header>
 
-			<div className="rdi-tabs" role="group" aria-label={__('Filter by issue type', 'redirect-inspector')}>
+			<div className="rdi-tabs" role="group" aria-label={__('Filter by issue type', 'hoptrail')}>
 				{TABS.map((tab) => (
 					<button key={tab} type="button" className={`rdi-tabs__tab${group === tab ? ' is-active' : ''}`} aria-pressed={group === tab} onClick={() => onGroup(tab)}>
 						{groupLabel(tab)}
@@ -81,8 +81,8 @@ export const IssueExplorer = ({ scanId, counts, sources, group, onGroup }: Props
 				<div className="rdi-filters__search">
 					<SearchControl
 						__nextHasNoMarginBottom
-						label={regex ? __('Search URLs with a regular expression', 'redirect-inspector') : __('Search URLs', 'redirect-inspector')}
-						placeholder={regex ? '^/blog/(.*)$' : __('Search', 'redirect-inspector')}
+						label={regex ? __('Search URLs with a regular expression', 'hoptrail') : __('Search URLs', 'hoptrail')}
+						placeholder={regex ? '^/blog/(.*)$' : __('Search', 'hoptrail')}
 						value={search}
 						onChange={(value: string) => setSearch(value ?? '')}
 					/>
@@ -92,7 +92,7 @@ export const IssueExplorer = ({ scanId, counts, sources, group, onGroup }: Props
 						variant="secondary"
 						icon={regularExpression}
 						isPressed={regex}
-						label={__('Use regular expression', 'redirect-inspector')}
+						label={__('Use regular expression', 'hoptrail')}
 						showTooltip
 						onClick={() => setRegex((value) => !value)}
 					/>
@@ -100,11 +100,11 @@ export const IssueExplorer = ({ scanId, counts, sources, group, onGroup }: Props
 				{multi && <SelectControl
 					__nextHasNoMarginBottom
 					__next40pxDefaultSize
-					label={__('Plugin', 'redirect-inspector')}
+					label={__('Plugin', 'hoptrail')}
 					hideLabelFromVision
 					value={plugin}
 					options={[
-						{ label: __('All plugins', 'redirect-inspector'), value: '' },
+						{ label: __('All plugins', 'hoptrail'), value: '' },
 						...sources.filter((source) => source.available).map((source) => ({ label: source.label, value: source.slug })),
 					]}
 					onChange={(value: string) => setPlugin(value)}
@@ -116,24 +116,24 @@ export const IssueExplorer = ({ scanId, counts, sources, group, onGroup }: Props
 			<div className="rdi-issues" aria-busy={loading}>
 				{data && 0 === data.items.length && !loading && (
 					<EmptyState
-						title={query || plugin || 'all' !== group ? __('Nothing matches these filters', 'redirect-inspector') : __('No issues found', 'redirect-inspector')}
-						text={query || plugin || 'all' !== group ? __('Try another type, plugin or search term.', 'redirect-inspector') : __('Every redirect goes straight to its destination.', 'redirect-inspector')}
+						title={query || plugin || 'all' !== group ? __('Nothing matches these filters', 'hoptrail') : __('No issues found', 'hoptrail')}
+						text={query || plugin || 'all' !== group ? __('Try another type, plugin or search term.', 'hoptrail') : __('Every redirect goes straight to its destination.', 'hoptrail')}
 					/>
 				)}
 				{data?.items.map((issue) => <IssueCard key={issue.id} issue={issue} />)}
 			</div>
 
 			{data && data.total > PER_PAGE && (
-				<nav className="rdi-pagination" aria-label={__('Issue pages', 'redirect-inspector')}>
+				<nav className="rdi-pagination" aria-label={__('Issue pages', 'hoptrail')}>
 					<Button variant="tertiary" size="compact" disabled={page <= 1} accessibleWhenDisabled onClick={() => setPage(page - 1)}>
-						{__('Previous', 'redirect-inspector')}
+						{__('Previous', 'hoptrail')}
 					</Button>
 					<span>
 						{/* translators: 1: current page, 2: number of pages, 3: number of issues. */}
-						{sprintf(_n('Page %1$d of %2$d · %3$d issue', 'Page %1$d of %2$d · %3$d issues', data.total, 'redirect-inspector'), page, pages, data.total)}
+						{sprintf(_n('Page %1$d of %2$d · %3$d issue', 'Page %1$d of %2$d · %3$d issues', data.total, 'hoptrail'), page, pages, data.total)}
 					</span>
 					<Button variant="tertiary" size="compact" disabled={page >= pages} accessibleWhenDisabled onClick={() => setPage(page + 1)}>
-						{__('Next', 'redirect-inspector')}
+						{__('Next', 'hoptrail')}
 					</Button>
 				</nav>
 			)}

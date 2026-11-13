@@ -2,13 +2,13 @@
 /**
  * Resolves a URL to the rule that would redirect it.
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes\Analysis;
+namespace Hoptrail\Includes\Analysis;
 
-use Acato\RedirectInspector\Includes\Rule;
-use Acato\RedirectInspector\Includes\Url_Normalizer;
+use Hoptrail\Includes\Rule;
+use Hoptrail\Includes\Url_Normalizer;
 
 defined( 'ABSPATH' ) || exit;
 

@@ -2,10 +2,10 @@
 /**
  * Scheduled cleanup of old scans and issues.
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes;
+namespace Hoptrail\Includes;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -18,7 +18,7 @@ final class Retention extends Singleton {
 	/**
 	 * Cron hook.
 	 */
-	const HOOK = 'redirect_inspector_cleanup';
+	const HOOK = 'hoptrail_cleanup';
 
 	/**
 	 * Cleanup frequency (fixed, as agreed).
@@ -33,7 +33,7 @@ final class Retention extends Singleton {
 	/**
 	 * Mutex option so overlapping runs (cron + "purge" + CLI) never interleave.
 	 */
-	const LOCK_OPTION = 'redirect_inspector_cleanup_lock';
+	const LOCK_OPTION = 'hoptrail_cleanup_lock';
 
 	/**
 	 * Register hooks.
@@ -190,7 +190,7 @@ final class Retention extends Singleton {
 		}
 
 		if ( Scanner::is_running() || ! Lock::acquire( self::LOCK_OPTION, 10 * MINUTE_IN_SECONDS ) ) {
-			throw new \RuntimeException( __( 'A scan or cleanup is running. Try again in a moment.', 'redirect-inspector' ), 409 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+			throw new \RuntimeException( __( 'A scan or cleanup is running. Try again in a moment.', 'hoptrail' ), 409 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 
 		try {
@@ -274,7 +274,7 @@ final class Retention extends Singleton {
 		if ( 'count' === $settings['retention_mode'] ) {
 			return sprintf(
 				/* translators: 1: number of scans, 2: number of days. */
-				__( 'The newest %1$d scans are kept; older ones are removed after every scan. Changes made through Apply fix or Migrate are logged for %2$d days.', 'redirect-inspector' ),
+				__( 'The newest %1$d scans are kept; older ones are removed after every scan. Changes made through Apply fix or Migrate are logged for %2$d days.', 'hoptrail' ),
 				$settings['retention_count'],
 				$settings['retention_days']
 			);
@@ -282,7 +282,7 @@ final class Retention extends Singleton {
 
 		return sprintf(
 			/* translators: %d: number of days. */
-			_n( 'Scan history is kept for %d day; older scans are removed every Sunday around 03:00.', 'Scan history is kept for %d days; older scans are removed every Sunday around 03:00.', Settings::retention_days(), 'redirect-inspector' ),
+			_n( 'Scan history is kept for %d day; older scans are removed every Sunday around 03:00.', 'Scan history is kept for %d days; older scans are removed every Sunday around 03:00.', Settings::retention_days(), 'hoptrail' ),
 			Settings::retention_days()
 		);
 	}

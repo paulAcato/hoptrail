@@ -2,10 +2,10 @@
 /**
  * One redirect rule, normalised across plugins.
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
-namespace Acato\RedirectInspector\Includes;
+namespace Hoptrail\Includes;
 
 defined( 'ABSPATH' ) || exit;
 

@@ -3,7 +3,7 @@
  * Standalone tests for the analysis engine: run with `php tests/test-analysis.php`.
  * WordPress is not loaded; the few functions the engine uses are stubbed below.
  *
- * @package Acato\RedirectInspector
+ * @package Hoptrail
  */
 
 // phpcs:ignoreFile -- Test runner with WordPress stubs.
@@ -14,8 +14,8 @@ if ( 'cli' !== PHP_SAPI ) {
 }
 
 define( 'ABSPATH', __DIR__ . '/' );
-define( 'REDIRECT_INSPECTOR_PATH', dirname( __DIR__ ) . '/' );
-define( 'REDIRECT_INSPECTOR_VERSION', 'test' );
+define( 'HOPTRAIL_PATH', dirname( __DIR__ ) . '/' );
+define( 'HOPTRAIL_VERSION', 'test' );
 
 // --- WordPress stubs ---------------------------------------------------------------------------
 function __( $text ) { return $text; }
@@ -43,13 +43,13 @@ $GLOBALS['wpdb'] = new class() {
 
 spl_autoload_register(
 	static function ( $fqcn ) {
-		$prefix = 'Acato\\RedirectInspector\\';
+		$prefix = 'Hoptrail\\';
 		if ( 0 !== strpos( $fqcn, $prefix ) ) {
 			return;
 		}
 		$relative = strtolower( str_replace( [ $prefix, '\\', '_' ], [ '', '/', '-' ], $fqcn ) );
 		foreach ( [ 'class', 'trait', 'interface' ] as $kind ) {
-			$path = REDIRECT_INSPECTOR_PATH . dirname( $relative ) . '/' . $kind . '-' . basename( $relative ) . '.php';
+			$path = HOPTRAIL_PATH . dirname( $relative ) . '/' . $kind . '-' . basename( $relative ) . '.php';
 			if ( is_readable( $path ) ) {
 				require_once $path;
 				return;
@@ -58,13 +58,13 @@ spl_autoload_register(
 	}
 );
 
-use Acato\RedirectInspector\Includes\Analysis\Analyzer;
-use Acato\RedirectInspector\Includes\Analysis\Expander;
-use Acato\RedirectInspector\Includes\Log_Repository;
-use Acato\RedirectInspector\Includes\Analysis\Matcher;
-use Acato\RedirectInspector\Includes\Rule;
-use Acato\RedirectInspector\Includes\Scheduler;
-use Acato\RedirectInspector\Includes\Url_Normalizer;
+use Hoptrail\Includes\Analysis\Analyzer;
+use Hoptrail\Includes\Analysis\Expander;
+use Hoptrail\Includes\Log_Repository;
+use Hoptrail\Includes\Analysis\Matcher;
+use Hoptrail\Includes\Rule;
+use Hoptrail\Includes\Scheduler;
+use Hoptrail\Includes\Url_Normalizer;
 
 // --- Tiny assertion helper ---------------------------------------------------------------------
 $failures = 0;

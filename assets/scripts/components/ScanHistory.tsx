@@ -18,10 +18,10 @@ interface History extends Paged<Scan> {
 }
 
 const statusLabel = (status: Scan['status']): string => ({
-	running: __('Running', 'redirect-inspector'),
-	done: __('Complete', 'redirect-inspector'),
-	partial: __('Partial', 'redirect-inspector'),
-	failed: __('Failed', 'redirect-inspector'),
+	running: __('Running', 'hoptrail'),
+	done: __('Complete', 'hoptrail'),
+	partial: __('Partial', 'hoptrail'),
+	failed: __('Failed', 'hoptrail'),
 })[status];
 
 /** Y-m-d of a Date in local (browser) time; the picker works in local dates. */
@@ -77,14 +77,14 @@ export const ScanHistory = () => {
 	return (
 		<section className="rdi-card rdi-history" aria-labelledby="rdi-history-title">
 			<header className="rdi-card__header">
-				<h2 id="rdi-history-title">{__('Scan history', 'redirect-inspector')}</h2>
+				<h2 id="rdi-history-title">{__('Scan history', 'hoptrail')}</h2>
 				<div className="rdi-history__tools">
 					{loading && <Spinner />}
 					<Dropdown
 						popoverProps={{ placement: 'bottom-end' }}
 						renderToggle={({ isOpen, onToggle }) => (
 							<Button ref={pickerRef} variant="secondary" size="compact" icon={calendar} aria-expanded={isOpen} onClick={onToggle}>
-								{date ? day(date) : __('Pick a date', 'redirect-inspector')}
+								{date ? day(date) : __('Pick a date', 'hoptrail')}
 							</Button>
 						)}
 						renderContent={({ onClose }) => (
@@ -92,19 +92,19 @@ export const ScanHistory = () => {
 								<DatePicker
 									currentDate={date ? fromYmd(date) : null}
 									events={events}
-									startOfWeek={(window.redirectInspector?.startOfWeek ?? 1) as 0 | 1 | 2 | 3 | 4 | 5 | 6}
+									startOfWeek={(window.hoptrail?.startOfWeek ?? 1) as 0 | 1 | 2 | 3 | 4 | 5 | 6}
 									isInvalidDate={(day: Date) => !bounds || ymd(day) < bounds.min || ymd(day) > bounds.max}
 									onChange={(value: string) => {
 										setDate(ymd(new Date(value)));
 										onClose();
 									}}
 								/>
-								<p className="rdi-card__meta">{__('Days with a scan are marked.', 'redirect-inspector')}</p>
+								<p className="rdi-card__meta">{__('Days with a scan are marked.', 'hoptrail')}</p>
 							</div>
 						)}
 					/>
 					{date && (
-						<Button variant="tertiary" size="compact" icon={closeSmall} label={__('Show all dates', 'redirect-inspector')} onClick={() => { setDate(''); pickerRef.current?.focus(); }} />
+						<Button variant="tertiary" size="compact" icon={closeSmall} label={__('Show all dates', 'hoptrail')} onClick={() => { setDate(''); pickerRef.current?.focus(); }} />
 					)}
 				</div>
 			</header>
@@ -114,13 +114,13 @@ export const ScanHistory = () => {
 					<table className="rdi-table">
 						<thead>
 							<tr>
-								{header('date', __('Scanned', 'redirect-inspector'))}
-								<th scope="col">{__('By', 'redirect-inspector')}</th>
-								{header('rules', __('Rules', 'redirect-inspector'), true)}
-								{header('issues', __('Issues', 'redirect-inspector'), true)}
-								{header('score', __('Score', 'redirect-inspector'), true)}
-								{header('duration', __('Took', 'redirect-inspector'), true)}
-								<th scope="col">{__('Status', 'redirect-inspector')}</th>
+								{header('date', __('Scanned', 'hoptrail'))}
+								<th scope="col">{__('By', 'hoptrail')}</th>
+								{header('rules', __('Rules', 'hoptrail'), true)}
+								{header('issues', __('Issues', 'hoptrail'), true)}
+								{header('score', __('Score', 'hoptrail'), true)}
+								{header('duration', __('Took', 'hoptrail'), true)}
+								<th scope="col">{__('Status', 'hoptrail')}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -129,8 +129,8 @@ export const ScanHistory = () => {
 									<td colSpan={7}>
 										{date
 											/* translators: %s: date. */
-											? sprintf(__('No scans on %s.', 'redirect-inspector'), day(date))
-											: __('No scans yet.', 'redirect-inspector')}
+											? sprintf(__('No scans on %s.', 'hoptrail'), day(date))
+											: __('No scans yet.', 'hoptrail')}
 									</td>
 								</tr>
 							)}
@@ -152,10 +152,10 @@ export const ScanHistory = () => {
 				</div>
 			)}
 			{data && data.total > PER_PAGE && (
-				<nav className="rdi-pagination" aria-label={__('Scan history pages', 'redirect-inspector')}>
-					<Button variant="tertiary" size="compact" disabled={page <= 1} accessibleWhenDisabled onClick={() => setPage(page - 1)}>{__('Previous', 'redirect-inspector')}</Button>
+				<nav className="rdi-pagination" aria-label={__('Scan history pages', 'hoptrail')}>
+					<Button variant="tertiary" size="compact" disabled={page <= 1} accessibleWhenDisabled onClick={() => setPage(page - 1)}>{__('Previous', 'hoptrail')}</Button>
 					<span>{page} / {pages}</span>
-					<Button variant="tertiary" size="compact" disabled={page >= pages} accessibleWhenDisabled onClick={() => setPage(page + 1)}>{__('Next', 'redirect-inspector')}</Button>
+					<Button variant="tertiary" size="compact" disabled={page >= pages} accessibleWhenDisabled onClick={() => setPage(page + 1)}>{__('Next', 'hoptrail')}</Button>
 				</nav>
 			)}
 		</section>
