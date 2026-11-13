@@ -51,8 +51,8 @@ final class Admin_Page extends Singleton {
 	 */
 	public function register_site_page(): void {
 		$hook = add_management_page(
-			__( 'Hoptrail', 'hoptrail' ),
-			__( 'Hoptrail', 'hoptrail' ),
+			'Hoptrail',
+			'Hoptrail',
 			Caps::MANAGE,
 			self::SLUG,
 			[ $this, 'render' ]
@@ -71,8 +71,8 @@ final class Admin_Page extends Singleton {
 	public function register_network_page(): void {
 		$hook = add_submenu_page(
 			'settings.php',
-			__( 'Hoptrail', 'hoptrail' ),
-			__( 'Hoptrail', 'hoptrail' ),
+			'Hoptrail',
+			'Hoptrail',
 			Caps::NETWORK,
 			self::SLUG,
 			[ $this, 'render' ]
@@ -93,7 +93,15 @@ final class Admin_Page extends Singleton {
 		<div class="wrap rdi-wrap">
 			<hr class="wp-header-end">
 			<div id="hoptrail-root">
-				<noscript><h1><?php esc_html_e( 'Hoptrail', 'hoptrail' ); ?></h1><div class="notice notice-error"><p><?php esc_html_e( 'Hoptrail needs JavaScript. Alternatively run: wp hoptrail scan', 'hoptrail' ); ?></p></div></noscript>
+				<noscript><h1>Hoptrail</h1><div class="notice notice-error"><p>
+				<?php
+				printf(
+					/* translators: %s: WP-CLI command, wp hoptrail scan. */
+					esc_html__( 'Hoptrail needs JavaScript. Alternatively, run %s.', 'hoptrail' ),
+					'<code>wp hoptrail scan</code>'
+				);
+				?>
+				</p></div></noscript>
 			</div>
 		</div>
 		<?php
@@ -117,7 +125,14 @@ final class Admin_Page extends Singleton {
 			add_action(
 				'admin_notices',
 				static function () {
-					echo '<div class="notice notice-error"><p>' . esc_html__( 'Hoptrail: the dashboard assets are missing. Run npm run build in the plugin folder.', 'hoptrail' ) . '</p></div>';
+					printf(
+						'<div class="notice notice-error"><p>%s</p></div>',
+						sprintf(
+							/* translators: %s: build command, npm run build. */
+							esc_html__( 'Hoptrail: the dashboard assets are missing. Run %s in the plugin folder.', 'hoptrail' ),
+							'<code>npm run build</code>'
+						)
+					);
 				}
 			);
 			return;

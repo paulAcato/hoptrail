@@ -56,8 +56,7 @@ export const IssueExplorer = ({ scanId, counts, sources, group, onGroup }: Props
 			return;
 		}
 		announced.current = filterKey;
-		/* translators: %d: number of issues. */
-		speak(sprintf(_n('%d issue found', '%d issues found', data.total, 'hoptrail'), data.total), 'polite');
+		speak(sprintf(/* translators: %d: number of issues. */ _n('%d issue found', '%d issues found', data.total, 'hoptrail'), data.total), 'polite');
 	}, [data, loading, filterKey]);
 	const pages = data ? Math.max(1, Math.ceil(data.total / PER_PAGE)) : 1;
 
@@ -129,8 +128,7 @@ export const IssueExplorer = ({ scanId, counts, sources, group, onGroup }: Props
 						{__('Previous', 'hoptrail')}
 					</Button>
 					<span>
-						{/* translators: 1: current page, 2: number of pages, 3: number of issues. */}
-						{sprintf(_n('Page %1$d of %2$d · %3$d issue', 'Page %1$d of %2$d · %3$d issues', data.total, 'hoptrail'), page, pages, data.total)}
+						{sprintf(/* translators: 1: current page, 2: number of pages, 3: number of issues. */ _n('Page %1$d of %2$d · %3$d issue', 'Page %1$d of %2$d · %3$d issues', data.total, 'hoptrail'), page, pages, data.total)}
 					</span>
 					<Button variant="tertiary" size="compact" disabled={page >= pages} accessibleWhenDisabled onClick={() => setPage(page + 1)}>
 						{__('Next', 'hoptrail')}

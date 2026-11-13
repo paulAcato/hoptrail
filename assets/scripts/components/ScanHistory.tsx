@@ -1,6 +1,6 @@
 import { Button, DatePicker, Dropdown, Spinner } from '@wordpress/components';
 import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
-import { __, sprintf } from '@wordpress/i18n';
+import { __, _x, sprintf } from '@wordpress/i18n';
 import { calendar, closeSmall } from '@wordpress/icons';
 import { route } from '../api/client';
 import { useResource } from '../api/hooks';
@@ -18,10 +18,10 @@ interface History extends Paged<Scan> {
 }
 
 const statusLabel = (status: Scan['status']): string => ({
-	running: __('Running', 'hoptrail'),
-	done: __('Complete', 'hoptrail'),
-	partial: __('Partial', 'hoptrail'),
-	failed: __('Failed', 'hoptrail'),
+	running: _x('Running', 'scan status', 'hoptrail'),
+	done: _x('Complete', 'scan status', 'hoptrail'),
+	partial: _x('Partial', 'scan status', 'hoptrail'),
+	failed: _x('Failed', 'scan status', 'hoptrail'),
 })[status];
 
 /** Y-m-d of a Date in local (browser) time; the picker works in local dates. */
@@ -115,11 +115,11 @@ export const ScanHistory = () => {
 						<thead>
 							<tr>
 								{header('date', __('Scanned', 'hoptrail'))}
-								<th scope="col">{__('By', 'hoptrail')}</th>
+								<th scope="col">{_x('By', 'scan history column: who started the scan', 'hoptrail')}</th>
 								{header('rules', __('Rules', 'hoptrail'), true)}
 								{header('issues', __('Issues', 'hoptrail'), true)}
 								{header('score', __('Score', 'hoptrail'), true)}
-								{header('duration', __('Took', 'hoptrail'), true)}
+								{header('duration', _x('Took', 'scan history column: how long the scan took', 'hoptrail'), true)}
 								<th scope="col">{__('Status', 'hoptrail')}</th>
 							</tr>
 						</thead>
@@ -128,8 +128,7 @@ export const ScanHistory = () => {
 								<tr>
 									<td colSpan={7}>
 										{date
-											/* translators: %s: date. */
-											? sprintf(__('No scans on %s.', 'hoptrail'), day(date))
+											? sprintf(/* translators: %s: date. */ __('No scans on %s.', 'hoptrail'), day(date))
 											: __('No scans yet.', 'hoptrail')}
 									</td>
 								</tr>

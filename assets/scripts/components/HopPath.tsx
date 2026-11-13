@@ -1,4 +1,4 @@
-import { __, sprintf } from '@wordpress/i18n';
+import { __, _x, sprintf } from '@wordpress/i18n';
 import { Icon, arrowRight, loop as loopIcon } from '@wordpress/icons';
 import type { Hop } from '../api/types';
 import { safeHref } from '../lib/format';
@@ -27,11 +27,9 @@ export const HopPath = ({ hops, isLoop }: { hops: Hop[]; isLoop: boolean }) => {
 							<Icon icon={isLoop && last ? loopIcon : arrowRight} size={16} />
 							{multi || !edit
 								? <span className="rdi-hops__code">{hop.code}</span>
-								/* translators: 1: status code, 2: target URL. */
-								: <a className="rdi-hops__code" href={edit} aria-label={sprintf(__('%1$s – edit the rule to %2$s', 'hoptrail'), String(hop.code), hop.to)}>{hop.code}</a>}
+								: <a className="rdi-hops__code" href={edit} aria-label={sprintf(/* translators: 1: HTTP status code, e.g. 301, 2: target URL. */ _x('%1$s – edit the rule to %2$s', 'link label on a status code', 'hoptrail'), String(hop.code), hop.to)}>{hop.code}</a>}
 							{multi && (edit
-								/* translators: 1: plugin, 2: target URL. */
-								? <a className="rdi-hops__plugin" href={edit} aria-label={sprintf(__('%1$s – edit the rule to %2$s', 'hoptrail'), hop.rule.label, hop.to)}>{hop.rule.label}</a>
+								? <a className="rdi-hops__plugin" href={edit} aria-label={sprintf(/* translators: 1: plugin name, 2: target URL. */ _x('%1$s – edit the rule to %2$s', 'link label on a plugin name', 'hoptrail'), hop.rule.label, hop.to)}>{hop.rule.label}</a>
 								: <span className="rdi-hops__plugin">{hop.rule.label}</span>)}
 						</span>
 						<span className={`rdi-hops__node${isLoop && last ? ' is-start' : ''}`}>

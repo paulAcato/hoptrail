@@ -1,6 +1,6 @@
 import { Button, SearchControl, Spinner } from '@wordpress/components';
 import { useEffect, useState } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { route } from '../api/client';
 import { useDebounced, useResource } from '../api/hooks';
 import type { NetworkSite, Paged } from '../api/types';
@@ -25,7 +25,7 @@ export const NetworkApp = () => {
 		<div className="rdi-app">
 			<header className="rdi-banner">
 				<div className="rdi-banner__intro">
-					<h1 className="rdi-banner__title">{__('Hoptrail', 'hoptrail')}</h1>
+					<h1 className="rdi-banner__title">Hoptrail</h1>
 					<p className="rdi-banner__lead">{__('Latest scan per site. Scans run per site, from each site’s Tools menu.', 'hoptrail')}</p>
 				</div>
 			</header>
@@ -49,7 +49,7 @@ export const NetworkApp = () => {
 									<th scope="col" className="is-num">{__('Rules', 'hoptrail')}</th>
 									<th scope="col" className="is-num">{__('Loops', 'hoptrail')}</th>
 									<th scope="col" className="is-num">{__('Chains', 'hoptrail')}</th>
-									<th scope="col" className="is-num">{__('Other', 'hoptrail')}</th>
+									<th scope="col" className="is-num">{_x('Other', 'table column: number of other issue types', 'hoptrail')}</th>
 									<th scope="col">{__('Last scan', 'hoptrail')}</th>
 								</tr>
 							</thead>
@@ -70,7 +70,7 @@ export const NetworkApp = () => {
 											<td className="is-num">{site.latest ? loops : '—'}</td>
 											<td className="is-num">{site.latest ? chains : '—'}</td>
 											<td className="is-num">{site.latest ? site.latest.issue_count - loops - chains : '—'}</td>
-											<td>{!site.active ? __('Not active', 'hoptrail') : site.latest ? relative(site.latest.finished_at) : __('Never', 'hoptrail')}</td>
+											<td>{!site.active ? __('Not active', 'hoptrail') : site.latest ? relative(site.latest.finished_at) : _x('Never', 'last scan: no scan has run yet', 'hoptrail')}</td>
 										</tr>
 									);
 								})}

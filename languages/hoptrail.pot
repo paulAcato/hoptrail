@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Hoptrail 1.0.0\n"
+"Project-Id-Version: Hoptrail – Redirect Loop & Chain Checker 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/hoptrail\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-12T21:52:45+00:00\n"
+"POT-Creation-Date: 2026-11-13T12:28:49+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: hoptrail\n"
@@ -17,18 +17,6 @@ msgstr ""
 #. Plugin Name of the plugin
 #: hoptrail.php
 msgid "Hoptrail – Redirect Loop & Chain Checker"
-msgstr ""
-
-#: admin/class-admin-page.php:54
-#: admin/class-admin-page.php:55
-#: admin/class-admin-page.php:74
-#: admin/class-admin-page.php:75
-#: admin/class-admin-page.php:96
-#: admin/class-tour.php:110
-#: includes/class-abilities.php:117
-#: dist/hoptrail.CDDjso3T.js:965
-#: dist/hoptrail.CDDjso3T.js:3278
-msgid "Hoptrail"
 msgstr ""
 
 #. Plugin URI of the plugin
@@ -51,15 +39,19 @@ msgstr ""
 msgid "https://profiles.wordpress.org/paulacato/"
 msgstr ""
 
-#: admin/class-admin-page.php:96
-msgid "Hoptrail needs JavaScript. Alternatively run: wp hoptrail scan"
+#. translators: %s: WP-CLI command, wp hoptrail scan.
+#: admin/class-admin-page.php:100
+#, php-format
+msgid "Hoptrail needs JavaScript. Alternatively, run %s."
 msgstr ""
 
-#: admin/class-admin-page.php:120
-msgid "Hoptrail: the dashboard assets are missing. Run npm run build in the plugin folder."
+#. translators: %s: build command, npm run build.
+#: admin/class-admin-page.php:132
+#, php-format
+msgid "Hoptrail: the dashboard assets are missing. Run %s in the plugin folder."
 msgstr ""
 
-#: admin/class-admin-page.php:181
+#: admin/class-admin-page.php:196
 msgid "Settings"
 msgstr ""
 
@@ -86,13 +78,15 @@ msgstr ""
 #. translators: 1: number of rules, 2: plugin that wins.
 #: includes/analysis/class-analyzer.php:152
 #, php-format
-msgid "%1$d rules redirect this URL to the same target. Keep the one in %2$s and remove the others."
-msgstr ""
+msgid "%1$d rule redirects this URL to the same target. Keep the one in %2$s and remove the others."
+msgid_plural "%1$d rules redirect this URL to the same target. Keep the one in %2$s and remove the others."
+msgstr[0] ""
+msgstr[1] ""
 
-#. translators: 1: number of rules, 2: number of targets.
+#. translators: 1: number of rules, 2: number of targets. Labels with a colon, so no plural forms are needed.
 #: includes/analysis/class-analyzer.php:171
 #, php-format
-msgid "%1$d rules send this URL to %2$d different targets; which one wins depends on plugin load order. Keep one rule."
+msgid "These rules send this URL to different targets (rules: %1$d, targets: %2$d); which one wins depends on plugin load order. Keep one rule."
 msgstr ""
 
 #: includes/analysis/class-analyzer.php:212
@@ -106,8 +100,10 @@ msgstr ""
 #. translators: 1: source URL, 2: final URL, 3: number of hops.
 #: includes/analysis/class-analyzer.php:256
 #, php-format
-msgid "Visitors and crawlers take %3$d hops. Point %1$s straight to %2$s."
-msgstr ""
+msgid "Visitors and crawlers take %3$d hop. Point %1$s straight to %2$s."
+msgid_plural "Visitors and crawlers take %3$d hops. Point %1$s straight to %2$s."
+msgstr[0] ""
+msgstr[1] ""
 
 #. translators: %s: list of plugins.
 #: includes/analysis/class-analyzer.php:300
@@ -197,7 +193,7 @@ msgid "Whether scans run on a schedule at all."
 msgstr ""
 
 #: includes/class-abilities.php:244
-#: dist/hoptrail.CDDjso3T.js:2634
+#: dist/hoptrail.C1BKNgfM.js:2887
 msgid "Frequency"
 msgstr ""
 
@@ -335,7 +331,7 @@ msgid "Changes"
 msgstr ""
 
 #: includes/class-abilities.php:325
-msgid "Change-log entries deleted, or that would be deleted."
+msgid "Change log entries deleted, or that would be deleted."
 msgstr ""
 
 #: includes/class-abilities.php:326
@@ -350,16 +346,16 @@ msgstr ""
 msgid "The Hoptrail tables are missing."
 msgstr ""
 
-#. translators: 1: number of scans, 2: number of change-log entries.
+#. translators: 1: number of scans, 2: number of change log entries. Labels with a colon, so no plural forms are needed.
 #: includes/class-abilities.php:366
 #, php-format
-msgid "Nothing deleted. A request to delete %1$d scans and %2$d change-log entries now waits for an administrator on the Hoptrail dashboard in wp-admin (Tools → Hoptrail), valid for one hour."
+msgid "Nothing deleted. A request to delete logs (scans: %1$d, change log entries: %2$d) now waits for an administrator on the Hoptrail dashboard in wp-admin (Tools → Hoptrail), valid for one hour."
 msgstr ""
 
-#. translators: 1: number of scans, 2: number of change-log entries.
+#. translators: 1: number of scans, 2: number of change log entries. Labels with a colon, so no plural forms are needed.
 #: includes/class-abilities.php:368
 #, php-format
-msgid "Nothing deleted. This would delete %1$d scans and %2$d change-log entries. If the user wants that, call again with confirm: true; an administrator then approves it in wp-admin."
+msgid "Nothing deleted. This would delete logs (scans: %1$d, change log entries: %2$d). If the user wants that, call again with confirm: true; an administrator then approves it in wp-admin."
 msgstr ""
 
 #: includes/class-abilities.php:465
@@ -371,7 +367,7 @@ msgid "When the scan finished (ISO 8601, UTC)."
 msgstr ""
 
 #: includes/class-abilities.php:466
-#: dist/hoptrail.CDDjso3T.js:2397
+#: dist/hoptrail.C1BKNgfM.js:2622
 msgid "Status"
 msgstr ""
 
@@ -472,7 +468,7 @@ msgid "Every hop: URL → (status code, plugin) URL → …"
 msgstr ""
 
 #: includes/class-abilities.php:482
-#: dist/hoptrail.CDDjso3T.js:2204
+#: dist/hoptrail.C1BKNgfM.js:2423
 msgid "Plugin"
 msgstr ""
 
@@ -497,8 +493,8 @@ msgid "Whether Apply fix is available on the dashboard (Tools → Hoptrail)."
 msgstr ""
 
 #: includes/class-abilities.php:492
-#: dist/hoptrail.CDDjso3T.js:2163
-#: dist/hoptrail.CDDjso3T.js:2392
+#: dist/hoptrail.C1BKNgfM.js:2382
+#: dist/hoptrail.C1BKNgfM.js:2617
 msgid "Issues"
 msgstr ""
 
@@ -569,10 +565,12 @@ msgid "This is not a valid regular expression."
 msgstr ""
 
 #: includes/class-log-repository.php:570
+msgctxt "who ran the scan: a scheduled scan"
 msgid "Scheduled"
 msgstr ""
 
 #: includes/class-log-repository.php:571
+msgctxt "who ran the scan: an AI client through an ability"
 msgid "Ability"
 msgstr ""
 
@@ -629,14 +627,24 @@ msgstr ""
 msgid "A scan or cleanup is running. Try again in a moment."
 msgstr ""
 
-#. translators: 1: number of scans, 2: number of days.
+#. translators: %d: number of scans.
 #: includes/class-retention.php:277
 #, php-format
-msgid "The newest %1$d scans are kept; older ones are removed after every scan. Changes made through Apply fix or Migrate are logged for %2$d days."
-msgstr ""
+msgid "The newest %d scan is kept; older ones are removed after every scan."
+msgid_plural "The newest %d scans are kept; older ones are removed after every scan."
+msgstr[0] ""
+msgstr[1] ""
 
 #. translators: %d: number of days.
-#: includes/class-retention.php:285
+#: includes/class-retention.php:281
+#, php-format
+msgid "Changes made through Apply fix or Migrate are logged for %d day."
+msgid_plural "Changes made through Apply fix or Migrate are logged for %d days."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of days.
+#: includes/class-retention.php:288
 #, php-format
 msgid "Scan history is kept for %d day; older scans are removed every Sunday around 03:00."
 msgid_plural "Scan history is kept for %d days; older scans are removed every Sunday around 03:00."
@@ -659,1171 +667,1298 @@ msgstr ""
 msgid "Time or evaluation budget reached; results may be incomplete."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:34
+#: dist/hoptrail.C1BKNgfM.js:34
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:253
+#. translators: 1: date and time in site time, 2: the same moment on the viewer's clock.
+#: dist/hoptrail.C1BKNgfM.js:255
 #, js-format
 msgid "%1$s (%2$s your time)"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:267
+#: dist/hoptrail.C1BKNgfM.js:272
+msgctxt "relative time: it has not happened yet"
 msgid "never"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:274
+#: dist/hoptrail.C1BKNgfM.js:279
 msgid "just now"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:276
+#. translators: %d: milliseconds.
+#: dist/hoptrail.C1BKNgfM.js:283
 #, js-format
 msgid "%d ms"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:276
+#. translators: %s: seconds.
+#: dist/hoptrail.C1BKNgfM.js:287
 #, js-format
 msgid "%s s"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:308
+#: dist/hoptrail.C1BKNgfM.js:321
+msgctxt "issue type, one issue"
 msgid "Loop"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:309
-#: dist/hoptrail.CDDjso3T.js:362
-#: dist/hoptrail.CDDjso3T.js:3334
+#: dist/hoptrail.C1BKNgfM.js:322
+msgctxt "issue type, heading for several issues"
 msgid "Loops"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:310
+#: dist/hoptrail.C1BKNgfM.js:323
 msgid "Redirects that never end"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:313
+#: dist/hoptrail.C1BKNgfM.js:326
+msgctxt "issue type, one issue"
 msgid "Chain"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:314
-#: dist/hoptrail.CDDjso3T.js:363
-#: dist/hoptrail.CDDjso3T.js:3339
+#: dist/hoptrail.C1BKNgfM.js:327
+msgctxt "issue type, heading for several issues"
 msgid "Chains"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:315
+#: dist/hoptrail.C1BKNgfM.js:328
 msgid "Two or more hops before the page loads"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:318
+#: dist/hoptrail.C1BKNgfM.js:331
+msgctxt "issue type, one issue"
 msgid "Conflict"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:319
-#: dist/hoptrail.CDDjso3T.js:364
+#: dist/hoptrail.C1BKNgfM.js:332
+msgctxt "issue type, heading for several issues"
 msgid "Conflicts"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:320
+#: dist/hoptrail.C1BKNgfM.js:333
 msgid "One URL, several different targets"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:323
+#: dist/hoptrail.C1BKNgfM.js:336
+msgctxt "issue type, one issue"
 msgid "Self-redirect"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:324
+#: dist/hoptrail.C1BKNgfM.js:337
+msgctxt "issue type, heading for several issues"
 msgid "Self-redirects"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:325
+#: dist/hoptrail.C1BKNgfM.js:338
 msgid "Source and target are the same URL"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:328
+#: dist/hoptrail.C1BKNgfM.js:341
+msgctxt "issue type, one issue"
 msgid "Duplicate"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:329
+#: dist/hoptrail.C1BKNgfM.js:342
+msgctxt "issue type, heading for several issues"
 msgid "Duplicates"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:330
+#: dist/hoptrail.C1BKNgfM.js:343
 msgid "The same redirect defined twice"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:333
-#: dist/hoptrail.CDDjso3T.js:334
+#: dist/hoptrail.C1BKNgfM.js:346
+msgctxt "issue type, one issue"
 msgid "Redundant"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:335
+#: dist/hoptrail.C1BKNgfM.js:347
+msgctxt "issue type, heading for several issues"
+msgid "Redundant"
+msgstr ""
+
+#: dist/hoptrail.C1BKNgfM.js:348
 msgid "WordPress already handles it"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:338
-#: dist/hoptrail.CDDjso3T.js:339
+#: dist/hoptrail.C1BKNgfM.js:351
+msgctxt "issue type, one issue"
 msgid "Hides content"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:340
+#: dist/hoptrail.C1BKNgfM.js:352
+msgctxt "issue type, heading for several issues"
+msgid "Hides content"
+msgstr ""
+
+#: dist/hoptrail.C1BKNgfM.js:353
 msgid "Redirects away from a published page"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:343
+#: dist/hoptrail.C1BKNgfM.js:356
+msgctxt "issue type, one issue"
 msgid "Broken target"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:344
+#: dist/hoptrail.C1BKNgfM.js:357
+msgctxt "issue type, heading for several issues"
 msgid "Broken targets"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:345
+#: dist/hoptrail.C1BKNgfM.js:358
 msgid "Ends on a page that probably 404s"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:361
+#: dist/hoptrail.C1BKNgfM.js:374
 msgid "All issues"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:365
+#: dist/hoptrail.C1BKNgfM.js:375
+#: dist/hoptrail.C1BKNgfM.js:3613
+msgid "Loops"
+msgstr ""
+
+#: dist/hoptrail.C1BKNgfM.js:376
+#: dist/hoptrail.C1BKNgfM.js:3618
+msgid "Chains"
+msgstr ""
+
+#: dist/hoptrail.C1BKNgfM.js:377
+msgid "Conflicts"
+msgstr ""
+
+#: dist/hoptrail.C1BKNgfM.js:378
+msgctxt "issue group"
 msgid "Unnecessary"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:366
+#: dist/hoptrail.C1BKNgfM.js:379
+msgctxt "issue group"
 msgid "Broken"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:370
-#: dist/hoptrail.CDDjso3T.js:401
+#: dist/hoptrail.C1BKNgfM.js:383
+msgctxt "issue severity"
 msgid "Critical"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:371
+#: dist/hoptrail.C1BKNgfM.js:384
+msgctxt "issue severity"
 msgid "High"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:372
+#: dist/hoptrail.C1BKNgfM.js:385
+msgctxt "issue severity"
 msgid "Medium"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:373
+#: dist/hoptrail.C1BKNgfM.js:386
+msgctxt "issue severity"
 msgid "Low"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:399
+#: dist/hoptrail.C1BKNgfM.js:412
+msgctxt "health status of the redirects"
 msgid "Healthy"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:400
+#: dist/hoptrail.C1BKNgfM.js:413
+msgctxt "health status of the redirects"
 msgid "Needs attention"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:409
+#: dist/hoptrail.C1BKNgfM.js:414
+msgctxt "health status of the redirects"
+msgid "Critical"
+msgstr ""
+
+#: dist/hoptrail.C1BKNgfM.js:422
 msgid "Someone"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:411
+#: dist/hoptrail.C1BKNgfM.js:424
 msgid "A scheduled scan finished. The dashboard is up to date."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:412
+#. translators: %s: name of an administrator.
+#: dist/hoptrail.C1BKNgfM.js:427
 #, js-format
 msgid "%s ran a scan. The dashboard is up to date."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:412
+#: dist/hoptrail.C1BKNgfM.js:429
 msgid "A scan ran (WP-CLI or an AI client). The dashboard is up to date."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:413
+#. translators: %s: name of an administrator.
+#: dist/hoptrail.C1BKNgfM.js:432
 #, js-format
 msgid "%s applied a fix."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:414
+#. translators: %s: name of an administrator.
+#: dist/hoptrail.C1BKNgfM.js:437
 #, js-format
 msgid "%s migrated leftover rules."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:415
+#. translators: %s: name of an administrator.
+#: dist/hoptrail.C1BKNgfM.js:442
 #, js-format
 msgid "%s deleted a leftover rule."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:416
+#. translators: %s: name of an administrator.
+#: dist/hoptrail.C1BKNgfM.js:447
 #, js-format
 msgid "%s deleted leftover data."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:417
+#. translators: %s: name of an administrator.
+#: dist/hoptrail.C1BKNgfM.js:452
 #, js-format
 msgid "%s changed the schedule or retention settings."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:418
+#. translators: %s: name of an administrator.
+#: dist/hoptrail.C1BKNgfM.js:457
 #, js-format
 msgid "%s deleted logs."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:419
+#. translators: %s: name of an administrator.
+#: dist/hoptrail.C1BKNgfM.js:462
 #, js-format
 msgid "An AI client used by %s asked to delete logs. It waits for approval on this dashboard."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:420
+#. translators: %s: name of an administrator.
+#: dist/hoptrail.C1BKNgfM.js:467
 #, js-format
 msgid "%s declined the request to delete logs."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:421
+#: dist/hoptrail.C1BKNgfM.js:470
 msgid "Hoptrail was updated by someone else."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:471
+#: dist/hoptrail.C1BKNgfM.js:520
 msgid "Run a scan"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:472
+#: dist/hoptrail.C1BKNgfM.js:521
 msgid "Reads the redirect rules of all supported SEO and redirect plugins and follows every one to where it really ends. Scheduled scans do the same on their own."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:478
-#: dist/hoptrail.CDDjso3T.js:1003
-#: dist/hoptrail.CDDjso3T.js:3178
+#: dist/hoptrail.C1BKNgfM.js:527
+#: dist/hoptrail.C1BKNgfM.js:1107
+#: dist/hoptrail.C1BKNgfM.js:3457
 msgid "Health score"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:479
+#: dist/hoptrail.C1BKNgfM.js:528
 msgid "100 means every redirect goes straight to its destination. Loops cost the most, then chains and conflicts."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:485
-#: dist/hoptrail.CDDjso3T.js:1388
+#: dist/hoptrail.C1BKNgfM.js:534
+#: dist/hoptrail.C1BKNgfM.js:1560
 msgid "Leftover redirects"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:486
+#: dist/hoptrail.C1BKNgfM.js:535
 msgid "Rules of plugins that are no longer active. Review them, copy them into an active plugin, or delete them. A pattern is copied as exact rules when the other plugin only holds exact ones."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:491
+#: dist/hoptrail.C1BKNgfM.js:540
 msgid "Issues per type"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:492
+#: dist/hoptrail.C1BKNgfM.js:541
 msgid "Loops, chains, conflicts, redirects you don’t need, and broken targets, with their trend. Select one to filter the list."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:497
-#: dist/hoptrail.CDDjso3T.js:2188
+#: dist/hoptrail.C1BKNgfM.js:546
+#: dist/hoptrail.C1BKNgfM.js:2407
 msgid "Search"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:498
+#: dist/hoptrail.C1BKNgfM.js:547
 msgid "Search the URLs of every hop. Switch on .* to search with a regular expression, such as ^/blog/."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:503
+#: dist/hoptrail.C1BKNgfM.js:552
 msgid "Verify and fix"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:504
+#: dist/hoptrail.C1BKNgfM.js:553
 msgid "Verify live requests the URL on this site to confirm what visitors get. Apply fix appears when the fix is clear-cut, and changes the rule in the plugin it belongs to."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:509
+#: dist/hoptrail.C1BKNgfM.js:558
 msgid "Schedule and retention"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:510
+#: dist/hoptrail.C1BKNgfM.js:559
 msgid "Scan daily, weekly or monthly at the hours you choose, and decide how much scan history to keep."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:606
+#. translators: 1: step number, 2: number of steps.
+#: dist/hoptrail.C1BKNgfM.js:657
 #, js-format
 msgid "%1$d of %2$d"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:612
+#: dist/hoptrail.C1BKNgfM.js:666
 msgid "Skip walkthrough"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:618
+#: dist/hoptrail.C1BKNgfM.js:672
 msgid "Back"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:625
+#: dist/hoptrail.C1BKNgfM.js:679
 msgid "Done"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:625
-#: dist/hoptrail.CDDjso3T.js:2249
-#: dist/hoptrail.CDDjso3T.js:2462
-#: dist/hoptrail.CDDjso3T.js:3418
+#: dist/hoptrail.C1BKNgfM.js:679
+#: dist/hoptrail.C1BKNgfM.js:2474
+#: dist/hoptrail.C1BKNgfM.js:2691
+#: dist/hoptrail.C1BKNgfM.js:3697
 msgid "Next"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:644
+#. translators: %d: number of scans.
+#: dist/hoptrail.C1BKNgfM.js:700
 #, js-format
 msgid "%d scan and its issues"
 msgid_plural "%d scans and their issues"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:645
+#. translators: %d: number of change log entries.
+#: dist/hoptrail.C1BKNgfM.js:705
 #, js-format
 msgid "%d entry of the change log"
 msgid_plural "%d entries of the change log"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:646
+#. translators: %d: number of scans.
+#: dist/hoptrail.C1BKNgfM.js:716
+#: dist/hoptrail.C1BKNgfM.js:2830
 #, js-format
-msgid "%1$d scans with their issues and %2$d change-log entries"
-msgstr ""
+msgid "Deleted %d scan and its issues."
+msgid_plural "Deleted %d scans and their issues."
+msgstr[0] ""
+msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:654
+#. translators: %d: number of change log entries.
+#: dist/hoptrail.C1BKNgfM.js:720
 #, js-format
-msgid "Deleted %1$d scans and %2$d change-log entries."
-msgstr ""
+msgid "Deleted %d entry of the change log."
+msgid_plural "Deleted %d entries of the change log."
+msgstr[0] ""
+msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:657
+#: dist/hoptrail.C1BKNgfM.js:725
 msgid "Request declined. Nothing was deleted."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:675
+#: dist/hoptrail.C1BKNgfM.js:743
 msgid "An AI client asks to delete logs"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:677
+#. translators: 1: date and time, 2: administrator's name.
+#: dist/hoptrail.C1BKNgfM.js:747
 #, js-format
-msgid "Through the Hoptrail abilities, an AI client used by %2$s asked to permanently delete %1$s (%3$s). Nothing is deleted unless you approve it here."
+msgid "On %1$s, an AI client used by %2$s asked through the Hoptrail abilities to permanently delete:"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:677
-msgid "an administrator"
+#. translators: %s: date and time.
+#: dist/hoptrail.C1BKNgfM.js:752
+#, js-format
+msgid "On %s, an AI client asked through the Hoptrail abilities to permanently delete:"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:680
+#: dist/hoptrail.C1BKNgfM.js:759
+msgid "Nothing is deleted unless you approve it here."
+msgstr ""
+
+#. translators: %s: date and time.
+#: dist/hoptrail.C1BKNgfM.js:764
 #, js-format
 msgid "If you did not ask for this, decline it. The request expires at %s."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:696
+#: dist/hoptrail.C1BKNgfM.js:782
 msgid "Decline"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:705
+#: dist/hoptrail.C1BKNgfM.js:791
 msgid "Delete logs"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:893
+#: dist/hoptrail.C1BKNgfM.js:979
 msgid "No loops"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:894
+#: dist/hoptrail.C1BKNgfM.js:980
 msgid "No chains"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:895
+#: dist/hoptrail.C1BKNgfM.js:981
 msgid "No conflicts"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:896
+#: dist/hoptrail.C1BKNgfM.js:982
 msgid "No self-redirects"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:897
+#: dist/hoptrail.C1BKNgfM.js:983
 msgid "No duplicates"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:898
+#: dist/hoptrail.C1BKNgfM.js:984
 msgid "No redundant rules"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:899
+#: dist/hoptrail.C1BKNgfM.js:985
 msgid "No hidden content"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:900
+#: dist/hoptrail.C1BKNgfM.js:986
 msgid "No broken targets"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:917
+#: dist/hoptrail.C1BKNgfM.js:1003
 msgid "No issues found so far"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:917
+#. translators: %d: number of redirect rules.
+#: dist/hoptrail.C1BKNgfM.js:1005
 #, js-format
 msgid "All clear: no issues in %d redirect rule"
 msgid_plural "All clear: no issues in %d redirect rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:918
+#: dist/hoptrail.C1BKNgfM.js:1008
 msgid "Every redirect goes straight to its destination. These are the checks it passed:"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:932
+#. translators: %s: name of an administrator.
+#: dist/hoptrail.C1BKNgfM.js:1024
 #, js-format
 msgid "%s is also here"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:932
+#. translators: 1: names, 2: number of others.
+#: dist/hoptrail.C1BKNgfM.js:1028
 #, js-format
 msgid "%1$s are also here"
 msgid_plural "%1$s are also here"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:969
+#: dist/hoptrail.C1BKNgfM.js:1067
 msgid "Follows every redirect rule of your SEO and redirect plugins to where it really ends."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:974
+#. translators: 1: relative time, 2: number of rules, 3: duration.
+#: dist/hoptrail.C1BKNgfM.js:1074
 #, js-format
-msgid "Last scan %1$s · %2$d rules · %3$s"
-msgstr ""
+msgid "Last scan %1$s · %2$d rule · %3$s"
+msgid_plural "Last scan %1$s · %2$d rules · %3$s"
+msgstr[0] ""
+msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:974
-#: dist/hoptrail.CDDjso3T.js:1003
+#: dist/hoptrail.C1BKNgfM.js:1078
+#: dist/hoptrail.C1BKNgfM.js:1107
 msgid "No scan yet"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:997
+#: dist/hoptrail.C1BKNgfM.js:1101
 msgid "Scanning…"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:997
+#: dist/hoptrail.C1BKNgfM.js:1101
 msgid "Run scan"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1026
+#: dist/hoptrail.C1BKNgfM.js:1130
 msgid "no score"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1036
+#. translators: %s: plugin.
+#: dist/hoptrail.C1BKNgfM.js:1142
 #, js-format
 msgid "Will be copied to %s"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1037
+#. translators: 1: number of rules, 2: plugin.
+#: dist/hoptrail.C1BKNgfM.js:1147
 #, js-format
 msgid "Becomes %1$d exact rule in %2$s"
 msgid_plural "Becomes %1$d exact rules in %2$s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:1038
+#. translators: %s: plugin.
+#: dist/hoptrail.C1BKNgfM.js:1153
 #, js-format
 msgid "Already in %s"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1039
+#. translators: %s: plugin.
+#: dist/hoptrail.C1BKNgfM.js:1158
 #, js-format
 msgid "%s can’t hold this rule"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1060
+#. translators: %s: source URL.
+#: dist/hoptrail.C1BKNgfM.js:1183
 #, js-format
 msgid "Deleted the rule for %s."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1088
+#: dist/hoptrail.C1BKNgfM.js:1213
 msgid "Hide the exact rules"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1088
+#: dist/hoptrail.C1BKNgfM.js:1213
 msgid "Show the exact rules"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1101
-#: dist/hoptrail.CDDjso3T.js:1119
+#: dist/hoptrail.C1BKNgfM.js:1226
+#: dist/hoptrail.C1BKNgfM.js:1248
 msgid "Delete"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1111
-#: dist/hoptrail.CDDjso3T.js:1321
-#: dist/hoptrail.CDDjso3T.js:2060
-#: dist/hoptrail.CDDjso3T.js:2823
+#: dist/hoptrail.C1BKNgfM.js:1236
+#: dist/hoptrail.C1BKNgfM.js:1489
+#: dist/hoptrail.C1BKNgfM.js:2275
+#: dist/hoptrail.C1BKNgfM.js:3084
 msgid "Cancel"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1117
+#. translators: %s: source URL.
+#: dist/hoptrail.C1BKNgfM.js:1244
 #, js-format
 msgid "Delete the rule for %s"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1134
+#. translators: %s: plugin.
+#: dist/hoptrail.C1BKNgfM.js:1265
 #, js-format
 msgid "%s only holds exact rules, so this pattern is copied for the URLs this site is known to have: published content, URLs from the 404 log, and the sources and targets of other rules."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1184
+#. translators: 1: number of rules, 2: plugin.
+#: dist/hoptrail.C1BKNgfM.js:1319
 #, js-format
 msgid "%1$d rule copied to %2$s. Run a scan to include it."
 msgid_plural "%1$d rules copied to %2$s. Run a scan to include them."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:1198
+#. translators: 1: number of rules, 2: plugin.
+#: dist/hoptrail.C1BKNgfM.js:1338
 #, js-format
 msgid "Deleted %1$d stored rule of %2$s."
 msgid_plural "Deleted %1$d stored rules of %2$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:1211
+#. translators: %s: plugin.
+#: dist/hoptrail.C1BKNgfM.js:1356
 #, js-format
 msgid "Leftover rules of %s"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1218
+#: dist/hoptrail.C1BKNgfM.js:1365
 msgid "This plugin is not active, so these rules redirect nothing. Copy them into an active redirect plugin, or delete them."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1225
+#: dist/hoptrail.C1BKNgfM.js:1372
 msgid "Migrate to"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1236
+#. translators: %d: number of rules.
+#: dist/hoptrail.C1BKNgfM.js:1385
 #, js-format
 msgid "%d will be copied"
 msgid_plural "%d will be copied"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:1237
+#. translators: %d: number of rules.
+#: dist/hoptrail.C1BKNgfM.js:1390
 #, js-format
 msgid "%d already there"
 msgid_plural "%d already there"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:1238
+#. translators: %d: number of rules.
+#: dist/hoptrail.C1BKNgfM.js:1395
 #, js-format
 msgid "%d not supported"
 msgid_plural "%d not supported"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:1249
+#: dist/hoptrail.C1BKNgfM.js:1408
 msgid "Not every pattern could be checked against all known URLs in time; some exact rules may be missing from this list."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1255
+#: dist/hoptrail.C1BKNgfM.js:1414
 msgid "Stored rules"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1262
+#: dist/hoptrail.C1BKNgfM.js:1421
+msgctxt "table column: source URL of a redirect rule"
 msgid "From"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1266
+#: dist/hoptrail.C1BKNgfM.js:1425
+msgctxt "table column: target URL of a redirect rule"
 msgid "To"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1271
+#: dist/hoptrail.C1BKNgfM.js:1430
 msgid "Code"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1275
+#: dist/hoptrail.C1BKNgfM.js:1434
 msgid "Migration"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1281
+#: dist/hoptrail.C1BKNgfM.js:1440
 msgid "Actions"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1305
+#. translators: 1: number of rules, 2: plugin.
+#: dist/hoptrail.C1BKNgfM.js:1466
 #, js-format
 msgid "Permanently delete %1$d stored rule of %2$s? This cannot be undone."
 msgid_plural "Permanently delete %1$d stored rules of %2$s? This cannot be undone."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:1308
+#. translators: %s: plugin.
+#: dist/hoptrail.C1BKNgfM.js:1474
 #, js-format
 msgid "Also drop the redirect tables of %s"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1309
+#: dist/hoptrail.C1BKNgfM.js:1477
 msgid "Only when you don’t plan to activate it again; it would have to set up its tables anew."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1331
+#: dist/hoptrail.C1BKNgfM.js:1499
 msgid "Delete rules and tables"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1331
+#: dist/hoptrail.C1BKNgfM.js:1499
 msgid "Delete rules"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1342
+#: dist/hoptrail.C1BKNgfM.js:1510
 msgid "Delete all data"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1350
+#: dist/hoptrail.C1BKNgfM.js:1518
 msgid "Delete data"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1358
+#. translators: %d: number of rules.
+#: dist/hoptrail.C1BKNgfM.js:1528
 #, js-format
 msgid "Migrate %d rule"
 msgid_plural "Migrate %d rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:1391
+#: dist/hoptrail.C1BKNgfM.js:1563
 msgid "These plugins are not active, so their rules redirect nothing."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1403
+#. translators: %d: number of rules.
+#: dist/hoptrail.C1BKNgfM.js:1577
 #, js-format
 msgid "Not active · %d stored rule"
 msgid_plural "Not active · %d stored rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:1412
+#: dist/hoptrail.C1BKNgfM.js:1588
 msgid "Review rules"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1425
+#: dist/hoptrail.C1BKNgfM.js:1601
 msgid "Show fewer"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1425
+#. translators: %d: number of plugins with leftover rules.
+#: dist/hoptrail.C1BKNgfM.js:1603
 #, js-format
 msgid "Show all %d"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1624
+#: dist/hoptrail.C1BKNgfM.js:1804
 msgid "Health score per scan"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1627
-#: dist/hoptrail.CDDjso3T.js:1788
+#: dist/hoptrail.C1BKNgfM.js:1807
+#: dist/hoptrail.C1BKNgfM.js:1968
+msgctxt "noun, table column: the date of a scan"
 msgid "Scan"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1630
-#: dist/hoptrail.CDDjso3T.js:2393
-#: dist/hoptrail.CDDjso3T.js:3324
+#: dist/hoptrail.C1BKNgfM.js:1810
+#: dist/hoptrail.C1BKNgfM.js:2618
+#: dist/hoptrail.C1BKNgfM.js:3603
 msgid "Score"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1785
+#: dist/hoptrail.C1BKNgfM.js:1965
 msgid "Issues per scan by severity"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1834
+#: dist/hoptrail.C1BKNgfM.js:2014
 msgid "Redirect path"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1857
-#: dist/hoptrail.CDDjso3T.js:1863
+#. translators: 1: HTTP status code, e.g. 301, 2: target URL.
+#: dist/hoptrail.C1BKNgfM.js:2039
 #, js-format
+msgctxt "link label on a status code"
 msgid "%1$s – edit the rule to %2$s"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1874
+#. translators: 1: plugin name, 2: target URL.
+#: dist/hoptrail.C1BKNgfM.js:2050
+#, js-format
+msgctxt "link label on a plugin name"
+msgid "%1$s – edit the rule to %2$s"
+msgstr ""
+
+#: dist/hoptrail.C1BKNgfM.js:2064
 msgid "back to start"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1883
+#: dist/hoptrail.C1BKNgfM.js:2073
 msgid "Loads after one redirect"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1884
+#: dist/hoptrail.C1BKNgfM.js:2074
 msgid "Confirmed chain"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1885
+#: dist/hoptrail.C1BKNgfM.js:2075
 msgid "Confirmed loop"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1886
+#: dist/hoptrail.C1BKNgfM.js:2076
 msgid "Ends in an error page"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1887
+#: dist/hoptrail.C1BKNgfM.js:2077
 msgid "Leaves this site (not followed)"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1888
+#: dist/hoptrail.C1BKNgfM.js:2078
 msgid "Request failed"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1895
+#: dist/hoptrail.C1BKNgfM.js:2085
 msgid "Live check"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1907
+#: dist/hoptrail.C1BKNgfM.js:2097
 msgid "external, not requested"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1931
+#. translators: 1: source URL, 2: new target, 3: plugin.
+#: dist/hoptrail.C1BKNgfM.js:2123
 #, js-format
 msgid "Point %1$s straight to %2$s in %3$s?"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1932
+#. translators: %d: number of rules.
+#: dist/hoptrail.C1BKNgfM.js:2130
 #, js-format
 msgid "Switch off %d duplicate rule?"
 msgid_plural "Switch off %d duplicate rules?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:1933
+#. translators: 1: source URL, 2: plugin.
+#: dist/hoptrail.C1BKNgfM.js:2135
 #, js-format
-msgid "Remove the rule for %1$s from %2$s? It has no off switch; the old rule is kept in the fix log."
+msgid "Remove the rule for %1$s from %2$s? It has no off switch; the old rule is kept in the change log."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1933
+#. translators: 1: source URL, 2: plugin.
+#: dist/hoptrail.C1BKNgfM.js:2140
 #, js-format
 msgid "Switch off the rule for %1$s in %2$s? You can switch it back on there."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1935
+#: dist/hoptrail.C1BKNgfM.js:2145
 msgid "Shorten chain"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1935
+#: dist/hoptrail.C1BKNgfM.js:2145
 msgid "Switch off rule"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1970
+#: dist/hoptrail.C1BKNgfM.js:2180
 msgid "Live check finished."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:1982
+#: dist/hoptrail.C1BKNgfM.js:2192
 msgid "Fix applied. Run a new scan to update the numbers."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2009
+#: dist/hoptrail.C1BKNgfM.js:2219
+msgctxt "issue status chip"
 msgid "New"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2013
+#: dist/hoptrail.C1BKNgfM.js:2223
+msgctxt "issue status chip"
 msgid "Fixed"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2020
-msgid "hop"
-msgstr ""
+#. translators: %d: number of hops.
+#: dist/hoptrail.C1BKNgfM.js:2229
+#, js-format
+msgid "%d hop"
+msgid_plural "%d hops"
+msgstr[0] ""
+msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:2020
-msgid "hops"
-msgstr ""
-
-#: dist/hoptrail.CDDjso3T.js:2037
+#. translators: 1: who, 2: relative time.
+#: dist/hoptrail.C1BKNgfM.js:2249
 #, js-format
 msgid "Fixed by %1$s %2$s. Run a new scan to update the numbers."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2041
+#: dist/hoptrail.C1BKNgfM.js:2256
 msgid "Confirm fix"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2052
+#: dist/hoptrail.C1BKNgfM.js:2267
 msgid "Applying…"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2052
+#: dist/hoptrail.C1BKNgfM.js:2267
 msgid "Apply"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2075
+#: dist/hoptrail.C1BKNgfM.js:2290
 msgid "Checking…"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2075
+#: dist/hoptrail.C1BKNgfM.js:2290
 msgid "Verify live"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2085
+#: dist/hoptrail.C1BKNgfM.js:2300
 msgid "Apply fix"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2146
+#. translators: %d: number of issues.
+#: dist/hoptrail.C1BKNgfM.js:2363
 #, js-format
 msgid "%d issue found"
 msgid_plural "%d issues found"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:2169
+#: dist/hoptrail.C1BKNgfM.js:2388
 msgid "Filter by issue type"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2187
+#: dist/hoptrail.C1BKNgfM.js:2406
 msgid "Search URLs with a regular expression"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2187
+#: dist/hoptrail.C1BKNgfM.js:2406
 msgid "Search URLs"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2197
+#: dist/hoptrail.C1BKNgfM.js:2416
 msgid "Use regular expression"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2208
+#: dist/hoptrail.C1BKNgfM.js:2427
 msgid "All plugins"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2226
+#: dist/hoptrail.C1BKNgfM.js:2445
 msgid "Nothing matches these filters"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2226
+#: dist/hoptrail.C1BKNgfM.js:2445
 msgid "No issues found"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2227
+#: dist/hoptrail.C1BKNgfM.js:2446
 msgid "Try another type, plugin or search term."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2227
+#: dist/hoptrail.C1BKNgfM.js:2446
 msgid "Every redirect goes straight to its destination."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2232
+#: dist/hoptrail.C1BKNgfM.js:2451
 msgid "Issue pages"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2240
-#: dist/hoptrail.CDDjso3T.js:2449
-#: dist/hoptrail.CDDjso3T.js:3405
+#: dist/hoptrail.C1BKNgfM.js:2459
+#: dist/hoptrail.C1BKNgfM.js:2678
+#: dist/hoptrail.C1BKNgfM.js:3684
 msgid "Previous"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2242
+#. translators: 1: current page, 2: number of pages, 3: number of issues.
+#: dist/hoptrail.C1BKNgfM.js:2463
 #, js-format
 msgid "Page %1$d of %2$d · %3$d issue"
 msgid_plural "Page %1$d of %2$d · %3$d issues"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:2259
+#: dist/hoptrail.C1BKNgfM.js:2484
+msgctxt "scan status"
 msgid "Running"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2260
+#: dist/hoptrail.C1BKNgfM.js:2485
+msgctxt "scan status"
 msgid "Complete"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2261
+#: dist/hoptrail.C1BKNgfM.js:2486
+msgctxt "scan status"
 msgid "Partial"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2262
+#: dist/hoptrail.C1BKNgfM.js:2487
+msgctxt "scan status"
 msgid "Failed"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2327
+#: dist/hoptrail.C1BKNgfM.js:2552
 msgid "Scan history"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2341
+#: dist/hoptrail.C1BKNgfM.js:2566
 msgid "Pick a date"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2356
+#: dist/hoptrail.C1BKNgfM.js:2581
 msgid "Days with a scan are marked."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2364
+#: dist/hoptrail.C1BKNgfM.js:2589
 msgid "Show all dates"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2386
+#: dist/hoptrail.C1BKNgfM.js:2611
 msgid "Scanned"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2389
+#: dist/hoptrail.C1BKNgfM.js:2614
+msgctxt "scan history column: who started the scan"
 msgid "By"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2391
-#: dist/hoptrail.CDDjso3T.js:3329
+#: dist/hoptrail.C1BKNgfM.js:2616
+#: dist/hoptrail.C1BKNgfM.js:3608
 msgid "Rules"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2394
+#: dist/hoptrail.C1BKNgfM.js:2619
+msgctxt "scan history column: how long the scan took"
 msgid "Took"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2401
+#. translators: %s: date.
+#: dist/hoptrail.C1BKNgfM.js:2628
 #, js-format
 msgid "No scans on %s."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2401
+#: dist/hoptrail.C1BKNgfM.js:2630
 msgid "No scans yet."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2441
+#: dist/hoptrail.C1BKNgfM.js:2670
 msgid "Scan history pages"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2493
+#: dist/hoptrail.C1BKNgfM.js:2722
 msgid "Daily"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2497
+#: dist/hoptrail.C1BKNgfM.js:2726
 msgid "Weekly"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2501
+#: dist/hoptrail.C1BKNgfM.js:2730
 msgid "Monthly"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2505
-msgid "the last day"
-msgstr ""
-
-#: dist/hoptrail.CDDjso3T.js:2505
-#, js-format
-msgid "day %d"
-msgstr ""
-
-#: dist/hoptrail.CDDjso3T.js:2545
+#: dist/hoptrail.C1BKNgfM.js:2772
 msgid "Off. Scans only run when you start them."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2546
+#: dist/hoptrail.C1BKNgfM.js:2773
 msgid "Pick at least one day and one hour."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2548
+#. translators: 1: times, e.g. "03:00, 15:00", 2: timezone.
+#: dist/hoptrail.C1BKNgfM.js:2777
 #, js-format
 msgid "Runs every day at %1$s, site time (%2$s)."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2549
+#. translators: 1: times, e.g. "03:00, 15:00", 2: timezone.
+#: dist/hoptrail.C1BKNgfM.js:2783
 #, js-format
-msgid "Runs on %1$s of every month at %2$s, site time (%3$s)."
+msgid "Runs on the last day of every month at %1$s, site time (%2$s)."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2550
-msgid "every day"
-msgstr ""
-
-#: dist/hoptrail.CDDjso3T.js:2551
+#. translators: 1: day of the month (1–28), 2: times, e.g. "03:00, 15:00", 3: timezone.
+#: dist/hoptrail.C1BKNgfM.js:2788
 #, js-format
-msgid "Runs %1$s at %2$s, site time (%3$s)."
+msgid "Runs on day %1$d of every month at %2$s, site time (%3$s)."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2569
+#. translators: 1: list of short weekday names, e.g. "Mon, Wed", 2: times, e.g. "03:00, 15:00", 3: timezone.
+#: dist/hoptrail.C1BKNgfM.js:2796
+#, js-format
+msgid "Runs on %1$s at %2$s, site time (%3$s)."
+msgstr ""
+
+#: dist/hoptrail.C1BKNgfM.js:2818
 msgid "Settings saved."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2579
-#, js-format
-msgid "Deleted %d scans."
-msgstr ""
-
-#: dist/hoptrail.CDDjso3T.js:2594
+#: dist/hoptrail.C1BKNgfM.js:2847
 msgid "Schedule & retention"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2603
-#: dist/hoptrail.CDDjso3T.js:2613
+#: dist/hoptrail.C1BKNgfM.js:2856
+#: dist/hoptrail.C1BKNgfM.js:2866
 msgid "Scheduled scans"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2655
+#: dist/hoptrail.C1BKNgfM.js:2908
 msgid "Day of the month"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2661
+#: dist/hoptrail.C1BKNgfM.js:2914
 msgid "Last day of the month"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2673
+#: dist/hoptrail.C1BKNgfM.js:2926
 msgid "Days"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2694
+#: dist/hoptrail.C1BKNgfM.js:2947
 msgid "Hours"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2720
+#. translators: %s: date and time.
+#: dist/hoptrail.C1BKNgfM.js:2975
 #, js-format
 msgid "Next scan: %s"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2729
+#: dist/hoptrail.C1BKNgfM.js:2986
 msgid "History"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2734
+#: dist/hoptrail.C1BKNgfM.js:2991
+msgctxt "label for the history retention options"
 msgid "Keep"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2744
+#: dist/hoptrail.C1BKNgfM.js:3001
 msgid "Scans of the last days"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2749
+#: dist/hoptrail.C1BKNgfM.js:3006
 msgid "The newest scans"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2756
+#: dist/hoptrail.C1BKNgfM.js:3013
 msgid "Keep scans for"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2760
+#: dist/hoptrail.C1BKNgfM.js:3017
 msgid "7 to 365 days."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2763
+#: dist/hoptrail.C1BKNgfM.js:3020
+msgctxt "unit after a number field (7–365)"
 msgid "days"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2768
+#: dist/hoptrail.C1BKNgfM.js:3025
 msgid "Keep the newest"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2772
+#: dist/hoptrail.C1BKNgfM.js:3029
 msgid "5 to 1,000 scans."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2775
+#: dist/hoptrail.C1BKNgfM.js:3032
+msgctxt "unit after a number field (5–1,000)"
 msgid "scans"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2782
+#. translators: %s: date and time.
+#: dist/hoptrail.C1BKNgfM.js:3041
 #, js-format
 msgid "Next cleanup: %s."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2791
+#: dist/hoptrail.C1BKNgfM.js:3052
 msgid "Someone else saved these settings while you were editing. Saving now replaces their changes with yours."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2805
+#: dist/hoptrail.C1BKNgfM.js:3066
 msgid "Delete all scan history? This cannot be undone."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2815
+#: dist/hoptrail.C1BKNgfM.js:3076
 msgid "Deleting…"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2815
+#: dist/hoptrail.C1BKNgfM.js:3076
 msgid "Delete all"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2833
+#: dist/hoptrail.C1BKNgfM.js:3094
 msgid "Delete history"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2842
+#: dist/hoptrail.C1BKNgfM.js:3103
 msgid "Saving…"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2842
+#: dist/hoptrail.C1BKNgfM.js:3103
 msgid "Save settings"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2862
+#: dist/hoptrail.C1BKNgfM.js:3123
 msgid "Rules by plugin"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2865
+#. translators: %s: number of rules.
+#: dist/hoptrail.C1BKNgfM.js:3128
 #, js-format
 msgid "%s rule"
 msgid_plural "%s rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:2897
+#. translators: %d: number of issues.
+#: dist/hoptrail.C1BKNgfM.js:3164
 #, js-format
 msgid "%d issue"
 msgid_plural "%d issues"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:2897
+#: dist/hoptrail.C1BKNgfM.js:3166
 msgid "No issues"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:2897
-#: dist/hoptrail.CDDjso3T.js:3390
+#: dist/hoptrail.C1BKNgfM.js:3166
+#: dist/hoptrail.C1BKNgfM.js:3669
 msgid "Not active"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:3002
+#: dist/hoptrail.C1BKNgfM.js:3271
 msgid "No change"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:3002
+#. translators: %s: signed change, e.g. +2.
+#: dist/hoptrail.C1BKNgfM.js:3273
 #, js-format
 msgid "%s since last scan"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:3094
+#. translators: 1: number of rules, 2: number of issues, 3: duration.
+#: dist/hoptrail.C1BKNgfM.js:3369
 #, js-format
 msgid "Scanned %1$d rules and found %2$d issue in %3$s."
 msgid_plural "Scanned %1$d rules and found %2$d issues in %3$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/hoptrail.CDDjso3T.js:3160
+#: dist/hoptrail.C1BKNgfM.js:3439
 msgid "Nothing scanned yet"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:3161
+#: dist/hoptrail.C1BKNgfM.js:3440
 msgid "Use “Run scan” (top right) to check every redirect rule on this site."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:3181
+#: dist/hoptrail.C1BKNgfM.js:3460
 msgid "below 50 critical · 80 and up healthy"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:3191
+#: dist/hoptrail.C1BKNgfM.js:3470
 msgid "Issues by severity"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:3208
-#: dist/hoptrail.CDDjso3T.js:3214
+#: dist/hoptrail.C1BKNgfM.js:3487
+#: dist/hoptrail.C1BKNgfM.js:3493
 msgid "Issues by type"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:3245
+#: dist/hoptrail.C1BKNgfM.js:3524
 msgid "Show the walkthrough"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:3281
+#: dist/hoptrail.C1BKNgfM.js:3560
 msgid "Latest scan per site. Scans run per site, from each site’s Tools menu."
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:3292
+#: dist/hoptrail.C1BKNgfM.js:3571
 msgid "Sites"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:3299
+#: dist/hoptrail.C1BKNgfM.js:3578
 msgid "Search sites"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:3319
+#: dist/hoptrail.C1BKNgfM.js:3598
 msgid "Site"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:3344
+#: dist/hoptrail.C1BKNgfM.js:3623
+msgctxt "table column: number of other issue types"
 msgid "Other"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:3348
+#: dist/hoptrail.C1BKNgfM.js:3627
 msgid "Last scan"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:3390
+#: dist/hoptrail.C1BKNgfM.js:3669
+msgctxt "last scan: no scan has run yet"
 msgid "Never"
 msgstr ""
 
-#: dist/hoptrail.CDDjso3T.js:3397
+#: dist/hoptrail.C1BKNgfM.js:3676
 msgid "Site pages"
 msgstr ""

@@ -10,10 +10,8 @@ export const PresenceBadge = ({ others }: { others: PresentUser[] }) => {
 
 	const names = others.map((user) => user.name);
 	const text = 1 === names.length
-		/* translators: %s: name of an administrator. */
-		? sprintf(__('%s is also here', 'hoptrail'), names[0])
-		/* translators: 1: names, 2: number of others. */
-		: sprintf(_n('%1$s are also here', '%1$s are also here', names.length, 'hoptrail'), names.join(', '));
+		? sprintf(/* translators: %s: name of an administrator. */ __('%s is also here', 'hoptrail'), names[0])
+		: sprintf(/* translators: 1: names, 2: number of others. */ _n('%1$s are also here', '%1$s are also here', names.length, 'hoptrail'), names.join(', '));
 
 	return (
 		<p className="rdi-presence">

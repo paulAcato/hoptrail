@@ -1,7 +1,7 @@
 import { Button, Notice, SelectControl, ToggleControl, __experimentalNumberControl as NumberControl } from '@wordpress/components';
 import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
 import { speak } from '@wordpress/a11y';
-import { __, sprintf } from '@wordpress/i18n';
+import { __, _n, _x, sprintf } from '@wordpress/i18n';
 import { trash } from '@wordpress/icons';
 import { errorMessage, invalidate, isAbort, route } from '../api/client';
 import { useMutation } from '../api/hooks';
@@ -45,13 +45,6 @@ const FREQUENCIES: { value: Schedule['frequency']; label: string }[] = [
 	{ value: 'weekly', label: __('Weekly', 'hoptrail') },
 	{ value: 'monthly', label: __('Monthly', 'hoptrail') },
 ];
-
-/** "1st", "15th" … via sprintf so translators control the ordinal; 0 = last day. */
-const monthDayLabel = (day: number): string =>
-	0 === day
-		? __('the last day', 'hoptrail')
-		/* translators: %d: day of the month. */
-		: sprintf(__('day %d', 'hoptrail'), day);
 
 export const SettingsPanel = ({ settings, retention, nextScan }: Props) => {
 	const [days, setDays] = useState(String(settings.retention_days));
@@ -113,19 +106,16 @@ export const SettingsPanel = ({ settings, retention, nextScan }: Props) => {
 			return __('Pick at least one day and one hour.', 'hoptrail');
 		}
 		const times = schedule.hours.map(hourLabel).join(', ');
-		if ('daily' === schedule.frequency) {
-			/* translators: 1: times, e.g. "03:00, 15:00", 2: timezone. */
-			return sprintf(__('Runs every day at %1$s, site time (%2$s).', 'hoptrail'), times, timezone);
+		if ('daily' === schedule.frequency || ('weekly' === schedule.frequency && 7 === schedule.days.length)) {
+			return sprintf(/* translators: 1: times, e.g. "03:00, 15:00", 2: timezone. */ __('Runs every day at %1$s, site time (%2$s).', 'hoptrail'), times, timezone);
 		}
 		if ('monthly' === schedule.frequency) {
-			/* translators: 1: "day 15" or "the last day", 2: times, 3: timezone. */
-			return sprintf(__('Runs on %1$s of every month at %2$s, site time (%3$s).', 'hoptrail'), monthDayLabel(schedule.month_day), times, timezone);
+			return 0 === schedule.month_day
+				? sprintf(/* translators: 1: times, e.g. "03:00, 15:00", 2: timezone. */ __('Runs on the last day of every month at %1$s, site time (%2$s).', 'hoptrail'), times, timezone)
+				: sprintf(/* translators: 1: day of the month (1–28), 2: times, e.g. "03:00, 15:00", 3: timezone. */ __('Runs on day %1$d of every month at %2$s, site time (%3$s).', 'hoptrail'), schedule.month_day, times, timezone);
 		}
-		const dayNames = 7 === schedule.days.length
-			? __('every day', 'hoptrail')
-			: weekdays.filter((weekday) => schedule.days.includes(weekday.day)).map((weekday) => weekday.short).join(', ');
-		/* translators: 1: days, e.g. "Mon, Wed", 2: times, e.g. "03:00, 15:00", 3: timezone. */
-		return sprintf(__('Runs %1$s at %2$s, site time (%3$s).', 'hoptrail'), dayNames, times, timezone);
+		const dayNames = weekdays.filter((weekday) => schedule.days.includes(weekday.day)).map((weekday) => weekday.short).join(', ');
+		return sprintf(/* translators: 1: list of short weekday names, e.g. "Mon, Wed", 2: times, e.g. "03:00, 15:00", 3: timezone. */ __('Runs on %1$s at %2$s, site time (%3$s).', 'hoptrail'), dayNames, times, timezone);
 	}, [schedule, incomplete]);
 
 	const report = (status: 'success' | 'error', text: string) => {
@@ -150,8 +140,7 @@ export const SettingsPanel = ({ settings, retention, nextScan }: Props) => {
 			const result = await purge.run(route('/logs'), 'DELETE');
 			closeConfirm();
 			invalidate();
-			/* translators: %d: number of scans. */
-			report('success', sprintf(__('Deleted %d scans.', 'hoptrail'), result.deleted));
+			report('success', sprintf(/* translators: %d: number of scans. */ _n('Deleted %d scan and its issues.', 'Deleted %d scans and their issues.', result.deleted, 'hoptrail'), result.deleted));
 		} catch (error) {
 			if (!isAbort(error)) {
 				report('error', errorMessage(error));
@@ -255,8 +244,7 @@ export const SettingsPanel = ({ settings, retention, nextScan }: Props) => {
 
 						{!dirty && nextScan && (
 							<p className="rdi-card__meta rdi-settings__next">
-								{/* translators: %s: date and time. */}
-								{sprintf(__('Next scan: %s', 'hoptrail'), dateTimeWithLocal(nextScan))}
+								{sprintf(/* translators: %s: date and time. */ __('Next scan: %s', 'hoptrail'), dateTimeWithLocal(nextScan))}
 							</p>
 						)}
 					</>
@@ -265,7 +253,7 @@ export const SettingsPanel = ({ settings, retention, nextScan }: Props) => {
 
 			<div className="rdi-settings__section">
 				<h3 className="rdi-settings__title">{__('History', 'hoptrail')}</h3>
-				<div className="rdi-settings__label" id="rdi-keep-label">{__('Keep', 'hoptrail')}</div>
+				<div className="rdi-settings__label" id="rdi-keep-label">{_x('Keep', 'label for the history retention options', 'hoptrail')}</div>
 				<div className="rdi-segmented rdi-segmented--two" role="group" aria-labelledby="rdi-keep-label">
 					<button type="button" aria-pressed={'days' === mode} onClick={() => setMode('days')}>
 						{__('Scans of the last days', 'hoptrail')}
@@ -283,7 +271,7 @@ export const SettingsPanel = ({ settings, retention, nextScan }: Props) => {
 							max={365}
 							value={days}
 							help={__('7 to 365 days.', 'hoptrail')}
-							suffix={<span className="rdi-settings__suffix">{__('days', 'hoptrail')}</span>}
+							suffix={<span className="rdi-settings__suffix">{_x('days', 'unit after a number field (7–365)', 'hoptrail')}</span>}
 							onChange={(value?: string) => setDays(value ?? '')}
 						/>
 					) : (
@@ -294,7 +282,7 @@ export const SettingsPanel = ({ settings, retention, nextScan }: Props) => {
 							max={1000}
 							value={count}
 							help={__('5 to 1,000 scans.', 'hoptrail')}
-							suffix={<span className="rdi-settings__suffix">{__('scans', 'hoptrail')}</span>}
+							suffix={<span className="rdi-settings__suffix">{_x('scans', 'unit after a number field (5–1,000)', 'hoptrail')}</span>}
 							onChange={(value?: string) => setCount(value ?? '')}
 						/>
 					)}
@@ -302,8 +290,7 @@ export const SettingsPanel = ({ settings, retention, nextScan }: Props) => {
 				<p className="rdi-settings__hint">
 					{retention.text}
 					{retention.next_cleanup && (
-						/* translators: %s: date and time. */
-						<> {sprintf(__('Next cleanup: %s.', 'hoptrail'), dateTimeWithLocal(retention.next_cleanup))}</>
+						<> {sprintf(/* translators: %s: date and time. */ __('Next cleanup: %s.', 'hoptrail'), dateTimeWithLocal(retention.next_cleanup))}</>
 					)}
 				</p>
 			</div>

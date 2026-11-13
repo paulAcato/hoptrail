@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 
 /**
@@ -19,8 +19,21 @@ const globals: Record<string, string> = {
 	'@wordpress/hooks': 'wp.hooks',
 };
 
+/**
+ * Keep the `translators:` comments in dist/. translate.wordpress.org builds the POT from the shipped
+ * JS, and the bundler drops plain comments but keeps JSDoc ones. Write the comment inside the call,
+ * right before the gettext function: sprintf(/* translators: %s: plugin. *\/ __('…', 'hoptrail'), x).
+ */
+const keepTranslatorComments = (): Plugin => ({
+	name: 'hoptrail-keep-translator-comments',
+	enforce: 'pre',
+	transform: (code, id) => (/\/assets\/scripts\/.+\.tsx?$/.test(id) && code.includes('translators:')
+		? { code: code.replace(/\/\*\s*translators:/g, '/** translators:'), map: null }
+		: null),
+});
+
 export default defineConfig({
-	plugins: [react({ jsxRuntime: 'automatic' })],
+	plugins: [keepTranslatorComments(), react({ jsxRuntime: 'automatic' })],
 	base: './',
 	build: {
 		outDir: 'dist',

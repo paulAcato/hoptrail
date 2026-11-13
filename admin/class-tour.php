@@ -107,7 +107,7 @@ final class Tour extends Singleton {
 
 		$pointer = [
 			'name'     => self::pointer_name(),
-			'title'    => __( 'Hoptrail', 'hoptrail' ),
+			'title'    => 'Hoptrail',
 			'text'     => $text,
 			'link'     => admin_url( 'tools.php?page=' . Admin_Page::SLUG ),
 			'linkText' => __( 'Take the walkthrough', 'hoptrail' ),

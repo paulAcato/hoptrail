@@ -1,5 +1,5 @@
 import { Button } from '@wordpress/components';
-import { __, sprintf } from '@wordpress/i18n';
+import { __, _n, sprintf } from '@wordpress/i18n';
 import { update } from '@wordpress/icons';
 import type { PresentUser, Scan } from '../api/types';
 import { PresenceBadge } from './Presence';
@@ -24,7 +24,7 @@ export const Banner = ({ others, latest, running, onScan }: Props) => {
 	return (
 		<header className="rdi-banner">
 			<div className="rdi-banner__intro">
-				<h1 className="rdi-banner__title">{__('Hoptrail', 'hoptrail')}</h1>
+				<h1 className="rdi-banner__title">Hoptrail</h1>
 				<p className="rdi-banner__lead">
 					{__('Follows every redirect rule of your SEO and redirect plugins to where it really ends.', 'hoptrail')}
 				</p>
@@ -32,7 +32,7 @@ export const Banner = ({ others, latest, running, onScan }: Props) => {
 					{latest
 						? sprintf(
 							/* translators: 1: relative time, 2: number of rules, 3: duration. */
-							__('Last scan %1$s · %2$d rules · %3$s', 'hoptrail'),
+							_n('Last scan %1$s · %2$d rule · %3$s', 'Last scan %1$s · %2$d rules · %3$s', latest.rule_count, 'hoptrail'),
 							relative(latest.finished_at),
 							latest.rule_count,
 							duration(latest.duration_ms)

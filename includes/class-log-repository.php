@@ -567,8 +567,8 @@ final class Log_Repository {
 	private static function trigger_label( string $trigger, string $user_login ): string {
 		return match ( $trigger ) {
 			'cli'   => 'WP-CLI',
-			'cron'    => __( 'Scheduled', 'hoptrail' ),
-			'ability' => __( 'Ability', 'hoptrail' ),
+			'cron'    => _x( 'Scheduled', 'who ran the scan: a scheduled scan', 'hoptrail' ),
+			'ability' => _x( 'Ability', 'who ran the scan: an AI client through an ability', 'hoptrail' ),
 			default => $user_login,
 		};
 	}

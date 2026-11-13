@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import type { IssueType, Severity, TypeCounts } from '../api/types';
 
 export interface TypeMeta {
@@ -10,14 +10,14 @@ export interface TypeMeta {
 export const TYPE_ORDER: IssueType[] = ['loop', 'chain', 'conflict', 'noop', 'duplicate', 'redundant', 'shadow', 'broken'];
 
 export const typeMeta = (type: IssueType): TypeMeta => ({
-	loop: { label: __('Loop', 'hoptrail'), plural: __('Loops', 'hoptrail'), description: __('Redirects that never end', 'hoptrail') },
-	chain: { label: __('Chain', 'hoptrail'), plural: __('Chains', 'hoptrail'), description: __('Two or more hops before the page loads', 'hoptrail') },
-	conflict: { label: __('Conflict', 'hoptrail'), plural: __('Conflicts', 'hoptrail'), description: __('One URL, several different targets', 'hoptrail') },
-	noop: { label: __('Self-redirect', 'hoptrail'), plural: __('Self-redirects', 'hoptrail'), description: __('Source and target are the same URL', 'hoptrail') },
-	duplicate: { label: __('Duplicate', 'hoptrail'), plural: __('Duplicates', 'hoptrail'), description: __('The same redirect defined twice', 'hoptrail') },
-	redundant: { label: __('Redundant', 'hoptrail'), plural: __('Redundant', 'hoptrail'), description: __('WordPress already handles it', 'hoptrail') },
-	shadow: { label: __('Hides content', 'hoptrail'), plural: __('Hides content', 'hoptrail'), description: __('Redirects away from a published page', 'hoptrail') },
-	broken: { label: __('Broken target', 'hoptrail'), plural: __('Broken targets', 'hoptrail'), description: __('Ends on a page that probably 404s', 'hoptrail') },
+	loop: { label: _x('Loop', 'issue type, one issue', 'hoptrail'), plural: _x('Loops', 'issue type, heading for several issues', 'hoptrail'), description: __('Redirects that never end', 'hoptrail') },
+	chain: { label: _x('Chain', 'issue type, one issue', 'hoptrail'), plural: _x('Chains', 'issue type, heading for several issues', 'hoptrail'), description: __('Two or more hops before the page loads', 'hoptrail') },
+	conflict: { label: _x('Conflict', 'issue type, one issue', 'hoptrail'), plural: _x('Conflicts', 'issue type, heading for several issues', 'hoptrail'), description: __('One URL, several different targets', 'hoptrail') },
+	noop: { label: _x('Self-redirect', 'issue type, one issue', 'hoptrail'), plural: _x('Self-redirects', 'issue type, heading for several issues', 'hoptrail'), description: __('Source and target are the same URL', 'hoptrail') },
+	duplicate: { label: _x('Duplicate', 'issue type, one issue', 'hoptrail'), plural: _x('Duplicates', 'issue type, heading for several issues', 'hoptrail'), description: __('The same redirect defined twice', 'hoptrail') },
+	redundant: { label: _x('Redundant', 'issue type, one issue', 'hoptrail'), plural: _x('Redundant', 'issue type, heading for several issues', 'hoptrail'), description: __('WordPress already handles it', 'hoptrail') },
+	shadow: { label: _x('Hides content', 'issue type, one issue', 'hoptrail'), plural: _x('Hides content', 'issue type, heading for several issues', 'hoptrail'), description: __('Redirects away from a published page', 'hoptrail') },
+	broken: { label: _x('Broken target', 'issue type, one issue', 'hoptrail'), plural: _x('Broken targets', 'issue type, heading for several issues', 'hoptrail'), description: __('Ends on a page that probably 404s', 'hoptrail') },
 })[type];
 
 /** Dashboard groups: what the stat tiles and filter tabs show. */
@@ -36,18 +36,18 @@ export const groupLabel = (group: Group): string => ({
 	loops: __('Loops', 'hoptrail'),
 	chains: __('Chains', 'hoptrail'),
 	conflicts: __('Conflicts', 'hoptrail'),
-	unnecessary: __('Unnecessary', 'hoptrail'),
-	broken: __('Broken', 'hoptrail'),
+	unnecessary: _x('Unnecessary', 'issue group', 'hoptrail'),
+	broken: _x('Broken', 'issue group', 'hoptrail'),
 })[group];
 
 export const groupCount = (group: Group, counts: TypeCounts = {}): number =>
 	('all' === group ? TYPE_ORDER : GROUPS[group]).reduce((sum, type) => sum + (counts[type] ?? 0), 0);
 
 export const severityLabel = (severity: Severity): string => ({
-	critical: __('Critical', 'hoptrail'),
-	high: __('High', 'hoptrail'),
-	medium: __('Medium', 'hoptrail'),
-	low: __('Low', 'hoptrail'),
+	critical: _x('Critical', 'issue severity', 'hoptrail'),
+	high: _x('High', 'issue severity', 'hoptrail'),
+	medium: _x('Medium', 'issue severity', 'hoptrail'),
+	low: _x('Low', 'issue severity', 'hoptrail'),
 })[severity];
 
 /** Categorical slots, fixed order = registry order; colour follows the plugin, never its rank. Each ≥ 3:1 on white. */
@@ -75,7 +75,7 @@ export const healthBand = (score: number): 'good' | 'warning' | 'critical' => {
 };
 
 export const healthLabel = (score: number): string => ({
-	good: __('Healthy', 'hoptrail'),
-	warning: __('Needs attention', 'hoptrail'),
-	critical: __('Critical', 'hoptrail'),
+	good: _x('Healthy', 'health status of the redirects', 'hoptrail'),
+	warning: _x('Needs attention', 'health status of the redirects', 'hoptrail'),
+	critical: _x('Critical', 'health status of the redirects', 'hoptrail'),
 })[healthBand(score)];

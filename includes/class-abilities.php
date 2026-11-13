@@ -114,7 +114,7 @@ final class Abilities extends Singleton {
 		wp_register_ability_category(
 			self::CATEGORY,
 			[
-				'label'       => __( 'Hoptrail', 'hoptrail' ),
+				'label'       => 'Hoptrail',
 				'description' => __( 'Find redirect loops, chains and redirects you don\'t need across the redirect plugins of this site.', 'hoptrail' ),
 			]
 		);
@@ -322,7 +322,7 @@ final class Abilities extends Singleton {
 						'approval_url'      => $this->string_schema( __( 'Approval URL', 'hoptrail' ), __( 'Where an administrator approves or declines the request.', 'hoptrail' ) ),
 						'scope'             => $this->string_schema( __( 'Scope', 'hoptrail' ), __( 'What was (or would be) deleted.', 'hoptrail' ) ),
 						'scans'             => $this->integer_schema( __( 'Scans', 'hoptrail' ), __( 'Scans deleted, or that would be deleted.', 'hoptrail' ), 0 ),
-						'changes'           => $this->integer_schema( __( 'Changes', 'hoptrail' ), __( 'Change-log entries deleted, or that would be deleted.', 'hoptrail' ), 0 ),
+						'changes'           => $this->integer_schema( __( 'Changes', 'hoptrail' ), __( 'Change log entries deleted, or that would be deleted.', 'hoptrail' ), 0 ),
 						'message'           => $this->string_schema( __( 'Message', 'hoptrail' ), __( 'What happened, in plain text.', 'hoptrail' ) ),
 					]
 				),
@@ -362,10 +362,10 @@ final class Abilities extends Singleton {
 			'scans'             => $counts['scans'],
 			'changes'           => $counts['changes'],
 			'message'           => $request
-				/* translators: 1: number of scans, 2: number of change-log entries. */
-				? sprintf( __( 'Nothing deleted. A request to delete %1$d scans and %2$d change-log entries now waits for an administrator on the Hoptrail dashboard in wp-admin (Tools → Hoptrail), valid for one hour.', 'hoptrail' ), $counts['scans'], $counts['changes'] )
-				/* translators: 1: number of scans, 2: number of change-log entries. */
-				: sprintf( __( 'Nothing deleted. This would delete %1$d scans and %2$d change-log entries. If the user wants that, call again with confirm: true; an administrator then approves it in wp-admin.', 'hoptrail' ), $counts['scans'], $counts['changes'] ),
+				/* translators: 1: number of scans, 2: number of change log entries. Labels with a colon, so no plural forms are needed. */
+				? sprintf( __( 'Nothing deleted. A request to delete logs (scans: %1$d, change log entries: %2$d) now waits for an administrator on the Hoptrail dashboard in wp-admin (Tools → Hoptrail), valid for one hour.', 'hoptrail' ), $counts['scans'], $counts['changes'] )
+				/* translators: 1: number of scans, 2: number of change log entries. Labels with a colon, so no plural forms are needed. */
+				: sprintf( __( 'Nothing deleted. This would delete logs (scans: %1$d, change log entries: %2$d). If the user wants that, call again with confirm: true; an administrator then approves it in wp-admin.', 'hoptrail' ), $counts['scans'], $counts['changes'] ),
 		];
 	}
 
