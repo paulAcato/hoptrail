@@ -49,7 +49,7 @@ final class Yoast implements Source, Writable, Purgeable {
 	 * {@inheritDoc}
 	 */
 	public function is_available(): bool {
-		return ( defined( 'WPSEO_PREMIUM_VERSION' ) || defined( 'WPSEO_VERSION' ) ) && [] !== $this->items();
+		return $this->plugin_active() && [] !== $this->items();
 	}
 
 	/**
@@ -310,6 +310,6 @@ final class Yoast implements Source, Writable, Purgeable {
 	 * {@inheritDoc}
 	 */
 	public function plugin_active(): bool {
-		return defined( 'WPSEO_VERSION' ) || defined( 'WPSEO_PREMIUM_VERSION' );
+		return defined( 'WPSEO_PREMIUM_VERSION' );
 	}
 }
