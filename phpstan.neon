@@ -3,7 +3,7 @@
 parameters:
 	level: 5
 	paths:
-		- hoptrail.php
+		- onehop-redirect-checker.php
 		- admin
 		- includes
 		- uninstall.php

@@ -2,13 +2,13 @@
 /**
  * Resolves a URL to the rule that would redirect it.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes\Analysis;
+namespace Onehop\RedirectChecker\Includes\Analysis;
 
-use Hoptrail\Includes\Rule;
-use Hoptrail\Includes\Url_Normalizer;
+use Onehop\RedirectChecker\Includes\Rule;
+use Onehop\RedirectChecker\Includes\Url_Normalizer;
 
 defined( 'ABSPATH' ) || exit;
 

@@ -2,12 +2,12 @@
 /**
  * Slim SEO (redirection module).
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes\Sources;
+namespace Onehop\RedirectChecker\Includes\Sources;
 
-use Hoptrail\Includes\Rule;
+use Onehop\RedirectChecker\Includes\Rule;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -202,7 +202,7 @@ final class Slim_Seo implements Source, Writable, Purgeable {
 			'condition'        => false === $condition ? 'regex' : $condition,
 			'from'             => Rule::MATCH_REGEX === $rule->match ? $rule->regex( false ) : ltrim( $rule->from, '/' ),
 			'to'               => $rule->to,
-			'note'             => 'Migrated by ' . HOPTRAIL_NAME,
+			'note'             => 'Migrated by ' . ONEHOP_REDIRECT_CHECKER_NAME,
 			'enable'           => 1,
 			'ignoreParameters' => 0,
 		];

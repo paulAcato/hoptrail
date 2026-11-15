@@ -2,12 +2,12 @@
 /**
  * SmartCrawl (WPMU DEV) redirects.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes\Sources;
+namespace Onehop\RedirectChecker\Includes\Sources;
 
-use Hoptrail\Includes\Rule;
+use Onehop\RedirectChecker\Includes\Rule;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -175,7 +175,7 @@ final class Smartcrawl implements Source, Writable, Purgeable {
 		return false !== $wpdb->insert(
 			$this->table(),
 			[
-				'title'       => 'Migrated by ' . HOPTRAIL_NAME,
+				'title'       => 'Migrated by ' . ONEHOP_REDIRECT_CHECKER_NAME,
 				'source'      => $exact ? $rule->path() : $rule->regex( true ),
 				'path'        => $exact ? ( '' === $path ? '/' : $path ) : 'regex',
 				'destination' => wp_json_encode( $rule->to ),

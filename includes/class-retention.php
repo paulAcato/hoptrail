@@ -2,10 +2,10 @@
 /**
  * Scheduled cleanup of old scans and issues.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes;
+namespace Onehop\RedirectChecker\Includes;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -18,7 +18,7 @@ final class Retention extends Singleton {
 	/**
 	 * Cron hook.
 	 */
-	const HOOK = 'hoptrail_cleanup';
+	const HOOK = 'onehop_redirect_checker_cleanup';
 
 	/**
 	 * Cleanup frequency (fixed, as agreed).
@@ -33,7 +33,7 @@ final class Retention extends Singleton {
 	/**
 	 * Mutex option so overlapping runs (cron + "purge" + CLI) never interleave.
 	 */
-	const LOCK_OPTION = 'hoptrail_cleanup_lock';
+	const LOCK_OPTION = 'onehop_redirect_checker_cleanup_lock';
 
 	/**
 	 * Register hooks.
@@ -190,7 +190,7 @@ final class Retention extends Singleton {
 		}
 
 		if ( Scanner::is_running() || ! Lock::acquire( self::LOCK_OPTION, 10 * MINUTE_IN_SECONDS ) ) {
-			throw new \RuntimeException( __( 'A scan or cleanup is running. Try again in a moment.', 'hoptrail' ), 409 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+			throw new \RuntimeException( __( 'A scan or cleanup is running. Try again in a moment.', 'onehop-redirect-checker' ), 409 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 
 		try {
@@ -274,18 +274,18 @@ final class Retention extends Singleton {
 		if ( 'count' === $settings['retention_mode'] ) {
 			return sprintf(
 				/* translators: %d: number of scans. */
-				_n( 'The newest %d scan is kept; older ones are removed after every scan.', 'The newest %d scans are kept; older ones are removed after every scan.', $settings['retention_count'], 'hoptrail' ),
+				_n( 'The newest %d scan is kept; older ones are removed after every scan.', 'The newest %d scans are kept; older ones are removed after every scan.', $settings['retention_count'], 'onehop-redirect-checker' ),
 				$settings['retention_count']
 			) . ' ' . sprintf(
 				/* translators: %d: number of days. */
-				_n( 'Changes made through Apply fix or Migrate are logged for %d day.', 'Changes made through Apply fix or Migrate are logged for %d days.', $settings['retention_days'], 'hoptrail' ),
+				_n( 'Changes made through Apply fix or Migrate are logged for %d day.', 'Changes made through Apply fix or Migrate are logged for %d days.', $settings['retention_days'], 'onehop-redirect-checker' ),
 				$settings['retention_days']
 			);
 		}
 
 		return sprintf(
 			/* translators: %d: number of days. */
-			_n( 'Scan history is kept for %d day; older scans are removed every Sunday around 03:00.', 'Scan history is kept for %d days; older scans are removed every Sunday around 03:00.', Settings::retention_days(), 'hoptrail' ),
+			_n( 'Scan history is kept for %d day; older scans are removed every Sunday around 03:00.', 'Scan history is kept for %d days; older scans are removed every Sunday around 03:00.', Settings::retention_days(), 'onehop-redirect-checker' ),
 			Settings::retention_days()
 		);
 	}

@@ -5,12 +5,12 @@
  * Usage: wp eval-file bin/seed-dummy-data.php            (seed / re-seed)
  *        wp eval-file bin/seed-dummy-data.php remove     (remove seed data)
  *
- * Idempotent: everything it creates is recorded in the `hoptrail_seed` option and
+ * Idempotent: everything it creates is recorded in the `onehop_redirect_checker_seed` option and
  * removed again on the next run (S12: it never touches rules it didn't create). One exception:
  * Yoast rules on one of the seed's own demo paths are removed too. Those are copies of seed rules
- * that Hoptrail's migration wrote into Yoast, and they would otherwise stay behind for good.
+ * that Onehop Redirect Checker's migration wrote into Yoast, and they would otherwise stay behind for good.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
 if ( ! defined( 'WP_CLI' ) || ! WP_CLI ) {
@@ -21,7 +21,7 @@ if ( ! in_array( wp_get_environment_type(), [ 'local', 'development' ], true ) )
 	WP_CLI::error( 'The seed script only runs on local or development environments.' );
 }
 
-const RDI_SEED_OPTION = 'hoptrail_seed';
+const RDI_SEED_OPTION = 'onehop_redirect_checker_seed';
 
 $manifest = get_option( RDI_SEED_OPTION, [] );
 $manifest = is_array( $manifest ) ? $manifest : [];
@@ -245,7 +245,7 @@ foreach ( $seed_pages as $slug => $seed_title ) {
 			'post_status'  => 'publish',
 			'post_name'    => $slug,
 			'post_title'   => $seed_title,
-			'post_content' => '<!-- wp:paragraph --><p>Hoptrail demo page.</p><!-- /wp:paragraph -->',
+			'post_content' => '<!-- wp:paragraph --><p>Onehop Redirect Checker demo page.</p><!-- /wp:paragraph -->',
 		]
 	);
 }
@@ -277,9 +277,9 @@ if ( $rdi_has_table( 'redirection_items' ) && $rdi_has_table( 'redirection_group
 	// Redirection's API when it is active; its own table format when it isn't.
 	$api = class_exists( 'Red_Group' ) && class_exists( 'Red_Item' );
 	if ( $api ) {
-		$gid = Red_Group::create( 'Hoptrail seed', 1 )->get_id();
+		$gid = Red_Group::create( 'Onehop Redirect Checker seed', 1 )->get_id();
 	} else {
-		$wpdb->insert( $wpdb->prefix . 'redirection_groups', [ 'name' => 'Hoptrail seed', 'tracking' => 1, 'module_id' => 1, 'status' => 'enabled', 'position' => 0 ] ); // phpcs:ignore
+		$wpdb->insert( $wpdb->prefix . 'redirection_groups', [ 'name' => 'Onehop Redirect Checker seed', 'tracking' => 1, 'module_id' => 1, 'status' => 'enabled', 'position' => 0 ] ); // phpcs:ignore
 		$gid = (int) $wpdb->insert_id;
 	}
 
@@ -335,7 +335,7 @@ if ( $rdi_has_table( 'redirection_items' ) && $rdi_has_table( 'redirection_group
  */
 if ( $rdi_has_table( 'redirection_404' ) ) {
 	foreach ( [ '/docs/v1/install', '/docs/v1/upgrade', '/products/shoes', '/products/socks', '/blog/hello-world', '/legacy/brochure', '/old-shop/gift-card' ] as $seed_url ) {
-		$wpdb->insert( $wpdb->prefix . 'redirection_404', [ 'created' => current_time( 'mysql', true ), 'url' => $seed_url, 'http_code' => 404, 'request_method' => 'GET', 'agent' => 'Hoptrail seed' ] ); // phpcs:ignore
+		$wpdb->insert( $wpdb->prefix . 'redirection_404', [ 'created' => current_time( 'mysql', true ), 'url' => $seed_url, 'http_code' => 404, 'request_method' => 'GET', 'agent' => 'Onehop Redirect Checker seed' ] ); // phpcs:ignore
 		$manifest['redirection_404_ids'][] = (int) $wpdb->insert_id;
 	}
 }
@@ -466,7 +466,7 @@ foreach ( $seed_slim as [ $seed_from, $seed_to, $condition ] ) {
 		'condition'        => $condition,
 		'from'             => $seed_from,
 		'to'               => $seed_to,
-		'note'             => 'Hoptrail seed',
+		'note'             => 'Onehop Redirect Checker seed',
 		'enable'           => 1,
 		'ignoreParameters' => 0,
 	];
@@ -512,7 +512,7 @@ if ( defined( 'SMARTCRAWL_PLUGIN_DIR' ) || $rdi_has_table( 'smartcrawl_redirects
 
 	foreach ( $seed_smartcrawl as [ $seed_from, $seed_to, $regex ] ) {
 		$seed_to = $regex ? $seed_to : home_url( $seed_to );
-		$wpdb->insert( $wpdb->prefix . 'smartcrawl_redirects', [ 'title' => 'Hoptrail seed', 'source' => $seed_from, 'path' => $regex ? 'regex' : $seed_from, 'destination' => wp_json_encode( $seed_to ), 'type' => 301, 'options' => $regex ? 'regex' : '', 'rules' => '[]' ] ); // phpcs:ignore
+		$wpdb->insert( $wpdb->prefix . 'smartcrawl_redirects', [ 'title' => 'Onehop Redirect Checker seed', 'source' => $seed_from, 'path' => $regex ? 'regex' : $seed_from, 'destination' => wp_json_encode( $seed_to ), 'type' => 301, 'options' => $regex ? 'regex' : '', 'rules' => '[]' ] ); // phpcs:ignore
 		$manifest['smartcrawl_ids'][] = (int) $wpdb->insert_id;
 	}
 } else {
@@ -522,4 +522,4 @@ if ( defined( 'SMARTCRAWL_PLUGIN_DIR' ) || $rdi_has_table( 'smartcrawl_redirects
 update_option( RDI_SEED_OPTION, $manifest, false );
 
 WP_CLI::success( 'Seeded redirects for all ten plugins (inactive ones in their own storage format, so they show up as leftovers; Yoast needs Yoast SEO Premium).' );
-WP_CLI::log( 'Expected counts: see bin/seed-expected.json. Verify with: wp hoptrail scan' );
+WP_CLI::log( 'Expected counts: see bin/seed-expected.json. Verify with: wp onehop-redirect-checker scan' );

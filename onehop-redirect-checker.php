@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       Hoptrail – Redirect Loop & Chain Checker
+ * Plugin Name:       Onehop Redirect Checker
  * Plugin URI:        https://github.com/paulAcato/hoptrail
  * Description:       Finds redirect loops, chains and redirects you don't need across ten SEO and redirect plugins at once, and fixes the clear-cut ones.
  * Version:           1.0.0
@@ -10,35 +10,35 @@
  * Author URI:        https://profiles.wordpress.org/paulacato/
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       hoptrail
+ * Text Domain:       onehop-redirect-checker
  * Domain Path:       /languages
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HOPTRAIL_VERSION', '1.0.0' );
-// Display name and WP-CLI command (`wp hoptrail …`). The plugin header, readme.txt and the WP-CLI
+define( 'ONEHOP_REDIRECT_CHECKER_VERSION', '1.0.0' );
+// Display name and WP-CLI command (`wp onehop-redirect-checker …`). The plugin header, readme.txt and the WP-CLI
 // docblocks in includes/class-cli.php can't use these: update them too when renaming.
-define( 'HOPTRAIL_NAME', 'Hoptrail' );
-define( 'HOPTRAIL_CLI_COMMAND', 'hoptrail' );
-define( 'HOPTRAIL_FILE', __FILE__ );
-define( 'HOPTRAIL_PATH', plugin_dir_path( __FILE__ ) );
-define( 'HOPTRAIL_URL', plugin_dir_url( __FILE__ ) );
+define( 'ONEHOP_REDIRECT_CHECKER_NAME', 'Onehop Redirect Checker' );
+define( 'ONEHOP_REDIRECT_CHECKER_CLI_COMMAND', 'onehop-redirect-checker' );
+define( 'ONEHOP_REDIRECT_CHECKER_FILE', __FILE__ );
+define( 'ONEHOP_REDIRECT_CHECKER_PATH', plugin_dir_path( __FILE__ ) );
+define( 'ONEHOP_REDIRECT_CHECKER_URL', plugin_dir_url( __FILE__ ) );
 
 /**
- * Autoloader for the Hoptrail namespace.
+ * Autoloader for the Onehop Redirect Checker namespace.
  *
- * Hoptrail\Includes\Sources\Rank_Math → includes/sources/class-rank-math.php.
+ * Onehop\RedirectChecker\Includes\Sources\Rank_Math → includes/sources/class-rank-math.php.
  * Resolves classes, then traits, then interfaces.
  *
  * @param string $fqcn Fully qualified class name.
  *
  * @return void
  */
-function hoptrail_autoload( $fqcn ) {
-	$prefix = 'Hoptrail\\';
+function onehop_redirect_checker_autoload( $fqcn ) {
+	$prefix = 'Onehop\\RedirectChecker\\';
 	if ( 0 !== strpos( $fqcn, $prefix ) ) {
 		return;
 	}
@@ -48,13 +48,13 @@ function hoptrail_autoload( $fqcn ) {
 	$name     = basename( $relative );
 
 	foreach ( [ "class-{$name}.php", "trait-{$name}.php", "interface-{$name}.php" ] as $file ) {
-		$path = HOPTRAIL_PATH . $dir . '/' . $file;
+		$path = ONEHOP_REDIRECT_CHECKER_PATH . $dir . '/' . $file;
 		if ( is_readable( $path ) ) {
 			require_once $path;
 			return;
 		}
 	}
 }
-spl_autoload_register( 'hoptrail_autoload' );
+spl_autoload_register( 'onehop_redirect_checker_autoload' );
 
-Hoptrail\Includes\Plugin::instance();
+Onehop\RedirectChecker\Includes\Plugin::instance();

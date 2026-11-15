@@ -71,8 +71,8 @@ export const ScoreChart = ({ trend }: { trend: TrendPoint[] }) => {
 			)}
 			<ChartTooltip tip={tip} width={width} />
 			<table className="screen-reader-text">
-				<caption>{__('Health score per scan', 'hoptrail')}</caption>
-				<thead><tr><th scope="col">{_x('Scan', 'noun, table column: the date of a scan', 'hoptrail')}</th><th scope="col">{__('Score', 'hoptrail')}</th></tr></thead>
+				<caption>{__('Health score per scan', 'onehop-redirect-checker')}</caption>
+				<thead><tr><th scope="col">{_x('Scan', 'noun, table column: the date of a scan', 'onehop-redirect-checker')}</th><th scope="col">{__('Score', 'onehop-redirect-checker')}</th></tr></thead>
 				<tbody>
 					{trend.map((point) => <tr key={point.id}><th scope="row">{dateTime(point.finished_at)}</th><td>{point.score} ({healthLabel(point.score)})</td></tr>)}
 				</tbody>

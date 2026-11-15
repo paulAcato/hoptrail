@@ -2,15 +2,15 @@
 /**
  * Turns a pattern rule into exact rules, for plugins that only hold exact rules.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes\Analysis;
+namespace Onehop\RedirectChecker\Includes\Analysis;
 
-use Hoptrail\Includes\Installer;
-use Hoptrail\Includes\Rule;
-use Hoptrail\Includes\Sources\Registry;
-use Hoptrail\Includes\Url_Normalizer;
+use Onehop\RedirectChecker\Includes\Installer;
+use Onehop\RedirectChecker\Includes\Rule;
+use Onehop\RedirectChecker\Includes\Sources\Registry;
+use Onehop\RedirectChecker\Includes\Url_Normalizer;
 
 defined( 'ABSPATH' ) || exit;
 

@@ -20,20 +20,20 @@ interface Tick {
 }
 
 const describe = ({ action, by }: Change): string => {
-	const who = by || __('Someone', 'hoptrail');
+	const who = by || __('Someone', 'onehop-redirect-checker');
 	switch (action) {
 		case 'scheduled-scan':
-			return __('A scheduled scan finished. The dashboard is up to date.', 'hoptrail');
-		case 'scan': return by ? sprintf(/* translators: %s: name of an administrator. */ __('%s ran a scan. The dashboard is up to date.', 'hoptrail'), who) : __('A scan ran (WP-CLI or an AI client). The dashboard is up to date.', 'hoptrail');
-		case 'fix': return sprintf(/* translators: %s: name of an administrator. */ __('%s applied a fix.', 'hoptrail'), who);
-		case 'migrate': return sprintf(/* translators: %s: name of an administrator. */ __('%s migrated leftover rules.', 'hoptrail'), who);
-		case 'delete': return sprintf(/* translators: %s: name of an administrator. */ __('%s deleted a leftover rule.', 'hoptrail'), who);
-		case 'purge': return sprintf(/* translators: %s: name of an administrator. */ __('%s deleted leftover data.', 'hoptrail'), who);
-		case 'settings': return sprintf(/* translators: %s: name of an administrator. */ __('%s changed the schedule or retention settings.', 'hoptrail'), who);
-		case 'flush': return sprintf(/* translators: %s: name of an administrator. */ __('%s deleted logs.', 'hoptrail'), who);
-		case 'flush-request': return sprintf(/* translators: %s: name of an administrator. */ __('An AI client used by %s asked to delete logs. It waits for approval on this dashboard.', 'hoptrail'), who);
-		case 'flush-declined': return sprintf(/* translators: %s: name of an administrator. */ __('%s declined the request to delete logs.', 'hoptrail'), who);
-		default: return sprintf(/* translators: %s: plugin name. */ __('%s was updated by someone else.', 'hoptrail'), pluginName);
+			return __('A scheduled scan finished. The dashboard is up to date.', 'onehop-redirect-checker');
+		case 'scan': return by ? sprintf(/* translators: %s: name of an administrator. */ __('%s ran a scan. The dashboard is up to date.', 'onehop-redirect-checker'), who) : __('A scan ran (WP-CLI or an AI client). The dashboard is up to date.', 'onehop-redirect-checker');
+		case 'fix': return sprintf(/* translators: %s: name of an administrator. */ __('%s applied a fix.', 'onehop-redirect-checker'), who);
+		case 'migrate': return sprintf(/* translators: %s: name of an administrator. */ __('%s migrated leftover rules.', 'onehop-redirect-checker'), who);
+		case 'delete': return sprintf(/* translators: %s: name of an administrator. */ __('%s deleted a leftover rule.', 'onehop-redirect-checker'), who);
+		case 'purge': return sprintf(/* translators: %s: name of an administrator. */ __('%s deleted leftover data.', 'onehop-redirect-checker'), who);
+		case 'settings': return sprintf(/* translators: %s: name of an administrator. */ __('%s changed the schedule or retention settings.', 'onehop-redirect-checker'), who);
+		case 'flush': return sprintf(/* translators: %s: name of an administrator. */ __('%s deleted logs.', 'onehop-redirect-checker'), who);
+		case 'flush-request': return sprintf(/* translators: %s: name of an administrator. */ __('An AI client used by %s asked to delete logs. It waits for approval on this dashboard.', 'onehop-redirect-checker'), who);
+		case 'flush-declined': return sprintf(/* translators: %s: name of an administrator. */ __('%s declined the request to delete logs.', 'onehop-redirect-checker'), who);
+		default: return sprintf(/* translators: %s: plugin name. */ __('%s was updated by someone else.', 'onehop-redirect-checker'), pluginName);
 	}
 };
 
@@ -44,14 +44,14 @@ const describe = ({ action, by }: Change): string => {
 export const usePresence = () => {
 	const [others, setOthers] = useState<PresentUser[]>([]);
 	const [note, setNote] = useState<string | null>(null);
-	const version = useRef(window.hoptrail?.stateVersion ?? 0);
+	const version = useRef(window.onehopRedirectChecker?.stateVersion ?? 0);
 
 	useEffect(() => {
 		const send = (data: Record<string, unknown>) => {
-			data.hoptrail = { screen: window.hoptrail?.mode ?? 'site' };
+			data.onehop_redirect_checker = { screen: window.onehopRedirectChecker?.mode ?? 'site' };
 		};
 		const tick = (data: Record<string, unknown>) => {
-			const payload = data?.hoptrail as Tick | undefined;
+			const payload = data?.onehop_redirect_checker as Tick | undefined;
 			if (!payload) {
 				return;
 			}
@@ -70,8 +70,8 @@ export const usePresence = () => {
 		};
 
 		// Core's Heartbeat runs these wp.hooks actions on every beat.
-		addAction('heartbeat.send', 'hoptrail/presence', send);
-		addAction('heartbeat.tick', 'hoptrail/presence', tick);
+		addAction('heartbeat.send', 'onehop-redirect-checker/presence', send);
+		addAction('heartbeat.tick', 'onehop-redirect-checker/presence', tick);
 
 		// Every 15 s while this dashboard is open (WordPress slows it down in background tabs),
 		// and announce ourselves right away instead of after the first interval.
@@ -80,8 +80,8 @@ export const usePresence = () => {
 		heartbeat?.connectNow?.();
 
 		return () => {
-			removeAction('heartbeat.send', 'hoptrail/presence');
-			removeAction('heartbeat.tick', 'hoptrail/presence');
+			removeAction('heartbeat.send', 'onehop-redirect-checker/presence');
+			removeAction('heartbeat.tick', 'onehop-redirect-checker/presence');
 		};
 	}, []);
 

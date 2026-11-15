@@ -18,10 +18,10 @@ interface History extends Paged<Scan> {
 }
 
 const statusLabel = (status: Scan['status']): string => ({
-	running: _x('Running', 'scan status', 'hoptrail'),
-	done: _x('Complete', 'scan status', 'hoptrail'),
-	partial: _x('Partial', 'scan status', 'hoptrail'),
-	failed: _x('Failed', 'scan status', 'hoptrail'),
+	running: _x('Running', 'scan status', 'onehop-redirect-checker'),
+	done: _x('Complete', 'scan status', 'onehop-redirect-checker'),
+	partial: _x('Partial', 'scan status', 'onehop-redirect-checker'),
+	failed: _x('Failed', 'scan status', 'onehop-redirect-checker'),
 })[status];
 
 /** Y-m-d of a Date in local (browser) time; the picker works in local dates. */
@@ -77,14 +77,14 @@ export const ScanHistory = () => {
 	return (
 		<section className="rdi-card rdi-history" aria-labelledby="rdi-history-title">
 			<header className="rdi-card__header">
-				<h2 id="rdi-history-title">{__('Scan history', 'hoptrail')}</h2>
+				<h2 id="rdi-history-title">{__('Scan history', 'onehop-redirect-checker')}</h2>
 				<div className="rdi-history__tools">
 					{loading && <Spinner />}
 					<Dropdown
 						popoverProps={{ placement: 'bottom-end' }}
 						renderToggle={({ isOpen, onToggle }) => (
 							<Button ref={pickerRef} variant="secondary" size="compact" icon={calendar} aria-expanded={isOpen} onClick={onToggle}>
-								{date ? day(date) : __('Pick a date', 'hoptrail')}
+								{date ? day(date) : __('Pick a date', 'onehop-redirect-checker')}
 							</Button>
 						)}
 						renderContent={({ onClose }) => (
@@ -92,19 +92,19 @@ export const ScanHistory = () => {
 								<DatePicker
 									currentDate={date ? fromYmd(date) : null}
 									events={events}
-									startOfWeek={(window.hoptrail?.startOfWeek ?? 1) as 0 | 1 | 2 | 3 | 4 | 5 | 6}
+									startOfWeek={(window.onehopRedirectChecker?.startOfWeek ?? 1) as 0 | 1 | 2 | 3 | 4 | 5 | 6}
 									isInvalidDate={(day: Date) => !bounds || ymd(day) < bounds.min || ymd(day) > bounds.max}
 									onChange={(value: string) => {
 										setDate(ymd(new Date(value)));
 										onClose();
 									}}
 								/>
-								<p className="rdi-card__meta">{__('Days with a scan are marked.', 'hoptrail')}</p>
+								<p className="rdi-card__meta">{__('Days with a scan are marked.', 'onehop-redirect-checker')}</p>
 							</div>
 						)}
 					/>
 					{date && (
-						<Button variant="tertiary" size="compact" icon={closeSmall} label={__('Show all dates', 'hoptrail')} onClick={() => { setDate(''); pickerRef.current?.focus(); }} />
+						<Button variant="tertiary" size="compact" icon={closeSmall} label={__('Show all dates', 'onehop-redirect-checker')} onClick={() => { setDate(''); pickerRef.current?.focus(); }} />
 					)}
 				</div>
 			</header>
@@ -114,13 +114,13 @@ export const ScanHistory = () => {
 					<table className="rdi-table">
 						<thead>
 							<tr>
-								{header('date', __('Scanned', 'hoptrail'))}
-								<th scope="col">{_x('By', 'scan history column: who started the scan', 'hoptrail')}</th>
-								{header('rules', __('Rules', 'hoptrail'), true)}
-								{header('issues', __('Issues', 'hoptrail'), true)}
-								{header('score', __('Score', 'hoptrail'), true)}
-								{header('duration', _x('Took', 'scan history column: how long the scan took', 'hoptrail'), true)}
-								<th scope="col">{__('Status', 'hoptrail')}</th>
+								{header('date', __('Scanned', 'onehop-redirect-checker'))}
+								<th scope="col">{_x('By', 'scan history column: who started the scan', 'onehop-redirect-checker')}</th>
+								{header('rules', __('Rules', 'onehop-redirect-checker'), true)}
+								{header('issues', __('Issues', 'onehop-redirect-checker'), true)}
+								{header('score', __('Score', 'onehop-redirect-checker'), true)}
+								{header('duration', _x('Took', 'scan history column: how long the scan took', 'onehop-redirect-checker'), true)}
+								<th scope="col">{__('Status', 'onehop-redirect-checker')}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -128,8 +128,8 @@ export const ScanHistory = () => {
 								<tr>
 									<td colSpan={7}>
 										{date
-											? sprintf(/* translators: %s: date. */ __('No scans on %s.', 'hoptrail'), day(date))
-											: __('No scans yet.', 'hoptrail')}
+											? sprintf(/* translators: %s: date. */ __('No scans on %s.', 'onehop-redirect-checker'), day(date))
+											: __('No scans yet.', 'onehop-redirect-checker')}
 									</td>
 								</tr>
 							)}
@@ -151,10 +151,10 @@ export const ScanHistory = () => {
 				</div>
 			)}
 			{data && data.total > PER_PAGE && (
-				<nav className="rdi-pagination" aria-label={__('Scan history pages', 'hoptrail')}>
-					<Button variant="tertiary" size="compact" disabled={page <= 1} accessibleWhenDisabled onClick={() => setPage(page - 1)}>{__('Previous', 'hoptrail')}</Button>
+				<nav className="rdi-pagination" aria-label={__('Scan history pages', 'onehop-redirect-checker')}>
+					<Button variant="tertiary" size="compact" disabled={page <= 1} accessibleWhenDisabled onClick={() => setPage(page - 1)}>{__('Previous', 'onehop-redirect-checker')}</Button>
 					<span>{page} / {pages}</span>
-					<Button variant="tertiary" size="compact" disabled={page >= pages} accessibleWhenDisabled onClick={() => setPage(page + 1)}>{__('Next', 'hoptrail')}</Button>
+					<Button variant="tertiary" size="compact" disabled={page >= pages} accessibleWhenDisabled onClick={() => setPage(page + 1)}>{__('Next', 'onehop-redirect-checker')}</Button>
 				</nav>
 			)}
 		</section>

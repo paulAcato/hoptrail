@@ -27,17 +27,17 @@ export const NetworkApp = () => {
 			<header className="rdi-banner">
 				<div className="rdi-banner__intro">
 					<h1 className="rdi-banner__title">{pluginName}</h1>
-					<p className="rdi-banner__lead">{__('Latest scan per site. Scans run per site, from each site’s Tools menu.', 'hoptrail')}</p>
+					<p className="rdi-banner__lead">{__('Latest scan per site. Scans run per site, from each site’s Tools menu.', 'onehop-redirect-checker')}</p>
 				</div>
 			</header>
 
 			<section className="rdi-card" aria-labelledby="rdi-network-title">
 				<header className="rdi-card__header">
-					<h2 id="rdi-network-title">{__('Sites', 'hoptrail')}</h2>
+					<h2 id="rdi-network-title">{__('Sites', 'onehop-redirect-checker')}</h2>
 					{loading && <Spinner />}
 				</header>
 				<div className="rdi-filters">
-					<SearchControl __nextHasNoMarginBottom label={__('Search sites', 'hoptrail')} value={search} onChange={(value: string) => setSearch(value ?? '')} />
+					<SearchControl __nextHasNoMarginBottom label={__('Search sites', 'onehop-redirect-checker')} value={search} onChange={(value: string) => setSearch(value ?? '')} />
 				</div>
 				{error && <div className="notice notice-error inline" role="alert"><p>{error}</p></div>}
 				{data && (
@@ -45,13 +45,13 @@ export const NetworkApp = () => {
 						<table className="rdi-table">
 							<thead>
 								<tr>
-									<th scope="col">{__('Site', 'hoptrail')}</th>
-									<th scope="col" className="is-num">{__('Score', 'hoptrail')}</th>
-									<th scope="col" className="is-num">{__('Rules', 'hoptrail')}</th>
-									<th scope="col" className="is-num">{__('Loops', 'hoptrail')}</th>
-									<th scope="col" className="is-num">{__('Chains', 'hoptrail')}</th>
-									<th scope="col" className="is-num">{_x('Other', 'table column: number of other issue types', 'hoptrail')}</th>
-									<th scope="col">{__('Last scan', 'hoptrail')}</th>
+									<th scope="col">{__('Site', 'onehop-redirect-checker')}</th>
+									<th scope="col" className="is-num">{__('Score', 'onehop-redirect-checker')}</th>
+									<th scope="col" className="is-num">{__('Rules', 'onehop-redirect-checker')}</th>
+									<th scope="col" className="is-num">{__('Loops', 'onehop-redirect-checker')}</th>
+									<th scope="col" className="is-num">{__('Chains', 'onehop-redirect-checker')}</th>
+									<th scope="col" className="is-num">{_x('Other', 'table column: number of other issue types', 'onehop-redirect-checker')}</th>
+									<th scope="col">{__('Last scan', 'onehop-redirect-checker')}</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -71,7 +71,7 @@ export const NetworkApp = () => {
 											<td className="is-num">{site.latest ? loops : '—'}</td>
 											<td className="is-num">{site.latest ? chains : '—'}</td>
 											<td className="is-num">{site.latest ? site.latest.issue_count - loops - chains : '—'}</td>
-											<td>{!site.active ? __('Not active', 'hoptrail') : site.latest ? relative(site.latest.finished_at) : _x('Never', 'last scan: no scan has run yet', 'hoptrail')}</td>
+											<td>{!site.active ? __('Not active', 'onehop-redirect-checker') : site.latest ? relative(site.latest.finished_at) : _x('Never', 'last scan: no scan has run yet', 'onehop-redirect-checker')}</td>
 										</tr>
 									);
 								})}
@@ -80,10 +80,10 @@ export const NetworkApp = () => {
 					</div>
 				)}
 				{data && data.total > PER_PAGE && (
-					<nav className="rdi-pagination" aria-label={__('Site pages', 'hoptrail')}>
-						<Button variant="tertiary" size="compact" disabled={page <= 1} accessibleWhenDisabled onClick={() => setPage(page - 1)}>{__('Previous', 'hoptrail')}</Button>
+					<nav className="rdi-pagination" aria-label={__('Site pages', 'onehop-redirect-checker')}>
+						<Button variant="tertiary" size="compact" disabled={page <= 1} accessibleWhenDisabled onClick={() => setPage(page - 1)}>{__('Previous', 'onehop-redirect-checker')}</Button>
 						<span>{page} / {pages}</span>
-						<Button variant="tertiary" size="compact" disabled={page >= pages} accessibleWhenDisabled onClick={() => setPage(page + 1)}>{__('Next', 'hoptrail')}</Button>
+						<Button variant="tertiary" size="compact" disabled={page >= pages} accessibleWhenDisabled onClick={() => setPage(page + 1)}>{__('Next', 'onehop-redirect-checker')}</Button>
 					</nav>
 				)}
 			</section>

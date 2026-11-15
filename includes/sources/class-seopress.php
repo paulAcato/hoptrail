@@ -2,10 +2,10 @@
 /**
  * SEOPress: the redirect set on a post (free version).
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes\Sources;
+namespace Onehop\RedirectChecker\Includes\Sources;
 
 defined( 'ABSPATH' ) || exit;
 

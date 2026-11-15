@@ -1,4 +1,4 @@
-=== Hoptrail – Redirect Loop & Chain Checker ===
+=== Onehop Redirect Checker ===
 Contributors: paulacato
 Tags: redirects, redirect loop, redirect chain, 301, seo
 Requires at least: 6.9
@@ -14,7 +14,7 @@ Finds redirect loops, chains and redirects you don't need, across every redirect
 
 Redirects pile up. A site that changed redirect plugins once or twice, or runs an SEO plugin next to a redirect plugin, ends up with rules that send visitors from A to B to C, rules that send them in circles, and rules that do nothing at all. Each plugin only knows its own rules, so none of them can see that its rule and another plugin's rule together form a loop.
 
-Hoptrail reads the rules of all supported redirect plugins, merges them into one graph and follows every rule to where it really ends.
+Onehop Redirect Checker reads the rules of all supported redirect plugins, merges them into one graph and follows every rule to where it really ends.
 
 = What it finds =
 
@@ -43,11 +43,11 @@ Regex and wildcard rules are followed too.
 * SmartCrawl (URL redirection)
 * The SEO Framework (the 301 redirect set on a post)
 
-Hoptrail is not affiliated with or endorsed by any of these plugins or their authors. Other plugins can be added through the `hoptrail_sources` filter.
+Onehop Redirect Checker is not affiliated with or endorsed by any of these plugins or their authors. Other plugins can be added through the `onehop_redirect_checker_sources` filter.
 
 = Dashboard =
 
-Under Tools → Hoptrail:
+Under Tools → Onehop Redirect Checker:
 
 * A health score, issues per type and their trend.
 * Charts of the health score and of issues by severity over time.
@@ -65,24 +65,24 @@ Dates and times follow the site's date and time formats, timezone and language. 
 
 = From WP-CLI =
 
-* `wp hoptrail scan [--format=table|json|summary]` runs a scan and prints the issues.
-* `wp hoptrail scan --porcelain --fail-on=loop,conflict` prints only the health score and exits with code 1 when loops or conflicts exist, so a deploy pipeline can stop on them (`--fail-on=any` for every type).
-* `wp hoptrail purge-logs [--all]` removes old scan history.
+* `wp onehop-redirect-checker scan [--format=table|json|summary]` runs a scan and prints the issues.
+* `wp onehop-redirect-checker scan --porcelain --fail-on=loop,conflict` prints only the health score and exits with code 1 when loops or conflicts exist, so a deploy pipeline can stop on them (`--fail-on=any` for every type).
+* `wp onehop-redirect-checker purge-logs [--all]` removes old scan history.
 
 = Abilities (WordPress 7.1+) =
 
-Four abilities for the WordPress Abilities API, so AI clients connected through the MCP adapter can work with Hoptrail for administrators (`manage_options`):
+Four abilities for the WordPress Abilities API, so AI clients connected through the MCP adapter can work with Onehop Redirect Checker for administrators (`manage_options`):
 
-* `hoptrail/run-scan`: runs a scan and returns the health score, counts per type and severity, and the most severe issues with their redirect path and a suggested fix.
-* `hoptrail/get-scan-results`: the same for the latest scan, without running a new one; optionally filtered by issue type.
-* `hoptrail/get-next-scan`: when the next scheduled scan runs, the schedule, and the retention policy.
-* `hoptrail/flush-logs`: asks to delete the scan history, the change log or both. An AI client can't delete anything with it: with `confirm: true` it files a request, and the logs are only deleted when an administrator approves that request on the dashboard (Tools → Hoptrail). Requests expire after an hour.
+* `onehop-redirect-checker/run-scan`: runs a scan and returns the health score, counts per type and severity, and the most severe issues with their redirect path and a suggested fix.
+* `onehop-redirect-checker/get-scan-results`: the same for the latest scan, without running a new one; optionally filtered by issue type.
+* `onehop-redirect-checker/get-next-scan`: when the next scheduled scan runs, the schedule, and the retention policy.
+* `onehop-redirect-checker/flush-logs`: asks to delete the scan history, the change log or both. An AI client can't delete anything with it: with `confirm: true` it files a request, and the logs are only deleted when an administrator approves that request on the dashboard (Tools → Onehop Redirect Checker). Requests expire after an hour.
 
 They never return user data (e-mail addresses in rule strings are masked) and never change a redirect rule. They are not exposed on the abilities REST API.
 
 = Changing other plugins' rules =
 
-Hoptrail only reads other plugins' rules, except when you choose **Apply fix**, **Migrate** or **Delete** for leftover rules:
+Onehop Redirect Checker only reads other plugins' rules, except when you choose **Apply fix**, **Migrate** or **Delete** for leftover rules:
 
 * Before a fix is applied, the rule is read again; if it changed since the scan, nothing is changed.
 * Rules are switched off where the plugin supports that (Redirection, Rank Math, Safe Redirect Manager, 301 Redirects, SEOPress, Slim SEO), so they can be switched back on there. Yoast SEO Premium, Simple 301 Redirects, SmartCrawl and The SEO Framework have no "off" state; there the rule is removed.
@@ -93,11 +93,11 @@ Hoptrail only reads other plugins' rules, except when you choose **Apply fix**, 
 
 = Privacy =
 
-Hoptrail does not contact any external service. The live check only requests URLs on your own site. Scan history and the change log are stored in your site's database, are kept for the period you set (90 days by default). Deleting the plugin removes everything it stored, on every site of a network: its tables, settings, scheduled events and the walkthrough progress per user. Redirect rules it changed or migrated in other plugins belong to those plugins and stay.
+Onehop Redirect Checker does not contact any external service. The live check only requests URLs on your own site. Scan history and the change log are stored in your site's database, are kept for the period you set (90 days by default). Deleting the plugin removes everything it stored, on every site of a network: its tables, settings, scheduled events and the walkthrough progress per user. Redirect rules it changed or migrated in other plugins belong to those plugins and stay.
 
 = On multisite =
 
-Each site has its own dashboard, history and schedule. Network administrators get an overview of the latest scan of every site under Network Admin → Settings → Hoptrail.
+Each site has its own dashboard, history and schedule. Network administrators get an overview of the latest scan of every site under Network Admin → Settings → Onehop Redirect Checker.
 
 = Source code =
 
@@ -108,7 +108,7 @@ To rebuild `dist/` from the plugin folder with Node 24 or newer: `npm ci`, then 
 == Installation ==
 
 1. Install and activate the plugin.
-2. Go to Tools → Hoptrail and choose Run scan.
+2. Go to Tools → Onehop Redirect Checker and choose Run scan.
 
 == Frequently Asked Questions ==
 

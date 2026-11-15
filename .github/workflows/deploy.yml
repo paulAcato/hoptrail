@@ -59,3 +59,5 @@ jobs:
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          # The WordPress.org slug differs from the repository name, the action default.
+          SLUG: onehop-redirect-checker

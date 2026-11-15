@@ -2,10 +2,10 @@
 /**
  * Per-site settings.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes;
+namespace Onehop\RedirectChecker\Includes;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -17,7 +17,7 @@ final class Settings {
 	/**
 	 * Option name.
 	 */
-	const OPTION = 'hoptrail_settings';
+	const OPTION = 'onehop_redirect_checker_settings';
 
 	/**
 	 * Retention as agreed: 90 days (3 months).

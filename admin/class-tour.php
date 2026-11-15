@@ -2,14 +2,14 @@
 /**
  * The quick walkthrough: WordPress admin pointers, versioned per administrator.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Admin;
+namespace Onehop\RedirectChecker\Admin;
 
-use Hoptrail\Includes\Caps;
-use Hoptrail\Includes\Rest_Controller;
-use Hoptrail\Includes\Singleton;
+use Onehop\RedirectChecker\Includes\Caps;
+use Onehop\RedirectChecker\Includes\Rest_Controller;
+use Onehop\RedirectChecker\Includes\Singleton;
 use WP_REST_Response;
 use WP_REST_Server;
 
@@ -32,7 +32,7 @@ final class Tour extends Singleton {
 	/**
 	 * User meta: the walkthrough version this user last completed or skipped.
 	 */
-	const META = 'hoptrail_tour';
+	const META = 'onehop_redirect_checker_tour';
 
 	/**
 	 * Register hooks.
@@ -80,7 +80,7 @@ final class Tour extends Singleton {
 	 * @return string
 	 */
 	private static function pointer_name(): string {
-		return 'hoptrail_tour_' . str_replace( '.', '_', self::VERSION );
+		return 'onehop_redirect_checker_tour_' . str_replace( '.', '_', self::VERSION );
 	}
 
 	/**
@@ -102,24 +102,24 @@ final class Tour extends Singleton {
 		}
 
 		$text = '' === $pending
-			? __( 'Find redirect loops, chains and redirects you don’t need, across all your SEO and redirect plugins. A quick walkthrough shows you around.', 'hoptrail' )
+			? __( 'Find redirect loops, chains and redirects you don’t need, across all your SEO and redirect plugins. A quick walkthrough shows you around.', 'onehop-redirect-checker' )
 			/* translators: %s: plugin name. */
-			: sprintf( __( '%s has new features. A quick walkthrough shows what changed.', 'hoptrail' ), HOPTRAIL_NAME );
+			: sprintf( __( '%s has new features. A quick walkthrough shows what changed.', 'onehop-redirect-checker' ), ONEHOP_REDIRECT_CHECKER_NAME );
 
 		$pointer = [
 			'name'     => self::pointer_name(),
-			'title'    => HOPTRAIL_NAME,
+			'title'    => ONEHOP_REDIRECT_CHECKER_NAME,
 			'text'     => $text,
 			'link'     => admin_url( 'tools.php?page=' . Admin_Page::SLUG ),
-			'linkText' => __( 'Take the walkthrough', 'hoptrail' ),
-			'dismiss'  => __( 'Not now', 'hoptrail' ),
-			'wapuu'    => HOPTRAIL_URL . 'assets/images/wapuu.svg',
+			'linkText' => __( 'Take the walkthrough', 'onehop-redirect-checker' ),
+			'dismiss'  => __( 'Not now', 'onehop-redirect-checker' ),
+			'wapuu'    => ONEHOP_REDIRECT_CHECKER_URL . 'assets/images/wapuu.svg',
 		];
 
 		// Our own look (the dashboard banner's), placed by a few lines of plain JavaScript.
-		wp_enqueue_style( 'hoptrail-pointer', HOPTRAIL_URL . 'assets/menu-pointer.css', [], HOPTRAIL_VERSION );
-		wp_enqueue_script( 'hoptrail-pointer', HOPTRAIL_URL . 'assets/menu-pointer.js', [], HOPTRAIL_VERSION, true );
-		wp_add_inline_script( 'hoptrail-pointer', 'window.hoptrailPointer = ' . wp_json_encode( $pointer, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT ) . ';', 'before' );
+		wp_enqueue_style( 'onehop-redirect-checker-pointer', ONEHOP_REDIRECT_CHECKER_URL . 'assets/menu-pointer.css', [], ONEHOP_REDIRECT_CHECKER_VERSION );
+		wp_enqueue_script( 'onehop-redirect-checker-pointer', ONEHOP_REDIRECT_CHECKER_URL . 'assets/menu-pointer.js', [], ONEHOP_REDIRECT_CHECKER_VERSION, true );
+		wp_add_inline_script( 'onehop-redirect-checker-pointer', 'window.onehopRedirectCheckerPointer = ' . wp_json_encode( $pointer, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT ) . ';', 'before' );
 	}
 
 	/**

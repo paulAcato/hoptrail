@@ -2,15 +2,15 @@
 /**
  * The list of sources.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes\Sources;
+namespace Onehop\RedirectChecker\Includes\Sources;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Built-in adapters plus whatever `hoptrail_sources` adds.
+ * Built-in adapters plus whatever `onehop_redirect_checker_sources` adds.
  */
 final class Registry {
 
@@ -34,11 +34,11 @@ final class Registry {
 		];
 
 		/**
-		 * Filter the redirect sources Hoptrail reads.
+		 * Filter the redirect sources Onehop Redirect Checker reads.
 		 *
 		 * @param Source[] $sources Source adapters, in the order rules take precedence.
 		 */
-		$sources = apply_filters( 'hoptrail_sources', $sources );
+		$sources = apply_filters( 'onehop_redirect_checker_sources', $sources );
 
 		$keyed = [];
 		foreach ( (array) $sources as $source ) {

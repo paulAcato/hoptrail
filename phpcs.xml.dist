@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="Hoptrail">
-	<description>WordPress coding standards for Hoptrail.</description>
+<ruleset name="Onehop Redirect Checker">
+	<description>WordPress coding standards for Onehop Redirect Checker.</description>
 
 	<file>.</file>
 	<exclude-pattern>/vendor/*</exclude-pattern>
@@ -30,7 +30,7 @@
 	<rule ref="WordPress.WP.I18n">
 		<properties>
 			<property name="text_domain" type="array">
-				<element value="hoptrail"/>
+				<element value="onehop-redirect-checker"/>
 			</property>
 		</properties>
 	</rule>

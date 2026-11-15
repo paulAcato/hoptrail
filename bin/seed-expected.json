@@ -19,6 +19,6 @@
 		"ignored": "Redirection /disabled-rule is disabled and must not be reported",
 		"regex": "Pattern rules in every plugin that has them: Redirection, Yoast, Rank Math, SRM (wildcard and regex), Simple 301 (wildcard), Slim SEO and SmartCrawl. 301 Redirects, SEOPress and The SEO Framework only hold exact rules.",
 		"404_log": "Seven old URLs in Redirection's 404 log (/docs/v1/install, /products/shoes, ...): migrating a pattern into Simple 301 or 301 Redirects copies it as exact rules for these.",
-		"yoast": "Free Yoast SEO doesn't run these rules: with only free Yoast active they are leftovers. Re-seeding also removes Yoast copies of seed rules made by Hoptrail's migration."
+		"yoast": "Free Yoast SEO doesn't run these rules: with only free Yoast active they are leftovers. Re-seeding also removes Yoast copies of seed rules made by Onehop Redirect Checker's migration."
 	}
 }

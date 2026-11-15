@@ -2,10 +2,10 @@
 /**
  * One redirect rule, normalised across plugins.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes;
+namespace Onehop\RedirectChecker\Includes;
 
 defined( 'ABSPATH' ) || exit;
 

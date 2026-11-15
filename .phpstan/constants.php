@@ -1,13 +1,13 @@
 <?php
 /**
- * Plugin constants for static analysis (defined at runtime by hoptrail.php).
+ * Plugin constants for static analysis (defined at runtime by onehop-redirect-checker.php).
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-define( 'HOPTRAIL_VERSION', '1.0.0' );
-define( 'HOPTRAIL_NAME', 'Hoptrail' );
-define( 'HOPTRAIL_CLI_COMMAND', 'hoptrail' );
-define( 'HOPTRAIL_FILE', __DIR__ . '/../hoptrail.php' );
-define( 'HOPTRAIL_PATH', __DIR__ . '/../' );
-define( 'HOPTRAIL_URL', 'https://example.test/wp-content/plugins/hoptrail/' );
+define( 'ONEHOP_REDIRECT_CHECKER_VERSION', '1.0.0' );
+define( 'ONEHOP_REDIRECT_CHECKER_NAME', 'Onehop Redirect Checker' );
+define( 'ONEHOP_REDIRECT_CHECKER_CLI_COMMAND', 'onehop-redirect-checker' );
+define( 'ONEHOP_REDIRECT_CHECKER_FILE', __DIR__ . '/../onehop-redirect-checker.php' );
+define( 'ONEHOP_REDIRECT_CHECKER_PATH', __DIR__ . '/../' );
+define( 'ONEHOP_REDIRECT_CHECKER_URL', 'https://example.test/wp-content/plugins/onehop-redirect-checker/' );

@@ -2,12 +2,12 @@
 /**
  * WP-CLI commands.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes;
+namespace Onehop\RedirectChecker\Includes;
 
-use Hoptrail\Includes\Analysis\Analyzer;
+use Onehop\RedirectChecker\Includes\Analysis\Analyzer;
 use WP_CLI;
 
 defined( 'ABSPATH' ) || exit;
@@ -41,9 +41,9 @@ final class Cli {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     wp hoptrail scan
-	 *     wp hoptrail scan --format=json
-	 *     wp hoptrail scan --porcelain --fail-on=loop,conflict
+	 *     wp onehop-redirect-checker scan
+	 *     wp onehop-redirect-checker scan --format=json
+	 *     wp onehop-redirect-checker scan --porcelain --fail-on=loop,conflict
 	 *
 	 * @param array $args       Positional args.
 	 * @param array $assoc_args Flags.

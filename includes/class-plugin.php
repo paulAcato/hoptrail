@@ -2,13 +2,13 @@
 /**
  * Main plugin class: wires everything. Nothing runs on front-end requests except the cleanup cron.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes;
+namespace Onehop\RedirectChecker\Includes;
 
-use Hoptrail\Admin\Admin_Page;
-use Hoptrail\Admin\Tour;
+use Onehop\RedirectChecker\Admin\Admin_Page;
+use Onehop\RedirectChecker\Admin\Tour;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -23,8 +23,8 @@ final class Plugin extends Singleton {
 	 * @return void
 	 */
 	protected function init(): void {
-		register_activation_hook( HOPTRAIL_FILE, [ Installer::class, 'activate' ] );
-		register_deactivation_hook( HOPTRAIL_FILE, [ Installer::class, 'deactivate' ] );
+		register_activation_hook( ONEHOP_REDIRECT_CHECKER_FILE, [ Installer::class, 'activate' ] );
+		register_deactivation_hook( ONEHOP_REDIRECT_CHECKER_FILE, [ Installer::class, 'deactivate' ] );
 
 		Installer::instance();
 		Retention::instance();
@@ -44,7 +44,7 @@ final class Plugin extends Singleton {
 		add_action( 'rest_api_init', [ Rest_Controller::instance(), 'register_routes' ] );
 
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			\WP_CLI::add_command( HOPTRAIL_CLI_COMMAND, Cli::class );
+			\WP_CLI::add_command( ONEHOP_REDIRECT_CHECKER_CLI_COMMAND, Cli::class );
 		}
 	}
 }

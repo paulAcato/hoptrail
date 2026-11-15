@@ -22,10 +22,10 @@ const globals: Record<string, string> = {
 /**
  * Keep the `translators:` comments in dist/. translate.wordpress.org builds the POT from the shipped
  * JS, and the bundler drops plain comments but keeps JSDoc ones. Write the comment inside the call,
- * right before the gettext function: sprintf(/* translators: %s: plugin. *\/ __('…', 'hoptrail'), x).
+ * right before the gettext function: sprintf(/* translators: %s: plugin. *\/ __('…', 'onehop-redirect-checker'), x).
  */
 const keepTranslatorComments = (): Plugin => ({
-	name: 'hoptrail-keep-translator-comments',
+	name: 'onehop-redirect-checker-keep-translator-comments',
 	enforce: 'pre',
 	transform: (code, id) => (/\/assets\/scripts\/.+\.tsx?$/.test(id) && code.includes('translators:')
 		? { code: code.replace(/\/\*\s*translators:/g, '/** translators:'), map: null }
@@ -51,8 +51,8 @@ export default defineConfig({
 			output: {
 				format: 'iife',
 				globals,
-				entryFileNames: 'hoptrail.[hash].js',
-				assetFileNames: 'hoptrail.[hash][extname]',
+				entryFileNames: 'onehop-redirect-checker.[hash].js',
+				assetFileNames: 'onehop-redirect-checker.[hash][extname]',
 			},
 		},
 	},

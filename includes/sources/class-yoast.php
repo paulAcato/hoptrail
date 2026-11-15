@@ -2,12 +2,12 @@
 /**
  * Yoast SEO Premium redirect manager.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes\Sources;
+namespace Onehop\RedirectChecker\Includes\Sources;
 
-use Hoptrail\Includes\Rule;
+use Onehop\RedirectChecker\Includes\Rule;
 
 defined( 'ABSPATH' ) || exit;
 

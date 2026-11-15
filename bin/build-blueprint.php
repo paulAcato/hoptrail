@@ -9,7 +9,7 @@
  * first scan. Yoast SEO Premium isn't on WordPress.org: its rules are seeded in its storage format and
  * show up as leftovers.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
 // phpcs:disable WordPress.WP.AlternativeFunctions -- A build script, outside WordPress.
@@ -55,7 +55,7 @@ PHP;
 $scan = <<<'PHP'
 
 // A first scan, so the dashboard has something to show.
-\Hoptrail\Includes\Scanner::run( 'manual' );
+\Onehop\RedirectChecker\Includes\Scanner::run( 'manual' );
 PHP;
 
 $plugins = [
@@ -68,7 +68,7 @@ $plugins = [
 	'smartcrawl-seo',
 	'wp-seopress',
 	'autodescription',
-	'hoptrail',
+	'onehop-redirect-checker',
 ];
 
 $steps = [
@@ -106,7 +106,7 @@ $steps[] = [
 
 $blueprint = [
 	'$schema'           => 'https://playground.wordpress.net/blueprint-schema.json',
-	'landingPage'       => '/wp-admin/tools.php?page=hoptrail',
+	'landingPage'       => '/wp-admin/tools.php?page=onehop-redirect-checker',
 	'preferredVersions' => [
 		'php' => '8.2',
 		'wp'  => 'latest',

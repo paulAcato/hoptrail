@@ -2,10 +2,10 @@
 /**
  * A source whose stored rules can be deleted (leftovers of an inactive plugin).
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes\Sources;
+namespace Onehop\RedirectChecker\Includes\Sources;
 
 defined( 'ABSPATH' ) || exit;
 

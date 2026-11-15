@@ -2,14 +2,14 @@
 /**
  * Runs a scan: read every source, analyse, store.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes;
+namespace Onehop\RedirectChecker\Includes;
 
-use Hoptrail\Includes\Analysis\Analyzer;
-use Hoptrail\Includes\Analysis\Matcher;
-use Hoptrail\Includes\Sources\Registry;
+use Onehop\RedirectChecker\Includes\Analysis\Analyzer;
+use Onehop\RedirectChecker\Includes\Analysis\Matcher;
+use Onehop\RedirectChecker\Includes\Sources\Registry;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -22,7 +22,7 @@ final class Scanner {
 	/**
 	 * Mutex option; one scan per site at a time (S8).
 	 */
-	const LOCK_OPTION = 'hoptrail_scan_lock';
+	const LOCK_OPTION = 'onehop_redirect_checker_scan_lock';
 
 	/**
 	 * A lock or running scan older than this is stale.
@@ -65,11 +65,11 @@ final class Scanner {
 	 */
 	public static function run( string $trigger = 'manual' ): array {
 		if ( ! Installer::is_installed() && ! Installer::install() ) {
-			throw new \RuntimeException( sprintf( /* translators: %s: plugin name. */ __( 'The %s tables are missing and could not be created.', 'hoptrail' ), HOPTRAIL_NAME ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Shown as text via JSON/React or WP-CLI.
+			throw new \RuntimeException( sprintf( /* translators: %s: plugin name. */ __( 'The %s tables are missing and could not be created.', 'onehop-redirect-checker' ), ONEHOP_REDIRECT_CHECKER_NAME ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Shown as text via JSON/React or WP-CLI.
 		}
 
 		if ( ! Lock::acquire( self::LOCK_OPTION, self::STALE_MINUTES * MINUTE_IN_SECONDS ) ) {
-			throw new \RuntimeException( __( 'A scan is already running. Try again in a moment.', 'hoptrail' ), 409 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Shown as text.
+			throw new \RuntimeException( __( 'A scan is already running. Try again in a moment.', 'onehop-redirect-checker' ), 409 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Shown as text.
 		}
 
 		$started = microtime( true );
@@ -80,7 +80,7 @@ final class Scanner {
 
 			$scan_id = Log_Repository::start_scan( $trigger );
 			if ( ! $scan_id ) {
-				throw new \RuntimeException( __( 'Could not start a scan.', 'hoptrail' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Shown as text.
+				throw new \RuntimeException( __( 'Could not start a scan.', 'onehop-redirect-checker' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Shown as text.
 			}
 
 			$deadline   = $started + self::TIME_BUDGET;
@@ -118,7 +118,7 @@ final class Scanner {
 			$partial  = $analyzer->partial;
 
 			if ( ! Log_Repository::insert_issues( $scan_id, $issues ) ) {
-				throw new \RuntimeException( __( 'Could not store the scan results.', 'hoptrail' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Shown as text.
+				throw new \RuntimeException( __( 'Could not store the scan results.', 'onehop-redirect-checker' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Shown as text.
 			}
 
 			$totals = self::totals( $issues, $per_source );
@@ -133,7 +133,7 @@ final class Scanner {
 					'issue_count' => count( $issues ),
 					'score'       => $score,
 					'totals'      => $totals,
-					'message'     => $partial ? __( 'Time or evaluation budget reached; results may be incomplete.', 'hoptrail' ) : '',
+					'message'     => $partial ? __( 'Time or evaluation budget reached; results may be incomplete.', 'onehop-redirect-checker' ) : '',
 				]
 			);
 
