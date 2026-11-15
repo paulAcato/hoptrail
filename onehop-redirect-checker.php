@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Onehop Redirect Checker
- * Plugin URI:        https://github.com/paulAcato/hoptrail
+ * Plugin URI:        https://github.com/paulAcato/onehop-redirect-checker
  * Description:       Finds redirect loops, chains and redirects you don't need across ten SEO and redirect plugins at once, and fixes the clear-cut ones.
  * Version:           1.0.0
  * Requires at least: 6.9
