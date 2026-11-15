@@ -1,8 +1,8 @@
 {
-  "name": "hoptrail",
+  "name": "onehop-redirect-checker",
   "version": "1.0.0",
   "private": true,
-  "description": "Hoptrail dashboard (React + TypeScript, built with Vite).",
+  "description": "Onehop Redirect Checker dashboard (React + TypeScript, built with Vite).",
   "type": "module",
   "engines": {
     "node": ">=24"

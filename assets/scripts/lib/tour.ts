@@ -22,46 +22,46 @@ export const steps = (): TourStep[] => [
 	{
 		since: '1.0.0',
 		target: '.rdi-banner__scan',
-		title: __('Run a scan', 'hoptrail'),
-		text: __('Reads the redirect rules of all supported SEO and redirect plugins and follows every one to where it really ends. Scheduled scans do the same on their own.', 'hoptrail'),
+		title: __('Run a scan', 'onehop-redirect-checker'),
+		text: __('Reads the redirect rules of all supported SEO and redirect plugins and follows every one to where it really ends. Scheduled scans do the same on their own.', 'onehop-redirect-checker'),
 		placement: 'bottom-end',
 	},
 	{
 		since: '1.0.0',
 		target: '.rdi-banner .rdi-gauge',
-		title: __('Health score', 'hoptrail'),
-		text: __('100 means every redirect goes straight to its destination. Loops cost the most, then chains and conflicts.', 'hoptrail'),
+		title: __('Health score', 'onehop-redirect-checker'),
+		text: __('100 means every redirect goes straight to its destination. Loops cost the most, then chains and conflicts.', 'onehop-redirect-checker'),
 		placement: 'left',
 	},
 	{
 		since: '1.0.0',
 		target: '.rdi-leftovers',
-		title: __('Leftover redirects', 'hoptrail'),
-		text: __('Rules of plugins that are no longer active. Review them, copy them into an active plugin, or delete them. A pattern is copied as exact rules when the other plugin only holds exact ones.', 'hoptrail'),
+		title: __('Leftover redirects', 'onehop-redirect-checker'),
+		text: __('Rules of plugins that are no longer active. Review them, copy them into an active plugin, or delete them. A pattern is copied as exact rules when the other plugin only holds exact ones.', 'onehop-redirect-checker'),
 	},
 	{
 		since: '1.0.0',
 		target: '.rdi-tiles',
-		title: __('Issues per type', 'hoptrail'),
-		text: __('Loops, chains, conflicts, redirects you don’t need, and broken targets, with their trend. Select one to filter the list.', 'hoptrail'),
+		title: __('Issues per type', 'onehop-redirect-checker'),
+		text: __('Loops, chains, conflicts, redirects you don’t need, and broken targets, with their trend. Select one to filter the list.', 'onehop-redirect-checker'),
 	},
 	{
 		since: '1.0.0',
 		target: '.rdi-filters__search',
-		title: __('Search', 'hoptrail'),
-		text: __('Search the URLs of every hop. Switch on .* to search with a regular expression, such as ^/blog/.', 'hoptrail'),
+		title: __('Search', 'onehop-redirect-checker'),
+		text: __('Search the URLs of every hop. Switch on .* to search with a regular expression, such as ^/blog/.', 'onehop-redirect-checker'),
 	},
 	{
 		since: '1.0.0',
 		target: '.rdi-issue__footer',
-		title: __('Verify and fix', 'hoptrail'),
-		text: __('Verify live requests the URL on this site to confirm what visitors get. Apply fix appears when the fix is clear-cut, and changes the rule in the plugin it belongs to.', 'hoptrail'),
+		title: __('Verify and fix', 'onehop-redirect-checker'),
+		text: __('Verify live requests the URL on this site to confirm what visitors get. Apply fix appears when the fix is clear-cut, and changes the rule in the plugin it belongs to.', 'onehop-redirect-checker'),
 	},
 	{
 		since: '1.0.0',
 		target: '#settings .rdi-card__header',
-		title: __('Schedule and retention', 'hoptrail'),
-		text: __('Scan daily, weekly or monthly at the hours you choose, and decide how much scan history to keep.', 'hoptrail'),
+		title: __('Schedule and retention', 'onehop-redirect-checker'),
+		text: __('Scan daily, weekly or monthly at the hours you choose, and decide how much scan history to keep.', 'onehop-redirect-checker'),
 		placement: 'left-start',
 	},
 ];
@@ -87,9 +87,9 @@ export const pendingSteps = (seen: string, version: string): TourStep[] => steps
 /** Store that this user completed (or skipped) the current walkthrough. */
 export const markSeen = async (): Promise<void> => {
 	try {
-		await apiFetch({ path: '/hoptrail/v1/tour', method: 'POST' });
-		if (window.hoptrail) {
-			window.hoptrail.tour = { ...window.hoptrail.tour, pending: false };
+		await apiFetch({ path: '/onehop-redirect-checker/v1/tour', method: 'POST' });
+		if (window.onehopRedirectChecker) {
+			window.onehopRedirectChecker.tour = { ...window.onehopRedirectChecker.tour, pending: false };
 		}
 	} catch {
 		// Not saved: the walkthrough simply shows again next time.

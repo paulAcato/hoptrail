@@ -2,10 +2,10 @@
 /**
  * The SEO Framework: the 301 redirect set on a post.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes\Sources;
+namespace Onehop\RedirectChecker\Includes\Sources;
 
 defined( 'ABSPATH' ) || exit;
 

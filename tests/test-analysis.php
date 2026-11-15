@@ -3,7 +3,7 @@
  * Standalone tests for the analysis engine: run with `php tests/test-analysis.php`.
  * WordPress is not loaded; the few functions the engine uses are stubbed below.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
 // phpcs:ignoreFile -- Test runner with WordPress stubs.
@@ -14,10 +14,10 @@ if ( 'cli' !== PHP_SAPI ) {
 }
 
 define( 'ABSPATH', __DIR__ . '/' );
-define( 'HOPTRAIL_PATH', dirname( __DIR__ ) . '/' );
-define( 'HOPTRAIL_VERSION', 'test' );
-define( 'HOPTRAIL_NAME', 'Hoptrail' );
-define( 'HOPTRAIL_CLI_COMMAND', 'hoptrail' );
+define( 'ONEHOP_REDIRECT_CHECKER_PATH', dirname( __DIR__ ) . '/' );
+define( 'ONEHOP_REDIRECT_CHECKER_VERSION', 'test' );
+define( 'ONEHOP_REDIRECT_CHECKER_NAME', 'Onehop Redirect Checker' );
+define( 'ONEHOP_REDIRECT_CHECKER_CLI_COMMAND', 'onehop-redirect-checker' );
 
 // --- WordPress stubs ---------------------------------------------------------------------------
 function __( $text ) { return $text; }
@@ -45,13 +45,13 @@ $GLOBALS['wpdb'] = new class() {
 
 spl_autoload_register(
 	static function ( $fqcn ) {
-		$prefix = 'Hoptrail\\';
+		$prefix = 'Onehop\\RedirectChecker\\';
 		if ( 0 !== strpos( $fqcn, $prefix ) ) {
 			return;
 		}
 		$relative = strtolower( str_replace( [ $prefix, '\\', '_' ], [ '', '/', '-' ], $fqcn ) );
 		foreach ( [ 'class', 'trait', 'interface' ] as $kind ) {
-			$path = HOPTRAIL_PATH . dirname( $relative ) . '/' . $kind . '-' . basename( $relative ) . '.php';
+			$path = ONEHOP_REDIRECT_CHECKER_PATH . dirname( $relative ) . '/' . $kind . '-' . basename( $relative ) . '.php';
 			if ( is_readable( $path ) ) {
 				require_once $path;
 				return;
@@ -60,13 +60,13 @@ spl_autoload_register(
 	}
 );
 
-use Hoptrail\Includes\Analysis\Analyzer;
-use Hoptrail\Includes\Analysis\Expander;
-use Hoptrail\Includes\Log_Repository;
-use Hoptrail\Includes\Analysis\Matcher;
-use Hoptrail\Includes\Rule;
-use Hoptrail\Includes\Scheduler;
-use Hoptrail\Includes\Url_Normalizer;
+use Onehop\RedirectChecker\Includes\Analysis\Analyzer;
+use Onehop\RedirectChecker\Includes\Analysis\Expander;
+use Onehop\RedirectChecker\Includes\Log_Repository;
+use Onehop\RedirectChecker\Includes\Analysis\Matcher;
+use Onehop\RedirectChecker\Includes\Rule;
+use Onehop\RedirectChecker\Includes\Scheduler;
+use Onehop\RedirectChecker\Includes\Url_Normalizer;
 
 // --- Tiny assertion helper ---------------------------------------------------------------------
 $failures = 0;

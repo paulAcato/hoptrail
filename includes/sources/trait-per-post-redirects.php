@@ -2,12 +2,12 @@
 /**
  * Shared reading of redirects stored on posts (post meta).
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes\Sources;
+namespace Onehop\RedirectChecker\Includes\Sources;
 
-use Hoptrail\Includes\Rule;
+use Onehop\RedirectChecker\Includes\Rule;
 
 defined( 'ABSPATH' ) || exit;
 

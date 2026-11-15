@@ -2,12 +2,12 @@
 /**
  * Shared helpers for adapters that read another plugin's storage.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes\Sources;
+namespace Onehop\RedirectChecker\Includes\Sources;
 
-use Hoptrail\Includes\Installer;
+use Onehop\RedirectChecker\Includes\Installer;
 
 defined( 'ABSPATH' ) || exit;
 

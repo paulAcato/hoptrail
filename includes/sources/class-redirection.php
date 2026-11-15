@@ -2,12 +2,12 @@
 /**
  * Redirection (John Godley).
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes\Sources;
+namespace Onehop\RedirectChecker\Includes\Sources;
 
-use Hoptrail\Includes\Rule;
+use Onehop\RedirectChecker\Includes\Rule;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -178,7 +178,7 @@ final class Redirection implements Source, Writable, Purgeable {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * Through Redirection's own API, into a "Migrated by Hoptrail" group.
+	 * Through Redirection's own API, into a "Migrated by Onehop Redirect Checker" group.
 	 *
 	 * @param Rule $rule Rule.
 	 */
@@ -210,7 +210,7 @@ final class Redirection implements Source, Writable, Purgeable {
 	private function migration_group(): int {
 		global $wpdb;
 
-		$name = 'Migrated by ' . HOPTRAIL_NAME;
+		$name = 'Migrated by ' . ONEHOP_REDIRECT_CHECKER_NAME;
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$id = (int) $wpdb->get_var( $wpdb->prepare( 'SELECT id FROM %i WHERE name = %s AND module_id = 1 LIMIT 1', $wpdb->prefix . 'redirection_groups', $name ) );
 		if ( $id ) {

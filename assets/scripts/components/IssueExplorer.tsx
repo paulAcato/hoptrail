@@ -56,18 +56,18 @@ export const IssueExplorer = ({ scanId, counts, sources, group, onGroup }: Props
 			return;
 		}
 		announced.current = filterKey;
-		speak(sprintf(/* translators: %d: number of issues. */ _n('%d issue found', '%d issues found', data.total, 'hoptrail'), data.total), 'polite');
+		speak(sprintf(/* translators: %d: number of issues. */ _n('%d issue found', '%d issues found', data.total, 'onehop-redirect-checker'), data.total), 'polite');
 	}, [data, loading, filterKey]);
 	const pages = data ? Math.max(1, Math.ceil(data.total / PER_PAGE)) : 1;
 
 	return (
 		<section id="rdi-explorer" className="rdi-card rdi-explorer" aria-labelledby="rdi-explorer-title">
 			<header className="rdi-card__header">
-				<h2 id="rdi-explorer-title" tabIndex={-1}>{__('Issues', 'hoptrail')}</h2>
+				<h2 id="rdi-explorer-title" tabIndex={-1}>{__('Issues', 'onehop-redirect-checker')}</h2>
 				{loading && <Spinner />}
 			</header>
 
-			<div className="rdi-tabs" role="group" aria-label={__('Filter by issue type', 'hoptrail')}>
+			<div className="rdi-tabs" role="group" aria-label={__('Filter by issue type', 'onehop-redirect-checker')}>
 				{TABS.map((tab) => (
 					<button key={tab} type="button" className={`rdi-tabs__tab${group === tab ? ' is-active' : ''}`} aria-pressed={group === tab} onClick={() => onGroup(tab)}>
 						{groupLabel(tab)}
@@ -80,8 +80,8 @@ export const IssueExplorer = ({ scanId, counts, sources, group, onGroup }: Props
 				<div className="rdi-filters__search">
 					<SearchControl
 						__nextHasNoMarginBottom
-						label={regex ? __('Search URLs with a regular expression', 'hoptrail') : __('Search URLs', 'hoptrail')}
-						placeholder={regex ? '^/blog/(.*)$' : __('Search', 'hoptrail')}
+						label={regex ? __('Search URLs with a regular expression', 'onehop-redirect-checker') : __('Search URLs', 'onehop-redirect-checker')}
+						placeholder={regex ? '^/blog/(.*)$' : __('Search', 'onehop-redirect-checker')}
 						value={search}
 						onChange={(value: string) => setSearch(value ?? '')}
 					/>
@@ -91,7 +91,7 @@ export const IssueExplorer = ({ scanId, counts, sources, group, onGroup }: Props
 						variant="secondary"
 						icon={regularExpression}
 						isPressed={regex}
-						label={__('Use regular expression', 'hoptrail')}
+						label={__('Use regular expression', 'onehop-redirect-checker')}
 						showTooltip
 						onClick={() => setRegex((value) => !value)}
 					/>
@@ -99,11 +99,11 @@ export const IssueExplorer = ({ scanId, counts, sources, group, onGroup }: Props
 				{multi && <SelectControl
 					__nextHasNoMarginBottom
 					__next40pxDefaultSize
-					label={__('Plugin', 'hoptrail')}
+					label={__('Plugin', 'onehop-redirect-checker')}
 					hideLabelFromVision
 					value={plugin}
 					options={[
-						{ label: __('All plugins', 'hoptrail'), value: '' },
+						{ label: __('All plugins', 'onehop-redirect-checker'), value: '' },
 						...sources.filter((source) => source.available).map((source) => ({ label: source.label, value: source.slug })),
 					]}
 					onChange={(value: string) => setPlugin(value)}
@@ -115,23 +115,23 @@ export const IssueExplorer = ({ scanId, counts, sources, group, onGroup }: Props
 			<div className="rdi-issues" aria-busy={loading}>
 				{data && 0 === data.items.length && !loading && (
 					<EmptyState
-						title={query || plugin || 'all' !== group ? __('Nothing matches these filters', 'hoptrail') : __('No issues found', 'hoptrail')}
-						text={query || plugin || 'all' !== group ? __('Try another type, plugin or search term.', 'hoptrail') : __('Every redirect goes straight to its destination.', 'hoptrail')}
+						title={query || plugin || 'all' !== group ? __('Nothing matches these filters', 'onehop-redirect-checker') : __('No issues found', 'onehop-redirect-checker')}
+						text={query || plugin || 'all' !== group ? __('Try another type, plugin or search term.', 'onehop-redirect-checker') : __('Every redirect goes straight to its destination.', 'onehop-redirect-checker')}
 					/>
 				)}
 				{data?.items.map((issue) => <IssueCard key={issue.id} issue={issue} />)}
 			</div>
 
 			{data && data.total > PER_PAGE && (
-				<nav className="rdi-pagination" aria-label={__('Issue pages', 'hoptrail')}>
+				<nav className="rdi-pagination" aria-label={__('Issue pages', 'onehop-redirect-checker')}>
 					<Button variant="tertiary" size="compact" disabled={page <= 1} accessibleWhenDisabled onClick={() => setPage(page - 1)}>
-						{__('Previous', 'hoptrail')}
+						{__('Previous', 'onehop-redirect-checker')}
 					</Button>
 					<span>
-						{sprintf(/* translators: 1: current page, 2: number of pages, 3: number of issues. */ _n('Page %1$d of %2$d · %3$d issue', 'Page %1$d of %2$d · %3$d issues', data.total, 'hoptrail'), page, pages, data.total)}
+						{sprintf(/* translators: 1: current page, 2: number of pages, 3: number of issues. */ _n('Page %1$d of %2$d · %3$d issue', 'Page %1$d of %2$d · %3$d issues', data.total, 'onehop-redirect-checker'), page, pages, data.total)}
 					</span>
 					<Button variant="tertiary" size="compact" disabled={page >= pages} accessibleWhenDisabled onClick={() => setPage(page + 1)}>
-						{__('Next', 'hoptrail')}
+						{__('Next', 'onehop-redirect-checker')}
 					</Button>
 				</nav>
 			)}

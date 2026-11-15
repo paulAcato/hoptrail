@@ -18,7 +18,7 @@ const cache = new Map<string, unknown>();
 const listeners = new Set<() => void>();
 const CACHE_LIMIT = 60;
 
-export const NAMESPACE = '/hoptrail/v1';
+export const NAMESPACE = '/onehop-redirect-checker/v1';
 
 const abortError = () => new DOMException('Aborted', 'AbortError');
 
@@ -28,7 +28,7 @@ export const errorMessage = (error: unknown): string => {
 	if (error && 'object' === typeof error && 'message' in error && 'string' === typeof error.message && error.message) {
 		return error.message;
 	}
-	return __('Something went wrong. Please try again.', 'hoptrail');
+	return __('Something went wrong. Please try again.', 'onehop-redirect-checker');
 };
 
 export const getCached = <T,>(path: string): T | undefined => cache.get(path) as T | undefined;

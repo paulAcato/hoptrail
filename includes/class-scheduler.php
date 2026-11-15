@@ -2,10 +2,10 @@
 /**
  * Scheduled scans: on chosen weekdays at chosen hours, in the site's timezone.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes;
+namespace Onehop\RedirectChecker\Includes;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -19,7 +19,7 @@ final class Scheduler extends Singleton {
 	/**
 	 * Cron hook.
 	 */
-	const HOOK = 'hoptrail_scheduled_scan';
+	const HOOK = 'onehop_redirect_checker_scheduled_scan';
 
 	/**
 	 * Register hooks.

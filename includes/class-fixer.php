@@ -2,13 +2,13 @@
 /**
  * Applies an issue's automatic fix to the plugin that owns the rule.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes;
+namespace Onehop\RedirectChecker\Includes;
 
-use Hoptrail\Includes\Sources\Registry;
-use Hoptrail\Includes\Sources\Writable;
+use Onehop\RedirectChecker\Includes\Sources\Registry;
+use Onehop\RedirectChecker\Includes\Sources\Writable;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -21,7 +21,7 @@ final class Fixer {
 	/**
 	 * One write at a time: fixes, migrations and deletions share this lock (also used by Migrator).
 	 */
-	const LOCK = 'hoptrail_write_lock';
+	const LOCK = 'onehop_redirect_checker_write_lock';
 
 	/**
 	 * Apply the fix of an issue.
@@ -34,7 +34,7 @@ final class Fixer {
 	 */
 	public static function apply( int $issue_id ): array {
 		if ( Scanner::is_running() || ! Lock::acquire( self::LOCK, 2 * MINUTE_IN_SECONDS ) ) {
-			throw new \RuntimeException( __( 'Another change or a scan is running. Try again in a moment.', 'hoptrail' ), 409 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+			throw new \RuntimeException( __( 'Another change or a scan is running. Try again in a moment.', 'onehop-redirect-checker' ), 409 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 
 		try {
@@ -59,11 +59,11 @@ final class Fixer {
 
 		// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Messages are shown as text (JSON/React).
 		if ( ! $issue || ! is_array( $fix ) || empty( $fix['rules'] ) || ! in_array( $fix['action'] ?? '', [ 'retarget', 'disable' ], true ) ) {
-			throw new \RuntimeException( __( 'This issue has no automatic fix.', 'hoptrail' ), 400 );
+			throw new \RuntimeException( __( 'This issue has no automatic fix.', 'onehop-redirect-checker' ), 400 );
 		}
 
 		if ( ! empty( $issue['fixed'] ) ) {
-			throw new \RuntimeException( __( 'This fix was already applied.', 'hoptrail' ), 409 );
+			throw new \RuntimeException( __( 'This fix was already applied.', 'onehop-redirect-checker' ), 409 );
 		}
 
 		$sources = Registry::all();
@@ -73,12 +73,12 @@ final class Fixer {
 		foreach ( $fix['rules'] as $ref ) {
 			$source = $sources[ $ref['source'] ?? '' ] ?? null;
 			if ( ! $source instanceof Writable || ! $source->is_available() ) {
-				throw new \RuntimeException( __( 'The plugin that owns this rule is not active.', 'hoptrail' ), 409 );
+				throw new \RuntimeException( __( 'The plugin that owns this rule is not active.', 'onehop-redirect-checker' ), 409 );
 			}
 
 			$current = $source->find( (string) $ref['id'] );
 			if ( ! $current || $current->from !== $ref['from'] || $current->to !== $ref['to'] ) {
-				throw new \RuntimeException( __( 'The rule changed since the last scan. Run a new scan first.', 'hoptrail' ), 409 );
+				throw new \RuntimeException( __( 'The rule changed since the last scan. Run a new scan first.', 'onehop-redirect-checker' ), 409 );
 			}
 
 			$targets[] = [ $source, $current ];
@@ -93,7 +93,7 @@ final class Fixer {
 			}
 			$current = $source->find( (string) $ref['id'] );
 			if ( ! $current || $current->from !== $ref['from'] || $current->to !== $ref['to'] ) {
-				throw new \RuntimeException( __( 'A rule this fix depends on changed since the last scan. Run a new scan first.', 'hoptrail' ), 409 );
+				throw new \RuntimeException( __( 'A rule this fix depends on changed since the last scan. Run a new scan first.', 'onehop-redirect-checker' ), 409 );
 			}
 		}
 
@@ -104,14 +104,14 @@ final class Fixer {
 			if ( 'retarget' === $fix['action'] ) {
 				$to = (string) $fix['to'];
 				if ( ! Url_Normalizer::is_safe_target( $to ) || ! $source->retarget( $rule->id, $to ) ) {
-					throw new \RuntimeException( __( 'The rule could not be updated.', 'hoptrail' ), 500 );
+					throw new \RuntimeException( __( 'The rule could not be updated.', 'onehop-redirect-checker' ), 500 );
 				}
 				$result = 'retargeted';
 				$after  = array_merge( $before, [ 'to' => $to ] );
 			} else {
 				$result = $source->disable( $rule->id );
 				if ( '' === $result ) {
-					throw new \RuntimeException( __( 'The rule could not be switched off.', 'hoptrail' ), 500 );
+					throw new \RuntimeException( __( 'The rule could not be switched off.', 'onehop-redirect-checker' ), 500 );
 				}
 				$after = [];
 			}

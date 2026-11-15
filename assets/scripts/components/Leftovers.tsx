@@ -18,10 +18,10 @@ interface Props {
 }
 
 const statusLabel = ({ status, expands }: LeftoverRule, target: string): string => ({
-	copy: sprintf(/* translators: %s: plugin. */ __('Will be copied to %s', 'hoptrail'), target),
-	expand: sprintf(/* translators: 1: number of rules, 2: plugin. */ _n('Becomes %1$d exact rule in %2$s', 'Becomes %1$d exact rules in %2$s', expands, 'hoptrail'), expands, target),
-	exists: sprintf(/* translators: %s: plugin. */ __('Already in %s', 'hoptrail'), target),
-	unsupported: sprintf(/* translators: %s: plugin. */ __('%s can’t hold this rule', 'hoptrail'), target),
+	copy: sprintf(/* translators: %s: plugin. */ __('Will be copied to %s', 'onehop-redirect-checker'), target),
+	expand: sprintf(/* translators: 1: number of rules, 2: plugin. */ _n('Becomes %1$d exact rule in %2$s', 'Becomes %1$d exact rules in %2$s', expands, 'onehop-redirect-checker'), expands, target),
+	exists: sprintf(/* translators: %s: plugin. */ __('Already in %s', 'onehop-redirect-checker'), target),
+	unsupported: sprintf(/* translators: %s: plugin. */ __('%s can’t hold this rule', 'onehop-redirect-checker'), target),
 	none: '—',
 })[status];
 
@@ -48,7 +48,7 @@ const RuleRow = ({ rule, slug, target }: { rule: LeftoverRule; slug: string; tar
 		setError(null);
 		try {
 			await remove.run(route(`/leftovers/${slug}/rules/${encodeURIComponent(rule.id)}`, { from: rule.from }), 'DELETE');
-			speak(sprintf(/* translators: %s: source URL. */ __('Deleted the rule for %s.', 'hoptrail'), rule.from), 'polite');
+			speak(sprintf(/* translators: %s: source URL. */ __('Deleted the rule for %s.', 'onehop-redirect-checker'), rule.from), 'polite');
 			invalidate('/leftovers');
 			invalidate('/summary');
 		} catch (caught) {
@@ -77,7 +77,7 @@ const RuleRow = ({ rule, slug, target }: { rule: LeftoverRule; slug: string; tar
 						aria-controls={`rdi-expanded-${rule.id}`}
 						onClick={() => setExpanded((value) => !value)}
 					>
-						{expanded ? __('Hide the exact rules', 'hoptrail') : __('Show the exact rules', 'hoptrail')}
+						{expanded ? __('Hide the exact rules', 'onehop-redirect-checker') : __('Show the exact rules', 'onehop-redirect-checker')}
 					</Button>
 				)}
 			</td>
@@ -85,10 +85,10 @@ const RuleRow = ({ rule, slug, target }: { rule: LeftoverRule; slug: string; tar
 				{confirming ? (
 					<>
 						<Button ref={confirmRef} variant="primary" isDestructive size="compact" isBusy={remove.busy} disabled={remove.busy} accessibleWhenDisabled onClick={onDelete}>
-							{__('Delete', 'hoptrail')}
+							{__('Delete', 'onehop-redirect-checker')}
 						</Button>
 						<Button variant="tertiary" size="compact" disabled={remove.busy} accessibleWhenDisabled onClick={() => { back.current = true; setConfirming(false); }}>
-							{__('Cancel', 'hoptrail')}
+							{__('Cancel', 'onehop-redirect-checker')}
 						</Button>
 					</>
 				) : (
@@ -97,10 +97,10 @@ const RuleRow = ({ rule, slug, target }: { rule: LeftoverRule; slug: string; tar
 						variant="tertiary"
 						isDestructive
 						size="compact"
-						aria-label={sprintf(/* translators: %s: source URL. */ __('Delete the rule for %s', 'hoptrail'), rule.from)}
+						aria-label={sprintf(/* translators: %s: source URL. */ __('Delete the rule for %s', 'onehop-redirect-checker'), rule.from)}
 						onClick={() => setConfirming(true)}
 					>
-						{__('Delete', 'hoptrail')}
+						{__('Delete', 'onehop-redirect-checker')}
 					</Button>
 				)}
 				{error && <span className="rdi-migrate__error" role="alert">{error}</span>}
@@ -110,7 +110,7 @@ const RuleRow = ({ rule, slug, target }: { rule: LeftoverRule; slug: string; tar
 			<tr id={`rdi-expanded-${rule.id}`} className="rdi-migrate__expanded" hidden={!expanded}>
 				<td colSpan={5}>
 					<p className="rdi-muted">
-						{sprintf(/* translators: %s: plugin. */ __('%s only holds exact rules, so this pattern is copied for the URLs this site is known to have: published content, URLs from the 404 log, and the sources and targets of other rules.', 'hoptrail'), target)}
+						{sprintf(/* translators: %s: plugin. */ __('%s only holds exact rules, so this pattern is copied for the URLs this site is known to have: published content, URLs from the 404 log, and the sources and targets of other rules.', 'onehop-redirect-checker'), target)}
 					</p>
 					<ul>
 						{rule.expanded.map((one) => <li key={one.from}><code>{one.from}</code> → <code>{one.to}</code></li>)}
@@ -164,7 +164,7 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 			// The plan binds the run to this reviewed list; the server refuses if it changed meanwhile.
 			const done = await migrate.run(route('/migrate'), 'POST', { from: leftover.slug, to: target, dry_run: false, plan: data?.plan ?? '' });
 			invalidate();
-			report(sprintf(/* translators: 1: number of rules, 2: plugin. */ _n('%1$d rule copied to %2$s. Run a scan to include it.', '%1$d rules copied to %2$s. Run a scan to include them.', done.created, 'hoptrail'), done.created, targetLabel));
+			report(sprintf(/* translators: 1: number of rules, 2: plugin. */ _n('%1$d rule copied to %2$s. Run a scan to include it.', '%1$d rules copied to %2$s. Run a scan to include them.', done.created, 'onehop-redirect-checker'), done.created, targetLabel));
 		} catch (caught) {
 			if (!isAbort(caught)) {
 				setError(errorMessage(caught));
@@ -180,7 +180,7 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 		try {
 			const done = await purge.run(route(`/leftovers/${leftover.slug}`, { drop_tables: dropTables ? '1' : '' }), 'DELETE');
 			invalidate();
-			report(sprintf(/* translators: 1: number of rules, 2: plugin. */ _n('Deleted %1$d stored rule of %2$s.', 'Deleted %1$d stored rules of %2$s.', done.deleted, 'hoptrail'), done.deleted, leftover.label));
+			report(sprintf(/* translators: 1: number of rules, 2: plugin. */ _n('Deleted %1$d stored rule of %2$s.', 'Deleted %1$d stored rules of %2$s.', done.deleted, 'onehop-redirect-checker'), done.deleted, leftover.label));
 			onClose();
 		} catch (caught) {
 			if (!isAbort(caught)) {
@@ -196,13 +196,13 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 
 	return (
 		<Modal
-			title={sprintf(/* translators: %s: plugin. */ __('Leftover rules of %s', 'hoptrail'), leftover.label)}
+			title={sprintf(/* translators: %s: plugin. */ __('Leftover rules of %s', 'onehop-redirect-checker'), leftover.label)}
 			onRequestClose={onClose}
 			size="large"
 			className="rdi-migrate"
 		>
 			<p className="rdi-migrate__intro">
-				{__('This plugin is not active, so these rules redirect nothing. Copy them into an active redirect plugin, or delete them.', 'hoptrail')}
+				{__('This plugin is not active, so these rules redirect nothing. Copy them into an active redirect plugin, or delete them.', 'onehop-redirect-checker')}
 			</p>
 
 			{targets.length > 0 && (
@@ -210,7 +210,7 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 					<SelectControl
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
-						label={__('Migrate to', 'hoptrail')}
+						label={__('Migrate to', 'onehop-redirect-checker')}
 						value={target}
 						options={targets.map((item) => ({ label: item.label, value: item.slug }))}
 						onChange={(value: string) => setTarget(value)}
@@ -218,9 +218,9 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 					{data && (
 						<p className="rdi-migrate__summary" aria-live="off">
 							{[
-								sprintf(/* translators: %d: number of rules. */ _n('%d will be copied', '%d will be copied', counts.copy, 'hoptrail'), counts.copy),
-								counts.exists ? sprintf(/* translators: %d: number of rules. */ _n('%d already there', '%d already there', counts.exists, 'hoptrail'), counts.exists) : '',
-								counts.unsupported ? sprintf(/* translators: %d: number of rules. */ _n('%d not supported', '%d not supported', counts.unsupported, 'hoptrail'), counts.unsupported) : '',
+								sprintf(/* translators: %d: number of rules. */ _n('%d will be copied', '%d will be copied', counts.copy, 'onehop-redirect-checker'), counts.copy),
+								counts.exists ? sprintf(/* translators: %d: number of rules. */ _n('%d already there', '%d already there', counts.exists, 'onehop-redirect-checker'), counts.exists) : '',
+								counts.unsupported ? sprintf(/* translators: %d: number of rules. */ _n('%d not supported', '%d not supported', counts.unsupported, 'onehop-redirect-checker'), counts.unsupported) : '',
 							].filter(Boolean).join(' · ')}
 						</p>
 					)}
@@ -229,20 +229,20 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 
 			{loadError && <div className="notice notice-error inline" role="alert"><p>{loadError}</p></div>}
 			{data?.partial && (
-				<div className="notice notice-warning inline"><p>{__('Not every pattern could be checked against all known URLs in time; some exact rules may be missing from this list.', 'hoptrail')}</p></div>
+				<div className="notice notice-warning inline"><p>{__('Not every pattern could be checked against all known URLs in time; some exact rules may be missing from this list.', 'onehop-redirect-checker')}</p></div>
 			)}
 			{loading && !data && <Spinner />}
 
 			{rules.length > 0 && (
-				<div className="rdi-table-wrap" role="region" aria-label={__('Stored rules', 'hoptrail')} tabIndex={0}>
+				<div className="rdi-table-wrap" role="region" aria-label={__('Stored rules', 'onehop-redirect-checker')} tabIndex={0}>
 					<table className="rdi-table rdi-migrate__table">
 						<thead>
 							<tr>
-								<th scope="col">{_x('From', 'table column: source URL of a redirect rule', 'hoptrail')}</th>
-								<th scope="col">{_x('To', 'table column: target URL of a redirect rule', 'hoptrail')}</th>
-								<th scope="col" className="is-num">{__('Code', 'hoptrail')}</th>
-								<th scope="col">{__('Migration', 'hoptrail')}</th>
-								<th scope="col"><span className="screen-reader-text">{__('Actions', 'hoptrail')}</span></th>
+								<th scope="col">{_x('From', 'table column: source URL of a redirect rule', 'onehop-redirect-checker')}</th>
+								<th scope="col">{_x('To', 'table column: target URL of a redirect rule', 'onehop-redirect-checker')}</th>
+								<th scope="col" className="is-num">{__('Code', 'onehop-redirect-checker')}</th>
+								<th scope="col">{__('Migration', 'onehop-redirect-checker')}</th>
+								<th scope="col"><span className="screen-reader-text">{__('Actions', 'onehop-redirect-checker')}</span></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -261,26 +261,26 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 						<p>
 							{sprintf(
 								/* translators: 1: number of rules, 2: plugin. */
-								_n('Permanently delete %1$d stored rule of %2$s? This cannot be undone.', 'Permanently delete %1$d stored rules of %2$s? This cannot be undone.', data?.total ?? leftover.rules, 'hoptrail'),
+								_n('Permanently delete %1$d stored rule of %2$s? This cannot be undone.', 'Permanently delete %1$d stored rules of %2$s? This cannot be undone.', data?.total ?? leftover.rules, 'onehop-redirect-checker'),
 								data?.total ?? leftover.rules,
 								leftover.label
 							)}
 						</p>
-						{leftover.tables > 0 && (window.hoptrail?.canDropTables ?? false) && (
+						{leftover.tables > 0 && (window.onehopRedirectChecker?.canDropTables ?? false) && (
 							<CheckboxControl
 								__nextHasNoMarginBottom
-								label={sprintf(/* translators: %s: plugin. */ __('Also drop the redirect tables of %s', 'hoptrail'), leftover.label)}
-								help={__('Only when you don’t plan to activate it again; it would have to set up its tables anew.', 'hoptrail')}
+								label={sprintf(/* translators: %s: plugin. */ __('Also drop the redirect tables of %s', 'onehop-redirect-checker'), leftover.label)}
+								help={__('Only when you don’t plan to activate it again; it would have to set up its tables anew.', 'onehop-redirect-checker')}
 								checked={dropTables}
 								onChange={setDropTables}
 							/>
 						)}
 						<div className="rdi-migrate__buttons">
 							<Button __next40pxDefaultSize variant="tertiary" disabled={purge.busy} accessibleWhenDisabled onClick={() => setConfirmingPurge(false)}>
-								{__('Cancel', 'hoptrail')}
+								{__('Cancel', 'onehop-redirect-checker')}
 							</Button>
 							<Button ref={purgeConfirmRef} __next40pxDefaultSize variant="primary" isDestructive isBusy={purge.busy} disabled={purge.busy} accessibleWhenDisabled onClick={onPurge}>
-								{dropTables ? __('Delete rules and tables', 'hoptrail') : __('Delete rules', 'hoptrail')}
+								{dropTables ? __('Delete rules and tables', 'onehop-redirect-checker') : __('Delete rules', 'onehop-redirect-checker')}
 							</Button>
 						</div>
 					</div>
@@ -288,16 +288,16 @@ const LeftoverModal = ({ leftover, targets, onClose }: { leftover: Leftover; tar
 					<div className="rdi-migrate__buttons">
 						{!nothingToMigrate && (
 							<Button __next40pxDefaultSize variant="tertiary" isDestructive onClick={() => setConfirmingPurge(true)}>
-								{__('Delete all data', 'hoptrail')}
+								{__('Delete all data', 'onehop-redirect-checker')}
 							</Button>
 						)}
 						{nothingToMigrate ? (
 							<Button __next40pxDefaultSize variant="primary" isDestructive disabled={!data} accessibleWhenDisabled onClick={() => setConfirmingPurge(true)}>
-								{__('Delete data', 'hoptrail')}
+								{__('Delete data', 'onehop-redirect-checker')}
 							</Button>
 						) : (
 							<Button __next40pxDefaultSize variant="primary" isBusy={migrate.busy} disabled={migrate.busy || !data} accessibleWhenDisabled onClick={onMigrate}>
-								{sprintf(/* translators: %d: number of rules. */ _n('Migrate %d rule', 'Migrate %d rules', counts.copy, 'hoptrail'), counts.copy)}
+								{sprintf(/* translators: %d: number of rules. */ _n('Migrate %d rule', 'Migrate %d rules', counts.copy, 'onehop-redirect-checker'), counts.copy)}
 							</Button>
 						)}
 					</div>
@@ -331,8 +331,8 @@ export const Leftovers = ({ leftovers, targets }: Props) => {
 	return (
 		<section className="rdi-card rdi-leftovers" aria-labelledby="rdi-leftovers-title">
 			<header className="rdi-card__header">
-				<h2 id="rdi-leftovers-title" tabIndex={-1}>{__('Leftover redirects', 'hoptrail')}</h2>
-				<span className="rdi-card__meta">{__('These plugins are not active, so their rules redirect nothing.', 'hoptrail')}</span>
+				<h2 id="rdi-leftovers-title" tabIndex={-1}>{__('Leftover redirects', 'onehop-redirect-checker')}</h2>
+				<span className="rdi-card__meta">{__('These plugins are not active, so their rules redirect nothing.', 'onehop-redirect-checker')}</span>
 			</header>
 			<ul className="rdi-leftovers__list" id="rdi-leftovers-list">
 				{(expanded ? leftovers : leftovers.slice(0, FOLD)).map((leftover) => (
@@ -340,7 +340,7 @@ export const Leftovers = ({ leftovers, targets }: Props) => {
 						<div className="rdi-leftovers__what">
 							<strong>{leftover.label}</strong>
 							<span className="rdi-muted">
-								{sprintf(/* translators: %d: number of rules. */ _n('Not active · %d stored rule', 'Not active · %d stored rules', leftover.rules, 'hoptrail'), leftover.rules)}
+								{sprintf(/* translators: %d: number of rules. */ _n('Not active · %d stored rule', 'Not active · %d stored rules', leftover.rules, 'onehop-redirect-checker'), leftover.rules)}
 							</span>
 						</div>
 						<Button
@@ -349,7 +349,7 @@ export const Leftovers = ({ leftovers, targets }: Props) => {
 							variant="secondary"
 							onClick={() => setOpen(leftover.slug)}
 						>
-							{__('Review rules', 'hoptrail')}
+							{__('Review rules', 'onehop-redirect-checker')}
 						</Button>
 					</li>
 				))}
@@ -366,8 +366,8 @@ export const Leftovers = ({ leftovers, targets }: Props) => {
 					onClick={() => setExpanded((value) => !value)}
 				>
 					{expanded
-						? __('Show fewer', 'hoptrail')
-						: sprintf(/* translators: %d: number of plugins with leftover rules. */ __('Show all %d', 'hoptrail'), leftovers.length)}
+						? __('Show fewer', 'onehop-redirect-checker')
+						: sprintf(/* translators: %d: number of plugins with leftover rules. */ __('Show all %d', 'onehop-redirect-checker'), leftovers.length)}
 				</Button>
 			)}
 			{current && <LeftoverModal leftover={current} targets={targets} onClose={close} />}

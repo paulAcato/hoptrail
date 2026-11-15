@@ -2,10 +2,10 @@
 /**
  * Turns the many ways plugins store URLs into one comparable key.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes;
+namespace Onehop\RedirectChecker\Includes;
 
 defined( 'ABSPATH' ) || exit;
 

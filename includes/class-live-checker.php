@@ -2,10 +2,10 @@
 /**
  * Follows real redirects hop by hop, on this site only.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes;
+namespace Onehop\RedirectChecker\Includes;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -53,7 +53,7 @@ final class Live_Checker {
 	/**
 	 * Per-user mutex option prefix.
 	 */
-	const LOCK_PREFIX = 'hoptrail_live_lock_';
+	const LOCK_PREFIX = 'onehop_redirect_checker_live_lock_';
 
 	/**
 	 * Normaliser.
@@ -81,7 +81,7 @@ final class Live_Checker {
 	public function check_many( array $urls ): array {
 		$lock = self::LOCK_PREFIX . get_current_user_id();
 		if ( ! Lock::acquire( $lock, self::LOCK_TTL ) ) {
-			throw new \RuntimeException( __( 'A live check is already running.', 'hoptrail' ), 409 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Shown as text.
+			throw new \RuntimeException( __( 'A live check is already running.', 'onehop-redirect-checker' ), 409 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Shown as text.
 		}
 
 		add_filter( 'http_request_host_is_external', [ $this, 'allow_own_host' ], 10, 2 );
@@ -147,7 +147,7 @@ final class Live_Checker {
 
 			// Out of time: stop here rather than outlive the lock.
 			$response = $this->deadline && microtime( true ) + self::TIMEOUT > $this->deadline
-				? new \WP_Error( 'hoptrail_time_budget', __( 'Stopped: the live check took too long.', 'hoptrail' ) )
+				? new \WP_Error( 'onehop_redirect_checker_time_budget', __( 'Stopped: the live check took too long.', 'onehop-redirect-checker' ) )
 				: $this->request( $current );
 			if ( is_wp_error( $response ) ) {
 				$hops[]  = [
@@ -208,7 +208,7 @@ final class Live_Checker {
 			'redirection'         => 0,
 			'timeout'             => self::TIMEOUT,
 			'reject_unsafe_urls'  => true,
-			'user-agent'          => HOPTRAIL_NAME . '/' . HOPTRAIL_VERSION . '; ' . home_url( '/' ),
+			'user-agent'          => ONEHOP_REDIRECT_CHECKER_NAME . '/' . ONEHOP_REDIRECT_CHECKER_VERSION . '; ' . home_url( '/' ),
 			'cookies'             => [],
 			'headers'             => [],
 			'limit_response_size' => 1024,

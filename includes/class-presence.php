@@ -2,10 +2,10 @@
 /**
  * Who else has the dashboard open, and what changed: through the WordPress Heartbeat API.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes;
+namespace Onehop\RedirectChecker\Includes;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -20,12 +20,12 @@ final class Presence extends Singleton {
 	/**
 	 * Transient with user ID ⇒ last seen (per site).
 	 */
-	const PRESENCE = 'hoptrail_presence';
+	const PRESENCE = 'onehop_redirect_checker_presence';
 
 	/**
 	 * Option with the change version and the latest change.
 	 */
-	const STATE = 'hoptrail_state';
+	const STATE = 'onehop_redirect_checker_state';
 
 	/**
 	 * Seconds a user counts as present after their last tick.
@@ -35,7 +35,7 @@ final class Presence extends Singleton {
 	/**
 	 * Heartbeat key.
 	 */
-	const KEY = 'hoptrail';
+	const KEY = 'onehop_redirect_checker';
 
 	/**
 	 * Register hooks.

@@ -2,16 +2,16 @@
 /**
  * Copies leftover rules from an inactive redirect plugin into an active one.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes;
+namespace Onehop\RedirectChecker\Includes;
 
-use Hoptrail\Includes\Analysis\Expander;
-use Hoptrail\Includes\Sources\Purgeable;
-use Hoptrail\Includes\Sources\Registry;
-use Hoptrail\Includes\Sources\Source;
-use Hoptrail\Includes\Sources\Writable;
+use Onehop\RedirectChecker\Includes\Analysis\Expander;
+use Onehop\RedirectChecker\Includes\Sources\Purgeable;
+use Onehop\RedirectChecker\Includes\Sources\Registry;
+use Onehop\RedirectChecker\Includes\Sources\Source;
+use Onehop\RedirectChecker\Includes\Sources\Writable;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -91,10 +91,10 @@ final class Migrator {
 
 		// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Shown as text (JSON/React/CLI).
 		if ( ! $source instanceof Source || $source->plugin_active() || ! $source->has_storage() ) {
-			throw new \RuntimeException( __( 'There are no leftover rules to migrate from that plugin.', 'hoptrail' ), 400 );
+			throw new \RuntimeException( __( 'There are no leftover rules to migrate from that plugin.', 'onehop-redirect-checker' ), 400 );
 		}
 		if ( ! $target instanceof Writable || ! $target instanceof Source || ! $target->is_available() || $from === $to ) {
-			throw new \RuntimeException( __( 'Rules can only be migrated into an active redirect plugin.', 'hoptrail' ), 400 );
+			throw new \RuntimeException( __( 'Rules can only be migrated into an active redirect plugin.', 'onehop-redirect-checker' ), 400 );
 		}
 		// phpcs:enable
 
@@ -104,7 +104,7 @@ final class Migrator {
 					// What was reviewed is what gets written: the 404 log and other plugins' rules
 					// may have changed since the preview.
 					if ( '' !== $plan && ! hash_equals( $plan, self::copy( $source, $target, $from, $to, true )['plan'] ) ) {
-						throw new \RuntimeException( __( 'The rules to migrate changed since you reviewed them. Review the list again.', 'hoptrail' ), 409 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+						throw new \RuntimeException( __( 'The rules to migrate changed since you reviewed them. Review the list again.', 'onehop-redirect-checker' ), 409 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 					}
 					return self::copy( $source, $target, $from, $to, false );
 				}
@@ -127,7 +127,7 @@ final class Migrator {
 	 */
 	private static function locked( callable $write ) {
 		if ( Scanner::is_running() || ! Lock::acquire( Fixer::LOCK, 2 * MINUTE_IN_SECONDS ) ) {
-			throw new \RuntimeException( __( 'Another change or a scan is running. Try again in a moment.', 'hoptrail' ), 409 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+			throw new \RuntimeException( __( 'Another change or a scan is running. Try again in a moment.', 'onehop-redirect-checker' ), 409 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 
 		try {
@@ -347,7 +347,7 @@ final class Migrator {
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Shown as text.
 		if ( ! $rule || $rule->from !== $expected || ! $source instanceof Purgeable || ! $source->delete_stored( $id ) ) {
-			throw new \RuntimeException( __( 'The rule could not be deleted. It may already be gone.', 'hoptrail' ), 404 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+			throw new \RuntimeException( __( 'The rule could not be deleted. It may already be gone.', 'onehop-redirect-checker' ), 404 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 
 		Log_Repository::log_fix( 0, 'deleted', $from, $id, $rule->to_array(), [] );
@@ -387,7 +387,7 @@ final class Migrator {
 		$count  = $source->count();
 
 		if ( ! $source instanceof Purgeable || ! $source->purge_storage( $drop_tables && [] !== $source->own_tables() ) ) {
-			throw new \RuntimeException( __( 'The data could not be deleted.', 'hoptrail' ), 500 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+			throw new \RuntimeException( __( 'The data could not be deleted.', 'onehop-redirect-checker' ), 500 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 
 		Log_Repository::log_fix( 0, $drop_tables ? 'dropped' : 'purged', $from, '', [ 'rules' => $count ], [] );
@@ -409,7 +409,7 @@ final class Migrator {
 		// The plugin itself must be inactive: a plugin with only its redirect feature switched off
 		// still owns its data, and must never have it deleted from here.
 		if ( ! $source instanceof Source || $source->plugin_active() || ! $source->has_storage() ) {
-			throw new \RuntimeException( __( 'There are no leftover rules for that plugin.', 'hoptrail' ), 400 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+			throw new \RuntimeException( __( 'There are no leftover rules for that plugin.', 'onehop-redirect-checker' ), 400 ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 
 		return $source;

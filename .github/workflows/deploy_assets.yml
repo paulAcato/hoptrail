@@ -49,7 +49,7 @@ jobs:
           fi
           # WordPress.org creates the SVN repository once the plugin is approved; until then
           # there is nowhere to send the readme and assets to.
-          status=$(curl -s -o /dev/null -w '%{http_code}' https://plugins.svn.wordpress.org/hoptrail/)
+          status=$(curl -s -o /dev/null -w '%{http_code}' https://plugins.svn.wordpress.org/onehop-redirect-checker/)
           if [ "$status" = "404" ]; then
             echo "::notice::The plugin is not on WordPress.org yet (SVN repository missing); nothing to update."
             echo "skip=true" >> "$GITHUB_OUTPUT"
@@ -69,4 +69,6 @@ jobs:
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          # The WordPress.org slug differs from the repository name, the action default.
+          SLUG: onehop-redirect-checker
           IGNORE_OTHER_FILES: true

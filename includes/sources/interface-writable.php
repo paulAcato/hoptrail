@@ -1,13 +1,13 @@
 <?php
 /**
- * A source whose rules Hoptrail may change (Apply fix).
+ * A source whose rules Onehop Redirect Checker may change (Apply fix).
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes\Sources;
+namespace Onehop\RedirectChecker\Includes\Sources;
 
-use Hoptrail\Includes\Rule;
+use Onehop\RedirectChecker\Includes\Rule;
 
 defined( 'ABSPATH' ) || exit;
 

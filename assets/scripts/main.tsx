@@ -4,11 +4,11 @@ import { NetworkApp } from './components/NetworkApp';
 import '../styles/main.scss';
 
 const mount = () => {
-	const root = document.getElementById('hoptrail-root');
+	const root = document.getElementById('onehop-redirect-checker-root');
 	if (!root) {
 		return;
 	}
-	createRoot(root).render('network' === window.hoptrail?.mode ? <NetworkApp /> : <App />);
+	createRoot(root).render('network' === window.onehopRedirectChecker?.mode ? <NetworkApp /> : <App />);
 };
 
 if ('loading' === document.readyState) {

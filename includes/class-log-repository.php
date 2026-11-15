@@ -2,12 +2,12 @@
 /**
  * Reads and writes the scans and issues tables.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes;
+namespace Onehop\RedirectChecker\Includes;
 
-use Hoptrail\Includes\Analysis\Analyzer;
+use Onehop\RedirectChecker\Includes\Analysis\Analyzer;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -346,7 +346,7 @@ final class Log_Repository {
 
 		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- The compile error is reported below.
 		if ( false === @preg_match( $pattern, '' ) ) {
-			throw new \InvalidArgumentException( __( 'This is not a valid regular expression.', 'hoptrail' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+			throw new \InvalidArgumentException( __( 'This is not a valid regular expression.', 'onehop-redirect-checker' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 
 		return $pattern;
@@ -567,8 +567,8 @@ final class Log_Repository {
 	private static function trigger_label( string $trigger, string $user_login ): string {
 		return match ( $trigger ) {
 			'cli'   => 'WP-CLI',
-			'cron'    => _x( 'Scheduled', 'who ran the scan: a scheduled scan', 'hoptrail' ),
-			'ability' => _x( 'Ability', 'who ran the scan: an AI client through an ability', 'hoptrail' ),
+			'cron'    => _x( 'Scheduled', 'who ran the scan: a scheduled scan', 'onehop-redirect-checker' ),
+			'ability' => _x( 'Ability', 'who ran the scan: an AI client through an ability', 'onehop-redirect-checker' ),
 			default => $user_login,
 		};
 	}

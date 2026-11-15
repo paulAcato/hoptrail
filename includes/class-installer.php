@@ -2,12 +2,12 @@
 /**
  * Database tables, per site.
  *
- * @package Hoptrail
+ * @package Onehop\RedirectChecker
  */
 
-namespace Hoptrail\Includes;
+namespace Onehop\RedirectChecker\Includes;
 
-use Hoptrail\Admin\Tour;
+use Onehop\RedirectChecker\Admin\Tour;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -26,15 +26,15 @@ final class Installer extends Singleton {
 	 * Table name suffixes before 1.2.0 (the prefix was too short for WordPress.org); renamed on upgrade.
 	 */
 	const LEGACY_TABLES = [
-		'rdi_scans'  => 'hoptrail_scans',
-		'rdi_issues' => 'hoptrail_issues',
-		'rdi_fixes'  => 'hoptrail_fixes',
+		'rdi_scans'  => 'onehop_redirect_checker_scans',
+		'rdi_issues' => 'onehop_redirect_checker_issues',
+		'rdi_fixes'  => 'onehop_redirect_checker_fixes',
 	];
 
 	/**
 	 * Option holding the installed schema version.
 	 */
-	const VERSION_OPTION = 'hoptrail_db_version';
+	const VERSION_OPTION = 'onehop_redirect_checker_db_version';
 
 	/**
 	 * Register hooks.
@@ -55,7 +55,7 @@ final class Installer extends Singleton {
 	public static function scans_table(): string {
 		global $wpdb;
 
-		return $wpdb->prefix . 'hoptrail_scans';
+		return $wpdb->prefix . 'onehop_redirect_checker_scans';
 	}
 
 	/**
@@ -66,7 +66,7 @@ final class Installer extends Singleton {
 	public static function issues_table(): string {
 		global $wpdb;
 
-		return $wpdb->prefix . 'hoptrail_issues';
+		return $wpdb->prefix . 'onehop_redirect_checker_issues';
 	}
 
 	/**
@@ -77,7 +77,7 @@ final class Installer extends Singleton {
 	public static function fixes_table(): string {
 		global $wpdb;
 
-		return $wpdb->prefix . 'hoptrail_fixes';
+		return $wpdb->prefix . 'onehop_redirect_checker_fixes';
 	}
 
 	/**
@@ -282,7 +282,7 @@ final class Installer extends Singleton {
 		);
 		foreach ( $users as $user_id ) {
 			$dismissed = array_filter( explode( ',', (string) get_user_meta( (int) $user_id, 'dismissed_wp_pointers', true ) ) );
-			$kept      = array_filter( $dismissed, static fn( $pointer ) => ! str_starts_with( $pointer, 'hoptrail_tour_' ) );
+			$kept      = array_filter( $dismissed, static fn( $pointer ) => ! str_starts_with( $pointer, 'onehop_redirect_checker_tour_' ) );
 			if ( count( $kept ) !== count( $dismissed ) ) {
 				update_user_meta( (int) $user_id, 'dismissed_wp_pointers', implode( ',', $kept ) );
 			}
@@ -313,7 +313,7 @@ final class Installer extends Singleton {
 		delete_option( Presence::STATE );
 		delete_option( Flush_Requests::OPTION );
 		// Manifest of the development seed script (bin/seed-dummy-data.php), if it ever ran here.
-		delete_option( 'hoptrail_seed' );
+		delete_option( 'onehop_redirect_checker_seed' );
 		delete_transient( Presence::PRESENCE );
 		// Per-user live-check locks.
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
@@ -334,7 +334,7 @@ final class Installer extends Singleton {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
 
-		if ( ! is_plugin_active_for_network( plugin_basename( HOPTRAIL_FILE ) ) ) {
+		if ( ! is_plugin_active_for_network( plugin_basename( ONEHOP_REDIRECT_CHECKER_FILE ) ) ) {
 			return;
 		}
 

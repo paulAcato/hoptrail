@@ -230,7 +230,7 @@ export interface BootData {
 
 declare global {
 	interface Window {
-		hoptrail?: BootData;
+		onehopRedirectChecker?: BootData;
 	}
 }
 
