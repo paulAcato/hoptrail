@@ -101,7 +101,7 @@ Each site has its own dashboard, history and schedule. Network administrators ge
 
 = Source code =
 
-The dashboard is built with React and TypeScript. Its sources and build configuration are included in the plugin (`assets/`, `package.json`, `package-lock.json`, `vite.config.ts`, `tsconfig.json`), and the code is on GitHub: https://github.com/paulAcato/hoptrail
+The dashboard is built with React and TypeScript. Its sources and build configuration are included in the plugin (`assets/`, `package.json`, `package-lock.json`, `vite.config.ts`, `tsconfig.json`), and the code is on GitHub: https://github.com/paulAcato/onehop-redirect-checker
 
 To rebuild `dist/` from the plugin folder with Node 24 or newer: `npm ci`, then `npm run build`. The built file is not minified, so it stays readable.
 

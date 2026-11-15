@@ -21,7 +21,7 @@ msgstr ""
 
 #. Plugin URI of the plugin
 #: onehop-redirect-checker.php
-msgid "https://github.com/paulAcato/hoptrail"
+msgid "https://github.com/paulAcato/onehop-redirect-checker"
 msgstr ""
 
 #. Description of the plugin
