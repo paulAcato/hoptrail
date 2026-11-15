@@ -74,15 +74,21 @@ jobs:
     name: Run Plugin Check
     runs-on: ubuntu-latest
     steps:
+      # Plugin Check takes the slug from the folder name; the repository name differs from it.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: onehop-redirect-checker
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version-file: .nvmrc
+          node-version-file: onehop-redirect-checker/.nvmrc
           cache: npm
+          cache-dependency-path: onehop-redirect-checker/package-lock.json
       - run: npm ci --prefer-offline --no-audit --fund=false
+        working-directory: onehop-redirect-checker
       - run: npm run build
+        working-directory: onehop-redirect-checker
       - uses: wordpress/plugin-check-action@10857da14b6c2246d15402b3e69f777edcf8c12e # v1.1.9
         with:
-          build-dir: "./"
+          build-dir: onehop-redirect-checker
           exclude-directories: ".github,.idea,.phpstan,.prd,.wordpress-org,bin,node_modules,tests,vendor"
           exclude-files: ".distignore,.editorconfig,.gitattributes,.gitignore,.nvmrc,.stylelintrc.json,composer.json,composer.lock,phpcs.xml.dist,phpstan.neon"
