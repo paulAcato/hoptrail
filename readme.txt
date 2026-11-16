@@ -4,7 +4,7 @@ Tags: redirects, redirect loop, redirect chain, 301, seo
 Requires at least: 6.9
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -150,6 +150,12 @@ Rules are read in batches and analysed within a time budget. If a scan reaches t
 6. Leftover rules of an inactive plugin: review them, migrate them into an active plugin, or delete them.
 
 == Changelog ==
+
+= 1.1.0 =
+* New: a Dashboard widget with the health score, the last scan date and a tile per issue type, each with its change since the last scan and a trend line. A tile opens that type in the issue list.
+* The widget shows for administrators and for roles your SEO or redirect plugin lets manage its settings or redirects (Yoast SEO, Rank Math, SEOPress, Redirection, Safe Redirect Manager, The SEO Framework). Add more with the `onehop_redirect_checker_widget_capabilities` filter.
+* Fix: the dashboard no longer scrolls sideways on phones.
+* Fix: on phones the walkthrough fits the screen, and the pointer to it sits at the bottom of the screen.
 
 = 1.0.0 =
 * First release: reads redirects from ten SEO and redirect plugins and finds loops, chains, conflicts, duplicates, self-redirects, redundant and hidden-content rules, broken targets and invalid patterns.
