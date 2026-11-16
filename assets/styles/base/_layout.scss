@@ -7,6 +7,9 @@
 .rdi-app {
 	display: grid;
 	gap: $gap;
+	// One column that may shrink below its content's widest part: an auto column grows to fit
+	// it, which made the whole dashboard wider than a phone screen.
+	grid-template-columns: minmax(0, 1fr);
 	max-inline-size: 1440px;
 	margin-block-end: 2.25lh;
 	color: $ink;

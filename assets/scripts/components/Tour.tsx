@@ -21,6 +21,8 @@ export const Tour = ({ steps, onEnd }: Props) => {
 	const primary = useRef<HTMLButtonElement>(null);
 	const step = steps[index];
 	const last = index + 1 === steps.length;
+	// On a phone there is no room beside a target: always below it (or above, when it flips).
+	const narrow = window.matchMedia('(max-width: 782px)').matches;
 
 	const end = () => {
 		onEnd();
@@ -59,13 +61,24 @@ export const Tour = ({ steps, onEnd }: Props) => {
 		return null;
 	}
 
+	// On a phone: a full-width strip at the target's height, so the popover keeps a 16px gutter on
+	// both sides (Popover's own shift leaves 1px). Read on every update, so it follows scrolling.
+	const strip = {
+		ownerDocument: anchor.ownerDocument,
+		getBoundingClientRect: () => {
+			const box = anchor.getBoundingClientRect();
+			return new DOMRect(16, box.top, document.documentElement.clientWidth - 32, box.height);
+		},
+	};
+
 	return (
 		<Popover
 			key={index}
-			anchor={anchor}
-			placement={step.placement ?? 'bottom-start'}
+			anchor={narrow ? strip : anchor}
+			placement={narrow ? 'bottom' : (step.placement ?? 'bottom-start')}
 			offset={12}
-			noArrow={false}
+			noArrow={narrow}
+			shift
 			className="rdi-tour"
 			focusOnMount={false}
 			onClose={end}
