@@ -22,12 +22,18 @@ final class Scheduler extends Singleton {
 	const HOOK = 'onehop_redirect_checker_scheduled_scan';
 
 	/**
+	 * One-off scan right after activation, so the dashboard and widget have data from the start.
+	 */
+	const ACTIVATION_HOOK = 'onehop_redirect_checker_activation_scan';
+
+	/**
 	 * Register hooks.
 	 *
 	 * @return void
 	 */
 	protected function init(): void {
 		add_action( self::HOOK, [ self::class, 'run' ] );
+		add_action( self::ACTIVATION_HOOK, [ self::class, 'run_activation_scan' ] );
 		add_action( 'init', [ self::class, 'ensure' ] );
 		add_action( 'add_option_' . Settings::OPTION, [ self::class, 'reschedule' ] );
 		add_action( 'update_option_' . Settings::OPTION, [ self::class, 'reschedule' ] );
@@ -80,6 +86,32 @@ final class Scheduler extends Singleton {
 			unset( $error );
 		} finally {
 			self::reschedule();
+		}
+	}
+
+	/**
+	 * Queue the activation scan on the current site. In the background (WP-Cron, on the next
+	 * request) rather than in the activation request itself, which a large site could time out.
+	 *
+	 * @return void
+	 */
+	public static function queue_activation_scan(): void {
+		if ( ! wp_next_scheduled( self::ACTIVATION_HOOK ) ) {
+			wp_schedule_single_event( time(), self::ACTIVATION_HOOK );
+		}
+	}
+
+	/**
+	 * Cron callback for the activation scan.
+	 *
+	 * @return void
+	 */
+	public static function run_activation_scan(): void {
+		try {
+			Scanner::run( 'activation' );
+		} catch ( \RuntimeException $error ) {
+			// Another scan is running (its result serves just as well), or the failure is on the scan row.
+			unset( $error );
 		}
 	}
 
