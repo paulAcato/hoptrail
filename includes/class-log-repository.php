@@ -179,6 +179,23 @@ final class Log_Repository {
 	}
 
 	/**
+	 * The latest finished (done or partial) scans, newest first.
+	 *
+	 * @param int $limit Max scans.
+	 *
+	 * @return array[]
+	 */
+	public static function latest_scans( int $limit ): array {
+		global $wpdb;
+
+		$table = Installer::scans_table();
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Own table.
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %i WHERE status IN ('done', 'partial') ORDER BY id DESC LIMIT %d", $table, $limit ), ARRAY_A );
+
+		return array_map( [ self::class, 'format_scan' ], (array) $rows );
+	}
+
+	/**
 	 * One scan.
 	 *
 	 * @param int $scan_id Scan ID.

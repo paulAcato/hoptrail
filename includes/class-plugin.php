@@ -8,6 +8,7 @@
 namespace Onehop\RedirectChecker\Includes;
 
 use Onehop\RedirectChecker\Admin\Admin_Page;
+use Onehop\RedirectChecker\Admin\Dashboard_Widget;
 use Onehop\RedirectChecker\Admin\Tour;
 
 defined( 'ABSPATH' ) || exit;
@@ -39,6 +40,7 @@ final class Plugin extends Singleton {
 
 		if ( is_admin() ) {
 			Admin_Page::instance();
+			Dashboard_Widget::instance();
 		}
 
 		add_action( 'rest_api_init', [ Rest_Controller::instance(), 'register_routes' ] );
