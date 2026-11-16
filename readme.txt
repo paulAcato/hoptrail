@@ -155,6 +155,7 @@ Rules are read in batches and analysed within a time budget. If a scan reaches t
 * New: a Dashboard widget with the health score, the last scan date and a tile per issue type, each with its change since the last scan and a trend line. A tile opens that type in the issue list.
 * The widget shows for administrators and for roles your SEO or redirect plugin lets manage its settings or redirects (Yoast SEO, Rank Math, SEOPress, Redirection, Safe Redirect Manager, The SEO Framework). Add more with the `onehop_redirect_checker_widget_capabilities` filter.
 * New: activating the plugin runs a first scan in the background, so the dashboard and widget have results straight away.
+* New: a month after you install the plugin (or update to 1.1.0), administrators are asked once, on the Dashboard and the plugin's screen, whether they would rate it on WordPress.org. "Maybe later" asks again a month later; "Don't ask again" means never.
 * Fix: the dashboard no longer scrolls sideways on phones.
 * Fix: on phones the walkthrough fits the screen, and the pointer to it sits at the bottom of the screen.
 

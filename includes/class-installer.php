@@ -7,6 +7,7 @@
 
 namespace Onehop\RedirectChecker\Includes;
 
+use Onehop\RedirectChecker\Admin\Rating_Notice;
 use Onehop\RedirectChecker\Admin\Tour;
 
 defined( 'ABSPATH' ) || exit;
@@ -88,6 +89,9 @@ final class Installer extends Singleton {
 	 * @return void
 	 */
 	public static function activate( $network_wide = false ): void {
+		// Network-wide, so once: the rating notice waits a month from here.
+		Rating_Notice::remember_install();
+
 		if ( is_multisite() && $network_wide ) {
 			foreach ( get_sites(
 				[
