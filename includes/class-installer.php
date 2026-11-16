@@ -7,6 +7,7 @@
 
 namespace Onehop\RedirectChecker\Includes;
 
+use Onehop\RedirectChecker\Admin\Rating_Notice;
 use Onehop\RedirectChecker\Admin\Tour;
 
 defined( 'ABSPATH' ) || exit;
@@ -88,6 +89,9 @@ final class Installer extends Singleton {
 	 * @return void
 	 */
 	public static function activate( $network_wide = false ): void {
+		// Network-wide, so once: the rating notice waits a month from here.
+		Rating_Notice::remember_install();
+
 		if ( is_multisite() && $network_wide ) {
 			foreach ( get_sites(
 				[
@@ -97,12 +101,14 @@ final class Installer extends Singleton {
 			) as $site_id ) {
 				switch_to_blog( (int) $site_id );
 				self::install();
+				Scheduler::queue_activation_scan();
 				restore_current_blog();
 			}
 			return;
 		}
 
 		self::install();
+		Scheduler::queue_activation_scan();
 	}
 
 	/**
@@ -138,6 +144,7 @@ final class Installer extends Singleton {
 	private static function deactivate_site(): void {
 		wp_clear_scheduled_hook( Retention::HOOK );
 		wp_clear_scheduled_hook( Scheduler::HOOK );
+		wp_clear_scheduled_hook( Scheduler::ACTIVATION_HOOK );
 		Lock::release( Scanner::LOCK_OPTION );
 		Lock::release( Retention::LOCK_OPTION );
 	}
@@ -320,6 +327,7 @@ final class Installer extends Singleton {
 		$wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE option_name LIKE %s', $wpdb->options, $wpdb->esc_like( Live_Checker::LOCK_PREFIX ) . '%' ) );
 		wp_clear_scheduled_hook( Retention::HOOK );
 		wp_clear_scheduled_hook( Scheduler::HOOK );
+		wp_clear_scheduled_hook( Scheduler::ACTIVATION_HOOK );
 	}
 
 	/**

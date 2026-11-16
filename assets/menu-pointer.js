@@ -52,16 +52,31 @@
 	box.append( body );
 
 	// CSS anchor positioning ties the pointer to the Tools item (assets/menu-pointer.css). Without
-	// it, a fixed pointer is moved along on every scroll and resize.
-	var anchored = window.CSS && CSS.supports && CSS.supports( 'anchor-name: --rdi' );
-	if ( anchored ) {
-		target.style.setProperty( 'anchor-name', '--rdi-menu-tools' );
-		box.classList.add( 'is-anchored' );
-	}
+	// it, a fixed pointer is moved along on every scroll and resize. On a phone the admin menu is
+	// hidden, so the pointer is docked at the bottom of the screen instead.
+	var canAnchor = window.CSS && CSS.supports && CSS.supports( 'anchor-name: --rdi' );
+	var mobile = window.matchMedia( '(max-width: 782px)' );
+	var anchored = false;
+
+	var layout = function () {
+		anchored = canAnchor && ! mobile.matches;
+		box.classList.toggle( 'is-anchored', anchored );
+		box.classList.toggle( 'is-docked', mobile.matches );
+		if ( anchored ) {
+			target.style.setProperty( 'anchor-name', '--rdi-menu-tools' );
+		} else {
+			target.style.removeProperty( 'anchor-name' );
+		}
+		if ( anchored || mobile.matches ) {
+			box.style.top = '';
+			box.style.left = '';
+			box.style.right = '';
+		}
+	};
 
 	var frame = 0;
 	var place = function () {
-		if ( anchored || frame ) {
+		if ( anchored || mobile.matches || frame ) {
 			return;
 		}
 		frame = window.requestAnimationFrame( function () {
@@ -87,11 +102,17 @@
 		target.style.removeProperty( 'anchor-name' );
 		window.removeEventListener( 'resize', place );
 		window.removeEventListener( 'scroll', place );
+		mobile.removeEventListener( 'change', relayout );
 		document.removeEventListener( 'keydown', onKey );
 		var form = new FormData();
 		form.append( 'action', 'dismiss-wp-pointer' );
 		form.append( 'pointer', data.name );
 		window.fetch( window.ajaxurl, { method: 'POST', body: form, credentials: 'same-origin' } );
+	};
+
+	var relayout = function () {
+		layout();
+		place();
 	};
 
 	dismiss.addEventListener( 'click', close );
@@ -106,7 +127,9 @@
 			return;
 		}
 		document.body.append( box );
+		layout();
 		place();
+		mobile.addEventListener( 'change', relayout );
 		window.addEventListener( 'resize', place, { passive: true } );
 		window.addEventListener( 'scroll', place, { passive: true } );
 		document.addEventListener( 'keydown', onKey );

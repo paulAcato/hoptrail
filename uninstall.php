@@ -11,6 +11,7 @@ defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
 require_once __DIR__ . '/onehop-redirect-checker.php';
 
+use Onehop\RedirectChecker\Admin\Rating_Notice;
 use Onehop\RedirectChecker\Includes\Installer;
 
 if ( is_multisite() ) {
@@ -28,5 +29,6 @@ if ( is_multisite() ) {
 	Installer::uninstall_site();
 }
 
-// User meta is shared by every site, so once.
+// User meta and network options are shared by every site, so once.
 Installer::uninstall_users();
+Rating_Notice::uninstall();

@@ -44,7 +44,7 @@ final class Log_Repository {
 			Installer::scans_table(),
 			[
 				'status'       => 'running',
-				'trigger_type' => in_array( $trigger, [ 'manual', 'cli', 'cron', 'ability' ], true ) ? $trigger : 'manual',
+				'trigger_type' => in_array( $trigger, [ 'manual', 'cli', 'cron', 'ability', 'activation' ], true ) ? $trigger : 'manual',
 				'user_id'      => (int) $user->ID,
 				'user_login'   => (string) $user->user_login,
 				'started_at'   => current_time( 'mysql', true ),
@@ -176,6 +176,23 @@ final class Log_Repository {
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM %i WHERE status IN ('done', 'partial') ORDER BY id DESC LIMIT 1", $table ), ARRAY_A );
 
 		return $row ? self::format_scan( $row ) : null;
+	}
+
+	/**
+	 * The latest finished (done or partial) scans, newest first.
+	 *
+	 * @param int $limit Max scans.
+	 *
+	 * @return array[]
+	 */
+	public static function latest_scans( int $limit ): array {
+		global $wpdb;
+
+		$table = Installer::scans_table();
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Own table.
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %i WHERE status IN ('done', 'partial') ORDER BY id DESC LIMIT %d", $table, $limit ), ARRAY_A );
+
+		return array_map( [ self::class, 'format_scan' ], (array) $rows );
 	}
 
 	/**
@@ -568,7 +585,8 @@ final class Log_Repository {
 		return match ( $trigger ) {
 			'cli'   => 'WP-CLI',
 			'cron'    => _x( 'Scheduled', 'who ran the scan: a scheduled scan', 'onehop-redirect-checker' ),
-			'ability' => _x( 'Ability', 'who ran the scan: an AI client through an ability', 'onehop-redirect-checker' ),
+			'ability'    => _x( 'Ability', 'who ran the scan: an AI client through an ability', 'onehop-redirect-checker' ),
+			'activation' => _x( 'On activation', 'who ran the scan: the scan right after the plugin was activated', 'onehop-redirect-checker' ),
 			default => $user_login,
 		};
 	}

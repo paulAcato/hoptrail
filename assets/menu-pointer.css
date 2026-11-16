@@ -32,6 +32,19 @@
 	}
 }
 
+/* Phones: the admin menu is hidden, so dock the pointer at the bottom of the screen, without the arrow. */
+@media (width <= 782px) {
+	.rdi-menu-pointer.is-docked {
+		inset-block: auto 16px;
+		inset-inline: 16px;
+		inline-size: auto;
+	}
+
+	.rdi-menu-pointer.is-docked::after {
+		display: none;
+	}
+}
+
 /* The banner's faint arrow pattern. */
 .rdi-menu-pointer::before {
 	position: absolute;

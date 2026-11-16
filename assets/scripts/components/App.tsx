@@ -30,6 +30,16 @@ const SUMMARY = route('/summary');
 const groupOf = (type: (typeof TYPE_ORDER)[number]): Group =>
 	(Object.keys(GROUPS) as Exclude<Group, 'all'>[]).find((group) => GROUPS[group].includes(type)) ?? 'all';
 
+/** The section a link into the dashboard asks for: 'settings', an issue group, or null. */
+const deepLink = (): 'settings' | Exclude<Group, 'all'> | null => {
+	const hash = window.location.hash.slice(1);
+	if ('settings' === hash) {
+		return 'settings';
+	}
+	const group = hash.startsWith('issues-') ? hash.slice(7) : '';
+	return group in GROUPS ? (group as Exclude<Group, 'all'>) : null;
+};
+
 export const App = () => {
 	const { data: summary, error, loading } = useResource<SummaryData>(SUMMARY);
 	const scan = useMutation<Scan>();
@@ -57,7 +67,7 @@ export const App = () => {
 	// The walkthrough: on the first visit, and after an update that added steps (only those).
 	useEffect(() => {
 		const tour = window.onehopRedirectChecker?.tour;
-		if (!loaded || !tour?.pending || '#settings' === window.location.hash) {
+		if (!loaded || !tour?.pending || deepLink()) {
 			return undefined;
 		}
 		// Let the issue list and history render first, so their steps have something to point at.
@@ -72,12 +82,18 @@ export const App = () => {
 		return () => window.clearTimeout(timer);
 	}, [loaded]);
 
-	// Deep link (plugins screen → #settings): the section only exists once the data has loaded.
+	// Deep links: #settings (plugins screen) and #issues-loops etc. (Dashboard widget tiles, which
+	// open that group's tab). The sections only exist once the data has loaded.
 	useEffect(() => {
-		if (!loaded || '#settings' !== window.location.hash) {
+		const link = loaded ? deepLink() : null;
+		if (!link) {
 			return;
 		}
-		const target = document.getElementById('settings');
+		if ('settings' !== link) {
+			setGroup(link);
+		}
+		const target = document.getElementById('settings' === link ? 'settings' : 'rdi-explorer');
+		const focus = 'settings' === link ? target : document.getElementById('rdi-explorer-title');
 		const app = target?.closest('.rdi-app');
 		if (!target || !app) {
 			return;
@@ -95,7 +111,7 @@ export const App = () => {
 		const timer = window.setTimeout(stop, 3000);
 
 		align();
-		target.focus({ preventScroll: true });
+		focus?.focus({ preventScroll: true });
 		observer.observe(app);
 		['wheel', 'touchstart', 'keydown'].forEach((type) => window.addEventListener(type, stop, { passive: true }));
 

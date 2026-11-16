@@ -1,0 +1,395 @@
+/*
+ * Onehop Redirect Checker: the Dashboard widget (admin/class-dashboard-widget.php).
+ * Plain CSS: it loads on the Dashboard only, without the app's stylesheet. The colours are those of
+ * our screen's light and dark schemes (assets/styles/base/_theme.scss); the inside of the widget
+ * follows the system's colour scheme, as our screen does.
+ */
+
+#onehop-redirect-checker .inside {
+	--rdi-w-surface: hsl(0deg 0% 100%);
+	--rdi-w-ink: hsl(0deg 0% 12%);
+	--rdi-w-ink-secondary: hsl(210deg 8% 34%);
+	--rdi-w-hairline: hsl(216deg 9% 90%);
+	--rdi-w-border-strong: hsl(214deg 9% 55%);
+	--rdi-w-accent: hsl(229deg 80% 52%);
+	--rdi-w-accent-hover: hsl(229deg 80% 44%);
+	--rdi-w-on-accent: hsl(0deg 0% 100%);
+	--rdi-w-spark: hsl(217deg 10% 55%);
+	--rdi-w-good-text: hsl(120deg 100% 19%);
+	--rdi-w-bad-text: hsl(4deg 76% 40%);
+	--rdi-w-low: hsl(219deg 6% 57%);
+	--rdi-w-critical: hsl(0deg 61% 52%);
+	--rdi-w-warning: hsl(41deg 96% 54%);
+	--rdi-w-serious: hsl(17deg 79% 64%);
+	--rdi-w-series: hsl(213deg 68% 50%);
+
+	margin: 0;
+	padding: 12px;
+	background: var(--rdi-w-surface);
+	color: var(--rdi-w-ink);
+	color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+	#onehop-redirect-checker .inside {
+		--rdi-w-surface: hsl(222deg 16% 14%);
+		--rdi-w-ink: hsl(220deg 20% 94%);
+		--rdi-w-ink-secondary: hsl(220deg 12% 80%);
+		--rdi-w-hairline: hsl(220deg 12% 26%);
+		--rdi-w-border-strong: hsl(220deg 10% 46%);
+		--rdi-w-accent: hsl(226deg 90% 74%);
+		--rdi-w-accent-hover: hsl(226deg 90% 82%);
+		--rdi-w-on-accent: hsl(226deg 50% 12%);
+		--rdi-w-spark: hsl(220deg 10% 50%);
+		--rdi-w-good-text: hsl(130deg 55% 62%);
+		--rdi-w-bad-text: hsl(0deg 90% 78%);
+		--rdi-w-critical: hsl(0deg 70% 62%);
+		--rdi-w-warning: hsl(42deg 95% 60%);
+
+		color-scheme: dark;
+	}
+}
+
+@media (prefers-contrast: more) {
+	#onehop-redirect-checker .inside {
+		--rdi-w-ink-secondary: hsl(0deg 0% 18%);
+		--rdi-w-hairline: hsl(0deg 0% 45%);
+		--rdi-w-accent: hsl(229deg 80% 40%);
+		--rdi-w-accent-hover: hsl(229deg 80% 32%);
+		--rdi-w-spark: hsl(0deg 0% 35%);
+	}
+}
+
+@media (prefers-color-scheme: dark) and (prefers-contrast: more) {
+	#onehop-redirect-checker .inside {
+		--rdi-w-ink-secondary: hsl(0deg 0% 90%);
+		--rdi-w-hairline: hsl(0deg 0% 60%);
+		--rdi-w-accent: hsl(226deg 100% 82%);
+		--rdi-w-accent-hover: hsl(226deg 100% 90%);
+		--rdi-w-spark: hsl(0deg 0% 75%);
+	}
+}
+
+/* The score: the dashboard banner's look (navy, faint arrows) and its ring gauge. */
+.rdi-widget {
+	container: rdi-widget / inline-size;
+}
+
+.rdi-widget__head {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px 20px;
+	align-items: center;
+	margin-block: 0 12px;
+	padding: 14px;
+	overflow: hidden;
+	border-radius: 8px;
+	background: linear-gradient(135deg, hsl(225deg 52% 12%), hsl(225deg 52% 28%));
+	color: hsl(0deg 0% 100%);
+	isolation: isolate;
+}
+
+.rdi-widget__head::after {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' fill='none' stroke='white' stroke-opacity='.05' stroke-width='2'%3E%3Cpath d='M12 32h36m-10-10 10 10-10 10'/%3E%3C/svg%3E");
+	content: "";
+}
+
+.rdi-widget__gauge {
+	position: relative;
+	flex: none;
+	inline-size: 96px;
+	block-size: 96px;
+}
+
+.rdi-widget__gauge svg {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+}
+
+.rdi-widget__gauge-track,
+.rdi-widget__gauge-fill {
+	fill: none;
+	stroke-width: 7;
+}
+
+.rdi-widget__gauge-track {
+	stroke: hsl(0deg 0% 100% / 15%);
+}
+
+.rdi-widget__gauge-fill {
+	stroke: hsl(0deg 0% 100% / 40%);
+	stroke-linecap: round;
+}
+
+.rdi-widget__gauge.is-good .rdi-widget__gauge-fill {
+	stroke: hsl(120deg 86% 34%);
+}
+
+.rdi-widget__gauge.is-warning .rdi-widget__gauge-fill {
+	stroke: hsl(41deg 96% 54%);
+}
+
+.rdi-widget__gauge.is-critical .rdi-widget__gauge-fill {
+	stroke: hsl(0deg 61% 52%);
+}
+
+.rdi-widget__gauge-text {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-content: center;
+	text-align: center;
+}
+
+.rdi-widget__value {
+	font-size: 26px;
+	font-weight: 600;
+	line-height: 1;
+	font-variant-numeric: tabular-nums;
+}
+
+.rdi-widget__label {
+	margin-block-start: 4px;
+	color: hsl(0deg 0% 100% / 75%);
+	font-size: 11px;
+	line-height: 1.2;
+}
+
+.rdi-widget__meta {
+	color: hsl(0deg 0% 100% / 80%);
+}
+
+.rdi-widget__meta p {
+	margin: 0;
+}
+
+.rdi-widget__meta p + p {
+	margin-block-start: 6px;
+}
+
+.rdi-widget__meta time {
+	color: hsl(0deg 0% 100%);
+	font-weight: 600;
+}
+
+.rdi-widget__wapuu {
+	align-self: flex-end;
+	margin-block-end: -14px;
+	margin-inline-start: auto;
+}
+
+/* Not enough room next to the score and dates: leave Wapuu out. */
+@container rdi-widget (width < 360px) {
+	.rdi-widget__wapuu {
+		display: none;
+	}
+}
+
+.rdi-widget__ago {
+	display: block;
+}
+
+.rdi-widget__tiles {
+	display: grid;
+	gap: 8px;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr));
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.rdi-widget__tiles li {
+	display: grid;
+	margin: 0;
+}
+
+.rdi-widget__tile {
+	display: grid;
+	gap: 2px 8px;
+	grid-template-columns: 1fr auto;
+	align-items: center;
+	margin: 0;
+	padding-block: 8px;
+	padding-inline: 10px;
+	border: 1px solid var(--rdi-w-hairline);
+	border-block-start: 2px solid var(--rdi-w-low);
+	border-radius: 4px;
+	background: var(--rdi-w-surface);
+	color: var(--rdi-w-ink);
+	text-decoration: none;
+}
+
+a.rdi-widget__tile:hover {
+	border-color: var(--rdi-w-border-strong);
+	color: var(--rdi-w-ink);
+}
+
+a.rdi-widget__tile:focus-visible {
+	outline: 2px solid var(--rdi-w-accent);
+	outline-offset: 2px;
+	box-shadow: none;
+}
+
+a.rdi-widget__tile:hover .rdi-widget__tile-label {
+	text-decoration: underline;
+}
+
+.rdi-widget__tile--loops {
+	border-block-start-color: var(--rdi-w-critical);
+}
+
+.rdi-widget__tile--chains {
+	border-block-start-color: var(--rdi-w-warning);
+}
+
+.rdi-widget__tile--conflicts,
+.rdi-widget__tile--broken {
+	border-block-start-color: var(--rdi-w-serious);
+}
+
+.rdi-widget__tile--unnecessary {
+	border-block-start-color: var(--rdi-w-series);
+}
+
+.rdi-widget__tile-label,
+.rdi-widget__tile .rdi-widget__delta {
+	grid-column: 1 / -1;
+}
+
+.rdi-widget__tile-label {
+	color: var(--rdi-w-ink-secondary);
+}
+
+/* Sparkline: as .rdi-spark on our screen (assets/styles/components/_charts.scss). */
+.rdi-widget__spark {
+	display: block;
+	inline-size: 72px;
+	block-size: 24px;
+}
+
+.rdi-widget__spark svg {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+	overflow: visible;
+}
+
+.rdi-widget__spark-line {
+	fill: none;
+	stroke: var(--rdi-w-spark);
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	vector-effect: non-scaling-stroke;
+}
+
+.rdi-widget__spark-dot {
+	fill: var(--rdi-w-accent);
+	stroke: var(--rdi-w-surface);
+	stroke-width: 2;
+	vector-effect: non-scaling-stroke;
+}
+
+/* Invisible hover targets, one per scan, that show its count and date. */
+.rdi-widget__spark-hit {
+	fill: transparent;
+}
+
+.rdi-widget__tile-value {
+	font-size: 22px;
+	font-weight: 600;
+	line-height: 1.2;
+}
+
+.rdi-widget__delta {
+	color: var(--rdi-w-ink-secondary);
+	font-size: 12px;
+}
+
+.rdi-widget__delta.is-good {
+	color: var(--rdi-w-good-text);
+}
+
+.rdi-widget__delta.is-bad {
+	color: var(--rdi-w-bad-text);
+}
+
+.rdi-widget__empty {
+	margin-block: 0 12px;
+}
+
+.rdi-widget__footer {
+	margin-block: 12px 0;
+	padding-block-start: 12px;
+	border-block-start: 1px solid var(--rdi-w-hairline);
+}
+
+.rdi-widget__footer {
+	display: flex;
+	justify-content: flex-end;
+}
+
+/* The main action: a filled button in the accent colour (WordPress's 40px button size). */
+.rdi-widget__button {
+	display: inline-flex;
+	gap: 8px;
+	align-items: center;
+	min-block-size: 40px;
+	padding-inline: 16px;
+	border-radius: 4px;
+	background: var(--rdi-w-accent);
+	color: var(--rdi-w-on-accent);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.rdi-widget__button:hover,
+.rdi-widget__button:focus {
+	background: var(--rdi-w-accent-hover);
+	color: var(--rdi-w-on-accent);
+}
+
+.rdi-widget__button:focus-visible {
+	outline: 2px solid var(--rdi-w-accent);
+	outline-offset: 2px;
+	box-shadow: none;
+}
+
+/* On navy: the light variants of good and bad. */
+.rdi-widget__head .rdi-widget__delta {
+	color: hsl(0deg 0% 100% / 80%);
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.rdi-widget__head .rdi-widget__delta.is-good {
+	color: hsl(130deg 55% 62%);
+}
+
+.rdi-widget__head .rdi-widget__delta.is-bad {
+	color: hsl(0deg 90% 78%);
+}
+
+@media (forced-colors: active) {
+	.rdi-widget__head,
+	.rdi-widget__tile {
+		border-color: CanvasText;
+	}
+
+	.rdi-widget__spark-line {
+		stroke: CanvasText;
+	}
+
+	.rdi-widget__spark-dot {
+		fill: Highlight;
+	}
+
+	.rdi-widget__button {
+		border: 1px solid LinkText;
+	}
+}

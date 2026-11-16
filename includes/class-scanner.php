@@ -57,7 +57,7 @@ final class Scanner {
 	/**
 	 * Run a scan.
 	 *
-	 * @param string $trigger manual|cli|cron|ability.
+	 * @param string $trigger manual|cli|cron|ability|activation.
 	 *
 	 * @return array Scan (formatted) on success.
 	 *
