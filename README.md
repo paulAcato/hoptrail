@@ -15,7 +15,7 @@ The user-facing description is in [readme.txt](readme.txt), which is also what W
 - **Apply fix**: only for clear-cut cases (shorten a chain, switch off a duplicate/self/redundant/hiding rule), confirmed inline, re-checked before writing, logged.
 - **Leftover redirects**: rules of plugins that are no longer active; review in a modal, migrate into an active plugin, delete single rules or all data (and the plugin's own tables). Patterns go into exact-only plugins (Simple 301, 301 Redirects) as exact rules for known URLs: published content, every rule's source and target, then Redirection's 404 log (`includes/analysis/class-expander.php`). Sources must pass `Url_Normalizer::is_safe_source()` (log URLs with HTML entities are skipped), all expansion shares one time budget, and the real run is bound to the reviewed preview by a plan hash (refused with 409 when it changed).
 - **Regex search**: the issue list searches source, target and every hop with PCRE (the plugins' own engine), with a low backtrack limit and invalid patterns refused (`Log_Repository::search_pattern()`).
-- **Walkthrough**: a pointer on the Tools menu (plain JS, `assets/menu-pointer.js`) and a step-by-step tour on the dashboard (React `Popover`, `components/Tour.tsx`). Each step has a `since` version in `lib/tour.ts`; bump `Admin\Tour::VERSION` when a release adds steps and administrators who saw an older tour get only the new steps. Progress is per user (`onehop_redirect_checker_tour` user meta). No jQuery.
+- **Walkthrough**: a step-by-step tour on the dashboard (React `Popover`, `components/Tour.tsx`) that never starts by itself. A **Start walkthrough** link beside Settings on the Plugins screen (tagged **New** while the user has unseen steps) opens the dashboard with `?onehop-walkthrough=1`; the app strips the argument with `history.replaceState` and runs the unseen steps, or all of them. The link at the foot of the dashboard always runs all of them. Each step has a `since` version in `lib/tour.ts`; bump `Admin\Tour::VERSION` when a release adds steps and administrators who saw an older tour get only the new steps. Progress is per user (`onehop_redirect_checker_tour` user meta). Switched off per site with the `walkthrough` setting (on by default), or in code with the `ONEHOP_REDIRECT_CHECKER_DISABLE_WALKTHROUGH` constant or the `onehop_redirect_checker_walkthrough` filter; then there is no link, no tag, and no `tour` in the boot data.
 - **Dashboard** (Tools → Onehop Redirect Checker): health score, trends, severity chart, issue explorer, scan history with date picker and sorting, an "All clear" view, light/dark and more-contrast colour schemes (WCAG 2.2 AA).
 - **Scheduled scans**: daily, weekly or monthly at chosen hours, in site time. **Retention** by days or by the newest number of scans, with a weekly cleanup.
 - **WP-CLI**: `scan` (with `--fail-on` and `--porcelain` for pipelines) and `purge-logs`.
@@ -37,7 +37,7 @@ npm run lint:css     # stylelint: logical properties only
 composer install
 vendor/bin/phpcs     # WordPress Coding Standards + PHPCompatibility
 vendor/bin/phpstan analyse --memory-limit=1G
-php tests/test-analysis.php   # analysis, regex, security and schedule tests
+php tests/test-analysis.php   # analysis, regex, security, schedule and walkthrough-switch tests
 ```
 
 Dummy data for all ten supported plugins (local or development environments only), with exact, wildcard and regex rules and loops and chains across plugins. Inactive plugins are seeded in their own storage format, so they show up as leftovers:

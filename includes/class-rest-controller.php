@@ -325,6 +325,7 @@ final class Rest_Controller extends Singleton {
 								],
 							],
 						],
+						'walkthrough'     => [ 'type' => 'boolean' ],
 					],
 				],
 			]
@@ -704,6 +705,9 @@ final class Rest_Controller extends Singleton {
 		}
 		if ( is_array( $schedule ) ) {
 			$values['schedule'] = $schedule;
+		}
+		if ( null !== $request['walkthrough'] ) {
+			$values['walkthrough'] = (bool) $request['walkthrough'];
 		}
 
 		// Saving triggers Scheduler::reschedule() through the update_option hook.

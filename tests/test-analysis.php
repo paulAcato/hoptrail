@@ -26,13 +26,13 @@ function wp_parse_url( $url, $component = -1 ) { return parse_url( $url, $compon
 function home_url( $path = '' ) { return 'https://example.test' . $path; }
 function site_url( $path = '' ) { return 'https://example.test' . $path; }
 function wp_timezone() { return new DateTimeZone( 'Europe/Amsterdam' ); }
-function apply_filters( $hook, $value ) { return $value; }
+function apply_filters( $hook, $value, ...$args ) { return isset( $GLOBALS['t_filters'][ $hook ] ) ? $GLOBALS['t_filters'][ $hook ]( $value, ...$args ) : $value; }
 function url_to_postid( $url ) { return 0; }
 function get_terms( $args ) { return []; }
 function wp_strip_all_tags( $text ) { return strip_tags( $text ); }
 function absint( $value ) { return abs( (int) $value ); }
 function is_serialized( $data ) { return is_string( $data ) && preg_match( '/^[aOs]:\d/', $data ); }
-function get_option( $name, $default = false ) { return $default; }
+function get_option( $name, $default = false ) { return $GLOBALS['t_options'][ $name ] ?? $default; }
 // No posts with an old slug in these tests.
 $GLOBALS['wpdb'] = new class() {
 	public $postmeta = 'wp_postmeta';
@@ -60,12 +60,14 @@ spl_autoload_register(
 	}
 );
 
+use Onehop\RedirectChecker\Admin\Tour;
 use Onehop\RedirectChecker\Includes\Analysis\Analyzer;
 use Onehop\RedirectChecker\Includes\Analysis\Expander;
 use Onehop\RedirectChecker\Includes\Log_Repository;
 use Onehop\RedirectChecker\Includes\Analysis\Matcher;
 use Onehop\RedirectChecker\Includes\Rule;
 use Onehop\RedirectChecker\Includes\Scheduler;
+use Onehop\RedirectChecker\Includes\Settings;
 use Onehop\RedirectChecker\Includes\Url_Normalizer;
 
 // --- Tiny assertion helper ---------------------------------------------------------------------
@@ -235,6 +237,18 @@ try {
 	$invalid = true;
 }
 check( 'search regex: invalid pattern is refused', $invalid, true );
+
+// --- Walkthrough: on by default, switched off by the site, a filter or the constant ---------------
+check( 'walkthrough: offered by default', Tour::is_enabled(), true );
+$GLOBALS['t_options'][ Settings::OPTION ] = [ 'walkthrough' => false ];
+check( 'walkthrough: not offered once the site switches it off', Tour::is_enabled(), false );
+check( 'walkthrough: nothing passed to the dashboard then', Tour::boot(), null );
+$GLOBALS['t_options'] = [];
+$GLOBALS['t_filters']['onehop_redirect_checker_walkthrough'] = static fn() => false;
+check( 'walkthrough: the filter switches it off', Tour::is_enabled(), false );
+$GLOBALS['t_filters'] = [];
+define( 'ONEHOP_REDIRECT_CHECKER_DISABLE_WALKTHROUGH', true );
+check( 'walkthrough: the constant switches it off', Tour::is_enabled(), false );
 
 echo $failures ? "\n{$failures} failed\n" : "\nAll passed\n";
 exit( $failures ? 1 : 0 );

@@ -51,6 +51,7 @@ export const SettingsPanel = ({ settings, retention, nextScan }: Props) => {
 	const [mode, setMode] = useState<Settings['retention_mode']>(settings.retention_mode);
 	const [count, setCount] = useState(String(settings.retention_count));
 	const [schedule, setSchedule] = useState<Schedule>(settings.schedule);
+	const [walkthrough, setWalkthrough] = useState(settings.walkthrough);
 	const [confirming, setConfirming] = useState(false);
 	const [feedback, setFeedback] = useState<Feedback>(null);
 	const save = useMutation<{ settings: Settings; retention: Retention; next_scan: string | null }>();
@@ -64,13 +65,14 @@ export const SettingsPanel = ({ settings, retention, nextScan }: Props) => {
 		if (JSON.stringify(before) === JSON.stringify(settings)) {
 			return;
 		}
-		const untouched = Number(days) === before.retention_days && mode === before.retention_mode && Number(count) === before.retention_count && same(schedule, before.schedule);
+		const untouched = Number(days) === before.retention_days && mode === before.retention_mode && Number(count) === before.retention_count && same(schedule, before.schedule) && walkthrough === before.walkthrough;
 		shown.current = settings;
 		if (untouched) {
 			setDays(String(settings.retention_days));
 			setMode(settings.retention_mode);
 			setCount(String(settings.retention_count));
 			setSchedule(settings.schedule);
+			setWalkthrough(settings.walkthrough);
 			setOutdated(false);
 		} else {
 			setOutdated(true);
@@ -95,7 +97,7 @@ export const SettingsPanel = ({ settings, retention, nextScan }: Props) => {
 		setConfirming(false);
 	};
 
-	const dirty = Number(days) !== settings.retention_days || mode !== settings.retention_mode || Number(count) !== settings.retention_count || !same(schedule, settings.schedule);
+	const dirty = Number(days) !== settings.retention_days || mode !== settings.retention_mode || Number(count) !== settings.retention_count || !same(schedule, settings.schedule) || walkthrough !== settings.walkthrough;
 	const incomplete = schedule.enabled && (!schedule.hours.length || ('weekly' === schedule.frequency && !schedule.days.length));
 
 	const scheduleSummary = useMemo(() => {
@@ -125,7 +127,7 @@ export const SettingsPanel = ({ settings, retention, nextScan }: Props) => {
 
 	const onSave = async () => {
 		try {
-			await save.run(route('/settings'), 'POST', { retention_mode: mode, retention_days: Number(days), retention_count: Number(count), schedule });
+			await save.run(route('/settings'), 'POST', { retention_mode: mode, retention_days: Number(days), retention_count: Number(count), schedule, walkthrough });
 			invalidate('/summary');
 			report('success', __('Settings saved.', 'onehop-redirect-checker'));
 		} catch (error) {
@@ -293,6 +295,25 @@ export const SettingsPanel = ({ settings, retention, nextScan }: Props) => {
 						<> {sprintf(/* translators: %s: date and time. */ __('Next cleanup: %s.', 'onehop-redirect-checker'), dateTimeWithLocal(retention.next_cleanup))}</>
 					)}
 				</p>
+			</div>
+
+			<div className="rdi-settings__section">
+				<div className="rdi-settings__row">
+					<div>
+						<h3 className="rdi-settings__title">{_x('Walkthrough', 'settings heading', 'onehop-redirect-checker')}</h3>
+						<p id="rdi-walkthrough-hint" className="rdi-settings__hint">
+							{__('Adds a Start walkthrough link to the plugin on the Plugins screen, and at the foot of this screen. It never starts by itself.', 'onehop-redirect-checker')}
+						</p>
+					</div>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						className="rdi-settings__toggle"
+						label={<span className="screen-reader-text">{__('Offer the walkthrough of this screen', 'onehop-redirect-checker')}</span>}
+						aria-describedby="rdi-walkthrough-hint"
+						checked={walkthrough}
+						onChange={(enabled: boolean) => setWalkthrough(enabled)}
+					/>
+				</div>
 			</div>
 
 			{outdated && (

@@ -62,7 +62,9 @@ final class Settings {
 	/**
 	 * All settings with defaults.
 	 *
-	 * @return array{retention_mode:string, retention_days:int, retention_count:int, schedule:array{enabled:bool, frequency:string, days:int[], month_day:int, hours:int[]}}
+	 * The walkthrough is offered unless the site switches it off (on by default).
+	 *
+	 * @return array{retention_mode:string, retention_days:int, retention_count:int, schedule:array{enabled:bool, frequency:string, days:int[], month_day:int, hours:int[]}, walkthrough:bool}
 	 */
 	public static function all(): array {
 		$stored = get_option( self::OPTION, [] );
@@ -73,6 +75,7 @@ final class Settings {
 			'retention_days'  => self::clamp_retention( $stored['retention_days'] ?? self::DEFAULT_RETENTION_DAYS ),
 			'retention_count' => self::clamp_count( $stored['retention_count'] ?? self::DEFAULT_RETENTION_COUNT ),
 			'schedule'        => self::sanitize_schedule( $stored['schedule'] ?? self::DEFAULT_SCHEDULE ),
+			'walkthrough'     => (bool) ( $stored['walkthrough'] ?? true ),
 		];
 	}
 
@@ -148,6 +151,10 @@ final class Settings {
 
 		if ( isset( $values['schedule'] ) ) {
 			$settings['schedule'] = self::sanitize_schedule( $values['schedule'] );
+		}
+
+		if ( isset( $values['walkthrough'] ) ) {
+			$settings['walkthrough'] = (bool) $values['walkthrough'];
 		}
 
 		update_option( self::OPTION, $settings, false );

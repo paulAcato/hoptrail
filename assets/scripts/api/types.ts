@@ -63,6 +63,8 @@ export interface Settings {
 	retention_count: number;
 	retention_days: number;
 	schedule: Schedule;
+	/** Whether the walkthrough is offered on this site. */
+	walkthrough: boolean;
 }
 
 export interface Retention {
@@ -224,7 +226,8 @@ export interface BootData {
 	wapuu: string;
 	stateVersion: number;
 	userId: number;
-	tour: { version: string; seen: string; pending: boolean };
+	/** Only on the site dashboard, and only while the walkthrough is switched on. */
+	tour?: { version: string; seen: string; pending: boolean; start: string };
 	canDropTables: boolean;
 }
 

@@ -273,7 +273,8 @@ final class Installer extends Singleton {
 	/**
 	 * Remove what the plugin stores per user, once for the whole install (user meta is shared by
 	 * every site of a network): the walkthrough progress, and the plugin's entries in each user's
-	 * list of dismissed admin pointers. Other plugins' entries stay.
+	 * list of dismissed admin pointers, left by the menu pointer of versions before 1.2.0. Other
+	 * plugins' entries stay.
 	 *
 	 * @return void
 	 */
