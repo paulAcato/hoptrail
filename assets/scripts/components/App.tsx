@@ -9,7 +9,7 @@ import { duration } from '../lib/format';
 import { TYPE_ORDER, typeMeta, GROUPS, type Group } from '../lib/meta';
 import { MultiSourceContext } from '../lib/context';
 import { usePresence } from '../api/presence';
-import { markSeen, pendingSteps, steps, type TourStep } from '../lib/tour';
+import { markSeen, pendingSteps, presentSteps, takeStartRequest, type TourStep } from '../lib/tour';
 import { Tour } from './Tour';
 import { FlushApproval } from './FlushApproval';
 import { AllClear } from './AllClear';
@@ -64,19 +64,19 @@ export const App = () => {
 		markSeen();
 	};
 
-	// The walkthrough: on the first visit, and after an update that added steps (only those).
+	// The walkthrough never starts by itself. The "Start walkthrough" link on the Plugins screen
+	// opens this screen with a query argument: the steps this user has not seen, or all of them.
 	useEffect(() => {
 		const tour = window.onehopRedirectChecker?.tour;
-		if (!loaded || !tour?.pending || deepLink()) {
+		if (!loaded || !tour || !takeStartRequest(tour.start)) {
 			return undefined;
 		}
 		// Let the issue list and history render first, so their steps have something to point at.
 		const timer = window.setTimeout(() => {
-			const pending = pendingSteps(tour.seen, tour.version);
-			if (pending.length) {
-				setTourSteps(pending);
-			} else {
-				markSeen();
+			const pending = tour.pending ? pendingSteps(tour.seen, tour.version) : [];
+			const run = pending.length ? pending : presentSteps();
+			if (run.length) {
+				setTourSteps(run);
 			}
 		}, 1200);
 		return () => window.clearTimeout(timer);
@@ -163,6 +163,9 @@ export const App = () => {
 	const multiSource = summary.sources.filter((source) => source.available && source.rules > 0).length > 1;
 	const counts = latest?.totals.types ?? {};
 	const running = scan.busy || summary.running;
+	// Offered while the site has it switched on: none of it when the dashboard got no walkthrough
+	// data, and the replay link goes as soon as the setting is switched off here.
+	const offerTour = Boolean(window.onehopRedirectChecker?.tour) && false !== summary.settings.walkthrough;
 
 	return (
 		<MultiSourceContext.Provider value={multiSource}>
@@ -251,13 +254,15 @@ export const App = () => {
 				<SettingsPanel settings={summary.settings} retention={summary.retention} nextScan={summary.next_scan} />
 			</div>
 
-			<p className="rdi-footer">
-				<Button variant="link" onClick={() => setTourSteps(steps().filter((step) => null !== document.querySelector(step.target)))}>
-					{__('Show the walkthrough', 'onehop-redirect-checker')}
-				</Button>
-			</p>
+			{offerTour && (
+				<p className="rdi-footer">
+					<Button variant="link" onClick={() => setTourSteps(presentSteps())}>
+						{__('Show the walkthrough', 'onehop-redirect-checker')}
+					</Button>
+				</p>
+			)}
 
-			{tourSteps && <Tour steps={tourSteps} onEnd={endTour} />}
+			{offerTour && tourSteps && <Tour steps={tourSteps} onEnd={endTour} />}
 		</div>
 		</MultiSourceContext.Provider>
 	);

@@ -4,7 +4,7 @@ Tags: redirects, redirect loop, redirect chain, 301, seo
 Requires at least: 6.9
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,7 +58,7 @@ Under Tools → Onehop Redirect Checker:
 * **Scan history** with a date picker (limited to the days that have scans) and sortable columns.
 * **Scheduled scans**: daily, weekly (on the weekdays you pick) or monthly (on a day of the month or the last day), at the hours you pick, in the site's timezone.
 * **Retention**: keep scans for a number of days, or keep only the newest number of scans. Old scans are removed every Sunday around 03:00 (and right after every scan when you keep a number of scans).
-* **Quick walkthrough**: a short tour of the dashboard on your first visit, started from a pointer on the Tools menu. After an update that adds features, each administrator gets a walkthrough of only what is new. Show it again any time from the bottom of the dashboard.
+* **Quick walkthrough**: a short tour of the dashboard. It never starts by itself. Start it from the **Start walkthrough** link beside **Settings** on the Plugins screen, tagged **New** while there is something you have not seen, or from the link at the bottom of the dashboard. After an update that adds features, the link on the Plugins screen shows only what is new. Don't want it? Switch off **Walkthrough** under Schedule & retention, and both links go. In code, `define( 'ONEHOP_REDIRECT_CHECKER_DISABLE_WALKTHROUGH', true );` or the `onehop_redirect_checker_walkthrough` filter does the same.
 * **Working together**: when other administrators have the dashboard open, you see who; when one of them (or a scheduled scan, WP-CLI or an AI client) changes something, your dashboard updates within about 15 seconds and says what happened. Settings you are editing are never overwritten.
 
 Dates and times follow the site's date and time formats, timezone and language. When your computer runs on another timezone than the site, scheduled times also show your own clock. The dashboard follows your system's light or dark mode and its contrast preference, and was checked against WCAG 2.2 AA in all of them.
@@ -150,6 +150,10 @@ Rules are read in batches and analysed within a time budget. If a scan reaches t
 6. Leftover rules of an inactive plugin: review them, migrate them into an active plugin, or delete them.
 
 == Changelog ==
+
+= 1.2.0 =
+* The walkthrough no longer starts by itself, and the card beside the **Tools** menu is gone. Start it from the new **Start walkthrough** link beside **Settings** on the Plugins screen, tagged **New** until you have taken it, or from the link at the bottom of the dashboard.
+* The walkthrough can be switched off under Schedule & retention, with the `ONEHOP_REDIRECT_CHECKER_DISABLE_WALKTHROUGH` constant, or with the `onehop_redirect_checker_walkthrough` filter.
 
 = 1.1.0 =
 * New: a Dashboard widget with the health score, the last scan date and a tile per issue type, each with its change since the last scan and a trend line. A tile opens that type in the issue list.

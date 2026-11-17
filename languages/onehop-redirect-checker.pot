@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Onehop Redirect Checker 1.0.0\n"
+"Project-Id-Version: Onehop Redirect Checker 1.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/onehop-redirect-checker\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-13T12:35:12+00:00\n"
+"POT-Creation-Date: 2026-11-17T18:27:28+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: onehop-redirect-checker\n"
@@ -51,26 +51,150 @@ msgstr ""
 msgid "%1$s: the dashboard assets are missing. Run %2$s in the plugin folder."
 msgstr ""
 
-#: admin/class-admin-page.php:199
+#: admin/class-admin-page.php:206
 msgid "Settings"
 msgstr ""
 
-#: admin/class-tour.php:105
-msgid "Find redirect loops, chains and redirects you don’t need, across all your SEO and redirect plugins. A quick walkthrough shows you around."
+#: admin/class-dashboard-widget.php:98
+#: dist/onehop-redirect-checker.2CDIOsQy.js:375
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3682
+msgid "Loops"
+msgstr ""
+
+#: admin/class-dashboard-widget.php:99
+#: dist/onehop-redirect-checker.2CDIOsQy.js:376
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3687
+msgid "Chains"
+msgstr ""
+
+#: admin/class-dashboard-widget.php:100
+#: dist/onehop-redirect-checker.2CDIOsQy.js:377
+msgid "Conflicts"
+msgstr ""
+
+#: admin/class-dashboard-widget.php:101
+#: dist/onehop-redirect-checker.2CDIOsQy.js:378
+msgctxt "issue group"
+msgid "Unnecessary"
+msgstr ""
+
+#: admin/class-dashboard-widget.php:102
+#: dist/onehop-redirect-checker.2CDIOsQy.js:379
+msgctxt "issue group"
+msgid "Broken"
+msgstr ""
+
+#: admin/class-dashboard-widget.php:127
+#: dist/onehop-redirect-checker.2CDIOsQy.js:412
+msgctxt "health status of the redirects"
+msgid "Healthy"
+msgstr ""
+
+#: admin/class-dashboard-widget.php:131
+#: dist/onehop-redirect-checker.2CDIOsQy.js:413
+msgctxt "health status of the redirects"
+msgid "Needs attention"
+msgstr ""
+
+#: admin/class-dashboard-widget.php:132
+#: dist/onehop-redirect-checker.2CDIOsQy.js:414
+msgctxt "health status of the redirects"
+msgid "Critical"
+msgstr ""
+
+#: admin/class-dashboard-widget.php:145
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3329
+msgid "No change"
+msgstr ""
+
+#. translators: %s: signed change, e.g. +2.
+#: admin/class-dashboard-widget.php:153
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3331
+#, php-format,js-format
+msgid "%s since last scan"
+msgstr ""
+
+#: admin/class-dashboard-widget.php:171
+msgid "No scan yet."
+msgstr ""
+
+#: admin/class-dashboard-widget.php:172
+msgid "Run the first scan"
+msgstr ""
+
+#. translators: 1: score 0–100, 2: health status.
+#: admin/class-dashboard-widget.php:189
+#, php-format
+msgid "Health score: %1$d/100, %2$s"
+msgstr ""
+
+#: admin/class-dashboard-widget.php:201
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3696
+msgid "Last scan"
+msgstr ""
+
+#. translators: %s: human time difference, e.g. 2 hours.
+#: admin/class-dashboard-widget.php:207
+#, php-format
+msgid "%s ago"
+msgstr ""
+
+#: admin/class-dashboard-widget.php:247
+msgid "No issues found in the last scan."
+msgstr ""
+
+#: admin/class-dashboard-widget.php:250
+msgid "View all issues"
 msgstr ""
 
 #. translators: %s: plugin name.
-#: admin/class-tour.php:107
+#: admin/class-rating-notice.php:99
 #, php-format
-msgid "%s has new features. A quick walkthrough shows what changed."
+msgctxt "rating notice"
+msgid "%s has been checking your redirects for a while now. If it does the job, would you rate it on WordPress.org? A rating helps other sites find it, and takes a minute."
 msgstr ""
 
-#: admin/class-tour.php:114
-msgid "Take the walkthrough"
+#. translators: %s: plugin name.
+#: admin/class-rating-notice.php:101
+#, php-format
+msgctxt "rating notice"
+msgid "You have been using %s for a month now. If it keeps your redirects in one hop, would you rate it on WordPress.org? A rating helps other sites find it, and takes a minute."
 msgstr ""
 
-#: admin/class-tour.php:115
-msgid "Not now"
+#. translators: %s: plugin name.
+#: admin/class-rating-notice.php:109
+#, php-format
+msgctxt "rating notice"
+msgid "Rate %s"
+msgstr ""
+
+#: admin/class-rating-notice.php:111
+msgctxt "accessibility label"
+msgid "(opens in a new tab)"
+msgstr ""
+
+#: admin/class-rating-notice.php:114
+msgctxt "rating notice"
+msgid "Maybe later"
+msgstr ""
+
+#: admin/class-rating-notice.php:118
+msgctxt "rating notice"
+msgid "Don’t ask again"
+msgstr ""
+
+#: admin/class-rating-notice.php:133
+msgid "Sorry, you are not allowed to do that."
+msgstr ""
+
+#: admin/class-tour.php:131
+msgctxt "walkthrough tag on the Plugins screen"
+msgid "New"
+msgstr ""
+
+#: admin/class-tour.php:137
+msgctxt "plugin action link"
+msgid "Start walkthrough"
 msgstr ""
 
 #: includes/analysis/class-analyzer.php:118
@@ -195,7 +319,7 @@ msgid "Whether scans run on a schedule at all."
 msgstr ""
 
 #: includes/class-abilities.php:244
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2896
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2921
 msgid "Frequency"
 msgstr ""
 
@@ -375,7 +499,7 @@ msgid "When the scan finished (ISO 8601, UTC)."
 msgstr ""
 
 #: includes/class-abilities.php:468
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2631
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2653
 msgid "Status"
 msgstr ""
 
@@ -476,7 +600,7 @@ msgid "Every hop: URL → (status code, plugin) URL → …"
 msgstr ""
 
 #: includes/class-abilities.php:484
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2432
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2454
 msgid "Plugin"
 msgstr ""
 
@@ -503,8 +627,8 @@ msgid "Whether Apply fix is available on the dashboard (Tools → %s)."
 msgstr ""
 
 #: includes/class-abilities.php:494
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2391
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2626
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2413
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2648
 msgid "Issues"
 msgstr ""
 
@@ -558,7 +682,7 @@ msgid "The rule could not be switched off."
 msgstr ""
 
 #: includes/class-flush-requests.php:109
-#: includes/class-rest-controller.php:756
+#: includes/class-rest-controller.php:760
 msgid "This request is no longer waiting for approval."
 msgstr ""
 
@@ -570,18 +694,23 @@ msgstr ""
 msgid "Stopped: the live check took too long."
 msgstr ""
 
-#: includes/class-log-repository.php:349
+#: includes/class-log-repository.php:366
 msgid "This is not a valid regular expression."
 msgstr ""
 
-#: includes/class-log-repository.php:570
+#: includes/class-log-repository.php:587
 msgctxt "who ran the scan: a scheduled scan"
 msgid "Scheduled"
 msgstr ""
 
-#: includes/class-log-repository.php:571
+#: includes/class-log-repository.php:588
 msgctxt "who ran the scan: an AI client through an ability"
 msgid "Ability"
+msgstr ""
+
+#: includes/class-log-repository.php:589
+msgctxt "who ran the scan: the scan right after the plugin was activated"
+msgid "On activation"
 msgstr ""
 
 #: includes/class-migrator.php:94
@@ -609,29 +738,29 @@ msgid "There are no leftover rules for that plugin."
 msgstr ""
 
 #. translators: %s: plugin name.
-#: includes/class-rest-controller.php:397
+#: includes/class-rest-controller.php:398
 #: includes/class-scanner.php:68
 #, php-format
 msgid "The %s tables are missing and could not be created."
 msgstr ""
 
-#: includes/class-rest-controller.php:597
+#: includes/class-rest-controller.php:598
 msgid "Only a network administrator can drop another plugin's tables."
 msgstr ""
 
-#: includes/class-rest-controller.php:649
+#: includes/class-rest-controller.php:650
 msgid "Issue not found."
 msgstr ""
 
-#: includes/class-rest-controller.php:656
+#: includes/class-rest-controller.php:657
 msgid "Nothing to check."
 msgstr ""
 
-#: includes/class-rest-controller.php:692
+#: includes/class-rest-controller.php:693
 msgid "Pick at least one day and one hour for scheduled scans."
 msgstr ""
 
-#: includes/class-rest-controller.php:774
+#: includes/class-rest-controller.php:778
 msgid "A scan is running. Try again in a moment."
 msgstr ""
 
@@ -679,371 +808,332 @@ msgstr ""
 msgid "Time or evaluation budget reached; results may be incomplete."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:34
+#: dist/onehop-redirect-checker.2CDIOsQy.js:34
 msgid "Something went wrong. Please try again."
 msgstr ""
 
 #. translators: 1: date and time in site time, 2: the same moment on the viewer's clock.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:255
+#: dist/onehop-redirect-checker.2CDIOsQy.js:255
 #, js-format
 msgid "%1$s (%2$s your time)"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:272
+#: dist/onehop-redirect-checker.2CDIOsQy.js:272
 msgctxt "relative time: it has not happened yet"
 msgid "never"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:279
+#: dist/onehop-redirect-checker.2CDIOsQy.js:279
 msgid "just now"
 msgstr ""
 
 #. translators: %d: milliseconds.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:283
+#: dist/onehop-redirect-checker.2CDIOsQy.js:283
 #, js-format
 msgid "%d ms"
 msgstr ""
 
 #. translators: %s: seconds.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:287
+#: dist/onehop-redirect-checker.2CDIOsQy.js:287
 #, js-format
 msgid "%s s"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:321
+#: dist/onehop-redirect-checker.2CDIOsQy.js:321
 msgctxt "issue type, one issue"
 msgid "Loop"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:322
+#: dist/onehop-redirect-checker.2CDIOsQy.js:322
 msgctxt "issue type, heading for several issues"
 msgid "Loops"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:323
+#: dist/onehop-redirect-checker.2CDIOsQy.js:323
 msgid "Redirects that never end"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:326
+#: dist/onehop-redirect-checker.2CDIOsQy.js:326
 msgctxt "issue type, one issue"
 msgid "Chain"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:327
+#: dist/onehop-redirect-checker.2CDIOsQy.js:327
 msgctxt "issue type, heading for several issues"
 msgid "Chains"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:328
+#: dist/onehop-redirect-checker.2CDIOsQy.js:328
 msgid "Two or more hops before the page loads"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:331
+#: dist/onehop-redirect-checker.2CDIOsQy.js:331
 msgctxt "issue type, one issue"
 msgid "Conflict"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:332
+#: dist/onehop-redirect-checker.2CDIOsQy.js:332
 msgctxt "issue type, heading for several issues"
 msgid "Conflicts"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:333
+#: dist/onehop-redirect-checker.2CDIOsQy.js:333
 msgid "One URL, several different targets"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:336
+#: dist/onehop-redirect-checker.2CDIOsQy.js:336
 msgctxt "issue type, one issue"
 msgid "Self-redirect"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:337
+#: dist/onehop-redirect-checker.2CDIOsQy.js:337
 msgctxt "issue type, heading for several issues"
 msgid "Self-redirects"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:338
+#: dist/onehop-redirect-checker.2CDIOsQy.js:338
 msgid "Source and target are the same URL"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:341
+#: dist/onehop-redirect-checker.2CDIOsQy.js:341
 msgctxt "issue type, one issue"
 msgid "Duplicate"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:342
+#: dist/onehop-redirect-checker.2CDIOsQy.js:342
 msgctxt "issue type, heading for several issues"
 msgid "Duplicates"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:343
+#: dist/onehop-redirect-checker.2CDIOsQy.js:343
 msgid "The same redirect defined twice"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:346
+#: dist/onehop-redirect-checker.2CDIOsQy.js:346
 msgctxt "issue type, one issue"
 msgid "Redundant"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:347
+#: dist/onehop-redirect-checker.2CDIOsQy.js:347
 msgctxt "issue type, heading for several issues"
 msgid "Redundant"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:348
+#: dist/onehop-redirect-checker.2CDIOsQy.js:348
 msgid "WordPress already handles it"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:351
+#: dist/onehop-redirect-checker.2CDIOsQy.js:351
 msgctxt "issue type, one issue"
 msgid "Hides content"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:352
+#: dist/onehop-redirect-checker.2CDIOsQy.js:352
 msgctxt "issue type, heading for several issues"
 msgid "Hides content"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:353
+#: dist/onehop-redirect-checker.2CDIOsQy.js:353
 msgid "Redirects away from a published page"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:356
+#: dist/onehop-redirect-checker.2CDIOsQy.js:356
 msgctxt "issue type, one issue"
 msgid "Broken target"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:357
+#: dist/onehop-redirect-checker.2CDIOsQy.js:357
 msgctxt "issue type, heading for several issues"
 msgid "Broken targets"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:358
+#: dist/onehop-redirect-checker.2CDIOsQy.js:358
 msgid "Ends on a page that probably 404s"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:374
+#: dist/onehop-redirect-checker.2CDIOsQy.js:374
 msgid "All issues"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:375
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3622
-msgid "Loops"
-msgstr ""
-
-#: dist/onehop-redirect-checker.vlh3qrvT.js:376
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3627
-msgid "Chains"
-msgstr ""
-
-#: dist/onehop-redirect-checker.vlh3qrvT.js:377
-msgid "Conflicts"
-msgstr ""
-
-#: dist/onehop-redirect-checker.vlh3qrvT.js:378
-msgctxt "issue group"
-msgid "Unnecessary"
-msgstr ""
-
-#: dist/onehop-redirect-checker.vlh3qrvT.js:379
-msgctxt "issue group"
-msgid "Broken"
-msgstr ""
-
-#: dist/onehop-redirect-checker.vlh3qrvT.js:383
+#: dist/onehop-redirect-checker.2CDIOsQy.js:383
 msgctxt "issue severity"
 msgid "Critical"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:384
+#: dist/onehop-redirect-checker.2CDIOsQy.js:384
 msgctxt "issue severity"
 msgid "High"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:385
+#: dist/onehop-redirect-checker.2CDIOsQy.js:385
 msgctxt "issue severity"
 msgid "Medium"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:386
+#: dist/onehop-redirect-checker.2CDIOsQy.js:386
 msgctxt "issue severity"
 msgid "Low"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:412
-msgctxt "health status of the redirects"
-msgid "Healthy"
-msgstr ""
-
-#: dist/onehop-redirect-checker.vlh3qrvT.js:413
-msgctxt "health status of the redirects"
-msgid "Needs attention"
-msgstr ""
-
-#: dist/onehop-redirect-checker.vlh3qrvT.js:414
-msgctxt "health status of the redirects"
-msgid "Critical"
-msgstr ""
-
-#: dist/onehop-redirect-checker.vlh3qrvT.js:425
+#: dist/onehop-redirect-checker.2CDIOsQy.js:425
 msgid "Someone"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:427
+#: dist/onehop-redirect-checker.2CDIOsQy.js:427
 msgid "A scheduled scan finished. The dashboard is up to date."
 msgstr ""
 
 #. translators: %s: name of an administrator.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:430
+#: dist/onehop-redirect-checker.2CDIOsQy.js:430
 #, js-format
 msgid "%s ran a scan. The dashboard is up to date."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:432
+#: dist/onehop-redirect-checker.2CDIOsQy.js:432
 msgid "A scan ran (WP-CLI or an AI client). The dashboard is up to date."
 msgstr ""
 
 #. translators: %s: name of an administrator.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:435
+#: dist/onehop-redirect-checker.2CDIOsQy.js:435
 #, js-format
 msgid "%s applied a fix."
 msgstr ""
 
 #. translators: %s: name of an administrator.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:440
+#: dist/onehop-redirect-checker.2CDIOsQy.js:440
 #, js-format
 msgid "%s migrated leftover rules."
 msgstr ""
 
 #. translators: %s: name of an administrator.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:445
+#: dist/onehop-redirect-checker.2CDIOsQy.js:445
 #, js-format
 msgid "%s deleted a leftover rule."
 msgstr ""
 
 #. translators: %s: name of an administrator.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:450
+#: dist/onehop-redirect-checker.2CDIOsQy.js:450
 #, js-format
 msgid "%s deleted leftover data."
 msgstr ""
 
 #. translators: %s: name of an administrator.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:455
+#: dist/onehop-redirect-checker.2CDIOsQy.js:455
 #, js-format
 msgid "%s changed the schedule or retention settings."
 msgstr ""
 
 #. translators: %s: name of an administrator.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:460
+#: dist/onehop-redirect-checker.2CDIOsQy.js:460
 #, js-format
 msgid "%s deleted logs."
 msgstr ""
 
 #. translators: %s: name of an administrator.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:465
+#: dist/onehop-redirect-checker.2CDIOsQy.js:465
 #, js-format
 msgid "An AI client used by %s asked to delete logs. It waits for approval on this dashboard."
 msgstr ""
 
 #. translators: %s: name of an administrator.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:470
+#: dist/onehop-redirect-checker.2CDIOsQy.js:470
 #, js-format
 msgid "%s declined the request to delete logs."
 msgstr ""
 
 #. translators: %s: plugin name.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:475
+#: dist/onehop-redirect-checker.2CDIOsQy.js:475
 #, js-format
 msgid "%s was updated by someone else."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:527
+#: dist/onehop-redirect-checker.2CDIOsQy.js:527
 msgid "Run a scan"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:528
+#: dist/onehop-redirect-checker.2CDIOsQy.js:528
 msgid "Reads the redirect rules of all supported SEO and redirect plugins and follows every one to where it really ends. Scheduled scans do the same on their own."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:534
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1116
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3466
+#: dist/onehop-redirect-checker.2CDIOsQy.js:534
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1138
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3526
 msgid "Health score"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:535
+#: dist/onehop-redirect-checker.2CDIOsQy.js:535
 msgid "100 means every redirect goes straight to its destination. Loops cost the most, then chains and conflicts."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:541
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1569
+#: dist/onehop-redirect-checker.2CDIOsQy.js:541
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1591
 msgid "Leftover redirects"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:542
+#: dist/onehop-redirect-checker.2CDIOsQy.js:542
 msgid "Rules of plugins that are no longer active. Review them, copy them into an active plugin, or delete them. A pattern is copied as exact rules when the other plugin only holds exact ones."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:547
+#: dist/onehop-redirect-checker.2CDIOsQy.js:547
 msgid "Issues per type"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:548
+#: dist/onehop-redirect-checker.2CDIOsQy.js:548
 msgid "Loops, chains, conflicts, redirects you don’t need, and broken targets, with their trend. Select one to filter the list."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:553
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2416
+#: dist/onehop-redirect-checker.2CDIOsQy.js:553
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2438
 msgid "Search"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:554
+#: dist/onehop-redirect-checker.2CDIOsQy.js:554
 msgid "Search the URLs of every hop. Switch on .* to search with a regular expression, such as ^/blog/."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:559
+#: dist/onehop-redirect-checker.2CDIOsQy.js:559
 msgid "Verify and fix"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:560
+#: dist/onehop-redirect-checker.2CDIOsQy.js:560
 msgid "Verify live requests the URL on this site to confirm what visitors get. Apply fix appears when the fix is clear-cut, and changes the rule in the plugin it belongs to."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:565
+#: dist/onehop-redirect-checker.2CDIOsQy.js:565
 msgid "Schedule and retention"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:566
+#: dist/onehop-redirect-checker.2CDIOsQy.js:566
 msgid "Scan daily, weekly or monthly at the hours you choose, and decide how much scan history to keep."
 msgstr ""
 
 #. translators: 1: step number, 2: number of steps.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:664
+#: dist/onehop-redirect-checker.2CDIOsQy.js:686
 #, js-format
 msgid "%1$d of %2$d"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:673
+#: dist/onehop-redirect-checker.2CDIOsQy.js:695
 msgid "Skip walkthrough"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:679
+#: dist/onehop-redirect-checker.2CDIOsQy.js:701
 msgid "Back"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:686
+#: dist/onehop-redirect-checker.2CDIOsQy.js:708
 msgid "Done"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:686
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2483
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2700
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3706
+#: dist/onehop-redirect-checker.2CDIOsQy.js:708
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2505
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2722
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3766
 msgid "Next"
 msgstr ""
 
 #. translators: %d: number of scans.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:707
+#: dist/onehop-redirect-checker.2CDIOsQy.js:729
 #, js-format
 msgid "%d scan and its issues"
 msgid_plural "%d scans and their issues"
@@ -1051,7 +1141,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of change log entries.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:712
+#: dist/onehop-redirect-checker.2CDIOsQy.js:734
 #, js-format
 msgid "%d entry of the change log"
 msgid_plural "%d entries of the change log"
@@ -1059,8 +1149,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of scans.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:723
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2839
+#: dist/onehop-redirect-checker.2CDIOsQy.js:745
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2864
 #, js-format
 msgid "Deleted %d scan and its issues."
 msgid_plural "Deleted %d scans and their issues."
@@ -1068,150 +1158,150 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of change log entries.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:727
+#: dist/onehop-redirect-checker.2CDIOsQy.js:749
 #, js-format
 msgid "Deleted %d entry of the change log."
 msgid_plural "Deleted %d entries of the change log."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:732
+#: dist/onehop-redirect-checker.2CDIOsQy.js:754
 msgid "Request declined. Nothing was deleted."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:750
+#: dist/onehop-redirect-checker.2CDIOsQy.js:772
 msgid "An AI client asks to delete logs"
 msgstr ""
 
 #. translators: 1: date and time, 2: administrator's name, 3: plugin name.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:754
+#: dist/onehop-redirect-checker.2CDIOsQy.js:776
 #, js-format
 msgid "On %1$s, an AI client used by %2$s asked through the %3$s abilities to permanently delete:"
 msgstr ""
 
 #. translators: 1: date and time, 2: plugin name.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:760
+#: dist/onehop-redirect-checker.2CDIOsQy.js:782
 #, js-format
 msgid "On %1$s, an AI client asked through the %2$s abilities to permanently delete:"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:768
+#: dist/onehop-redirect-checker.2CDIOsQy.js:790
 msgid "Nothing is deleted unless you approve it here."
 msgstr ""
 
 #. translators: %s: date and time.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:773
+#: dist/onehop-redirect-checker.2CDIOsQy.js:795
 #, js-format
 msgid "If you did not ask for this, decline it. The request expires at %s."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:791
+#: dist/onehop-redirect-checker.2CDIOsQy.js:813
 msgid "Decline"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:800
+#: dist/onehop-redirect-checker.2CDIOsQy.js:822
 msgid "Delete logs"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:988
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1010
 msgid "No loops"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:989
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1011
 msgid "No chains"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:990
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1012
 msgid "No conflicts"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:991
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1013
 msgid "No self-redirects"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:992
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1014
 msgid "No duplicates"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:993
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1015
 msgid "No redundant rules"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:994
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1016
 msgid "No hidden content"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:995
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1017
 msgid "No broken targets"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1012
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1034
 msgid "No issues found so far"
 msgstr ""
 
 #. translators: %d: number of redirect rules.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1014
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1036
 #, js-format
 msgid "All clear: no issues in %d redirect rule"
 msgid_plural "All clear: no issues in %d redirect rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1017
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1039
 msgid "Every redirect goes straight to its destination. These are the checks it passed:"
 msgstr ""
 
 #. translators: %s: name of an administrator.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1033
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1055
 #, js-format
 msgid "%s is also here"
 msgstr ""
 
 #. translators: 1: names, 2: number of others.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1037
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1059
 #, js-format
 msgid "%1$s are also here"
 msgid_plural "%1$s are also here"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1076
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1098
 msgid "Follows every redirect rule of your SEO and redirect plugins to where it really ends."
 msgstr ""
 
 #. translators: 1: relative time, 2: number of rules, 3: duration.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1083
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1105
 #, js-format
 msgid "Last scan %1$s · %2$d rule · %3$s"
 msgid_plural "Last scan %1$s · %2$d rules · %3$s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1087
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1116
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1109
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1138
 msgid "No scan yet"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1110
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1132
 msgid "Scanning…"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1110
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1132
 msgid "Run scan"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1139
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1161
 msgid "no score"
 msgstr ""
 
 #. translators: %s: plugin.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1151
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1173
 #, js-format
 msgid "Will be copied to %s"
 msgstr ""
 
 #. translators: 1: number of rules, 2: plugin.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1156
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1178
 #, js-format
 msgid "Becomes %1$d exact rule in %2$s"
 msgid_plural "Becomes %1$d exact rules in %2$s"
@@ -1219,57 +1309,57 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: plugin.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1162
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1184
 #, js-format
 msgid "Already in %s"
 msgstr ""
 
 #. translators: %s: plugin.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1167
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1189
 #, js-format
 msgid "%s can’t hold this rule"
 msgstr ""
 
 #. translators: %s: source URL.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1192
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1214
 #, js-format
 msgid "Deleted the rule for %s."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1222
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1244
 msgid "Hide the exact rules"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1222
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1244
 msgid "Show the exact rules"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1235
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1257
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1257
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1279
 msgid "Delete"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1245
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1498
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2284
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3093
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1267
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1520
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2306
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3142
 msgid "Cancel"
 msgstr ""
 
 #. translators: %s: source URL.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1253
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1275
 #, js-format
 msgid "Delete the rule for %s"
 msgstr ""
 
 #. translators: %s: plugin.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1274
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1296
 #, js-format
 msgid "%s only holds exact rules, so this pattern is copied for the URLs this site is known to have: published content, URLs from the 404 log, and the sources and targets of other rules."
 msgstr ""
 
 #. translators: 1: number of rules, 2: plugin.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1328
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1350
 #, js-format
 msgid "%1$d rule copied to %2$s. Run a scan to include it."
 msgid_plural "%1$d rules copied to %2$s. Run a scan to include them."
@@ -1277,7 +1367,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1: number of rules, 2: plugin.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1347
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1369
 #, js-format
 msgid "Deleted %1$d stored rule of %2$s."
 msgid_plural "Deleted %1$d stored rules of %2$s."
@@ -1285,21 +1375,21 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: plugin.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1365
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1387
 #, js-format
 msgid "Leftover rules of %s"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1374
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1396
 msgid "This plugin is not active, so these rules redirect nothing. Copy them into an active redirect plugin, or delete them."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1381
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1403
 msgid "Migrate to"
 msgstr ""
 
 #. translators: %d: number of rules.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1394
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1416
 #, js-format
 msgid "%d will be copied"
 msgid_plural "%d will be copied"
@@ -1307,7 +1397,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of rules.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1399
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1421
 #, js-format
 msgid "%d already there"
 msgid_plural "%d already there"
@@ -1315,45 +1405,45 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of rules.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1404
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1426
 #, js-format
 msgid "%d not supported"
 msgid_plural "%d not supported"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1417
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1439
 msgid "Not every pattern could be checked against all known URLs in time; some exact rules may be missing from this list."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1423
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1445
 msgid "Stored rules"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1430
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1452
 msgctxt "table column: source URL of a redirect rule"
 msgid "From"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1434
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1456
 msgctxt "table column: target URL of a redirect rule"
 msgid "To"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1439
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1461
 msgid "Code"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1443
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1465
 msgid "Migration"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1449
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1471
 msgid "Actions"
 msgstr ""
 
 #. translators: 1: number of rules, 2: plugin.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1475
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1497
 #, js-format
 msgid "Permanently delete %1$d stored rule of %2$s? This cannot be undone."
 msgid_plural "Permanently delete %1$d stored rules of %2$s? This cannot be undone."
@@ -1361,147 +1451,147 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: plugin.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1483
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1505
 #, js-format
 msgid "Also drop the redirect tables of %s"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1486
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1508
 msgid "Only when you don’t plan to activate it again; it would have to set up its tables anew."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1508
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1530
 msgid "Delete rules and tables"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1508
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1530
 msgid "Delete rules"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1519
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1541
 msgid "Delete all data"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1527
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1549
 msgid "Delete data"
 msgstr ""
 
 #. translators: %d: number of rules.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1537
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1559
 #, js-format
 msgid "Migrate %d rule"
 msgid_plural "Migrate %d rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1572
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1594
 msgid "These plugins are not active, so their rules redirect nothing."
 msgstr ""
 
 #. translators: %d: number of rules.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1586
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1608
 #, js-format
 msgid "Not active · %d stored rule"
 msgid_plural "Not active · %d stored rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1597
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1619
 msgid "Review rules"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1610
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1632
 msgid "Show fewer"
 msgstr ""
 
 #. translators: %d: number of plugins with leftover rules.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1612
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1634
 #, js-format
 msgid "Show all %d"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1813
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1835
 msgid "Health score per scan"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1816
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1977
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1838
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1999
 msgctxt "noun, table column: the date of a scan"
 msgid "Scan"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1819
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2627
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3612
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1841
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2649
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3672
 msgid "Score"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:1974
+#: dist/onehop-redirect-checker.2CDIOsQy.js:1996
 msgid "Issues per scan by severity"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2023
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2045
 msgid "Redirect path"
 msgstr ""
 
 #. translators: 1: HTTP status code, e.g. 301, 2: target URL.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2048
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2070
 #, js-format
 msgctxt "link label on a status code"
 msgid "%1$s – edit the rule to %2$s"
 msgstr ""
 
 #. translators: 1: plugin name, 2: target URL.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2059
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2081
 #, js-format
 msgctxt "link label on a plugin name"
 msgid "%1$s – edit the rule to %2$s"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2073
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2095
 msgid "back to start"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2082
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2104
 msgid "Loads after one redirect"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2083
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2105
 msgid "Confirmed chain"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2084
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2106
 msgid "Confirmed loop"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2085
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2107
 msgid "Ends in an error page"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2086
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2108
 msgid "Leaves this site (not followed)"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2087
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2109
 msgid "Request failed"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2094
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2116
 msgid "Live check"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2106
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2128
 msgid "external, not requested"
 msgstr ""
 
 #. translators: 1: source URL, 2: new target, 3: plugin.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2132
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2154
 #, js-format
 msgid "Point %1$s straight to %2$s in %3$s?"
 msgstr ""
 
 #. translators: %d: number of rules.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2139
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2161
 #, js-format
 msgid "Switch off %d duplicate rule?"
 msgid_plural "Switch off %d duplicate rules?"
@@ -1509,45 +1599,45 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1: source URL, 2: plugin.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2144
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2166
 #, js-format
 msgid "Remove the rule for %1$s from %2$s? It has no off switch; the old rule is kept in the change log."
 msgstr ""
 
 #. translators: 1: source URL, 2: plugin.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2149
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2171
 #, js-format
 msgid "Switch off the rule for %1$s in %2$s? You can switch it back on there."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2154
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2176
 msgid "Shorten chain"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2154
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2176
 msgid "Switch off rule"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2189
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2211
 msgid "Live check finished."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2201
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2223
 msgid "Fix applied. Run a new scan to update the numbers."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2228
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2250
 msgctxt "issue status chip"
 msgid "New"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2232
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2254
 msgctxt "issue status chip"
 msgid "Fixed"
 msgstr ""
 
 #. translators: %d: number of hops.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2238
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2260
 #, js-format
 msgid "%d hop"
 msgid_plural "%d hops"
@@ -1555,328 +1645,341 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1: who, 2: relative time.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2258
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2280
 #, js-format
 msgid "Fixed by %1$s %2$s. Run a new scan to update the numbers."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2265
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2287
 msgid "Confirm fix"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2276
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2298
 msgid "Applying…"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2276
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2298
 msgid "Apply"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2299
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2321
 msgid "Checking…"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2299
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2321
 msgid "Verify live"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2309
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2331
 msgid "Apply fix"
 msgstr ""
 
 #. translators: %d: number of issues.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2372
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2394
 #, js-format
 msgid "%d issue found"
 msgid_plural "%d issues found"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2397
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2419
 msgid "Filter by issue type"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2415
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2437
 msgid "Search URLs with a regular expression"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2415
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2437
 msgid "Search URLs"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2425
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2447
 msgid "Use regular expression"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2436
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2458
 msgid "All plugins"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2454
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2476
 msgid "Nothing matches these filters"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2454
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2476
 msgid "No issues found"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2455
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2477
 msgid "Try another type, plugin or search term."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2455
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2477
 msgid "Every redirect goes straight to its destination."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2460
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2482
 msgid "Issue pages"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2468
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2687
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3693
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2490
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2709
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3753
 msgid "Previous"
 msgstr ""
 
 #. translators: 1: current page, 2: number of pages, 3: number of issues.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2472
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2494
 #, js-format
 msgid "Page %1$d of %2$d · %3$d issue"
 msgid_plural "Page %1$d of %2$d · %3$d issues"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2493
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2515
 msgctxt "scan status"
 msgid "Running"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2494
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2516
 msgctxt "scan status"
 msgid "Complete"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2495
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2517
 msgctxt "scan status"
 msgid "Partial"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2496
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2518
 msgctxt "scan status"
 msgid "Failed"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2561
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2583
 msgid "Scan history"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2575
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2597
 msgid "Pick a date"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2590
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2612
 msgid "Days with a scan are marked."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2598
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2620
 msgid "Show all dates"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2620
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2642
 msgid "Scanned"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2623
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2645
 msgctxt "scan history column: who started the scan"
 msgid "By"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2625
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3617
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2647
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3677
 msgid "Rules"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2628
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2650
 msgctxt "scan history column: how long the scan took"
 msgid "Took"
 msgstr ""
 
 #. translators: %s: date.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2637
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2659
 #, js-format
 msgid "No scans on %s."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2639
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2661
 msgid "No scans yet."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2679
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2701
 msgid "Scan history pages"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2731
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2753
 msgid "Daily"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2735
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2757
 msgid "Weekly"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2739
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2761
 msgid "Monthly"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2781
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2805
 msgid "Off. Scans only run when you start them."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2782
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2806
 msgid "Pick at least one day and one hour."
 msgstr ""
 
 #. translators: 1: times, e.g. "03:00, 15:00", 2: timezone.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2786
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2810
 #, js-format
 msgid "Runs every day at %1$s, site time (%2$s)."
 msgstr ""
 
 #. translators: 1: times, e.g. "03:00, 15:00", 2: timezone.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2792
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2816
 #, js-format
 msgid "Runs on the last day of every month at %1$s, site time (%2$s)."
 msgstr ""
 
 #. translators: 1: day of the month (1–28), 2: times, e.g. "03:00, 15:00", 3: timezone.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2797
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2821
 #, js-format
 msgid "Runs on day %1$d of every month at %2$s, site time (%3$s)."
 msgstr ""
 
 #. translators: 1: list of short weekday names, e.g. "Mon, Wed", 2: times, e.g. "03:00, 15:00", 3: timezone.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2805
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2829
 #, js-format
 msgid "Runs on %1$s at %2$s, site time (%3$s)."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2827
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2852
 msgid "Settings saved."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2856
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2881
 msgid "Schedule & retention"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2865
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2875
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2890
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2900
 msgid "Scheduled scans"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2917
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2942
 msgid "Day of the month"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2923
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2948
 msgid "Last day of the month"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2935
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2960
 msgid "Days"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2956
+#: dist/onehop-redirect-checker.2CDIOsQy.js:2981
 msgid "Hours"
 msgstr ""
 
 #. translators: %s: date and time.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2984
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3009
 #, js-format
 msgid "Next scan: %s"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:2995
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3020
 msgid "History"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3000
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3025
 msgctxt "label for the history retention options"
 msgid "Keep"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3010
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3035
 msgid "Scans of the last days"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3015
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3040
 msgid "The newest scans"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3022
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3047
 msgid "Keep scans for"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3026
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3051
 msgid "7 to 365 days."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3029
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3054
 msgctxt "unit after a number field (7–365)"
 msgid "days"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3034
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3059
 msgid "Keep the newest"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3038
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3063
 msgid "5 to 1,000 scans."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3041
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3066
 msgctxt "unit after a number field (5–1,000)"
 msgid "scans"
 msgstr ""
 
 #. translators: %s: date and time.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3050
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3075
 #, js-format
 msgid "Next cleanup: %s."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3061
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3087
+msgctxt "settings heading"
+msgid "Walkthrough"
+msgstr ""
+
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3091
+msgid "Adds a Start walkthrough link to the plugin on the Plugins screen, and at the foot of this screen. It never starts by itself."
+msgstr ""
+
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3097
+msgid "Offer the walkthrough of this screen"
+msgstr ""
+
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3110
 msgid "Someone else saved these settings while you were editing. Saving now replaces their changes with yours."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3075
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3124
 msgid "Delete all scan history? This cannot be undone."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3085
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3134
 msgid "Deleting…"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3085
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3134
 msgid "Delete all"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3103
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3152
 msgid "Delete history"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3112
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3161
 msgid "Saving…"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3112
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3161
 msgid "Save settings"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3132
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3181
 msgid "Rules by plugin"
 msgstr ""
 
 #. translators: %s: number of rules.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3137
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3186
 #, js-format
 msgid "%s rule"
 msgid_plural "%s rules"
@@ -1884,95 +1987,81 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of issues.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3173
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3222
 #, js-format
 msgid "%d issue"
 msgid_plural "%d issues"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3175
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3224
 msgid "No issues"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3175
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3678
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3224
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3738
 msgid "Not active"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3280
-msgid "No change"
-msgstr ""
-
-#. translators: %s: signed change, e.g. +2.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3282
-#, js-format
-msgid "%s since last scan"
-msgstr ""
-
 #. translators: 1: number of rules, 2: number of issues, 3: duration.
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3378
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3437
 #, js-format
 msgid "Scanned %1$d rules and found %2$d issue in %3$s."
 msgid_plural "Scanned %1$d rules and found %2$d issues in %3$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3448
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3508
 msgid "Nothing scanned yet"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3449
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3509
 msgid "Use “Run scan” (top right) to check every redirect rule on this site."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3469
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3529
 msgid "below 50 critical · 80 and up healthy"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3479
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3539
 msgid "Issues by severity"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3496
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3502
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3556
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3562
 msgid "Issues by type"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3533
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3593
 msgid "Show the walkthrough"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3569
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3629
 msgid "Latest scan per site. Scans run per site, from each site’s Tools menu."
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3580
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3640
 msgid "Sites"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3587
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3647
 msgid "Search sites"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3607
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3667
 msgid "Site"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3632
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3692
 msgctxt "table column: number of other issue types"
 msgid "Other"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3636
-msgid "Last scan"
-msgstr ""
-
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3678
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3738
 msgctxt "last scan: no scan has run yet"
 msgid "Never"
 msgstr ""
 
-#: dist/onehop-redirect-checker.vlh3qrvT.js:3685
+#: dist/onehop-redirect-checker.2CDIOsQy.js:3745
 msgid "Site pages"
 msgstr ""

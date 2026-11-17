@@ -5,7 +5,11 @@ import { __ } from '@wordpress/i18n';
  * The quick walkthrough (components/Tour.tsx).
  *
  * Every step says in which version it was added. Admin\Tour::VERSION is the newest; after an update
- * that adds steps, an administrator who completed an older walkthrough sees only the new steps.
+ * that adds steps, an administrator who completed an older walkthrough and starts it from the
+ * Plugins screen sees only the new steps.
+ *
+ * It never starts by itself: only from the "Start walkthrough" link on the Plugins screen, which
+ * opens the dashboard with a query argument, or from the link at the bottom of the dashboard.
  */
 export interface TourStep {
 	/** Plugin version the step was added in. */
@@ -84,14 +88,31 @@ export const pendingSteps = (seen: string, version: string): TourStep[] => steps
 	(step) => (!seen || compareVersions(step.since, seen) > 0) && compareVersions(step.since, version) <= 0 && null !== document.querySelector(step.target)
 );
 
+/** All steps present on the page. */
+export const presentSteps = (): TourStep[] => steps().filter((step) => null !== document.querySelector(step.target));
+
+/**
+ * Whether the dashboard was opened to start the walkthrough. The argument comes off the address
+ * straight away, so a reload or a shared link does not start it again.
+ */
+export const takeStartRequest = (arg: string): boolean => {
+	const url = new URL(window.location.href);
+	if (!url.searchParams.has(arg)) {
+		return false;
+	}
+	url.searchParams.delete(arg);
+	window.history.replaceState(window.history.state, '', url);
+	return true;
+};
+
 /** Store that this user completed (or skipped) the current walkthrough. */
 export const markSeen = async (): Promise<void> => {
 	try {
 		await apiFetch({ path: '/onehop-redirect-checker/v1/tour', method: 'POST' });
-		if (window.onehopRedirectChecker) {
+		if (window.onehopRedirectChecker?.tour) {
 			window.onehopRedirectChecker.tour = { ...window.onehopRedirectChecker.tour, pending: false };
 		}
 	} catch {
-		// Not saved: the walkthrough simply shows again next time.
+		// Not saved: the Plugins screen keeps tagging the walkthrough New.
 	}
 };

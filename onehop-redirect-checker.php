@@ -3,7 +3,7 @@
  * Plugin Name:       Onehop Redirect Checker
  * Plugin URI:        https://github.com/paulAcato/onehop-redirect-checker
  * Description:       Finds redirect loops, chains and redirects you don't need across ten SEO and redirect plugins at once, and fixes the clear-cut ones.
- * Version:           1.1.0
+ * Version:           1.2.0
  * Requires at least: 6.9
  * Requires PHP:      8.1
  * Author:            Paul van Impelen
@@ -18,7 +18,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'ONEHOP_REDIRECT_CHECKER_VERSION', '1.1.0' );
+define( 'ONEHOP_REDIRECT_CHECKER_VERSION', '1.2.0' );
 // Display name and WP-CLI command (`wp onehop-redirect-checker …`). The plugin header, readme.txt and the WP-CLI
 // docblocks in includes/class-cli.php can't use these: update them too when renaming.
 define( 'ONEHOP_REDIRECT_CHECKER_NAME', 'Onehop Redirect Checker' );
