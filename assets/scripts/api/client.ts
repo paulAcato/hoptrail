@@ -1,5 +1,6 @@
 import apiFetch from '@wordpress/api-fetch';
 import { __ } from '@wordpress/i18n';
+import { broadcast, onSignal } from './sync';
 
 /**
  * Every request carries an AbortSignal. Identical GETs in flight are shared (deduplicated); the
@@ -43,8 +44,11 @@ const remember = (path: string, value: unknown) => {
 	}
 };
 
-/** Drop cached GETs (all, or those starting with a prefix) and tell mounted resources to reload. */
-export const invalidate = (prefix = ''): void => {
+/**
+ * Drop cached GETs (all, or those starting with a prefix) in this tab only, and tell mounted
+ * resources to reload. For changes every tab learns about by itself: the Heartbeat, polling.
+ */
+export const refresh = (prefix = ''): void => {
 	for (const key of [...cache.keys()]) {
 		if (key.startsWith(NAMESPACE + prefix)) {
 			cache.delete(key);
@@ -52,6 +56,14 @@ export const invalidate = (prefix = ''): void => {
 	}
 	listeners.forEach((listener) => listener());
 };
+
+/** After a change made in this tab: refresh here, and signal the other open tabs to do the same. */
+export const invalidate = (prefix = ''): void => {
+	refresh(prefix);
+	broadcast({ type: 'invalidate', prefix });
+};
+
+onSignal(({ prefix }) => refresh(prefix));
 
 export const onInvalidate = (listener: () => void): (() => void) => {
 	listeners.add(listener);
