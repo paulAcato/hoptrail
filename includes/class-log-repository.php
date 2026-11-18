@@ -473,7 +473,7 @@ final class Log_Repository {
 	}
 
 	/**
-	 * Mark an issue as fixed.
+	 * Mark an issue as fixed, and take it off its scan's counts.
 	 *
 	 * @param int   $issue_id Issue ID.
 	 * @param array $fixed    What was done.
@@ -483,8 +483,67 @@ final class Log_Repository {
 	public static function mark_fixed( int $issue_id, array $fixed ): void {
 		global $wpdb;
 
+		$table = Installer::issues_table();
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- Own table.
-		$wpdb->update( Installer::issues_table(), [ 'fixed' => wp_json_encode( $fixed ) ], [ 'id' => $issue_id ], [ '%s' ], [ '%d' ] );
+		$row = $wpdb->get_row( $wpdb->prepare( 'SELECT scan_id, type, severity, plugins, fixed FROM %i WHERE id = %d', $table, $issue_id ), ARRAY_A );
+		if ( ! $row ) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- Own table.
+		$wpdb->update( $table, [ 'fixed' => wp_json_encode( $fixed ) ], [ 'id' => $issue_id ], [ '%s' ], [ '%d' ] );
+
+		// Count an issue off only once.
+		if ( empty( $row['fixed'] ) ) {
+			self::discount( (int) $row['scan_id'], $row );
+		}
+	}
+
+	/**
+	 * Take a fixed issue off its scan's counts and health score, so the dashboard, the widget, WP-CLI
+	 * and the abilities show what is still open without a new scan. Runs under the fix lock, so two
+	 * fixes never read and write the same totals at once.
+	 *
+	 * @param int   $scan_id Scan ID.
+	 * @param array $issue   Raw issue row: type, severity, plugins.
+	 *
+	 * @return void
+	 */
+	private static function discount( int $scan_id, array $issue ): void {
+		global $wpdb;
+
+		$scan = self::scan( $scan_id );
+		if ( ! $scan ) {
+			return;
+		}
+
+		$totals = json_decode( (string) wp_json_encode( $scan['totals'] ), true ) ?: [];
+		$down   = static fn( $count ) => max( 0, (int) $count - 1 );
+
+		if ( isset( $totals['types'][ $issue['type'] ] ) ) {
+			$totals['types'][ $issue['type'] ] = $down( $totals['types'][ $issue['type'] ] );
+		}
+		if ( isset( $totals['severities'][ $issue['severity'] ] ) ) {
+			$totals['severities'][ $issue['severity'] ] = $down( $totals['severities'][ $issue['severity'] ] );
+		}
+		foreach ( array_filter( explode( ',', (string) $issue['plugins'] ) ) as $plugin ) {
+			if ( isset( $totals['sources'][ $plugin ]['issues'] ) ) {
+				$totals['sources'][ $plugin ]['issues'] = $down( $totals['sources'][ $plugin ]['issues'] );
+			}
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- Own table.
+		$wpdb->update(
+			Installer::scans_table(),
+			[
+				'issue_count' => $down( $scan['issue_count'] ),
+				'score'       => Scanner::score( $scan['rule_count'], (array) ( $totals['types'] ?? [] ) ),
+				'totals'      => wp_json_encode( $totals ),
+			],
+			[ 'id' => $scan_id ],
+			[ '%d', '%d', '%s' ],
+			[ '%d' ]
+		);
 	}
 
 	/**

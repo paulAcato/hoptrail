@@ -152,6 +152,7 @@ Rules are read in batches and analysed within a time budget. If a scan reaches t
 == Changelog ==
 
 = 1.2.1 =
+* Applying a fix now takes the issue off the numbers straight away: the count of its type and severity, the issue total and the health score, on the dashboard, the Dashboard widget, in WP-CLI and for AI clients. You no longer need a new scan to see them change.
 * Fix: with the dashboard open in more than one tab, a change you make in one tab (a scan, a fix, a migration, new settings) now shows in your other tabs straight away. Before, those tabs kept the old results until you reloaded them.
 
 = 1.2.0 =
