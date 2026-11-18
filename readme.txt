@@ -4,7 +4,7 @@ Tags: redirects, redirect loop, redirect chain, 301, seo
 Requires at least: 6.9
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -150,6 +150,9 @@ Rules are read in batches and analysed within a time budget. If a scan reaches t
 6. Leftover rules of an inactive plugin: review them, migrate them into an active plugin, or delete them.
 
 == Changelog ==
+
+= 1.2.1 =
+* Fix: with the dashboard open in more than one tab, a change you make in one tab (a scan, a fix, a migration, new settings) now shows in your other tabs straight away. Before, those tabs kept the old results until you reloaded them.
 
 = 1.2.0 =
 * The walkthrough no longer starts by itself, and the card beside the **Tools** menu is gone. Start it from the new **Start walkthrough** link beside **Settings** on the Plugins screen, tagged **New** until you have taken it, or from the link at the bottom of the dashboard.

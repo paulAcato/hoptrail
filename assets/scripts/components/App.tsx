@@ -2,7 +2,7 @@ import { Button, Notice, Spinner } from '@wordpress/components';
 import { useEffect, useState } from '@wordpress/element';
 import { speak } from '@wordpress/a11y';
 import { __, _n, sprintf } from '@wordpress/i18n';
-import { errorMessage, invalidate, isAbort, route } from '../api/client';
+import { errorMessage, invalidate, isAbort, refresh, route } from '../api/client';
 import { useMutation, usePageVisible, useResource } from '../api/hooks';
 import type { Scan, Summary as SummaryData } from '../api/types';
 import { duration } from '../lib/format';
@@ -53,7 +53,7 @@ export const App = () => {
 		if (!summary?.running || !visible || scan.busy) {
 			return undefined;
 		}
-		const timer = window.setTimeout(() => invalidate('/summary'), 4000);
+		const timer = window.setTimeout(() => refresh('/summary'), 4000);
 		return () => window.clearTimeout(timer);
 	}, [summary, visible, scan.busy]);
 

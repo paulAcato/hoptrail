@@ -1,6 +1,6 @@
 {
   "name": "onehop-redirect-checker",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "description": "Onehop Redirect Checker dashboard (React + TypeScript, built with Vite).",
   "type": "module",

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from '@wordpress/element';
 import { speak } from '@wordpress/a11y';
 import { addAction, removeAction } from '@wordpress/hooks';
 import { __, sprintf } from '@wordpress/i18n';
-import { invalidate } from './client';
+import { refresh } from './client';
 import type { PresentUser } from './types';
 import { pluginName } from '../lib/plugin';
 
@@ -59,9 +59,9 @@ export const usePresence = () => {
 
 			if ('number' === typeof payload.version && payload.version > version.current) {
 				version.current = payload.version;
-				// Our own changes already refreshed what they touched.
+				// Our own changes already refreshed this tab, and the other tabs over BroadcastChannel.
 				if (payload.change && !payload.change.self) {
-					invalidate();
+					refresh();
 					const text = describe(payload.change);
 					setNote(text);
 					speak(text, 'polite');
