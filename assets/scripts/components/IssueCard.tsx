@@ -87,8 +87,10 @@ export const IssueCard = ({ issue }: { issue: Issue }) => {
 			const result = await apply.run(route(`/issues/${issue.id}/fix`), 'POST');
 			setFixed(result);
 			setConfirming(false);
-			invalidate('/issues');
-			speak(__('Fix applied. Run a new scan to update the numbers.', 'onehop-redirect-checker'), 'polite');
+			// The fix took the issue off the scan's counts and score: reload the tiles, charts and
+			// list here, and in the other open tabs.
+			invalidate();
+			speak(__('Fix applied. The numbers are updated.', 'onehop-redirect-checker'), 'polite');
 		} catch (caught) {
 			closeConfirm();
 			fail(caught);
@@ -118,7 +120,7 @@ export const IssueCard = ({ issue }: { issue: Issue }) => {
 				<p className="rdi-issue__fixed" ref={fixedRef} tabIndex={-1}>
 					{sprintf(
 						/* translators: 1: who, 2: relative time. */
-						__('Fixed by %1$s %2$s. Run a new scan to update the numbers.', 'onehop-redirect-checker'),
+						__('Fixed by %1$s %2$s.', 'onehop-redirect-checker'),
 						fixed.by,
 						relative(fixed.at)
 					)}
