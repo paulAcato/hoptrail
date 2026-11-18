@@ -1,6 +1,7 @@
 # Files and folders that should not end up in the plugin published on
-# WordPress.org. The sources in assets/ ship, so the built files can be read
-# and rebuilt.
+# WordPress.org. Only what runs on a site ships: the dashboard sources and their
+# build configuration live on GitHub (linked from readme.txt), and dist/ is not
+# minified, so it stays readable (guideline 4).
 /.distignore
 /.editorconfig
 /.git
@@ -22,6 +23,9 @@
 /README.md
 /.nvmrc
 /bin
-
-# Shipped on purpose (guideline 4): assets/ sources plus package.json, package-lock.json,
-# vite.config.ts and tsconfig.json (no .nvmrc: hidden files are not allowed), so the dashboard can be rebuilt from the plugin itself.
+/assets/scripts
+/assets/styles
+/package.json
+/package-lock.json
+/tsconfig.json
+/vite.config.ts
